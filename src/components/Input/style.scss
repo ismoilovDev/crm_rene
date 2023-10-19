@@ -1,0 +1,128 @@
+.input_wrapper {
+   width: 100%;
+   position: relative;
+   margin-bottom: 15px;
+
+   .input_date {
+      width: 100%;
+   }
+
+   .today_button {
+      background-color: white;
+      border: 2px solid grey;
+      position: absolute;
+      right: 50px;
+      top: 48%;
+      padding: 5px 10px;
+      font-weight: 600;
+      border-radius: 5px;
+   }
+   .today_button:hover{
+      background-color: rgb(149, 147, 147);
+      transform: scale(1.07);
+      color: white;
+      transition-duration: 0.1s;
+  }
+}
+
+.numeric_format_input {
+   label {
+      display: block;
+      font-weight: 400;
+      color: #7828C8;
+      padding: 0 0 0 4px;
+      margin-bottom: 6px;
+      font-size: 14px;
+      line-height: 1.5;
+      user-select: none
+   }
+
+   input {
+      width: 100%;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      border-radius: 25px;
+      transition: all 100ms;
+      border: 2.3px solid #e6e5e5;
+      padding: 20px 15px;
+      outline: none;
+      margin-bottom: 15px;
+      &:hover, &:focus {
+         border: 2.3px solid #7828c8;
+      }
+   }
+}
+
+.single_buyurtma_inputs {
+   display: flex;
+   flex-direction: column;
+   margin-bottom: 15px;
+}
+
+.single_buyurtma_inputs p:nth-child(1) {
+   font-size: 14px;
+   font-weight: 600;
+   margin-bottom: 7px;
+   color: #7828c8;
+   margin-left: 5px;
+}
+
+.single_buyurtma_inputs p:nth-child(2) {
+   border: 2px solid rgb(216, 215, 215);
+   display: flex;
+   align-items: center;
+   padding: 10px 15px;
+   border-radius: 25px;
+   transition-duration: 0.3s;
+   font-size: 15px;
+}
+
+.single_buyurtma_inputs p:nth-child(2):hover {
+   border: 2px solid #7828c8;
+}
+
+.width_100{
+   width: 100%;
+}
+.width_110{
+   width: 110%;
+}
+.width_90{
+   width: 82%;
+}
+.width_47{
+   width: 47%;
+}
+.width_31{
+   width: 31%;
+}
+.width_23{
+   width: 23%;
+}
+
+.border_radius_10{
+   input{
+      border-radius: 12px;
+   }
+}
+
+.error{
+   color: red;
+   label{
+      color: red; 
+   }
+   input {
+      border: 2.3px solid red;
+      &:hover, &:focus {
+         border: 2.3px solid red;
+      }
+   }
+}
+
+.without_margin{
+   input{
+      margin-bottom: 0;
+   }
+}
+ 

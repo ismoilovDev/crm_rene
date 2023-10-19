@@ -1,0 +1,225 @@
+.indicator_wrapper {
+   height: 50px;
+   background-color: rgb(241, 241, 241);
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   padding-left: 15px;
+   padding-right: 15px;
+   border-radius: 15px;
+
+   .content_container {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+   }
+
+   .indicator_select {
+      padding: 7px 10px;
+      border-radius: 10px;
+      border: 1px solid orange;
+      font-size: 1rem;
+
+      &:focus {
+         border: 2px solid orange;
+      }
+
+      &:active {
+         border: 2px solid orange;
+      }
+
+      option {
+         padding: 5px;
+         margin: 5px;
+         font-size: 1rem;
+         background-color: white;
+
+         &:focus {
+            background-color:orange;
+         }
+      }
+      
+   }
+
+   .switch {
+      margin-left: 30px;
+      display: flex;
+      flex-direction: row;
+      background-color: white;
+      padding: 5px 5px;
+      border-radius: 10px;
+
+      button {
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         width: 29px;
+         height: 29px;
+         border: none;
+         background-color: none;
+         outline: none;
+         background-color: white;
+         border-radius: 7px;
+         font-size: 20px;
+         font-weight: 700;
+         transition-duration: 0.2s;
+
+      }
+
+      .currency_icon {
+         color: green;
+      }
+
+      .gold_icon {
+         color: rgb(177, 148, 7);
+      }
+
+      .active {
+         background-color: rgb(241, 241, 241);
+      }
+   }
+
+   @media (max-width: 1024px) {
+      padding-left: 7px;
+      padding-right: 7px;
+
+      .switch {
+         margin-left: 10px;
+      }
+   }
+}
+
+.indicator_mobile_wrapper {
+   display: flex;
+   flex-direction: column;
+   position: relative;
+   z-index: 300;
+
+   p {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      font-weight: 600;
+      padding: 0 2px;
+      border: 1px solid orange;
+      border-radius: 7px;
+      color: orange;
+
+      .main_text_indi {
+         display: none;
+      }
+
+      @media (min-width: 380px) {
+         & {
+            .main_text_indi {
+               display: block;
+               font-size: 10px;
+               margin: 0;
+            }
+
+         }
+      }
+
+      @media (min-width: 420px) {
+         padding: 2px 8px;
+         & {
+            .main_text_indi {
+               font-size: 1rem;
+            }
+         }
+      }
+   }
+
+   span {
+      margin-left: 5px;
+      font-size: 20px;
+      color: orange;
+      margin-top: 3px;
+   }
+
+   @keyframes indicator {
+      from {
+         opacity: 0;
+         top: -20px;
+      }
+
+      to {
+         opacity: 1;
+         top: 50px;
+      }
+   }
+
+   .indicator_content {
+      position: absolute;
+      top: 50px;
+      left: -180%;
+      width: 300px;
+      padding: 10px;
+      background-color: white;
+      border: 1px solid orange;
+      border-radius: 10px;
+      animation-name: indicator;
+      animation-duration: 0.3s;
+      transition-duration: 0.3s;
+      z-index: 300;
+      
+      @media (min-width: 380px) {
+         & {
+            left: -50%;
+         }
+      }
+
+      .wrapper {
+         display: flex;
+         flex-direction: column;
+
+         p {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            border: none;
+            border-radius: 0;
+            color: black;
+            padding-bottom: 5px;
+            border-bottom: 1px solid orange;
+            margin-bottom: 5px;
+         }
+
+         span {
+            color: black;
+            font-size: 15px;
+         }
+      }
+
+      .switch {
+         display: flex;
+         flex-direction: row;
+         margin: auto;
+         padding: 3px;
+         border: 2px solid orange;
+         background-color: orange;
+         border-radius: 15px;
+         margin-bottom: 15px;
+
+         button {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 10px;
+            outline: none;
+            background-color: orange;
+            text-transform: uppercase;
+            font-size: 13px;
+            font-weight: 700;
+         }
+
+         .active {
+            background-color: white;
+         }
+      }
+   }
+
+}
+
+.margin_right_5 {
+   margin-right: 5px;
+}

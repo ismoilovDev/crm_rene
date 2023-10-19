@@ -1,0 +1,298 @@
+input[type=file] {
+    display: none;
+}
+
+.taminot_photo_add {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    border: 2px solid #7828c8;
+    border-radius: 10px;
+    padding: 8px;
+    padding-bottom: 0;
+}
+
+.photo_text {
+    font-size: 17px;
+    font-weight: 600;
+    color: #7828c8;
+    margin: 10px 0;
+}
+
+.taminot_photo_add .photo_add_buttons {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.photo_add_buttons button {
+    margin: 7px 0;
+    margin-right: 15px;
+    padding: 8px 20px;
+    font-weight: 600;
+    font-size: 14px;
+    border-radius: 8px;
+    outline: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.photo_add_buttons .icon_load {
+    font-size: 19px;
+    font-weight: 600;
+    margin-left: 10px;
+}
+
+.photo_add_buttons button:nth-child(1) {
+    border: 2px solid rgb(56, 75, 246);
+    background-color: rgb(106, 120, 249);
+    color: rgb(255, 255, 255);
+}
+
+.photo_add_buttons button:nth-child(2) {
+    border: 2px solid green;
+    background-color: rgb(137, 241, 137);
+    color: rgb(0, 77, 0);
+}
+
+.photo_images {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 15px;
+}
+
+.image_container {
+    position: relative;
+    margin-right: 15px;
+    padding: 0;
+    margin-bottom: 10px;
+    height: 150px;
+    overflow: hidden;
+    background-color: white;
+}
+
+.taminot_photo_add .photo_div {
+    height: 150px;
+    display: none;
+}
+
+.taminot_photo_add .photo_show {
+    height: 150px;
+    object-fit: contain;
+    cursor: pointer;
+}
+
+.image_container_user {
+    position: relative;
+    margin-right: 15px;
+    padding: 0;
+    margin-bottom: 10px;
+    height: 200px;
+    width: 150px;
+    overflow: hidden;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.taminot_photo_add .photo_show_user {
+    height: 200px;
+    object-fit: contain;
+}
+
+.image_container button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+    border: none;
+    border-radius: 2px;
+    background-color: red;
+    color: white;
+}
+
+.image_container_user button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+    border: none;
+    border-radius: 2px;
+    background-color: red;
+    color: white;
+}
+
+button .icon_no {
+    color: white;
+    font-size: 20px;
+    font-weight: 900;
+}
+
+.close {
+    display: none;
+}
+
+.open {
+    display: flex;
+}
+
+.popup {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0,0,0,.4);
+    z-index: 9999999;
+}
+
+.camera_wrap {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    background-color: #00000031;
+    z-index: 1000;
+}
+
+.camera {
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.camera video {
+    width: 95%;
+    border-radius: 7px;
+}
+
+.cancel_btn {
+    position: absolute;
+    top: -16px;
+    right: -16px;
+}
+
+.cancel_btn button {
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #22222279;
+    background-color: #31313146;
+    border-radius: 50%;
+    outline: none;
+    cursor: pointer;
+}
+
+.cancel_btn svg {
+    font-size: 1.7rem;
+    color: #fff;
+}
+
+.capture_btn {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.capture_btn button {
+    background-color: #fff;
+    width: 80px;
+    height: 35px;
+    border: none;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    outline: none;
+    cursor: pointer;
+}
+
+.capture_btn svg {
+    font-size: 1.5rem;
+}
+
+@keyframes ldio-9k6j014ej1 {
+    0% {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+
+    100% {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+.ldio-9k6j014ej1 div {
+    position: absolute;
+    width: 27.58px;
+    height: 27.58px;
+    border: 3.94px solid #3e0bcb;
+    border-top-color: transparent;
+    border-radius: 50%;
+}
+
+.ldio-9k6j014ej1 div {
+    animation: ldio-9k6j014ej1 1s linear infinite;
+    top: 98.5px;
+    left: 98.5px
+}
+
+.loadingio-spinner-rolling-142tch8axj4 {
+    width: 197px;
+    height: 197px;
+    display: inline-block;
+    overflow: hidden;
+    background: rgba(NaN, NaN, NaN, 0);
+}
+
+.ldio-9k6j014ej1 {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform: translateZ(0) scale(1);
+    backface-visibility: hidden;
+    transform-origin: 0 0;
+    /* see note above */
+}
+
+.ldio-9k6j014ej1 div {
+    box-sizing: content-box;
+}
+
+@media (min-width: 768px) {
+    .camera video {
+        width: 650px;
+    }
+}
+
+@media (min-width: 1400px) {
+    .camera video {
+        width: 800px;
+    }
+}
+
+@media (min-width: 1650px) {
+    .camera video {
+        width: 1120px;
+    }
+}

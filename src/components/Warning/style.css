@@ -1,0 +1,60 @@
+.delete_warning{
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    padding: 30px;
+    background-color: white;
+    z-index: 200;
+    border: 2px solid rgb(255, 217, 0);
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 4px 4px 10px rgb(255, 217, 0);
+}
+.warning_icon{
+    font-size: 50px;
+    margin: auto;
+    margin-bottom: 15px;
+    color: rgb(255, 217, 0);
+}
+.delete_warning .main_text{
+    font-size: 22px;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 10px;
+}
+.delete_warning .extra_text{
+    font-style: 18px;
+    font-weight: 500;
+    text-align: center;
+    color: rgb(247, 5, 5);
+    margin-bottom: 25px;
+}
+.delete_warning div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.delete_warning div button{
+    padding: 10px 20px;
+    border: none;
+    font-size: 17px;
+    font-weight: 600;
+    border-radius: 10px;
+    color: white;
+    transition-duration: 0.3s;
+}
+.delete_warning div button:hover{
+    transform: scale(1.2);
+}
+.delete_warning div button:nth-child(1){
+    background-color: red;
+    margin-right: 30px;
+    box-shadow: 2px 2px 8px rgb(243, 70, 70);
+}
+.delete_warning div button:nth-child(2){
+    background-color: rgb(116, 117, 116);
+    margin-left: 30px;
+    box-shadow: 2px 2px 8px rgb(110, 110, 110);
+}

@@ -1,0 +1,422 @@
+.taminot {
+    min-height: 100vh;
+    background-color: white;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.taminot_title {
+    font-size: 25px;
+    font-weight: 700;
+}
+
+.taminot_header {
+    width: 100%;
+}
+
+.taminot_subheader {
+    width: 100%;
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.taminot_link {
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 15px;
+    text-decoration: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 8px 15px;
+    border-radius: 7px;
+    transition: linear all .2s;
+    border: #7828c8 2px solid;
+    color: #7828c8;
+    background-color: rgba(255, 255, 255, 0);
+}
+
+.taminot_link i {
+    font-size: 22px;
+    margin-left: 7px;
+}
+
+.taminot_link:hover {
+    background-color: #7828c8;
+    color: white;
+    transform: scale(1.05);
+}
+
+/* Taminot Table Forms */
+.taminot_tableform {
+    background-color: white;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.taminot_tableform h1 {
+    font-weight: 400;
+    font-size: 1.5rem;
+}
+
+.taminot_tableform_item {
+    animation: tableFormItem 1s;
+    margin-top: 20px;
+    border-radius: 7px;
+    border: 1px solid #7828c8;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+@keyframes tableFormItem {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+
+    50% {
+        opacity: 0.5;
+        transform: translateY(10px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+
+.taminot_tableform_item .taminot_gold_product {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 40px;
+    row-gap: 20px;
+}
+
+.taminot_tableform_title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.taminot_tableform_title h2 {
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.taminot_tableform_add {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 10px;
+    font-size: 1.2rem;
+    color: #7828c8;
+    border: 2px solid #7828c8;
+    background-color: white;
+    border-radius: 7px;
+    transition: linear all .2s;
+    cursor: pointer;
+    display: none;
+}
+
+.taminot_tableform_add:hover {
+    transform: scale(1.05);
+    background-color: #7828c8;
+    color: white;
+}
+
+.taminot_tableform_delete {
+    margin-left: 20px;
+    height: 35px;
+    width: 35px;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+}
+
+.taminot_tableform_add_active {
+    display: flex;
+}
+
+.taminot_tableform_delete_active {
+    display: flex;
+}
+
+.taminot_table {
+    display: flex;
+    flex-direction: column;
+    margin: 0 0 20px 0;
+}
+
+.taminot_table .rare {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.taminot_table .rare p {
+    font-size: 20px;
+    margin-right: 20px;
+    font-weight: 600;
+}
+
+.rare select {
+    padding: 5px 10px;
+    height: 45px;
+    width: 80%;
+    border-radius: 10px;
+    border: 2px solid #7828c8;
+}
+
+.rare select option {
+    padding: 5px 10px;
+    height: 45px;
+}
+
+.taminot_ratio_parent {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px 0 0 0;
+}
+
+.taminot_ratio_parent label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 3px 0;
+}
+
+.taminot_ratio_parent p {
+    font-size: 20px;
+    font-weight: 600;
+    margin-right: 20px;
+}
+
+.taminot_ratio:nth-child(2) {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 100%;
+    width: 30%;
+    justify-content: space-between;
+}
+
+.taminot_ratio:nth-child(1) {
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.tamilot_main_table {
+    margin-top: 20px;
+}
+
+.taminot_form {
+    display: flex;
+    flex-direction: column;
+}
+
+/* .taminot_form .nextui-input-main-container {
+    margin-top: 20px;
+} */
+
+.taminot_grid {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Selector */
+.buyurtma_select_taminot {
+    z-index: 502;
+    width: 60%;
+}
+
+/* Taminot Buttons */
+.taminot_button_block {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 50px;
+}
+
+.taminot_button_block button {
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    border: 2px solid;
+    border-radius: 12px;
+    color: white;
+    display: flex;
+    align-items: center;
+    transition: .2s linear all;
+    cursor: pointer;
+}
+
+.taminot_button_block button:hover {
+    transform: scale(1.1);
+    border: none;
+    box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+}
+
+.taminot_button_block button:not(:hover) {
+    border: none;
+}
+
+.taminot_reset {
+    background-color: rgb(255, 213, 0);
+}
+
+.taminot_submit {
+    background-color: rgb(70, 172, 255);
+}
+
+.taminot_delete {
+    background-color: red;
+}
+
+/* Tilla */
+.taminot_tilla_title {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+}
+
+.taminot_tilla_title .taminot_ratio {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.taminot_tilla_subtitle {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.taminot_bahoType {
+    width: 100%;
+    border-bottom: 2px solid #7828c8;
+    padding-bottom: 20px;
+}
+
+.taminot_tilla_radio {
+    justify-content: flex-end;
+}
+
+.taminot_single_gold_radio {
+    justify-content: flex-start;
+    width: 100%;
+}
+
+/* Single Pages */
+.single_table {
+    border: 1px solid black;
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.single_table tr,
+td {
+    border: 1px solid black;
+}
+
+.single_table td {
+    padding: 8px 12px;
+    text-align: center;
+}
+
+
+/* Loader */
+.loader_container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 500px;
+}
+
+.close {
+    display: none;
+}
+
+.open {
+    display: flex;
+}
+
+/* x button */
+.nextui-c-eXOOPO svg {
+    margin-right: 10px;
+    transform: scale(1.35);
+    color: #7828c8;
+}
+
+.tamilot_main_table .transport_product_addPlace {
+    margin-top: 10px;
+}
+
+.margin_top_10 {
+    margin-top: 10px;
+}
+
+.margin_top_15 {
+    margin-top: 15px;
+}
+
+.margin_top_20 {
+    margin-top: 20px;
+}
+
+.margin_top_25 {
+    margin-top: 25px;
+}
+
+.margin_top_30 {
+    margin-top: 30px;
+}
+
+.modal_title {
+    margin-bottom: 20px;
+    font-weight: 600;
+    font-size: 22px;
+}
+
+@media (max-width: 768px) {
+    .single_buyurtma {
+        padding: 15px;
+    }
+
+    .taminot_tableform_item .taminot_gold_product {
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 15px;
+        row-gap: 20px;
+    }
+}
+
+@media (max-width: 556px) {
+    .taminot_tableform_item .taminot_gold_product {
+        grid-template-columns: 1fr;
+    }
+}

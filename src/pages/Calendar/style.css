@@ -1,0 +1,30 @@
+.calendar .rmdp-wrapper,
+.rmdp-calendar {
+    width: 100%;
+    padding: 5px;
+}
+
+.calendar .rmdp-full-year {
+    grid-template-columns: repeat(4, 23%);
+    grid-column-gap: 2%;
+    grid-row-gap: 20px;
+}
+
+@media (max-width: 1280px) {
+    .calendar .rmdp-full-year {
+        grid-template-columns: repeat(3, 32%);
+    }
+}
+
+@media (max-width: 780px) {
+    .calendar .rmdp-full-year {
+        grid-template-columns: repeat(2, 48%);
+    }
+}
+
+
+@media (max-width: 460px) {
+    .calendar .rmdp-full-year {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}

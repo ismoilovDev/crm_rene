@@ -1,0 +1,84 @@
+.checkbox_container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-right: 35px;
+    margin-bottom: 10px;
+}
+.checkbox_container label{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.checkbox_container input{
+    -webkit-appearance: none;
+    appearance: none;
+
+    height: 27px;
+    width: 27px;
+    color: #7828c8;
+    border: 0.15em solid #7828c8;
+    border-radius:50%;
+    transform: translateY(-0.075em);
+    margin-right: 5px;
+    display: grid;
+    place-content: center;
+}
+.checkbox_container input::before {
+    content: "";
+    width: 15px;
+    height: 15px;
+    clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+    transform: scale(0);
+    transform-origin: bottom left;
+    transition: 120ms transform ease-in-out;
+    box-shadow: inset 1em 1em #7828c8;
+}
+.checkbox_container input:checked::before {
+    transform: scale(1);
+}
+
+.checkbox_container .counter{
+    appearance: none;
+}
+.checkbox_container .counter_buttons{
+    margin-left: 15px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.checkbox_container .counter_buttons button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 20px;
+    color: white;
+    height: 25px;
+    width: 25px;
+    background: none;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+}
+.counter_buttons button:first-child{
+    background-color: green;
+    margin-right: 5px;
+}
+.counter_buttons button:last-child{
+    background-color: red;
+}
+
+.count_part{
+    margin-left: 15px;
+
+}
+.count_part input{
+    width: 45px;
+    height: 30px;
+    padding: 2px 5px;
+    border: 1px solid black;
+    color: black;
+    font-weight: 500;
+    border-radius: 5px;
+}

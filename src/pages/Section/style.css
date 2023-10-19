@@ -1,0 +1,9 @@
+.section_main{
+    padding: 20px;
+    background-color: white;
+    width: 100%;
+    min-height: 100vh;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+}

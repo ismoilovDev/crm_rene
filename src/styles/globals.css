@@ -1,0 +1,165 @@
+@import url(../components/Header/style.css);
+@import url(../components/ImageContainer/style.css);
+@import url(../components/Sidebar/style.css);
+@import url(../components/Warning/style.css);
+@import url(../components/KL1/style.css);
+@import url(../pages/Branch/style.css);
+@import url(../pages/Calculator/style.css);
+@import url(../pages/Calendar/style.css);
+@import url(../pages/Client/style.css);
+@import url(../pages/Contract/style.css);
+@import url(../pages/Contract/style-form.css);
+@import url(../pages/Employee/style.css);
+@import url(../pages/Group/style.css);
+@import url(../pages/Home/style.css);
+@import url(../pages/KL1/style.css);
+@import url(../pages/KL1Form/style.css);
+@import url(../pages/Login/loader.css);
+@import url(../pages/Login/style.css);
+@import url(../pages/Order/style.css);
+@import url(../pages/Product/style.css);
+@import url(../pages/Section/style.css);
+@import url(../pages/SupplyInfo/add-supply.css);
+@import url(../pages/SupplyInfo/style.css);
+@import url(../pages/User/style.css);
+@import url(../pdfs/pdf.css);
+@import url(./spinner.css);
+
+::-webkit-scrollbar,
+::-webkit-scrollbar-thumb {
+   width: 18px;
+   height: 15px;
+   border-radius: 10px;
+   background-clip: padding-box;
+   border: 7px solid transparent;
+}
+
+::-webkit-scrollbar-thumb {
+   box-shadow: inset 0 0 0 10px;
+   color: #7828c8;
+}
+
+.content {
+   margin-top: 100px;
+   width: 100%;
+   padding: 15px;
+}
+
+.pagination_block {
+   margin-top: 20px;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: center;
+}
+
+.pagination_block button {
+   margin-left: 15px;
+   width: 38px;
+   height: 38px;
+   font-size: 15px;
+   background-color: white;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   border: 2px solid rgb(226, 225, 225);
+   cursor: pointer;
+   font-weight: 600;
+   border-radius: 10px;
+   transition: linear 0.2s all;
+}
+
+.pagination_block button:hover {
+   background-color: rgb(226, 225, 225) !important;
+   color: black;
+}
+
+.pagiantion_active {
+   background-color: rgb(226, 225, 225) !important;
+   color: black;
+}
+
+
+pre.empty_table {
+   text-align: center;
+   padding: 3rem 0;
+   font-size: 2rem;
+}
+
+.search_form {
+   position: relative;
+   top: -10px;
+}
+
+.serach_btn {
+   position: absolute;
+   right: 0;
+   top: 50%;
+   display: inline-block;
+   border: none;
+   outline: none;
+   background-color: transparent;
+   cursor: pointer;
+   padding: 20px 25px;
+   font-size: 18px;
+   transform: translateY(-50%);
+   transition: 0.2s;
+   border-top-right-radius: 18px;
+   border-bottom-right-radius: 18px;
+   z-index: 10;
+}
+
+.skeleton table td,
+th {
+   border: none;
+}
+
+.skeleton table span {
+   width: 100%;
+}
+
+.table_root {
+   overflow-x: scroll;
+}
+
+.nextui-c-eXOOPO svg {
+   margin-right: 10px;
+   transform: scale(1.35);
+   color: #7828c8;
+}
+
+.margin_top_10 {
+   margin-top: 10px;
+}
+
+.margin_top_15 {
+   margin-top: 15px;
+}
+
+.margin_top_20 {
+   margin-top: 20px;
+}
+
+.margin_top_25 {
+   margin-top: 25px;
+}
+
+.margin_top_30 {
+   margin-top: 30px;
+}
+
+.bx-edit-alt,
+.bx-user,
+.bx-trash {
+   color: white !important;
+}
+
+.visible {
+   visibility: visible;
+   display: flex;
+}
+
+.hidden {
+   display: none;
+   visibility: hidden;
+}

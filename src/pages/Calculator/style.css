@@ -1,0 +1,229 @@
+.page_container{
+    background-color: white;
+    min-height: 100vh;
+    width: 100%;
+    padding: 20px;
+    border-radius: 20px;
+}
+.page_title{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+.page_title p{
+     font-size: 25px;
+    font-weight: 700;
+}
+.page_title .print_button{
+    padding: 12px 24px;
+    background-color: rgb(224, 224, 255);
+    border: 2px solid blue;
+    font-weight: 600;
+    font-size: 17px;
+    border-radius: 10px;
+}
+.text_center{
+    text-align: center;
+}
+.calculator_container{
+    margin-top: 20px;
+    padding: 15px;
+    border: 2px solid #7828c8;
+    border-radius: 10px;
+}
+.calculator_container form .form_inputs{
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: 1fr;
+    row-gap: 20px;
+    column-gap: 35px;
+}
+.calculator_container .print_button{
+    border: 2px solid blue;
+}
+.main_date_texts{
+    margin-bottom: 5px;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+}
+.main_date_texts span:nth-child(1){
+    margin-right: 5px;
+}
+.main_date_texts span:nth-child(2){
+    margin-left: 5px;
+}
+/* .main_date_field{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+.main_date_field div{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.main_date_field div:nth-child(1){
+    margin-right: 20px;
+    align-items: flex-end;
+}
+.main_date_field p{
+    margin-top: 5px;
+    font-weight: 600;
+} */
+
+
+
+
+
+/********___Print___********/
+/* MEDIA PRINT */
+@media print {
+    @page { margin: 25px; }
+    .body{
+        position: relative;
+        font-size: 12px;
+    }
+    .pdf_container{
+        position: absolute;
+        z-index: 1999;
+        overflow-y:scroll;
+        top: 0 !important;
+        left: 0;
+        right: 0;
+        width: 110vw;
+        margin: 0 ;
+        font-size: 16px;
+        padding: 0px;
+        border-radius: 0;
+        padding: 20px !important;
+        padding-left: 35px !important;
+        padding-top: 35px !important;
+        font-family: 'Times New Roman', Times, serif !important;
+    }
+    main{
+        margin-left: 0 !important;
+        width: 110vw;
+        padding: 0 !important;
+    }
+    .main_nav{
+        display: none !important;
+    }
+
+    table{
+        font-size: 10px !important;
+    }
+    .header-left-top, .a-right-bottom, .time-right-bottom {
+        display: none;
+    }
+    .black_text{
+        font-weight: 600;
+        font-size: 16px;
+    }
+    .text_black_18{
+        font-size: 17px;
+        font-weight: 600;
+    }
+    .p1_second_table_headers{
+        font-size: 12px;
+    }
+    .number_list{
+        list-style-type:decimal;
+        font-size: 12px;
+    }
+    .single_table_pdf{
+        font-size: 12px;
+    }
+    .kl1_jami{
+        font-size: 16px;
+    }
+    .pdf_p1_table{
+        font-size: 10px;
+    }
+    .pdf_container .pdf_p1_table_headers p{
+        padding: 4px;
+        font-size: 10px;
+    }
+    .number_box{
+        width: 430px;
+        display: flex;
+        flex-direction: row;
+    }
+    .number_box div{
+        height: 23px;
+    }
+    .pdf_container .shartnama_pdf{
+        font-size: 16px !important;
+    }
+
+    /* calculator form */
+    .page_title{
+        display: none;
+    }
+    .calculator_container{
+        display: none;
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+/*********___ MEDIA ___********/
+
+                    /************************----FIRST-----**********************/
+
+@media (max-width: 576px) {
+    
+}
+
+
+                    /************************----SECOND-----**********************/
+
+@media (min-width: 576px) {
+    
+
+}
+
+
+                        /************************----THIRD-----**********************/
+
+@media (min-width: 768px) {
+    
+    
+}
+
+
+                        /************************----FOURTH-----**********************/
+
+@media (min-width: 992px) {
+    .calculator_container form .form_inputs{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+
+                        /************************----FIFTH-----**********************/
+
+@media (min-width: 1200px) {
+    
+}
+
+                    /************************----SIXTH-----**********************/
+
+@media (min-width: 1350px) {
+    
+}
+
+@media (min-width: 1600px) {
+    
+}

@@ -1,0 +1,384 @@
+.little-statistics {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.circle-total {
+    width: 23.5%;
+    padding: 15px 20px;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    justify-content: space-between;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    transition: .2s linear all;
+}
+
+.circle-total:hover {
+    transform: scale(1.1);
+}
+
+.circle_total_parts {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    height: 75px;
+}
+
+.big-statistics {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.total-part-circle-blue {
+    font-size: 60px;
+    color: #1E90FF;
+}
+
+.total-part-circle-yellow {
+    font-size: 60px;
+    color: rgb(219, 219, 22);
+}
+
+.price-total {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 0;
+}
+
+.total-text {
+    font-size: 14px;
+    color: grey;
+}
+
+.total-end {
+    margin-top: 10px;
+}
+
+.total-end-text-green span {
+    color: rgb(17, 168, 17);
+    font-weight: 600;
+    margin-right: 10px;
+    font-size: 14px;
+}
+
+.total-end-text-red span {
+    color: rgb(201, 14, 14);
+    font-weight: 600;
+    margin-right: 10px;
+    font-size: 14px;
+}
+
+.total-end-text-green,
+.total-end-text-red {
+    font-size: 13px;
+}
+
+.barChart {
+    width: 60%;
+    box-sizing: border-box;
+    background-color: #fff;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 10px;
+}
+
+.horizChart {
+    width: 38%;
+    box-sizing: border-box;
+    background-color: #fff;
+    height: auto;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 10px;
+}
+
+.statistics {
+    background-color: #fff;
+    padding: 20px;
+    margin: 1rem 0;
+    border-radius: 15px;
+}
+
+.main-statistics {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.statistics_box {
+    display: flex;
+    flex-basis: 70%;
+    gap: 20px;
+}
+
+.main-statistics_wrap {
+    position: relative;
+    flex-basis: 32.3%;
+    background-color: #fff;
+    color: #000;
+    padding: 1rem;
+    border-radius: 25px;
+    transition: 0.3s background-color linear;
+    box-shadow: 0 7px 15px 0 rgba(0, 0, 0, .13), 0 1px 4px 0 rgba(0, 0, 0, .11);
+}
+
+.main-statistics_wrap:hover {
+    background-color: #759eee;
+    color: #fff;
+    text-shadow: 0 1px #00000082;
+}
+
+.main-statistics_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.main-statistics_header .title {
+    flex-basis: 82%;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.main-statistics_header .icon_box {
+    flex-basis: 18%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.main-statistics_wrap:hover .icon {
+    background-color: #fff;
+    color: #759eee;
+}
+
+.main-statistics_wrap:hover .statistics_item {
+    border-color: #fff;
+}
+
+.icon {
+    width: 45px;
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background-color: #759eee;
+    color: #fff;
+}
+
+.icon svg {
+    font-size: 18px;
+}
+
+.statistics_details {
+    margin-top: 20px;
+}
+
+.statistics_item {
+    display: flex;
+    justify-content: space-between;
+    margin: 7px 0;
+    padding: 3px 0;
+    font-size: 14px;
+    font-weight: 500;
+    border-bottom: 1px solid #759eee;
+}
+
+.statistics_item span:nth-child(2) {
+    font-weight: 600;
+}
+
+.file_uploader {
+    flex-basis: 27%;
+    background-color: #fff;
+    border-radius: 25px;
+    padding: 20px;
+    box-shadow: 0 7px 15px 0 rgba(0, 0, 0, .13), 0 1px 4px 0 rgba(0, 0, 0, .11);
+}
+
+.uploader_box {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    border: 2px dashed rgb(172, 168, 168);
+    border-radius: 5px;
+}
+
+.uploader_box form {
+    position: relative;
+}
+
+.uploader_box label {
+    display: block;
+    width: 100%;
+    height: 80%;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    background: #fff;
+    transition: all .2s ease;
+    user-select: none;
+    cursor: pointer;
+}
+
+.uploader_box .upload_section svg {
+    font-size: 3rem;
+    color: #4e84ef;
+}
+
+.uploader_box label p {
+    display: inline-block;
+    padding: 7px 35px;
+    background-color: #4e84ef;
+    color: #fff;
+    font-weight: 500;
+    border-radius: 5px;
+    margin-top: 1rem;
+}
+
+
+.progress-bar {
+    margin: 1rem auto;
+    border: 1px solid #cccccc;
+    overflow: hidden;
+    width: 90%;
+    border-radius: 15px;
+}
+
+.progress {
+    background-color: #007bff;
+    padding: 4px 0;
+    color: #ffffff;
+    text-align: center;
+    font-size: 10px;
+}
+
+.file_submit {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 1rem auto;
+}
+
+.file_submit_btn {
+    display: inline-block;
+    padding: 5px 25px;
+    background-color: #5BD8A7;
+    color: #fff;
+    border: none;
+    outline: none;
+    border-radius: 7px;
+}
+
+@media (min-width: 1600px) {
+    .total-part-circle-blue {
+        font-size: 80px;
+    }
+
+    .total-part-circle-yellow {
+        font-size: 80px;
+    }
+
+    .statistics_item {
+        font-size: 16px;
+    }
+
+    .price-total {
+        font-size: 21px;
+    }
+
+    .total-text {
+        font-size: 16px;
+    }
+
+    .circle-total {
+        padding: 20px 25px;
+    }
+
+    .barChart {
+        padding: 40px;
+    }
+
+    .horizChart {
+        padding: 30px;
+    }
+
+    .circle_total_parts {
+        height: 85px;
+    }
+}
+
+@media (max-width: 1150px) {
+    .little-statistics .circle-total {
+        width: 49%;
+    }
+
+    .barChart,
+    .horizChart {
+        width: 100%;
+    }
+
+    .horizChart {
+        margin-top: 20px;
+    }
+
+    .statistics_box {
+        flex-basis: 100%;
+        gap: 15px;
+        margin-top: 1.5rem;
+    }
+
+    .file_uploader {
+        flex-basis: 100%;
+        margin-top: 1.5rem;
+    }
+}
+
+@media (max-width: 820px) {
+    .statistics_box {
+        flex-wrap: wrap;
+    }
+
+    .main-statistics_wrap {
+        flex-basis: 100%;
+    }
+}
+
+@media (max-width: 500px) {
+    .little-statistics .circle-total {
+        width: 100%;
+    }
+
+    .main-statistics_wrap {
+        padding: 10px;
+    }
+
+    .main-statistics_header .icon {
+        width: 30px;
+        height: 30px;
+    }
+
+    .icon svg {
+        font-size: 14px;
+    }
+
+    .main-statistics_header .title {
+        font-size: 14px;
+    }
+
+    .statistics_item {
+        font-size: 3vw;
+    }
+}

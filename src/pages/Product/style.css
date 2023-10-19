@@ -1,0 +1,228 @@
+.mahsulot_section {
+    padding: 20px;
+    background-color: white;
+    width: 100%;
+    min-height: 100vh;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.mahsulot_table {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border: 1px solid rgb(211, 211, 211);
+    margin-top: 15px;
+    border-radius: 6px;
+    margin-bottom: 30px;
+}
+
+.mahsulot_table_headers {
+    display: flex;
+    flex-direction: row;
+    background-color: rgb(239, 239, 239);
+}
+
+.mahsulot_table_headers p {
+    padding: 20px 0;
+    font-weight: 700;
+    text-align: center;
+    border-right: 2px solid rgb(211, 211, 211);
+}
+
+.mahsulot_table_headers p:nth-child(1) {
+    flex-basis: 45%;
+}
+
+.mahsulot_table_headers p:nth-child(2) {
+    flex-basis: 35%;
+}
+
+.mahsulot_table_products {
+    display: flex;
+    flex-direction: column;
+}
+
+.mahsulot_table_product {
+    display: flex;
+    flex-direction: row;
+    border-bottom: 1px solid rgb(211, 211, 211);
+}
+
+.mahsulot_table_product:last-child {
+    border-bottom: none;
+}
+
+.mahsulot_table_product p:nth-child(1) {
+    flex-basis: 45%;
+    border-right: 2px solid rgb(211, 211, 211);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-weight: 500;
+}
+
+.mahsulot_table_product p:nth-child(2) {
+    flex-basis: 35%;
+    border-right: 2px solid rgb(211, 211, 211);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 0;
+    text-align: center;
+    font-weight: 500;
+}
+
+.mahsulot_table_product .mahsulot_product_buttons {
+    flex-basis: 20%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.mahsulot_product_buttons button {
+    border: none;
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+    width: 35px;
+    height: 35px;
+    border-radius: 5px;
+    transition-duration: 0.2s;
+    cursor: pointer;
+}
+
+.mahsulot_product_buttons button:nth-child(1) {
+    background-color: green;
+    margin-right: 10px;
+}
+
+.mahsulot_product_buttons button:nth-child(2) {
+    background-color: red;
+    margin-left: 10px;
+}
+
+.mahsulot_product_buttons button:hover {
+    transform: scale(1.2);
+}
+
+.mahsulot_table_product .clientuserButtons {
+    flex-basis: 20%;
+}
+
+/***********************___ Modalka ___**********************/
+.add_mahsulot_main {
+    position: fixed;
+    left: 60%;
+    top: 50%;
+    transform: translate(-60%, -50%);
+    z-index: 501;
+    width: 50%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 15px;
+    border: 2px solid black;
+}
+
+.add_mahsulot_main p {
+    font-size: 20px;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.add_mahsulot_main .close_icon {
+    width: 30px;
+    height: 30px;
+    border: 2px solid red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    font-weight: 800;
+    background-color: white;
+    border-radius: 5px;
+    color: red;
+    margin-bottom: -15px;
+}
+
+.add_mahsulot_main .check_voice {
+    font-size: 15px;
+}
+
+.add_mahsulot_buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    margin-top: 40px;
+}
+
+.add_mahsulot_buttons button {
+    padding: 8px 30px;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: linear .2s all;
+}
+
+.add_mahsulot_buttons button:hover {
+    transform: scale(1.2);
+}
+
+.add_mahsulot_buttons button:nth-child(1) {
+    background-color: #ffe2dd;
+    border: 2px solid red;
+    color: rgb(36, 35, 35);
+}
+
+.add_mahsulot_buttons button:nth-child(2) {
+    background-color: rgb(213, 255, 213);
+    border: 2px solid rgb(16, 235, 16);
+    color: rgb(36, 35, 35);
+}
+
+.close {
+    display: none;
+}
+
+.open {
+    display: flex;
+}
+
+@media (max-width: 1024px) {
+    .add_mahsulot_main, .shartnoma_modal {
+        width: 70%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+}
+
+@media (max-width: 1280px) {
+    .mahsulot_table .responsive_table {
+        width: 100%;
+    }
+}
+
+@media (max-width: 840px) {
+    .mahsulot_table .responsive_table {
+        width: 840px;
+    }
+}
+
+@media (max-width: 650px) {
+    .add_mahsulot_main, .shartnoma_modal {
+        width: 85%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+}

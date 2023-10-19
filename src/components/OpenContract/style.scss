@@ -1,0 +1,211 @@
+.open_contracts {
+   position: fixed;
+   top: -120%;
+   left: 0;
+   width: 100vw;
+   height: 100vh;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   padding: 15px 0;
+   padding-top: 25px;
+   background-color: #0000003a;
+   z-index: 15000;
+   opacity: 0;
+   transition: .1s opacity linear;
+   overflow-x: hidden;
+   overflow-y: auto;
+
+   &.active {
+      top: 0;
+      opacity: 1;
+
+      .open_contracts {
+         transform: translate(0, 0);
+      }
+   }
+
+   &_container {
+      min-width: 40%;
+      position: relative;
+      padding: 2rem;
+      pointer-events: auto;
+      border-radius: 7px;
+      background-color: #fff;
+
+      form {
+         width: 100%;
+         display: flex;
+         flex-direction: column;
+         align-items: center;
+         justify-content: center;
+      }
+
+      @media (min-width: 556px) {
+         width: auto;
+      }
+   }
+
+   &_input {
+      width: auto;
+      margin: 0 0 1.5rem;
+
+      @media (min-width: 260px) {
+         width: 240px;
+      }
+
+      @media (min-width: 320px) {
+         width: 280px;
+      }
+
+      @media (min-width: 360px) {
+         width: 330px;
+      }
+
+      @media (min-width: 420px) {
+         width: 350px;
+      }
+
+      @media (min-width: 1200px) {
+         width: 420px;
+      }
+   }
+
+   .close_btn {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      top: -20px;
+      right: -15px;
+      color: #fff;
+      background-color: #727272;
+      border-radius: 50%;
+      cursor: pointer;
+      svg {
+         font-size: 1.5rem;
+         transform: translate(.3px, -.5px);
+      }
+   }
+
+   .contracts_submit {
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      button {
+         border-radius: 20px;
+         padding: 7px 20px;
+         @media (min-width: 556px) {
+            padding: 10px 30px;
+         }
+         background-color: blue;
+         color: #fff;
+         font-size: 1rem;
+         font-weight: 500;
+         border: none;
+         outline: none;
+         cursor: pointer;
+         transition: .1s all linear;
+         &:hover {
+            transform: scale(1.07);
+         }
+         &:active {
+            transform: scale(.95);
+         }
+      }
+   }
+
+   .having_contracts_wrapper{
+      min-height: 313px;
+      position: relative;
+      .submit_btn{
+         position: absolute;
+         top: auto;
+         left: auto;
+         bottom: 20px;
+         right: 20px;
+         border-radius: 20px;
+         padding: 7px 20px;
+         @media (min-width: 556px) {
+            padding: 10px 30px;
+         }
+         background-color: blue;
+         color: #fff;
+         font-size: 1rem;
+         font-weight: 500;
+         border: none;
+         outline: none;
+         cursor: pointer;
+         transition: .1s all linear;
+         &:hover {
+            transform: scale(1.07);
+         }
+         &:active {
+            transform: scale(.95);
+         }
+      }
+   }
+   .having_contracts{
+      display: flex;
+      flex-direction: column;
+
+      button{
+         padding: 10px;
+         border: 2px solid rgb(232, 232, 232);
+         background-color: none;
+         background-color: white;
+         border-radius: 5px;
+         font-size: 15px;
+         font-weight: 500;
+         margin-bottom: 15px;
+
+         span{
+            font-size: 14px;
+            margin-left: 15px;
+         }
+      }
+
+      .active{
+         background-color: white;
+         border: 2px solid blue;
+         background-color: rgba(173, 203, 246, 0.582);
+
+      }
+   }
+
+   .buttons_container{
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      padding: 5px;
+      background-color: rgb(232, 232, 232);
+      border-radius: 10px;
+      margin-bottom: 20px;
+
+      button{
+         background-color: rgb(232, 232, 232);
+         border: none;
+         outline: none;
+         height: 40px;
+         width: 48%;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         border-radius: 10px;
+         font-size: 15px;
+         font-weight: 600;
+      }
+      .active{
+         background-color: white;
+      }
+   }
+}
+
+.margin_bottom_20{
+   margin-bottom: 20px;
+}
+.margin_top_15{
+   margin-top: 15px;
+}

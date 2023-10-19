@@ -1,0 +1,96 @@
+.title_contract_part {
+   font-size: 17px;
+}
+
+.contract_title {
+   font-size: 18px;
+}
+
+.part {
+   margin: 10px;
+
+   .pdf_margin_top_5 {
+      padding-left: 15px;
+   }
+
+   .sub_title_contract_part {
+      font-weight: 600;
+      font-size: 15px;
+   }
+
+   .sub_title_contract_part~p, .sub_title_contract_part~div {
+      padding-left: 30px;
+   }
+
+   ol {
+      mask-type: alpha;
+      padding-left: 50px;
+
+      li {
+         list-style: lower-alpha;
+
+         span {
+            display: block;
+            padding-left: 0;
+         }
+      }
+   }
+}
+
+.contract_form {
+   display: flex;
+   justify-content: center;
+   column-gap: 20px;
+
+   .template {
+      flex-basis: 45%;
+      p {
+         width: 100%;
+         display: flex;
+         margin: 5px 0;
+         span {
+            display: block;
+            height: 20px;
+            width: 100%;
+            border-bottom: 1px solid #000;
+            line-height: 2;
+            margin-left: 5px;
+         }
+      }
+      .sub_title_contract {
+         font-weight: 600;
+         font-size: 15px;
+         justify-content: center;
+         text-align: center;
+         margin: 10px 0;
+      }
+   }
+}
+
+.contract_contacts {
+   display: flex;
+   justify-content: center;
+   column-gap: 20px;
+   .contract_contact {
+      flex-basis: 45%;
+      margin: 10px 0;
+      p {
+         width: 100%;
+         display: flex;
+         margin: 10px 0;
+         span {
+            display: block;
+            height: 20px;
+            width: 100%;
+            border-bottom: 1px solid #000;
+            line-height: 2;
+            margin-left: 10px;
+         }
+      }
+
+      .bold_text {
+         font-weight: 600;
+         white-space: nowrap;
+      }
+   }
+}
