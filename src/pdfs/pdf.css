@@ -41,6 +41,7 @@
   padding: 10px 15px;
   background-color: blue;
   border: none;
+  font-size: 18px;
   font-weight: 500;
   color: white;
   border-radius: 7px;
@@ -56,14 +57,8 @@
 }
 
 .pdf_header button svg {
-  margin: 0 10px;
-  font-size: 25px;
-  font-weight: 600;
-}
-
-.pdf_header button:nth-child(1) svg {
-  margin: 0 5px;
-  font-size: 20px;
+  font-size: 1.4rem;
+  margin-left: 10px;
 }
 
 .print_link {
