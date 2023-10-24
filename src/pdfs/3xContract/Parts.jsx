@@ -1,9 +1,10 @@
-import { capitalize } from '../../utils/functions/capitalize';
-import { typeFunc } from '../../utils/functions/supplyTypes';
 import dateConvert from '../../utils/functions/dateConvert';
 import Adding_VVB from '../AddingVVB';
+import { typeFunc } from '../../utils/functions/supplyTypes';
+import { capitalize } from '../../utils/functions/capitalize'
+import { monthDiff } from '../Parts/functions';
 
-export function MainPart({ documentInfo, orderInfo }) {
+export function MainPart({documentInfo, orderInfo}) {
    return (
       <>
          <div className="text_center">
@@ -14,30 +15,39 @@ export function MainPart({ documentInfo, orderInfo }) {
          </div>
          <div className='between align_center pdf_margin_top_20'>
             <p className='black_text title_contract'>{documentInfo?.data?.branch?.city}</p>
-            <p className='black_text title_contract'>{dateConvert(documentInfo?.contract_issue_date)} yil</p>
+            <p className='black_text title_contract'>{dateConvert(orderInfo?.protocol_result_date)} yil</p>
          </div>
          <div className="margin_top_20">
-            “Renesans Mikromoliya tashkiloti”  MCHJ (bundan buyon matnlarda “Qarz beruvchi” deb nomlanadi) nomidan {dateConvert(documentInfo?.credit_issue_date)} yildagi №{documentInfo?.contract_num}-sonli ishonchnoma asosida
+            “Renesans Mikromoliya tashkiloti”  MCHJ (bundan buyon matnlarda “Qarz beruvchi” deb nomlanadi) nomidan _______________ yildagi №________________-sonli ishonchnoma asosida
             harakat qiluvchi {documentInfo?.data?.branch?.city} filiali boshqaruvchisi boshlig‘i {Adding_VVB(document?.branch?.id) ? 'v.v.b' : ''} {documentInfo?.data?.branch?.head_of_branch} bir tarafdan va (bundan buyon matnda «Qarz oluvchi» deb yuritiluvchi) {documentInfo?.data?.client?.name} ikkinchi tarafdan, ushbu bitimni (bundan buyon matnda bitim deb yuritiladi) quyidagilar to‘g‘risida tuzdilar:
          </div>
       </>
    )
 }
 
-export function Part1({ documentInfo }) {
+function supplyTypeTwo(type){
+   if(type === "auto"){
+      return "Transport vositasi"
+   }else if(type === "gold"){
+      return "Tilla buyumlar"
+   }
+   return "";
+}
+
+export function Part1({orderInfo}) {
    return (
       <>
          <p className='black_text pdf_margin_top_20 title_contract_part'>1. Bitim predmeti</p>
          <div className='part'>
             <p className="pdf_margin_top_5">
-               1.1. Mazkur bitimga muvofiq qarz beruvchi qarz oluvchiga {documentInfo?.data?.order?.time} oy muddatga kredit taqdim qilish uchun liniya ochish majburiyatini, qarz oluvchi esa liniya miqdoridan kelib chiqib, mikromiloya tashkiloti kredit siyosati talablari doirasida ta’minot bilan ta’minlash, liniya bo‘yicha olinishi nazarda tutilgan mikroqarzlarni bosh kelishuvga asosan tuzilgan mikroqarz shartnomada (keyingi o‘rinlarda mikroqarz shartnoma) nazarda tutilgan muddatlarda qaytarish, ular bo‘yicha hisoblangan foizlar shuningdek, mikroqarz shartnomasiga asosan yuzaga keladigan boshqa to‘lovlar to‘lash, majburiyatlarni bajaradi va huquqlardan foydalanadi.
+               1.1. Mazkur bitimga muvofiq qarz beruvchi qarz oluvchiga {monthDiff(new Date(orderInfo?.open_contract?.start_date), new Date(orderInfo?.open_contract?.end_date))} oy muddatga kredit taqdim qilish uchun liniya ochish majburiyatini, qarz oluvchi esa liniya miqdoridan kelib chiqib, mikromiloya tashkiloti kredit siyosati talablari doirasida ta’minot bilan ta’minlash, liniya bo‘yicha olinishi nazarda tutilgan mikroqarzlarni bosh kelishuvga asosan tuzilgan mikroqarz shartnomada (keyingi o‘rinlarda mikroqarz shartnoma) nazarda tutilgan muddatlarda qaytarish, ular bo‘yicha hisoblangan foizlar shuningdek, mikroqarz shartnomasiga asosan yuzaga keladigan boshqa to‘lovlar to‘lash, majburiyatlarni bajaradi va huquqlardan foydalanadi.
             </p>
          </div>
       </>
    )
 }
 
-export function Part2({ documentInfo }) {
+export function Part2({documentInfo}) {
    return (
       <>
          <p className='black_text pdf_margin_top_20 title_contract_part'>2. Umumiy qoidalar </p>
@@ -70,38 +80,41 @@ export function Part2({ documentInfo }) {
                2.9.	Qarz oluvchi qarz beruvchi tomonidan taqdim etilgan mikroqarzdan quyidagi maqsadlarda foydalanmaslik majburiyatini o‘z zimmasiga oladi:
                <ol type="a">
                   <li>
-                     qarz oluvchining muddati o‘tgan majburiyatlarini bevosita yoki bilvosita (shu jumladan uchinchi shaxslar orqali) to‘lash,
+                     Qarz oluvchining muddati o‘tgan majburiyatlarini bevosita yoki bilvosita (shu jumladan uchinchi shaxslar orqali) to‘lash,
                   </li>
                   <li>
-                     uchinchi shaxslarga qarzlarni taqdim etish;
+                     Uchinchi shaxslarga qarzlarni taqdim etish;
                   </li>
                   <li>
-                     amaldagi qonun xujjatlari va kredit siyosatiga asosan taqiqlangan boshqa barcha maqsadlarga.
-                  </li>
-                  <li>
-                     Shartnoma bo‘yicha majburiyatlarni bajarishni ta’minlash uchun qarz oluvchi va/yoki uchinchi shaxslar quyidagi ta’minotlarni taqdim etadi:
-                     <span>
-                        -{capitalize(typeFunc(documentInfo?.data?.supply_infos?.[0]?.type))}ga qo‘yish to‘g‘risida garov shartnomasi;
-                     </span>
-                     <span>
-                        qarz oluvchilarning qarz beruvchi oldidagi majburiyatlarini bajarish bo‘yicha solidar tartibdagi kafillik shartnomasi.
-                     </span>
-
+                     Amaldagi qonun xujjatlari va kredit siyosatiga asosan taqiqlangan boshqa barcha maqsadlarga.
                   </li>
                </ol>
             </div>
+            <div className="pdf_margin_top_5">
+               <p>
+                  2.10.	Shartnoma bo‘yicha majburiyatlarni bajarishni ta’minlash uchun qarz oluvchi va/yoki uchinchi shaxslar quyidagi ta’minotlarni taqdim etadi:
+               </p>
+               <ul className='p1_left_space'>
+                  <li>
+                     -{capitalize(supplyTypeTwo(documentInfo?.data?.supply_infos?.[0]?.type))}ni garovga qo‘yish to‘g‘risida garov shartnomasi;
+                  </li>
+                  <li>
+                     -Qarz oluvchilarning qarz beruvchi oldidagi majburiyatlarini bajarish bo‘yicha solidar tartibdagi kafillik shartnomasi.
+                  </li>
+               </ul>
+            </div>
             <p className="pdf_margin_top_5">
-               2.10.	Mazkur Bosh kelishuvga asosan tuzilgan mikroqarz shartnomasi kelishuvning ajralmas qismi hisoblanadi.
+               2.11.	Mazkur Bosh kelishuvga asosan tuzilgan mikroqarz shartnomasi kelishuvning ajralmas qismi hisoblanadi.
             </p>
             <p className="pdf_margin_top_5">
-               2.11.	Mazkur Bosh kelishuv qoidalari unga asosan tuzilgan mikroqarz shartnomasiga nisbatan to‘liq hajmda qo‘llaniladi. Bunda bosh kelishuv hamda bosh kelishuvga asosan tuzilgan mikroqarz shartnomasi qoidalari o‘rtasida ziddiyat vujudga kelgan taqdirda, bosh kelishuv qoidalari ustunroq kuchga ega bo‘ladi.
+               2.12.	Mazkur Bosh kelishuv qoidalari unga asosan tuzilgan mikroqarz shartnomasiga nisbatan to‘liq hajmda qo‘llaniladi. Bunda bosh kelishuv hamda bosh kelishuvga asosan tuzilgan mikroqarz shartnomasi qoidalari o‘rtasida ziddiyat vujudga kelgan taqdirda, bosh kelishuv qoidalari ustunroq kuchga ega bo‘ladi.
             </p>
          </div>
       </>
    )
 }
 
-export function Part3({ orderInfo }) {
+export function Part3({orderInfo}) {
    return (
       <>
          <p className='black_text pdf_margin_top_20 title_contract_part'>3. Bitim bahosi</p>
@@ -140,69 +153,66 @@ export function Part5() {
          <div className='part'>
             <p className="sub_title_contract_part">5.1. Qarz oluvchi quyidagi huquqlarga ega:</p>
             <p className="pdf_margin_top_5">
-               5.1.1. garov ta’minoti yuzasidan sug‘urta kompaniyasini o‘z ixtiyoriga asosan tanlash;
+               5.1.1. Garov ta'minoti qarz beruvchi tomonidan sugurta qilinmaydi, qarz oluvchining xoxishiga ko'ra, uning o'z hisobidan sug'urta qilinishi mumkin.
             </p>
             <p className="pdf_margin_top_5">
-               5.1.2. mikroqarzdan foydalanish, uni so‘ndirish bilan bog‘liq masalalar bo‘yicha qarz beruvchining  vakiliga murojaat qilish;
+               5.1.2. Mikroqarzdan foydalanish, uni so‘ndirish bilan bog‘liq masalalar bo‘yicha qarz beruvchining  vakiliga murojaat qilish;
             </p>
             <p className="pdf_margin_top_5">
-               5.1.3. bitim va mikroqarz shartnomalarni imzo qo‘ymasdan oldin tanishib chiqishi uchun o‘zi bilan olib ketish;
+               5.1.3. Bitim va mikroqarz shartnomalarni imzo qo‘ymasdan oldin tanishib chiqishi uchun o‘zi bilan olib ketish;
             </p>
             <p className="pdf_margin_top_5">
-               5.1.4. bitim yoki mikroqarz shartnoma tuzilgandan keyin pul mablag‘lari olingunga qadar bo‘lgan davrda mikroqarz olishdan bepul asosda voz kechish;
+               5.1.4. Bitim yoki mikroqarz shartnoma tuzilgandan keyin pul mablag‘lari olingunga qadar bo‘lgan davrda mikroqarz olishdan bepul asosda voz kechish;
             </p>
             <p className="pdf_margin_top_5">
-               5.1.5. istalgan vaqtda mikroqarzni muddatidan oldin so‘ndirish;
+               5.1.5. Istalgan vaqtda mikroqarzni muddatidan oldin so‘ndirish;
             </p>
             <p className="pdf_margin_top_5">
-               5.1.6. mikroqarz ajratish jarayoni yuzasidan qonun hujjatlarida belgilangan talab va qoidalar to‘g‘risida qarz beruvchidan maslahatlar olish;
+               5.1.6. Mikroqarz ajratish jarayoni yuzasidan qonun hujjatlarida belgilangan talab va qoidalar to‘g‘risida qarz beruvchidan maslahatlar olish;
             </p>
             <p className="pdf_margin_top_5">
-               5.1.7. qarz beruvchidan bitimda belgilangan shartlar asosida belgilangan miqdorda mikroqarz mablag‘ini o‘z vaqtida ajratilishini talab qilish;
+               5.1.7. Qarz beruvchidan bitimda belgilangan shartlar asosida belgilangan miqdorda mikroqarz mablag‘ini o‘z vaqtida ajratilishini talab qilish;
             </p>
             <p className="pdf_margin_top_5">
-               5.1.8. qarz beruvchi tomonidan bitimda ko‘zda tutilgan mikroqarz uzrli sabablarsiz yoki kechiktirib ajratilgani uchun neustoyka to‘lashni talab qilish;
+               5.1.8. Qarz beruvchi tomonidan bitimda ko‘zda tutilgan mikroqarz uzrli sabablarsiz yoki kechiktirib ajratilgani uchun neustoyka to‘lashni talab qilish;
             </p>
             <p className="pdf_margin_top_5">
-               5.1.9. kredit to‘lovlari to‘g‘risida ma’lumotlar olish;
+               5.1.9. Kredit to‘lovlari to‘g‘risida ma’lumotlar olish;
             </p>
             <p className="pdf_margin_top_5">
-               5.1.10. qonun hujjatlarida belgilangan nizoni sudgacha hal qilish usullarini, shu jumladan muzokaralar o‘tkazish orqali, qo‘llash.
+               5.1.10. Qonun hujjatlarida belgilangan nizoni sudgacha hal qilish usullarini, shu jumladan muzokaralar o‘tkazish orqali, qo‘llash.
             </p>
          </div>
          <div className='part'>
             <p className="sub_title_contract_part">5.2.  Qarz oluvchining majburiyatlari quyidagilar: </p>
             <p className="pdf_margin_top_5">
-               5.2.1. mikroqarzni olishga va undan foydalanishga bevosita aloqador bo‘lgan faoliyat bilan qarz beruvchining to‘siqsiz tanishishiga imkon berish;
+               5.2.1. Mikroqarzni olishga va undan foydalanishga bevosita aloqador bo‘lgan faoliyat bilan qarz beruvchining to‘siqsiz tanishishiga imkon berish;
             </p>
             <p className="pdf_margin_top_5">
-               5.2.2. qarz beruvchi tomonidan qarz oluvchining moliyaviy holatidan kelib chiqib talab qilinishi mumkin bo‘lgan barcha kerakli ma’lumotlar belgilangan muddatlarda qarz beruvchiga taqdim etilishini ta’minlash, shuningdek, 5 ish kuni davomida kredit va unga hisoblangan foizlarni vaqtida va to‘laligicha to‘lashga ta’sir ko‘rsatadigan boshqa holatlar haqida qarz beruvchini xabardor qilish;
+               5.2.2. Qarz beruvchi tomonidan qarz oluvchining moliyaviy holatidan kelib chiqib talab qilinishi mumkin bo‘lgan barcha kerakli ma’lumotlar belgilangan muddatlarda qarz beruvchiga taqdim etilishini ta’minlash, shuningdek, 5 ish kuni davomida kredit va unga hisoblangan foizlarni vaqtida va to‘laligicha to‘lashga ta’sir ko‘rsatadigan boshqa holatlar haqida qarz beruvchini xabardor qilish;
             </p>
             <p className="pdf_margin_top_5">
-               5.2.3. Bitim va mikroqarz shartnomasi imzolangandan so‘ng, bitimga asosan mikroqarz ta’minotiga oid barcha talablarni bajarish, jumladan, mikroqarz ta’minoti sifatida taqdim qilinayotgan mol-mulklarni (yoki mulkiy huquqlarni) shartnoma muddatiga sug‘urta qilish, garov shartnomalarini qonunchilikda belgilangan tartibda rasmiylashtirish, vakolatli organlarda ro‘yxatdan o‘tkazish hamda ta’qiq qo‘yish yoki ta’minot sifatida kafillik taqdim qilinayotgan bo‘lsa, kafillik shartnomalarini qonuniy tartibda rasmiylashtirish;
+               5.2.3. Bitim va mikroqarz shartnomasi imzolangandan so‘ng, bitimga asosan mikroqarz ta’minotiga oid barcha talablarni bajarish, jumladan, mikroqarz ta’minoti sifatida taqdim qilinayotgan mol-mulklarni (yoki mulkiy huquqlarni) shartnoma muddatiga ixtiyoriy tartibda sug‘urta qilish, garov shartnomalarini qonunchilikda belgilangan tartibda rasmiylashtirish, vakolatli organlarda ro‘yxatdan o‘tkazish hamda ta’qiq qo‘yish yoki uchinchi shaxsga tegishli ta’minot taqdim qilinayotgan bo‘lsa, garov shartnomalarini qonuniy tartibda rasmiylashtirish;
             </p>
             <p className="pdf_margin_top_5">
-               5.2.4. ajratilgan kreditlar uchun 125 foizdan kam bo‘lmagan qiymatdagi likvidli bo‘lgan ta’minot turlarini taqdim qilish. Qarz beruvchi tomonidan monitoring, undiruv davomida yoki boshqa sabablarga ko‘ra garov ta’minoti qarz majburiyatlarini qoplashga yetarli emas deb topilgan taqdirda yetarlicha miqdorda qo‘shimcha ta’minot taqdim qiladi hamda uni tegishli tartibda rasmiylashtirilishini ta’minlaydi;
+               5.2.4. Ajratilgan kreditlar uchun 125 foizdan kam bo‘lmagan qiymatdagi likvidli bo‘lgan ta’minot turlarini taqdim qilish. Qarz beruvchi tomonidan monitoring, undiruv davomida yoki boshqa sabablarga ko‘ra garov ta’minoti qarz majburiyatlarini qoplashga yetarli emas deb topilgan taqdirda yetarlicha miqdorda qo‘shimcha ta’minot taqdim qiladi hamda uni tegishli tartibda rasmiylashtirilishini ta’minlaydi;
             </p>
             <div className="pdf_margin_top_5">
-               5.2.5 qarz oluvchining faoliyatini amalga oshirilishi jarayonida O‘zbekiston Respublikasining mehnat to‘g‘risidagi qonun hujjatlari talablariga amal qilish majburiyatini oladi, shu jumladan:
+               5.2.5 Qarz oluvchining faoliyatini amalga oshirilishi jarayonida O‘zbekiston Respublikasining mehnat to‘g‘risidagi qonun hujjatlari talablariga amal qilish majburiyatini oladi, shu jumladan:
                <ol type="a">
                   <li>
-                     bolalar mehnatining yo‘qligi;
+                     Bolalar mehnatining yo‘qligi;
                   </li>
                   <li>
-                     ishchilar bandligiga oid kamsitishlarning yo‘qligi;
+                     Ishchilar bandligiga oid kamsitishlarning yo‘qligi;
                   </li>
                   <li>
-                     majburiy mehnatning yo‘qligi.
+                     Majburiy mehnatning yo‘qligi.
                   </li>
                </ol>
             </div>
             <p className="pdf_margin_top_5">
-               5.2.6. mikroqarz mablag‘i hisobiga sotib olingan mol-mulkni, agar mikroqarz shartnomasida ta’minot sifatida taqdim etish nazarda tutilgan bo‘lsa, qarz oluvchi nomiga rasmiylashtirilgandan so‘ng 10 ish kuni davomida mikroqarz ta’minoti sifatida garovga qo‘yilishini ta’minlash;
-            </p>
-            <p className="pdf_margin_top_5">
-               5.2.7. Qarz oluvchi (garovga qo‘yuvchi) ta’minotga taqdim etilgan obe’ktni (mol-mulkni, mulkiy huquqlarni, huquqlarni) mikroqarz va uning foizlari to‘liq to‘langunga qadar Qarz beruvchining roziligisiz sotishga yoki boshqacha tarzda realizatsiya qilishga haqli emas.
+               5.2.6. Qarz oluvchi (garovga qo‘yuvchi) ta’minotga taqdim etilgan obe’ktni (mol-mulkni, mulkiy huquqlarni, huquqlarni) mikroqarz va uning foizlari to‘liq to‘langunga qadar Qarz beruvchining roziligisiz sotishga yoki boshqacha tarzda realizatsiya qilishga haqli emas.
             </p>
          </div>
       </>
@@ -216,69 +226,69 @@ export function Part6() {
          <div className='part'>
             <p className="sub_title_contract_part">6.1. Qarz beruvchi quyidagi huquqlarga ega: </p>
             <p className="pdf_margin_top_5">
-               6.1.1. kreditlash jarayonida qarz oluvchining moliyaviy-xo‘jalik holatini tekshirish va shartnoma bo‘yicha majburiyatlarni bajarishni ta’minlash uchun qabul qilingan garov predmetining haqiqiy holatini tekshirish;
+               6.1.1. Kreditlash jarayonida qarz oluvchining moliyaviy-xo‘jalik holatini tekshirish va shartnoma bo‘yicha majburiyatlarni bajarishni ta’minlash uchun qabul qilingan garov predmetining haqiqiy holatini tekshirish;
             </p>
             <p className="pdf_margin_top_5">
-               6.1.2. qarz oluvchi tomonidan mikroqarzni so‘ndirish jarayonida gumonli va/yoki shubhali operatsiyalar alomatlari mavjud operatsiyalar bajarilganda operatsiya haqidagi qo‘shimcha ma’lumotlarni, jumladan pul mablag‘lari manbalari to‘g‘risidagi ma’lumotlarni olish yuzasidan mijozga murojaat qilish hamda taqdim qilingan hujjatlar nusxalarining to‘g‘riligiga gumon yoki boshqa zarurat paydo bo‘lgan taqdirda, tanishish uchun hujjatlarning asl nusxalari taqdim qilinishini talab qilish;
+               6.1.2. Qarz oluvchi tomonidan mikroqarzni so‘ndirish jarayonida gumonli va/yoki shubhali operatsiyalar alomatlari mavjud operatsiyalar bajarilganda operatsiya haqidagi qo‘shimcha ma’lumotlarni, jumladan pul mablag‘lari manbalari to‘g‘risidagi ma’lumotlarni olish yuzasidan mijozga murojaat qilish hamda taqdim qilingan hujjatlar nusxalarining to‘g‘riligiga gumon yoki boshqa zarurat paydo bo‘lgan taqdirda, tanishish uchun hujjatlarning asl nusxalari taqdim qilinishini talab qilish;
             </p>
             <p className="pdf_margin_top_5">
-               6.1.3. qarz oluvchi tomonidan atayin noto‘g‘ri bo‘lgan hujjatlar taqdim etilganda yoki qonun hujjatlariga muvofiq so‘raladigan hujjatlar taqdim etilmaganda, qarz oluvchi joylashgan yeri (pochta manzili) bo‘yicha tekshirish imkoni mavjud bo‘lmaganida hamda jinoiy faoliyatdan olingan daromadlarni legallashtirishga, terrorizmni moliyalashtirishga va ommaviy qirg‘in qurolini tarqatishni moliyalashtirishga qarshi kurashish to‘g‘risidagi qonun hujjatlarida  belgilangan hollarda kredit ajratishni to‘xtatib qo‘yish;
+               6.1.3. Qarz oluvchi tomonidan atayin noto‘g‘ri bo‘lgan hujjatlar taqdim etilganda yoki qonun hujjatlariga muvofiq so‘raladigan hujjatlar taqdim etilmaganda, qarz oluvchi joylashgan yeri (pochta manzili) bo‘yicha tekshirish imkoni mavjud bo‘lmaganida hamda jinoiy faoliyatdan olingan daromadlarni legallashtirishga, terrorizmni moliyalashtirishga va ommaviy qirg‘in qurolini tarqatishni moliyalashtirishga qarshi kurashish to‘g‘risidagi qonun hujjatlarida  belgilangan hollarda kredit ajratishni to‘xtatib qo‘yish;
             </p>
             <p className="pdf_margin_top_5">
-               6.1.4. bitim va mikroqarz shartnomasida ko‘rsatilgan holatlarga oydinlik kiritish uchun qarz oluvchidan har qanday ma’lumotni so‘rash, tasdiqlovchi hujjatlarni taqdim etishini talab qilish, shuningdek, boshqa harakatlarni amalga oshirish;
+               6.1.4. Bitim va mikroqarz shartnomasida ko‘rsatilgan holatlarga oydinlik kiritish uchun qarz oluvchidan har qanday ma’lumotni so‘rash, tasdiqlovchi hujjatlarni taqdim etishini talab qilish, shuningdek, boshqa harakatlarni amalga oshirish;
             </p>
             <p className="pdf_margin_top_5">
-               6.1.5. mikroqarz ta’minotiga oid barcha talablar bajarilgach, mikroqarz shartnomasiga asosan mablag‘ ajratish;
+               6.1.5. Mikroqarz ta’minotiga oid barcha talablar bajarilgach, mikroqarz shartnomasiga asosan mablag‘ ajratish;
             </p>
             <div className="pdf_margin_top_5">
-               6.1.6. tegishli to‘lov muddatlari buzilganda, mikroqarz asosiy qismi, foiz to‘lovi va boshqa to‘lovlarni (bank plastik kartalaridan, omonat va boshqa hisobvaraqlaridan so‘zsiz (aksepsiz) tartibda to‘liq) undirib olish va  quyidagi navbatda yo‘naltirishga haqli:
+               6.1.6. Tegishli to‘lov muddatlari buzilganda, mikroqarz asosiy qismi, foiz to‘lovi va boshqa to‘lovlarni (bank plastik kartalaridan, omonat va boshqa hisobvaraqlaridan so‘zsiz (aksepsiz) tartibda to‘liq) undirib olish va  quyidagi navbatda yo‘naltirishga haqli:
                <ol type="a">
                   <li>
-                     birinchi navbatda – neustoykalar (jarima, penya)ni qoplash;
+                     Birinchi navbatda – neustoykalar (jarima, penya)ni qoplash;
                   </li>
                   <li>
-                     ikkinchi navbatda  – mikroqarzdan foydalanganlik uchun foizlarni qoplash;
+                     Ikkinchi navbatda  – mikroqarzdan foydalanganlik uchun foizlarni qoplash;
                   </li>
                   <li>
-                     to‘rtinchi navbatda – sud va undiruv jarayonlari bilan bog‘liq xarajatlarni qoplash;
+                     Uchinchi navbatda- asosiy qarzni qoplash;
                   </li>
                   <li>
-                     birinchi navbatda – mikroqarzning majburiyatlarni bajarishga  sarflangan xarajatlarini shu jumladan, undiruv xarajatlarini qoplash;
+                     To‘rtinchi navbatda – sud va undiruv jarayonlari bilan bog‘liq xarajatlarni qoplash;
+                  </li>
+                  <li>
+                     Beshinchi navbatda – mikroqarzning majburiyatlarni bajarishga  sarflangan xarajatlarini shu jumladan, undiruv xarajatlarini qoplash;
                   </li>
                </ol>
             </div>
             <div className="pdf_margin_top_5">
-               6.1.7. agar quyidagi holatlardan biri yuz bergan taqdirda, liniya doirasida mikroqarz taqdim qilish to‘xtatiladi:
+               6.1.7. Agar quyidagi holatlardan biri yuz bergan taqdirda, liniya doirasida mikroqarz taqdim qilish to‘xtatiladi:
                <ol type="a">
                   <li>
-                     qarz oluvchi mazkur bitim hamda mikroqarz shartnomalari bo‘yicha majburiyatlarini to‘liq, o‘z vaqtida bajarmagan yoki lozim darajada bajarmaganda;
+                     Qarz oluvchi mazkur bitim hamda mikroqarz shartnomalari bo‘yicha majburiyatlarini to‘liq, o‘z vaqtida bajarmagan yoki lozim darajada bajarmaganda;
                   </li>
                   <li>
-                     muddati o‘tkazib yuborilgan kreditorlik qarzlarining mavjud bo‘lganda;
+                     Muddati o‘tkazib yuborilgan kreditorlik qarzlarining mavjud bo‘lganda;
                   </li>
                   <li>
-                     ta’minotining bozor bahosi majburiyatlarni kamida 125 foiz qoplashi uchun yetarli bo‘lmaganda;
+                     Ta’minotining bozor bahosi majburiyatlarni kamida 125 foiz qoplashi uchun yetarli bo‘lmaganda;
                   </li>
                   <li>
-                     bitim izolanganidan so‘ng qarz beruvchining roziligisiz boshqa bank yoki moliya tashkilotlaridan qarz va boshqa majburiyatlarning olinishi;
+                     Bitim izolanganidan so‘ng qarz beruvchining roziligisiz boshqa bank yoki moliya tashkilotlaridan qarz va boshqa majburiyatlarning olinishi;
                   </li>
                   <li>
-                     ta’minot holatining yomonlashishi, uning o‘g‘rilanishi, talon-toroj qilinishi, likvidliligining pasayishi, bozor kon’yukturasi narxlarining kamida 25 foizga pasayib ketishi yoki boshqacha holatlar natijasida kredit ta’minlanmay qolish xavfining vujudga kelishi, basharti ta’minotni o‘zgartirish yoki qo‘shimcha ta’minot taqdim etish bo‘yicha mikroqarz shartnoma talabining bajarilmasligi;
+                     Ta’minot holatining yomonlashishi, uning o‘g‘rilanishi, talon-toroj qilinishi, likvidliligining pasayishi, bozor kon’yukturasi narxlarining kamida 25 foizga pasayib ketishi yoki boshqacha holatlar natijasida kredit ta’minlanmay qolish xavfining vujudga kelishi, basharti ta’minotni o‘zgartirish yoki qo‘shimcha ta’minot taqdim etish bo‘yicha mikroqarz shartnoma talabining bajarilmasligi;
                   </li>
                   <li>
-                     monitoringdan bo‘yin tovlashlik yoki MMT xodimlari (jalb qilingan mutaxassislar)ning monitoring o‘tkazishiga har qanday usullar bilan to‘sqinlik qilishi;
+                     Monitoringdan bo‘yin tovlashlik yoki MMT xodimlari (jalb qilingan mutaxassislar)ning monitoring o‘tkazishiga har qanday usullar bilan to‘sqinlik qilishi;
                   </li>
                   <li>
-                     qarz beruvchiga bitim va mikroqarz shartnomada nazarda tutilgan hujjatlarni taqdim etmasligi yoki haqqoniy bo‘lmagan hujjatlar va ma’lumotlarning taqdim etilishi;
+                     Qarz beruvchiga bitim va mikroqarz shartnomada nazarda tutilgan hujjatlarni taqdim etmasligi yoki haqqoniy bo‘lmagan hujjatlar va ma’lumotlarning taqdim etilishi;
                   </li>
                   <li>
-                     mikroqarz va unga hisoblangan foizlarni shartnomada belgilangan muddatdan 30 kun va undan ortiq muddatga kechiktirilishi;
+                     Mikroqarz va unga hisoblangan foizlarni shartnomada belgilangan muddatdan 30 kun va undan ortiq muddatga kechiktirilishi;
                   </li>
                   <li>
-                     mikroqarz va unga hisoblangan foizlarni muntazam ravishda kechiktirib to‘lanishi, ya’ni mazkur shartnomaning ajralmas qismi hisoblangan qaytarish jadvalida qayd etilgan to‘lov muddatini kechiktirish mikroqarz tasnifini standartdan boshqasiga  o‘zgarishiga sabab bo‘lishi;
-                  </li>
-                  <li>
-                     qarz oluvchi tomonidan mazkur bitimning 5.2.6.- bandida ko‘rsatilgan majburiyatning bajarilmasligi;
+                     Mikroqarz va unga hisoblangan foizlarni muntazam ravishda kechiktirib to‘lanishi, ya’ni mazkur shartnomaning ajralmas qismi hisoblangan qaytarish jadvalida qayd etilgan to‘lov muddatini kechiktirish mikroqarz tasnifini standartdan boshqasiga  o‘zgarishiga sabab bo‘lishi;
                   </li>
                   <li>
                      O‘zbekiston Respublikasi Markaziy banki yoki sud tomonidan MMT litsenziyasi chaqirib olinganda, ayrim bank operatsiyalari to‘xtatilganda, litsenziya amal qilishi vaqtincha to‘xtatilishi oqibatida  vaziyatning jiddiy o‘zgarishi natijasida;
@@ -320,7 +330,7 @@ export function Part7() {
                7.1.	Mazkur bitim doirasida tuziladigan mikroqarz shartnomalarida ko‘rsatilgan tomonlarning majburiyatlarini bajarilishini ta’minlashi lozim.
             </p>
             <p className="pdf_margin_top_5">
-               7.2.	Bitim doirasida kelib chiqadigan majburiyatlarni bajarilishini ta’minlash uchun qarz oluvchi mazkur bitimning 2.12-bandida qayd etilgan ta’minotlarni taqdim etadi yoki taqdim etilishi yuzasidan bitimlar tuzilishini ta’minlaydi.
+               7.2.	Bitim doirasida kelib chiqadigan majburiyatlarni bajarilishini ta’minlash uchun qarz oluvchi mazkur bitimning 2.10-bandida qayd etilgan ta’minotlarni taqdim etadi yoki taqdim etilishi yuzasidan bitimlar tuzilishini ta’minlaydi.
             </p>
             <p className="pdf_margin_top_5">
                7.3.	Penya qarz oluvchi tomonidan muddati o‘tkazib yuborilgan summadan, to‘lov amalga oshirilishi kerak bo‘lgan kundan qarz oluvchi tomonidan muddati o‘tgan majburiyat bajarilgunga qadar hisoblanadi.
@@ -380,7 +390,7 @@ export function Part10() {
          <p className='black_text pdf_margin_top_20 title_contract_part'>10.Bitimning kuchga kirishi, o‘zgartirish va bekor qilish tartibi</p>
          <div className='part'>
             <p className="pdf_margin_top_5">
-               10.1.	Mazkur bitim bir xil yuridik kuchga ega bo‘lgan 3/4 nusxada tuzilib, bitim nusxalari shartlashuvchi tomonlarda bir nusxadan saqlanadi.
+               10.1.	Mazkur bitim bir xil yuridik kuchga ega bo‘lgan 3 nusxada tuzilib, bitim nusxalari shartlashuvchi tomonlarda bir nusxadan saqlanadi.
             </p>
             <p className="pdf_margin_top_5">
                10.2.	Bitim taraflar tomonidan imzolangan paytdan boshlab kuchga kiradi va taraflar tomonidan majburiyatlar to‘liq bajarilgunga qadar amal qiladi.
@@ -428,8 +438,7 @@ export function Part12() {
          <div className='part'>
             <p className="pdf_margin_top_5">
                12.1.	Yengib bo‘lmaydigan kuchlar (fors-major) holatlari - bu taraflarning irodasi, xohishiga bog‘liq bo‘lmagan tabiat hodisalari (zilzila, ko‘chki, bo‘ron va hokazo), ijtimoiy iqtisodiy holatlar (urush holati, qamal, davlat manfaatlarini ko‘zlab import va eksportni taqiqlash va boshqalar), xalqaro, banklararo va mikromoliya tashkiloti elektron to‘lov hamda ta’minot tizimidagi nosozlik, mikromoliya tashkilotining dasturiy ta’minot tizimiga qilingan tahdid (xujumlar) sababli yuzaga kelgan sharoitlarda taraflarga majburiyatlarni bajarish imkonini bermaydigan favqulodda, oldini olib bo‘lmaydigan va kutilmagan holatlardir.
-            </p>import { capitalize } from './../../utils/functions/capitalize';
-
+            </p>
             <p className="pdf_margin_top_5">
                12.2.	Fors-major holatlari yuzaga kelgan vaqtda taraflar ushbu holatlar bartaraf etilguniga qadar shartnomaviy majburiyatlarini bajarishdan ozod bo‘ladi.
             </p>

@@ -68,7 +68,7 @@ function EditMavsumiy() {
          SumArr1.push(Number(item.income))
       })
       let totalSum1 = SumArr1.reduce((prev, current) => prev + current, 0)
-      return(totalSum1 ? totalSum1?.toLocaleString() : 0)
+      return(totalSum1 ? totalSum1 : 0)
    }
 
    // MonthDaromad
@@ -81,7 +81,7 @@ function EditMavsumiy() {
             }
          })
 
-         return(totalMonth1 ? totalMonth1?.toLocaleString() : 0); 
+         return(totalMonth1 ? totalMonth1 : 0); 
    }
 
    // Mavsumiy Xarajats adding and deleting funtions
@@ -109,7 +109,7 @@ function EditMavsumiy() {
          SumArr2.push(Number(item.expense))
       })
       let totalSum2 = SumArr2.reduce((prev, current) => prev + current, 0)
-      return(totalSum2 ? totalSum2?.toLocaleString() : 0)
+      return(totalSum2 ? totalSum2 : 0)
    }
 
    // MonthXarajat
@@ -123,7 +123,7 @@ function EditMavsumiy() {
             }
          })
    
-         return(totalMonth2 ? totalMonth2?.toLocaleString() : 0)
+         return(totalMonth2 ? totalMonth2 : 0)
    }
 
    function nextStep() {
@@ -188,7 +188,7 @@ function EditMavsumiy() {
             <button className='kl1_add_button' onClick={() => { addMavsumiyDaromad() }}>
                Mavsumiy daromad qoshish
             </button>
-            <p className='kl1_jami'>JAMI: {getDaromadSum()} so`m</p>
+            <p className='kl1_jami'>JAMI: {getDaromadSum()?.toLocaleString()} so`m</p>
          </div>
          <p className='kl1_formtitle'>Mavsumiy daromadlarning oylar bo'yicha taqsimlanishi</p>
          <div className='kl1_calendar'>
@@ -213,7 +213,7 @@ function EditMavsumiy() {
             }
          </div>
          <div className='endRow'>
-            <p className={(monthsSum1() != getDaromadSum()) ? 'text_black_18 red_text text_degree' : 'text_black_18 text_degree'}>Jami: {monthsSum1()} so'm</p>
+            <p className={(monthsSum1() != getDaromadSum()) ? 'text_black_18 red_text text_degree' : 'text_black_18 text_degree'}>Jami: {monthsSum1()?.toLocaleString()} so'm</p>
          </div>
 
          <p className='kl1_formtitle'>Mavsumiy xarajatlar</p>
@@ -262,7 +262,7 @@ function EditMavsumiy() {
             <button className='kl1_add_button' onClick={() => { addMavsumiyXarajat() }}>
                Mavsumiy xarajat qoshish
             </button>
-            <p className='kl1_jami'>JAMI: {getXarajatSum()} so`m</p>
+            <p className='kl1_jami'>JAMI: {getXarajatSum()?.toLocaleString()} so`m</p>
          </div>
 
          <p className='kl1_formtitle'>Mavsumiy xarajatlarning oylar bo'yicha taqsimlanishi</p>
@@ -288,8 +288,10 @@ function EditMavsumiy() {
             }
          </div>
          <div className='endRow'>
-            <p className={(monthsSum2() != getXarajatSum()) ? 'text_black_18 red_text text_degree' : 'text_black_18 text_degree'}>Jami: {monthsSum2()} so'm</p>
+            <p className={(monthsSum2() != getXarajatSum()) ? 'text_black_18 red_text text_degree' : 'text_black_18 text_degree'}>Jami: {monthsSum2()?.toLocaleString()} so'm</p>
          </div>
+
+         <p className='kl1_jami_main'>Jami o'rtacha oylik daromadlari: {(getDaromadSum()-getXarajatSum())?.toLocaleString()} so'm</p>
 
          <div className='step_buttons double_button'>
             <button type='button' onClick={() => { backStep() }} className='previous_button'><AiOutlineDoubleLeft /><p>Oldingi</p></button>

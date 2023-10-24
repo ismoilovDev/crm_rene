@@ -1,5 +1,6 @@
 import { Suspense, lazy, memo } from 'react'
 import { Route, Routes } from 'react-router'
+import ClientKlList from '../tabs/ClientKlList';
 
 const AboutClient = lazy(() => import('../tabs/AboutClient'));
 const ClientOrders = lazy(() => import('../tabs/ClientOrders'));
@@ -17,6 +18,7 @@ function ClientRoutes({ id }) {
             <Route path='/supply-info-tab' element={<ClientSupplyInfos id={id}/>} />
             <Route path='/contracts-tab' element={<ClientContracts id={id} />} />
             <Route path='/open-contract-tab' element={<ClientOpenContract id={id} />} />
+            <Route path='/monitoring-tab' element={<ClientKlList id={id} />} />
             <Route path='/*' element={<NotFound />} />
          </Routes>
       </Suspense>

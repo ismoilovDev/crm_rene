@@ -1,35 +1,49 @@
 import { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
-import { collectClients, getSummaText, ordersSum, supplySumProcentClient } from '../utils/functions/totalSum'
-import { checkOwner } from '../utils/functions/supplyTypes'
-import { PdfControls } from '../components/Pdf/PdfControls'
+import Adding_VVB from './AddingVVB'
+import https from '../services/https'
+import AddingVVBbug from './AddingVVBbug'
+import { CardInfo } from './Parts/personal'
+import fullName from '../utils/functions/fullName'
 import { PdfWrapper } from '../components/Pdf/Wrapper'
 import useDataFetching from '../hooks/usePdfDataFetching'
-import fullName from '../utils/functions/fullName'
-import AddingVVBbug from './AddingVVBbug'
-import https from '../services/https'
-import Adding_VVB from './AddingVVB'
+import { PdfControls } from '../components/Pdf/PdfControls'
+import { checkOwner } from '../utils/functions/supplyTypes'
+import { collectClients, getSummaText, ordersSum, supplySumProcentClient } from '../utils/functions/totalSum'
 
 function GS1Form() {
    const location = useLocation()
    const orderId = location?.state?.id
-   const [groupInfo, setGroupInfo] = useState({})
-   const { data: documentInfo } = useDataFetching(`/kd/${orderId}`)
+   const [documentInfo, setDocumentInfo] = useState({})
+   const [groupInfo, setGroupInfo] = useState({})  
+
+   async function getGroupData(group_id){
+      try{
+         const res = await https.get(`/groups/${group_id}`)
+         const { data } = res;
+         setGroupInfo(data)
+      }
+      catch(err){
+         console.log(err);
+      }
+   }
+
+   async function getData(){
+      try{
+         const res  = await https.post(`/kd/${orderId}`, {})
+         const { data } = res;
+         setDocumentInfo(data)
+         if (data?.group_id) {
+            getGroupData(data?.group_id)
+         }
+      }
+      catch(err){
+         console.log(err);
+      }
+   }
 
    useEffect(() => {
-      const fetchData = async () => {
-         try {
-            if (documentInfo?.group_id) {
-               const respons = await https.get(`/groups/${documentInfo?.group_id}`);
-               setGroupInfo(respons?.data);
-               console.log(respons?.data, 'group');
-            }
-         } catch (error) {
-            console.error(error);
-         }
-      };
-
-      fetchData();
+      getData()
    }, []);
 
    return (
@@ -308,34 +322,26 @@ function GS1Form() {
                      <p className='black_text text_center'>GAROVGA QO‘YUVCHI:</p>
                      <div className='pdf_margin_top_15 '>
                         {
-                           documentInfo?.data?.supply_infos?.[0]?.type == 'auto' ?
-                              checkOwner(documentInfo?.data?.supply_infos?.[0]) ?
-                                 (
-                                    <>
-                                       <p className='black_text text_center'>{checkOwner(documentInfo?.data?.supply_infos?.[0])?.fio}</p>
-                                       <p className='pdf_margin_top_20'>{checkOwner(documentInfo?.data?.supply_infos?.[0])?.serial_num} raqamli {checkOwner(documentInfo?.data?.supply_infos?.[0])?.doc_type}  {checkOwner(documentInfo?.data?.supply_infos?.[0])?.issued_date} y. da {checkOwner(documentInfo?.data?.supply_infos?.[0])?.issued_by} tomonidan berilgan.</p>
-                                       <p>Yashash manzili: {checkOwner(documentInfo?.data?.supply_infos?.[0])?.address}</p>
-                                       <p>JSh ShIR: {checkOwner(documentInfo?.data?.supply_infos?.[0])?.pinfl}</p>
-                                       <p>Telefon: {checkOwner(documentInfo?.data?.supply_infos?.[0])?.phone}</p>
-                                    </>
-                                 )
-                                 :
-                                 (<>
-                                    <p className='black_text text_center'>{documentInfo?.data?.client?.name}</p>
-                                    <p className='pdf_margin_top_20'>{documentInfo?.data?.client?.serial_num} raqamli {documentInfo?.data?.client?.doc_type}  {documentInfo?.data?.client?.issued_date} y. da {documentInfo?.data?.client?.issued_by} tomonidan berilgan.</p>
-                                    <p>Yashash manzili: {documentInfo?.data?.client?.city}, {documentInfo?.data?.client?.district}, {documentInfo?.data?.client?.address}</p>
-                                    <p>JSh ShIR: {documentInfo?.data?.client?.pinfl}</p>
-                                    <p>Telefon: {documentInfo?.data?.client?.phone?.join('  ')}</p>
-                                 </>
-                                 )
-                              :
-                              (<>
-                                 <p className='black_text text_center'>{documentInfo?.data?.client?.name}</p>
-                                 <p className='pdf_margin_top_20'>{documentInfo?.data?.client?.serial_num} raqamli {documentInfo?.data?.client?.doc_type}  {documentInfo?.data?.client?.issued_date} y. da {documentInfo?.data?.client?.issued_by} tomonidan berilgan.</p>
-                                 <p>Yashash manzili: {documentInfo?.data?.client?.city}, {documentInfo?.data?.client?.district}, {documentInfo?.data?.client?.address}</p>
-                                 <p>JSh ShIR: {documentInfo?.data?.client?.pinfl}</p>
-                                 <p>Telefon: {documentInfo?.data?.client?.phone?.join('  ')}</p>
-                              </>)
+                           (documentInfo?.data?.supply_infos?.[0]?.type == 'auto' && checkOwner(documentInfo?.data?.supply_infos?.[0])) ?
+                           <>
+                              <p className='black_text text_center'>{checkOwner(documentInfo?.data?.supply_infos?.[0])?.fio}</p>
+                              <p className='pdf_margin_top_20'>{checkOwner(documentInfo?.data?.supply_infos?.[0])?.serial_num} raqamli {checkOwner(documentInfo?.data?.supply_infos?.[0])?.doc_type}  {checkOwner(documentInfo?.data?.supply_infos?.[0])?.issued_date} y. da {checkOwner(documentInfo?.data?.supply_infos?.[0])?.issued_by} tomonidan berilgan.</p>
+                              <p>Yashash manzili: {checkOwner(documentInfo?.data?.supply_infos?.[0])?.address}</p>
+                              <p>JSh ShIR: {checkOwner(documentInfo?.data?.supply_infos?.[0])?.pinfl}</p>
+                              <p>Telefon: {checkOwner(documentInfo?.data?.supply_infos?.[0])?.phone}</p>
+                           </>
+                           :
+                           <>
+                              <p className='black_text text_center'>{documentInfo?.data?.client?.name}</p>
+                              <p className='pdf_margin_top_20'>{documentInfo?.data?.client?.serial_num} raqamli {documentInfo?.data?.client?.doc_type}  {documentInfo?.data?.client?.issued_date} y. da {documentInfo?.data?.client?.issued_by} tomonidan berilgan.</p>
+                              <p>Yashash manzili: {documentInfo?.data?.client?.city}, {documentInfo?.data?.client?.district}, {documentInfo?.data?.client?.address}</p>
+                              <p>JSh ShIR: {documentInfo?.data?.client?.pinfl}</p>
+                              <p>Telefon: {documentInfo?.data?.client?.phone?.join('  ')}</p>
+                              {
+                                 documentInfo?.data?.order?.type_credit === "card" ? 
+                                 <CardInfo info={documentInfo?.data?.order}/> : <></>
+                              }
+                           </>
                         }
                      </div>
                   </div>

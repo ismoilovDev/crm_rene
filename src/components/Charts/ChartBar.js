@@ -15,6 +15,11 @@ export const DemoDualAxes = memo(({ orders }) => {
         time: item.date,
         value: item.denied,
         type: 'Rad etilgan',
+      },
+      {
+        time: item.date,
+        value: item.pending,
+        type: 'Kutilmoqda',
       }
     ]).flat();
 
@@ -54,8 +59,7 @@ export const DemoDualAxes = memo(({ orders }) => {
         },
       },
     ],
-    colorField: 'type',
-    color: ['#19CDD7', '#DDB27C'],
+    color:['green','yellow', 'red'],
   };
   return <DualAxes {...config} />;
 })

@@ -1,0 +1,32 @@
+.input_warning_container{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    
+    input{
+        width: 100%;
+    }
+    .warning_text{
+        position: absolute;
+        bottom: -20px;
+        font-size: 13px;
+        font-weight: 600;
+        color: rgb(235, 220, 5);
+        animation: endless-in infinite 1s linear;
+    }
+    .none{
+        display: none;
+    }
+
+    @keyframes endless-in {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.02);
+        }
+        100% {
+          transform: scale(1);
+        }
+    }
+}

@@ -1,12 +1,13 @@
 import { useLocation } from 'react-router-dom'
-import { getSummaText, supplySumProcentClient } from '../utils/functions/totalSum';
-import { PdfControls } from '../components/Pdf/PdfControls';
-import { checkOwner } from '../utils/functions/supplyTypes';
+import Adding_VVB from './AddingVVB';
+import AddingVVBbug from './AddingVVBbug';
+import fullName from '../utils/functions/fullName';
 import { PdfWrapper } from '../components/Pdf/Wrapper';
 import useDataFetching from '../hooks/usePdfDataFetching';
-import fullName from '../utils/functions/fullName';
-import AddingVVBbug from './AddingVVBbug';
-import Adding_VVB from './AddingVVB';
+import { PdfControls } from '../components/Pdf/PdfControls';
+import { checkOwner } from '../utils/functions/supplyTypes';
+import { getSummaText, supplySumProcentClient } from '../utils/functions/totalSum';
+import { AutoTable, GoldTable } from './Parts/tables';
 
 function KD2Form() {
    const location = useLocation()
@@ -66,95 +67,14 @@ function KD2Form() {
                      </div>
                      <div className='endRow pdf_margin_top_10'>
                         <p>Jadval №1</p>
+                        {console.log(documentInfo?.data?.supply_infos)}
                      </div>
                      {
                         documentInfo?.data?.supply_infos?.map((item, mindex) => {
                            if (item?.type == 'auto') {
-                              return (
-                                 <div className='margin_top_10' key={mindex}>
-                                    <table className='single_table_pdf'>
-                                       <tbody>
-                                          <tr key={99}>
-                                             <td>№</td>
-                                             <td>Nomi</td>
-                                             <td>Ishlab chiqarilgan yil</td>
-                                             <td>Davlat raqam belgisi</td>
-                                             <td>Transport vositasi turi</td>
-                                             <td>Qayd etish guvohnomasi</td>
-                                             <td>Dvigatel raqami</td>
-                                             <td>Kuzov raqami</td>
-                                             <td>Shassi №</td>
-                                             <td>Baholangan qiymati, so'm</td>
-                                          </tr>
-                                          {
-                                             item?.auto?.map((car, carIndex) => {
-                                                return (
-                                                   <tr key={car?.id}>
-                                                      <td>{carIndex + 1}</td>
-                                                      <td>{car?.name}</td>
-                                                      <td>{car?.year}</td>
-                                                      <td>{car?.number}</td>
-                                                      <td>{car?.type_of_auto}</td>
-                                                      <td>{car?.registration_cert}</td>
-                                                      <td>{car?.engine_number}</td>
-                                                      <td>{car?.body_code}</td>
-                                                      <td>{car?.chassis}</td>
-                                                      <td>{car?.sum?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
-                                                   </tr>
-                                                )
-                                             })
-                                          }
-                                       </tbody>
-                                    </table>
-                                    <div className='endRow margin_top_10'>
-                                       <p className='black_text'>JAMI: {getSummaText(item?.auto, 'sum')} so`m</p>
-                                    </div>
-                                 </div>
-                              )
+                              return(<AutoTable auto={item?.auto} />)
                            } else if (item?.type == 'gold') {
-                              return (
-                                 <div className='p1_second_table pdf_margin_top_10' key={mindex}>
-                                    <div className='p1_second_table_headers'>
-                                       <p className='p1_second_headers_product'>№</p>
-                                       <p className='p1_second_headers_product'>Nomi</p>
-                                       <p className='p1_second_headers_product'>Proba</p>
-                                       <p className='p1_second_headers_product'>O'lchov birligi</p>
-                                       <p className='p1_second_headers_product'>Soni</p>
-                                       <p className='p1_second_headers_product'>Umumiy og'irligi (gr)</p>
-                                       <p className='p1_second_headers_product'>Toshlari og'irligi (gr)</p>
-                                       <p className='p1_second_headers_product'>Sof og'irligi (gr)</p>
-                                       <p className='p1_second_headers_product'>Baholangan qiymati, so`m</p>
-                                    </div>
-                                    {
-                                       item?.gold?.map((gold, goldIndex) => {
-                                          return (
-                                             <div className='p1_second_table_headers' key={gold?.id}>
-                                                <p className='p1_second_headers_product'>{goldIndex + 1}</p>
-                                                <p className='p1_second_headers_product'>{gold?.name}</p>
-                                                <p className='p1_second_headers_product'>{gold?.gold_num}</p>
-                                                <p className='p1_second_headers_product'>{gold?.measure}</p>
-                                                <p className='p1_second_headers_product'>{gold?.quantity}</p>
-                                                <p className='p1_second_headers_product'>{gold?.weight?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
-                                                <p className='p1_second_headers_product'>{gold?.stone_weight?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
-                                                <p className='p1_second_headers_product'>{gold?.clean_weight?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
-                                                <p className='p1_second_headers_product'>{gold?.sum?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
-                                             </div>
-                                          )
-                                       })
-                                    }
-                                    <div className='p1_second_table_headers' key={13}>
-                                       <p className='p1_second_headers_product'></p>
-                                       <p className='p1_second_headers_product black_text'>Jami</p>
-                                       <p className='p1_second_headers_product'></p>
-                                       <p className='p1_second_headers_product'></p>
-                                       <p className='p1_second_headers_product'></p>
-                                       <p className='p1_second_headers_product black_text'>{getSummaText(item?.gold, 'weight')}</p>
-                                       <p className='p1_second_headers_product black_text'>{getSummaText(item?.gold, 'stone_weight')}</p>
-                                       <p className='p1_second_headers_product black_text'>{getSummaText(item?.gold, 'clean_weight')}</p>
-                                       <p className='p1_second_headers_product black_text'>{getSummaText(item?.gold, 'sum')}</p>
-                                    </div>
-                                 </div>
-                              )
+                              return(<GoldTable gold={item?.gold} />)
                            }
                         })
                      }

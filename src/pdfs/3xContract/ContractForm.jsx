@@ -1,9 +1,10 @@
-import { phoneFormat } from '../../utils/functions/phoneFormat';
-import fullName from "../../utils/functions/fullName"
-import AddingVVBbug from "../AddingVVBbug"
 import Adding_VVB from "../AddingVVB"
+import AddingVVBbug from "../AddingVVBbug"
+import { CardInfo } from '../Parts/personal';
+import fullName from "../../utils/functions/fullName"
+import { phoneFormat } from '../../utils/functions/phoneFormat';
 
-export function ContractForm({documentInfo}) {
+export function ContractForm({documentInfo, orderInfo}) {
 
    return (
       <div className='pdf_end_2sections pdf_margin_top_5'>
@@ -35,6 +36,10 @@ export function ContractForm({documentInfo}) {
                   <p>Yashash manzili: {documentInfo?.data?.client?.city}, {documentInfo?.data?.client?.district}, {documentInfo?.data?.client?.address}</p>
                   <p>JSh ShIR: {documentInfo?.data?.client?.pinfl}</p>
                   <p>Telefon: {phoneFormat(documentInfo?.data?.client?.phone?.[0])} {documentInfo?.data?.client?.phone?.[1] ? phoneFormat(documentInfo?.data?.client?.phone?.[1]) : ''}</p>
+                  {
+                     orderInfo?.type_credit === "card" ? 
+                     <CardInfo info={orderInfo}/> : <></>
+                  }
                </div>
                <div className='endRow pdf_margin_top_30'>
                   <p>________________</p>

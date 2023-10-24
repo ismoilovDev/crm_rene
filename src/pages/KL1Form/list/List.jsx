@@ -1,12 +1,14 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Input } from '@nextui-org/react';
-import { alert } from '../../../components/Alert/alert';
-import CustumPagination from '../../../components/Pagination/CustumPagination';
-import DeleteWarning from '../../../components/Warning/DeleteWarning';
-import SkeletonBox from '../../../components/Loader/Skeleton';
-import https from '../../../services/https';
-import Filters from '../filters';
+import Filters from '../filters'
+import https from '../../../services/https'
+import { alert } from '../../../components/Alert/alert'
+import SkeletonBox from '../../../components/Loader/Skeleton'
+import dateConvert from '../../../utils/functions/dateConvert'
+import { ExcelButton } from '../../../components/Buttons/ExcelBtn'
+import DeleteWarning from '../../../components/Warning/DeleteWarning'
+import CustumPagination from '../../../components/Pagination/CustumPagination'
 
 const role = JSON.parse(window.localStorage.getItem('role'))
 const branch_id = +window.localStorage.getItem('branch_id')
@@ -70,6 +72,21 @@ function ClientMarks({ filters }) {
 		setDeleteID(id)
 	}
 
+	const handleOnExcel = () =>{
+		let data = []
+		forms?.map(item =>{
+			const info = {
+				"F.I.Sh": item?.client?.name, 
+				mijoz_kodi: item?.client?.code, 
+				buyurtma_kodi: item?.order_code,
+				tuzilgan_sana: dateConvert(item?.mark_date || item?.doc_date)
+			}
+			data = [...data, info]
+		})
+
+		return data;
+	}
+
 	return (
 		<>
 			<div className={modalka}>
@@ -99,6 +116,7 @@ function ClientMarks({ filters }) {
 						KL1 Shakl Qo'shish
 						<i className='bx bx-plus-circle'></i>
 					</button>
+					<ExcelButton data={handleOnExcel()} name={'KL'} />
 				</div>
 				<Filters branch_id={branch_id} />
 				<div className='shartnamaTablePart table_root'>
@@ -122,7 +140,7 @@ function ClientMarks({ filters }) {
 														<p className='liName td_client_marks' onDoubleClick={() => { navigate(`/kl1/singlekl1/${item?.id}`) }}>{item?.client?.name}</p>
 														<p className='td_client_marks' onDoubleClick={() => { navigate(`/client-marks/single/${item?.id}`) }}>{item?.client?.code}</p>
 														<p className='td_client_marks' onDoubleClick={() => { navigate(`/client-marks/single/${item?.id}`) }}>{item?.order_code}</p>
-														<p className='td_client_marks' onDoubleClick={() => { navigate(`/client-marks/single/${item?.id}`) }}>{item?.mark_date || item?.doc_date}</p>
+														<p className='td_client_marks' onDoubleClick={() => { navigate(`/client-marks/single/${item?.id}`) }}>{dateConvert(item?.mark_date) || dateConvert(item?.doc_date)}</p>
 														<div className='userButtons_shartnoma'>
 															<button><Link to={`/client-marks/single/${item?.id}`}><i className='bx bx-user white'></i></Link></button>
 															{role.includes('admin') || role.includes('monitoring') ? (

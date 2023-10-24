@@ -1,12 +1,13 @@
 import { useLocation } from 'react-router-dom'
-import { collectGroupSupply, collectGroupSupplyFull } from '../utils/functions/totalSum'
-import { PdfControls } from '../components/Pdf/PdfControls'
-import { PdfWrapper } from '../components/Pdf/Wrapper'
-import { checkOwner } from '../utils/functions/supplyTypes'
-import useDataFetching from '../hooks/usePdfDataFetching'
-import fullName from '../utils/functions/fullName';
-import AddingVVBbug from './AddingVVBbug'
 import Adding_VVB from './AddingVVB'
+import AddingVVBbug from './AddingVVBbug'
+import { CardInfo } from './Parts/personal';
+import fullName from '../utils/functions/fullName';
+import { PdfWrapper } from '../components/Pdf/Wrapper'
+import useDataFetching from '../hooks/usePdfDataFetching'
+import { checkOwner } from '../utils/functions/supplyTypes'
+import { PdfControls } from '../components/Pdf/PdfControls'
+import { collectGroupSupply, collectGroupSupplyFull } from '../utils/functions/totalSum'
 
 function S1Form() {
    const location = useLocation()
@@ -371,6 +372,10 @@ function S1Form() {
                                           <p>Yashash manzili: {item?.city}, {item?.district}, {item?.address}</p>
                                           <p>JSh ShIR: {item?.pinfl}</p>
                                           <p>Telefon: {item?.phone?.join(', ')}</p>
+                                          {
+                                             item?.order?.type_credit === "card" ? 
+                                             <CardInfo info={item?.order}/> : <></>
+                                          }
                                        </div>
                                        <div className='between pdf_margin_top_30'>
                                           <p>_______________</p>
@@ -385,6 +390,10 @@ function S1Form() {
                                     <p>Yashash manzili: {documentInfo?.data?.client?.city}, {documentInfo?.data?.client?.district}, {documentInfo?.data?.client?.address}</p>
                                     <p>JSh ShIR: {documentInfo?.data?.client?.pinfl}</p>
                                     <p>Telefon: {documentInfo?.data?.client?.phone?.join(', ')}</p>
+                                    {
+                                       documentInfo?.data?.order?.type_credit === "card" ? 
+                                       <CardInfo info={documentInfo?.data?.order}/> : <></>
+                                    }
                                  </div>
                                  <div className='endRow pdf_margin_top_30'>
                                     <p>________________</p>

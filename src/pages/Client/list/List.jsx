@@ -5,6 +5,7 @@ import DeleteWarning from '../../../components/Warning/DeleteWarning';
 import SkeletonBox from '../../../components/Loader/Skeleton';
 import https from '../../../services/https';
 import Filters from '../filters';
+import { ExcelButton } from '../../../components/Buttons/ExcelBtn';
 
 const role = JSON.parse(window.localStorage.getItem('role'))
 
@@ -44,6 +45,21 @@ function Clients({ filters }) {
       setDeleteID(id)
    }
 
+   const handleOnExcel = () =>{
+      let data = []
+      clients?.map(item =>{
+         const info = {
+            "F.I.Sh": item?.name, 
+            kod: item?.code, 
+            pinfl: `${item?.pinfl}`,
+            shahar : item?.region?.name_uz
+         }
+         data = [...data, info]
+      })
+
+      return data;
+   }
+
    return (
       <div className='client'>
          <div className='client_title'>
@@ -53,6 +69,7 @@ function Clients({ filters }) {
             <Link className='client_button gradient-border' to='/clients/add'>
                <p>Mijoz Qo'shish</p> <i className='bx bx-plus-circle'></i>
             </Link>
+            <ExcelButton data={handleOnExcel()} name={"Mijoz"} />
          </div>
 
          <Filters />

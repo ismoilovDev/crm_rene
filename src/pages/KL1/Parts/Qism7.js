@@ -12,13 +12,11 @@ import https from './../../../services/https';
 function BuyurtmaOylik() {
 
    // Tab active
-   const { activeTab, setActiveTab } = useContext(Context)
+   const { infoOrder, setActiveTab } = useContext(Context)
    const { familyMavjud, setFamilyMavjud } = useContext(Context)
-   const { dataSeventhQism, setDataSeventhQism } = useContext(Context)
    const { historyKredit, setHistoryKredit } = useContext(Context)
    const [kreditData, setKreditData] = useState({})
    const [sof, setSof] = useState(1)
-   const orderIdGet = window.localStorage.getItem('order_id')
 
    // Components
    const {
@@ -85,46 +83,32 @@ function BuyurtmaOylik() {
       formState: { errors, isValid }
    } = useForm();
 
+   const namunaRequest = async(info) =>{
+      try{
+         const res = await https.post('/namuna', info)
+         const { data } = res;
+         setKreditData(data?.['0'])
+      }
+      catch(err){
+         console.log(err);
+      }
+   }
+
 
    useEffect(() => {
-
       setSof(getSumDaromadBiznes() + getTotalSumBoshqa() + (getDaromadSumMavsumiy()) / 12 - getSumXarajatBiznes() - (getXarajatSumMavsumiy()) / 12)
-
-      let Data = new Date();
-      let Year = Data.getFullYear();
-      let Month = Data.getMonth() + 1;
-      let Day = Data.getDate();
-      let today = `${Year}-${Month}-${Day}`
-
       setActiveTab(7)
 
-      https
-         .get(`/orders/${orderIdGet}`)
-         .then(res => {
-            let data = {
-               type: 'annuitet',
-               sum: res?.data?.sum,
-               time: res?.data?.time,
-               percent: 58,
-               given_date: today,
-               first_repayment_date: today
-            }
+      const data = {
+         type: infoOrder?.type_repayment === 1 ? 'annuitet' : 'differential',
+         sum: infoOrder?.sum,
+         time: infoOrder?.time,
+         percent: infoOrder?.percent_year,
+         given_date: infoOrder?.contract ? infoOrder?.contract?.contract_issue_date : infoOrder?.order_date,
+         first_repayment_date: infoOrder?.contract ? infoOrder?.contract?.first_repayment_date : infoOrder?.order_date
+      }
 
-            if (data?.time && data?.sum && data?.type && data?.percent) {
-               https
-                  .post('/namuna', data)
-                  .then(responsive => {
-                     setKreditData(responsive?.data?.['0'])
-                  })
-                  .catch(error => {
-                     console.log(error)
-                  })
-            }
-         })
-         .catch(error => {
-            console.log(error)
-            console.log(orderIdGet)
-         })
+      namunaRequest(data)
    }, [])
 
    let navigate = useNavigate()
@@ -288,9 +272,36 @@ function BuyurtmaOylik() {
                   Mavjud kredit va qarz qoshish
                </button>
                <div className='flex_column'>
-                  <p className='kl1_jami margin_bottom'>Jami asosiy qarz qoldigi: {mavjudRest()} so`m</p>
-                  <p className='kl1_jami margin_bottom'>Jami oylik tolov miqdori: {mavjudPay()} so`m</p>
+                  <p className='kl1_jami margin_bottom'>Jami asosiy qarz qoldigi: {mavjudRest()} so'm</p>
+                  <p className='kl1_jami margin_bottom'>Jami oylik tolov miqdori: {mavjudPay()} so'm</p>
                   <p className='kl1_jami '>Joiriy kreditlar boyicha qarz yuki korsatkichi: {procentNumberBefore()}%</p>
+               </div>
+            </div>
+
+            <div className='margit_top_30 price_table margin_bottom20'>
+               <div>
+                  <p></p>
+                  <p>Daromad</p>
+                  <p>Xarajat</p>
+                  <p></p>
+               </div>
+               <div>
+                  <p>Boshqa</p>
+                  <p>{getTotalSumBoshqa()?.toLocaleString()}</p>
+                  <p>---</p>
+                  <p>{getTotalSumBoshqa()?.toLocaleString()}</p>
+               </div>
+               <div>
+                  <p>Mavsumiy (1 yil)</p>
+                  <p>{getDaromadSumMavsumiy()?.toLocaleString()}</p>
+                  <p>{getXarajatSumMavsumiy()?.toLocaleString()}</p>
+                  <p>{(getDaromadSumMavsumiy()-getXarajatSumMavsumiy())?.toLocaleString()}</p>
+               </div>
+               <div>
+                  <p>Biznes</p>
+                  <p>{getSumDaromadBiznes()?.toLocaleString()}</p>
+                  <p>{getSumXarajatBiznes()?.toLocaleString()}</p>
+                  <p>{(getSumDaromadBiznes()-getSumXarajatBiznes())?.toLocaleString()}</p>
                </div>
             </div>
 

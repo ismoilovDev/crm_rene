@@ -1,12 +1,16 @@
-import { memo, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
+// Components
 import { Input } from '@nextui-org/react';
 import { AiOutlineCloseCircle } from 'react-icons/ai';
 import { NumericFormat } from 'react-number-format';
 import { alert } from '../Alert/alert';
 import https from '../../services/https';
+// Style
+import './style.scss'
+import '../Input/style.scss'
 
-export const OpenContractForm = memo(({ clientID, open, setOpen, contracts, setContracts }) => {
+export const OpenContractForm = ({ clientID, open, setOpen, contracts, setContracts }) => {
     const default_value = {
        sum: 0,
        start_date: "",
@@ -106,4 +110,4 @@ export const OpenContractForm = memo(({ clientID, open, setOpen, contracts, setC
             </div>
        </article>
     )
-})
+}

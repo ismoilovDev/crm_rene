@@ -215,9 +215,9 @@ function Boshqa() {
             <button className='kl1_add_button' onClick={()=>{addMyDaromad()}}>
                 Daromad qoshish
             </button>
-            <p className='kl1_jami'>JAMI: {getTotalSum()} so`m</p>
+            <p className='kl1_jami'>JAMI: {getTotalSum()} so'm</p>
         </div>
-        <p className='kl1_jami_main'>Jami o`rtacha oylik daromadlari: {getTotalSum()} so`m</p>
+        <p className='kl1_jami_main'>Jami o'rtacha oylik daromadlari: {getTotalSum()} so'm</p>
         <div className='step_buttons double_button'>
             <button type='button' onClick={()=>{backStep()}} className='previous_button'><AiOutlineDoubleLeft/><p>Oldingi</p></button>
             <button type='submit' onClick={()=>{onPutDate()}} className='step_next'><p>Keyingi</p> <AiOutlineDoubleRight/></button>

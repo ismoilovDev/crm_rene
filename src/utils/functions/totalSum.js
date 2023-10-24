@@ -94,7 +94,8 @@ export function collectGroupSupply(group) {
    const uniqueSupplies = new Set();
 
    group?.forEach((client) => {
-      client?.order?.supply_info?.forEach((item) => {
+      client?.order?.supply_infos?.forEach((item) => {
+         console.log(item);
          if (item?.type && !uniqueSupplies.has(item.type)) {
             uniqueSupplies.add(item.type);
          }

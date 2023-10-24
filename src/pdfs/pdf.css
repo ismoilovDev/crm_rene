@@ -1,4 +1,5 @@
 .pdf_wrapper {
+  margin-top: 0;
   overflow-x: scroll;
 }
 
@@ -780,6 +781,9 @@ td {
 .margin_right_20 {
   margin-right: 20px;
 }
+.margin_left_20 {
+  margin-left: 20px;
+}
 
 .marginBottom {
   margin-bottom: 15px;
@@ -814,6 +818,9 @@ td {
   align-items: flex-end;
 }
 
+.align_start {
+  align-items: start;
+}
 .align_end {
   align-items: flex-end;
 }
@@ -890,6 +897,37 @@ td {
   line-height: 1.4;
 }
 
+/* LOGO Background */
+.logo_back{
+  width: 200px;
+  height: 200px;
+  position: relative;
+}
+.logo_back img{
+  width: 100%;
+  height: 100%;
+}
+.logo_back .text_part{
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+/* PDF-inputs */
+.pdf_inputs_container{
+  display: flex;
+  flex-direction: row;
+  margin-top: 15px;
+}
+.pdf_inputs_container input{
+  margin-right: 15px;
+  padding: 5px;
+
+}
+
 @media print {
 
   @page {
@@ -914,6 +952,10 @@ td {
     font-size: 12pt;
   }
 
+  .content{
+    margin-top: 0;
+  }
+  
   header,
   nav,
   .sidebar,
@@ -921,15 +963,23 @@ td {
   .main_nav,
   .header-left-top,
   .a-right-bottom,
-  .time-right-bottom {
+  .time-right-bottom,
+  .pdf_inputs_container {
     width: 0 !important;
     height: 0 !important;
     display: none !important;
     visibility: hidden !important;
     z-index: 0 !important;
+    
   }
 
-  .pdf_container_view {
+  .pdf_wrapper{
+    top: 0 !important;
+    margin-top: 0 !important;
+  }
+
+  .pdf_container_view{
+    top: 0 !important;
     width: 100%;
     min-width: 0;
     margin-top: 0;
@@ -942,8 +992,7 @@ td {
     font-size: 12pt !important;
   }
 
-  .pdf_container_view p,
-  li {
+  .pdf_container_view p, li {
     font-size: 12pt !important;
   }
 

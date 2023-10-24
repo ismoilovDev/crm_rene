@@ -4,6 +4,7 @@ import { MainPart, Part1, Part2, Part3, Part4, Part5, Part6, Part7, Part8, Part9
 import { PdfWrapper } from '../../components/Pdf/Wrapper';
 import { ContractForm } from './ContractForm';
 import { PdfControls } from '../../components/Pdf/PdfControls';
+import useDataFetching from '../../hooks/usePdfDataFetching';
 import https from '../../services/https'
 import './style.scss';
 
@@ -11,20 +12,8 @@ import './style.scss';
 function ContractPDF() {
    const location = useLocation()
    const orderId = location?.state?.id
+   const { data: documentInfo } = useDataFetching(`/s1/${orderId}`)
    const [orderInfo, setOrderInfo] = useState({})
-   const [documentInfo, setDocumentInfo] = useState({})
-
-   async function getContractData() {
-      try {
-         const res = await https.post(`/s1/${orderId}`, {})
-         const { data } = res;
-         setDocumentInfo(data)
-         console.log(data);
-      }
-      catch (err) {
-         console.log(err);
-      }
-   }
 
    async function getOrderData() {
       try {
@@ -39,16 +28,15 @@ function ContractPDF() {
    }
 
    useMemo(() => {
-      getContractData()
       getOrderData()
    }, [])
 
    return (
       <>
          <PdfControls />
-         <PdfWrapper>
+         <PdfWrapper indicator={documentInfo}>
             <MainPart documentInfo={documentInfo} orderInfo={orderInfo} />
-            <Part1 documentInfo={documentInfo} />
+            <Part1 orderInfo={orderInfo} />
             <Part2 documentInfo={documentInfo} />
             <Part3 orderInfo={orderInfo} />
             <Part4 />
@@ -62,7 +50,7 @@ function ContractPDF() {
             <Part12 />
             <Part13 />
             <Part14 >
-               <ContractForm documentInfo={documentInfo} />
+               <ContractForm documentInfo={documentInfo} orderInfo={orderInfo}/>
             </Part14>
          </PdfWrapper>
       </>

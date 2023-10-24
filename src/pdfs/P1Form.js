@@ -165,7 +165,7 @@ function P1Form() {
                      if (item?.order?.supply_info?.[0]?.type == 'guarrantor' || item?.order?.supply_info?.[0]?.type == 'insurance') {
                         return (`${typeFunc(item?.order?.supply_info?.[0]?.type)}`)
                      }
-                  })}ga qo‘yishlarini ma'lum qilganlar.`
+                  }).join('')}ga qo‘yishlarini ma'lum qilganlar.`
                   :
                   (
                      (typesSupplyList(documentInfo?.supply_infos))?.includes('sugurta') ?

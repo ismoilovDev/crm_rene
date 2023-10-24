@@ -34,6 +34,7 @@
     "react-webcam": "^7.1.1",
     "sweetalert2": "^11.4.29",
     "uuid": "^8.3.2",
+    "xlsx": "^0.18.5",
     "yet-another-react-lightbox": "^3.10.0"
   },
   "scripts": {

@@ -5,9 +5,10 @@ import { alert } from '../../../components/Alert/alert'
 import DeleteWarning from '../../../components/Warning/DeleteWarning';
 import SkeletonBox from '../../../components/Loader/Skeleton';
 import CustumPagination from '../../../components/Pagination/CustumPagination';
-import dateConvert from '../../../utils/functions/fullName'
+import dateConvert from '../../../utils/functions/dateConvert'
 import SearchForm from '../../../components/Search/SearchForm';
 import https from '../../../services/https';
+import { ContainerExcelButton } from '../../../components/Buttons/ExcelBtn';
 
 
 const role = JSON.parse(window.localStorage.getItem('role'))
@@ -43,7 +44,7 @@ function Contracts() {
 					.get(`/orders/${res?.data?.order_id}`)
 					.then(responsive => {
 						if (responsive?.data?.status == 'accepted') {
-							navigate("/contracts/form", { state: { id: res?.data?.order_id, code: dataId?.code, order: true } })
+							navigate("/contracts/add", { state: { id: res?.data?.order_id, code: dataId?.code, order: true } })
 						} else {
 							return (alert("Buyurtma tasdiqlanmagan", 'error'))
 						}
@@ -83,7 +84,7 @@ function Contracts() {
 								return (alert("Buyurtmalar tasdiqlanmagan", 'error'))
 							}
 						}
-						navigate("/contracts/form", { state: { id: res?.data?.group_id, code: dataId?.code, order: false } })
+						navigate("/contracts/add", { state: { id: res?.data?.group_id, code: dataId?.code, order: false } })
 					})
 					.catch(error => {
 						console.log(error)
@@ -152,6 +153,20 @@ function Contracts() {
 		setDeleteID(id)
 	}
 
+	const handleOnExcel = () =>{
+		let data = []
+		shartnamalar?.map(item =>{
+			const info = {
+				"F.I.Sh": item?.order?.id ? item?.order?.client?.name : item?.group?.name, 
+				kod: item?.contract_num, 
+				tuzilgan_sana: dateConvert(item?.contract_issue_date) || "---"
+			}
+			data = [...data, info]
+		})
+
+		return data;
+	}
+
 	return (
 		<>
 			{/* Modalka */}
@@ -212,7 +227,10 @@ function Contracts() {
 							placeholder="Shartnoma..."
 						/>
 					</div>
-					<div className='shartnamaTablePart table_root'>
+					
+					<ContainerExcelButton data={handleOnExcel()} name={"Shartnoma"} />
+
+					<div className='shartnamaTablePart table_root margin_top_15'>
 						<div className='shartTable responsive_table'>
 							<div className='tableHeader table_header'>
 								<p className='headerTable-title_shartnoma'>F.I.Sh</p>
