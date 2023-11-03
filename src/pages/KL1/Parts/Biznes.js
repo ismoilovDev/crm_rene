@@ -24,9 +24,9 @@ function Biznes() {
 
    function backStep() {
       if (mavsumiyWindow === 'open') {
-         navigate("/kl1/addkl1/mavsumiy", { replace: true })
+         navigate("/client-marks/add/mavsumiy", { replace: true })
       } else {
-         navigate("/kl1/addkl1/boshqa", { replace: true })
+         navigate("/client-marks/add/boshqa", { replace: true })
       }
    }
 

@@ -1,6 +1,4 @@
 import { useLocation } from 'react-router-dom'
-import Adding_VVB from './AddingVVB'
-import AddingVVBbug from './AddingVVBbug'
 import { CardInfo } from './Parts/personal'
 import fullName from '../utils/functions/fullName'
 import { PdfWrapper } from '../components/Pdf/Wrapper'
@@ -119,11 +117,11 @@ function G1Form() {
                   <div className='pdf_end_2sections_section'>
                      <div className='between'>
                         <p>Boshqaruvchi </p>
-                        <p>{Adding_VVB(documentInfo?.branch?.id) ? 'v.v.b' : ''} {fullName(documentInfo?.branch?.head_of_branch)}</p>
+                        <p>{fullName(documentInfo?.branch?.head_of_branch)}</p>
                      </div>
                      <div className='between pdf_margin_top_20'>
                         <p>Bosh buxgalter</p>
-                        <p>{AddingVVBbug(documentInfo?.branch?.id) ? 'v.v.b' : ''} {fullName(documentInfo?.branch?.chief_accountant)}</p>
+                        <p>{fullName(documentInfo?.branch?.chief_accountant)}</p>
                      </div>
                   </div>
                   <div className='pdf_end_2sections_section'>

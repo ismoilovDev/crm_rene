@@ -1,12 +1,10 @@
 import { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
-import Adding_VVB from './AddingVVB'
 import https from '../services/https'
-import AddingVVBbug from './AddingVVBbug'
 import { CardInfo } from './Parts/personal'
 import fullName from '../utils/functions/fullName'
 import { PdfWrapper } from '../components/Pdf/Wrapper'
-import useDataFetching from '../hooks/usePdfDataFetching'
+import dateConvert from '../utils/functions/dateConvert'
 import { PdfControls } from '../components/Pdf/PdfControls'
 import { checkOwner } from '../utils/functions/supplyTypes'
 import { collectClients, getSummaText, ordersSum, supplySumProcentClient } from '../utils/functions/totalSum'
@@ -61,11 +59,11 @@ function GS1Form() {
             }
             <div className='between align_center pdf_margin_top_20'>
                <p className='black_text'>{documentInfo?.data?.branch?.city}</p>
-               <p className='black_text'>{documentInfo?.contract_issue_date} yil</p>
+               <p className='black_text'>{dateConvert(documentInfo?.contract_issue_date)} yil</p>
             </div>
             <div className='text-norm'>
                <p className='pdf_margin_top_30'>
-                  {documentInfo?.data?.branch?.name} nomidan {documentInfo?.data?.branch?.contract} asosida ish yurituvchi {documentInfo?.data?.branch?.short_name} Boshqaruvchisi {Adding_VVB(documentInfo?.data?.branch?.id) ? 'v.v.b' : ''} {documentInfo?.data?.branch?.head_of_branch}, bundan buyon «Garovga oluvchi» deb ataladi, bir tomondan, va
+                  {documentInfo?.data?.branch?.name} nomidan {documentInfo?.data?.branch?.contract} asosida ish yurituvchi {documentInfo?.data?.branch?.short_name} Boshqaruvchisi {documentInfo?.data?.branch?.head_of_branch}, bundan buyon «Garovga oluvchi» deb ataladi, bir tomondan, va
                   {
                      documentInfo?.data?.supply_infos?.[0]?.type == 'auto' ?
                         `${checkOwner(documentInfo?.data?.supply_infos?.[0]) ?
@@ -85,10 +83,10 @@ function GS1Form() {
                      {
                         documentInfo?.group_id ?
                            <p className='p1_left_space'>
-                              Garovga oluvchi {documentInfo?.contract_issue_date} yildagi {documentInfo?.contract_num}-sonli mikroqarz shartnomasiga asosan "{groupInfo?.name}" qarzdorlar guruhi a'zolari {collectClients(groupInfo?.clients)}ga {documentInfo?.data?.order?.time} oy muddatga {ordersSum(groupInfo?.activeOrders)} so‘m miqdorda mikroqarz beradi.
+                              Garovga oluvchi {dateConvert(documentInfo?.contract_issue_date)} yildagi {documentInfo?.contract_num}-sonli mikroqarz shartnomasiga asosan "{groupInfo?.name}" qarzdorlar guruhi a'zolari {collectClients(groupInfo?.clients)}ga {documentInfo?.data?.order?.time} oy muddatga {ordersSum(groupInfo?.activeOrders)} so‘m miqdorda mikroqarz beradi.
                            </p> :
                            <p className='p1_left_space'>
-                              Garovga oluvchi {documentInfo?.contract_issue_date} yildagi {documentInfo?.contract_num}-sonli mikroqarz shartnomasiga asosan {documentInfo?.data?.client?.name}ga {documentInfo?.data?.order?.time} oy muddatga {documentInfo?.data?.order?.sum?.toLocaleString(undefined, { minimumFractionDigits: 2 })} so‘m miqdorda mikroqarz beradi.
+                              Garovga oluvchi {dateConvert(documentInfo?.contract_issue_date)} yildagi {documentInfo?.contract_num}-sonli mikroqarz shartnomasiga asosan {documentInfo?.data?.client?.name}ga {documentInfo?.data?.order?.time} oy muddatga {documentInfo?.data?.order?.sum?.toLocaleString(undefined, { minimumFractionDigits: 2 })} so‘m miqdorda mikroqarz beradi.
                            </p>
                      }
                   </li>
@@ -387,11 +385,11 @@ function GS1Form() {
                   <div className='pdf_end_2sections_section'>
                      <div className='between'>
                         <p>Boshqaruvchi</p>
-                        <p>{Adding_VVB(documentInfo?.data?.branch?.id) ? 'v.v.b' : ''} {fullName(documentInfo?.data?.branch?.head_of_branch)}</p>
+                        <p>{fullName(documentInfo?.data?.branch?.head_of_branch)}</p>
                      </div>
                      <div className='between pdf_margin_top_20'>
                         <p>Bosh buxgalter </p>
-                        <p>{AddingVVBbug(documentInfo?.data?.branch?.id) ? 'v.v.b' : ''} {fullName(documentInfo?.data?.branch?.chief_accountant)}</p>
+                        <p>{fullName(documentInfo?.data?.branch?.chief_accountant)}</p>
                      </div>
                   </div>
                </div>

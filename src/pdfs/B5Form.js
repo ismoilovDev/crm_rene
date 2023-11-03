@@ -1,7 +1,6 @@
 import React, { useState, useMemo } from 'react'
 import { useLocation } from 'react-router-dom'
 import Blank from './Blank'
-import Adding_VVB from './AddingVVB'
 import https from '../services/https'
 import Logo from '../assets/images/Logo'
 import { monthDiff } from './Parts/functions'
@@ -18,7 +17,7 @@ const user_name = window.localStorage.getItem('name')
 
 const part1 = (documentInfo, orderInfo) =>{
     return(
-       <p className='distance pdf_margin_top_20'>Men, {documentInfo?.client?.name}, Sizdan {orderInfo?.open_contract?.sum?.toLocaleString()} so‘m miqdorda ochiq liniyali mikroqarz ajratish
+       <p className='distance pdf_margin_top_20'>Men, {documentInfo?.client?.name}, Sizdan {orderInfo?.open_contract?.sum?.toLocaleString()} so‘m miqdorda ochiq kredit liniyasi asosidagi mikroqarz ajratish
      bo‘yicha {monthDiff(new Date(orderInfo?.open_contract?.start_date), new Date(orderInfo?.open_contract?.end_date))} oy muddatga bosh kelishuv bitimi tuzishingizni so‘rayman.
     </p>  
     )
@@ -29,7 +28,7 @@ const logoPart = (documentInfo) =>(
         <Logo width={200} />
         <div className='b1_subtitle'>
             <div className='endColumn'>
-            <span>{documentInfo?.branch?.name} Boshqaruvchisi {Adding_VVB(documentInfo?.branch?.id) ? 'v.v.b' : ''}</span>
+            <span>{documentInfo?.branch?.name} Boshqaruvchisi </span>
             <span>{fullName(documentInfo?.branch?.head)} ga</span>
             </div>
         </div>
@@ -84,7 +83,6 @@ function B5Form() {
                         user_name={fullName(user_name)}
                         order_date={dateConvert(documentInfo?.order?.order_date) || ""}
                         boss={fullName(documentInfo?.branch?.head) || ""}
-                        vvb={Adding_VVB(documentInfo?.branch?.id) ? 'v.v.b' : ''}
                     />
                     {logoPart(documentInfo)}
                 </div>

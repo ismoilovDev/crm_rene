@@ -1,8 +1,6 @@
 import React, { useState, useMemo } from 'react'
 import { useLocation } from 'react-router-dom'
-import Adding_VVB from './AddingVVB'
 import https from '../services/https'
-import AddingVVBbug from './AddingVVBbug'
 import { monthDiff } from './Parts/functions'
 import fullName from '../utils/functions/fullName'
 import { AutoTable, GoldTable } from './Parts/tables'
@@ -51,11 +49,11 @@ const membersPart = (documentInfo) =>(
     <>
         <div className='between align_center pdf_margin_top_10'>
             <p>Kredit Komissiyasi Raisi</p>
-            <p>{Adding_VVB(documentInfo?.branch?.id) ? 'v.v.b' : ''} {fullName(documentInfo?.branch?.head_of_branch)}</p>
+            <p>{fullName(documentInfo?.branch?.head_of_branch)}</p>
         </div>
         <div className='between align_center pdf_margin_top_10'>
             <p>Kredit Komissiyasi a'zolari</p>
-            <p>{AddingVVBbug(documentInfo?.branch?.id) ? 'v.v.b' : ''} {fullName(documentInfo?.branch?.chief_accountant)}</p>
+            <p>{fullName(documentInfo?.branch?.chief_accountant)}</p>
         </div>
         <div className='between align_center pdf_margin_top_10'>
             <p></p>
@@ -66,7 +64,7 @@ const membersPart = (documentInfo) =>(
 
 const textPart1 = (documentInfo) =>(
     <p className='pdf_margin_top_30'>
-        Kun tartibi: Arizachi {documentInfo?.client?.name}ning ochiq kredit liniyali mikroqarz ajratish bo'yicha berilgan arizasini ko'rib chiqish
+        Kun tartibi: Arizachi {documentInfo?.client?.name}ning ochiq kredit liniya miqdori bo'yicha berilgan arizasini ko'rib chiqish
     </p>
 )
 
@@ -78,20 +76,24 @@ const textPart2 = (documentInfo) =>(
 
 const tableFirst = (documentInfo, orderInfo) =>(
     <table className='pdf_margin_top_5 p1_form_table_1'>
-        <tr key={401}>
-            <td>№</td>
-            <td>F.I.O</td>
-            <td>Shaxsini tasdiqlovchi hujjat</td>
-            <td>Mikroqarz miqdori</td>
-            <td>Muddat</td>
-        </tr>
-        <tr key={404}>
-            <td>{1}</td>
-            <td>{documentInfo?.client?.name}</td>
-            <td>{documentInfo?.client?.serial_num} raqamli {documentInfo?.client?.doc_type} {documentInfo?.client?.issued_date} da {documentInfo?.client?.issued_by} tomonidan berilgan</td>
-            <td>{orderInfo?.open_contract?.sum?.toLocaleString(undefined, {minimumFractionDigits: 2})} so'm</td>
-            <td>{monthDiff(new Date(orderInfo?.open_contract?.start_date), new Date(orderInfo?.open_contract?.end_date))} oy</td>
-        </tr>
+        <thead>
+            <tr key={401}>
+                <td>№</td>
+                <td>F.I.O</td>
+                <td>Shaxsini tasdiqlovchi hujjat</td>
+                <td>Ochiq kredit liniya miqdori</td>
+                <td>Muddat</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr key={404}>
+                <td>{1}</td>
+                <td>{documentInfo?.client?.name}</td>
+                <td>{documentInfo?.client?.serial_num} raqamli {documentInfo?.client?.doc_type} {documentInfo?.client?.issued_date} da {documentInfo?.client?.issued_by} tomonidan berilgan</td>
+                <td>{orderInfo?.open_contract?.sum?.toLocaleString(undefined, {minimumFractionDigits: 2})} so'm</td>
+                <td>{monthDiff(new Date(orderInfo?.open_contract?.start_date), new Date(orderInfo?.open_contract?.end_date))} oy</td>
+            </tr>
+        </tbody>
     </table>
 )
 

@@ -19,7 +19,6 @@ function SingleGold() {
          setGoldInfo(data)
          setPath(data?.images)
          setLoading(false)
-         console.log(data);
       }
       catch(err){
          console.log(err);

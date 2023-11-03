@@ -1,8 +1,9 @@
 import { useLocation } from 'react-router-dom'
-import { typesSupply } from '../utils/functions/supplyTypes'
-import { PdfControls } from '../components/Pdf/PdfControls'
 import { PdfWrapper } from '../components/Pdf/Wrapper'
+import dateConvert from '../utils/functions/dateConvert'
 import useDataFetching from '../hooks/usePdfDataFetching'
+import { PdfControls } from '../components/Pdf/PdfControls'
+import { typesSupply } from '../utils/functions/supplyTypes'
 
 function AV1Form() {
    const location = useLocation()
@@ -79,7 +80,7 @@ function AV1Form() {
                </div>
                <div className='row_div between under_line'>
                   <p className='div_child'>To‘ldirilgan sana</p>
-                  <p className='div_child'>{documentInfo?.order?.order_date}</p>
+                  <p className='div_child'>{dateConvert(documentInfo?.order?.order_date)}</p>
                </div>
                <div className='av1_form_part'>
                   <div className='row_div between margin under_line'>

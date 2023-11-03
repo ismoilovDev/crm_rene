@@ -3,8 +3,6 @@ import { PdfControls } from '../components/Pdf/PdfControls';
 import { PdfWrapper } from '../components/Pdf/Wrapper';
 import useDataFetching from '../hooks/usePdfDataFetching';
 import fullName from '../utils/functions/fullName'
-import AddingVVBbug from './AddingVVBbug'
-import Adding_VVB from './AddingVVB'
 
 function K1Form() {
    const location = useLocation()
@@ -24,7 +22,7 @@ function K1Form() {
                <p className='black_text pdf_margin_top_5'>{documentInfo?.contract?.contract_issue_date}</p>
             </div>
             <div className='margin_top_20'>
-               <p>{documentInfo?.branch?.name} nomidan {documentInfo?.branch?.contract} asosida ish yurituvchi {documentInfo?.branch?.short_name} boshqaruvchisi {Adding_VVB(documentInfo?.branch?.id) ? 'v.v.b' : ''} {documentInfo?.branch?.head_of_branch},
+               <p>{documentInfo?.branch?.name} nomidan {documentInfo?.branch?.contract} asosida ish yurituvchi {documentInfo?.branch?.short_name} boshqaruvchisi {documentInfo?.branch?.head_of_branch},
                   bundan buyon «Qarz Beruvchi» deb ataladi , bir tomondan, va "{documentInfo?.group?.name}" solidar tartibda javobgar guruhi a'zolari
                   {documentInfo?.group?.clients?.map(item => {
                      return (` ${item?.name}, `)
@@ -214,11 +212,11 @@ function K1Form() {
                <p className='distance pdf_margin_top_5'>Telefon: {documentInfo?.branch?.phone}</p>
                <div className='between margin_top_15 margin_site_20'>
                   <p>Boshqaruvchi</p>
-                  <p>{Adding_VVB(documentInfo?.branch?.id) ? 'v.v.b' : ''} {fullName(documentInfo?.branch?.head_of_branch)}</p>
+                  <p>{fullName(documentInfo?.branch?.head_of_branch)}</p>
                </div>
                <div className='between margin_top_15 margin_site_20'>
                   <p>Bosh buxgalter</p>
-                  <p>{AddingVVBbug(documentInfo?.branch?.id) ? 'v.v.b' : ''} {fullName(documentInfo?.branch?.chief_accountant)}</p>
+                  <p>{fullName(documentInfo?.branch?.chief_accountant)}</p>
                </div>
                <p className='black_text pdf_margin_top_20 distance'>7.2. Kafillik beruvchilar:</p>
                <div className='margin_site_20'>

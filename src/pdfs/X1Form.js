@@ -5,7 +5,6 @@ import { PdfWrapper } from '../components/Pdf/Wrapper'
 import useDataFetching from '../hooks/usePdfDataFetching'
 import fullName from '../utils/functions/fullName'
 import Logo from '../assets/images/Logo'
-import Adding_VVB from './AddingVVB'
 
 function X1Form() {
    const location = useLocation()
@@ -71,8 +70,8 @@ function X1Form() {
                </p>
                <p className='pdf_margin_top_40'>Hurmat bilan,</p>
                <div className='pdf_margin_top_15 between align_center'>
-                  <p className='x1_end_width400'>{documentInfo?.branch?.name}</p>
-                  <p>{Adding_VVB(documentInfo?.branch?.id) ? 'v.v.b' : ''} {fullName(documentInfo?.branch?.head_of_branch)}</p>
+                  <p className='x1_end_width400'>{documentInfo?.branch?.name} Boshqaruvchisi</p>
+                  <p>{fullName(documentInfo?.branch?.head_of_branch)}</p>
                </div>
             </div>
          </PdfWrapper>

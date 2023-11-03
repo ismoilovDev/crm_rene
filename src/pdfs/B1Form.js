@@ -7,7 +7,6 @@ import dateConvert from '../utils/functions/dateConvert'
 import useDataFetching from './../hooks/usePdfDataFetching'
 import fullName from '../utils/functions/fullName'
 import Logo from '../assets/images/Logo'
-import Adding_VVB from './AddingVVB'
 import Blank from './Blank'
 
 const user_name = window.localStorage.getItem('name')
@@ -37,13 +36,12 @@ function B1Form() {
               user_name={fullName(user_name)}
               order_date={dateConvert(documentInfo?.order?.order_date) || ""}
               boss={fullName(documentInfo?.branch?.head) || ""}
-              vvb={Adding_VVB(documentInfo?.branch?.id) ? 'v.v.b' : ''}
             />
             <div className='header_logo'>
               <Logo width={200} />
               <div className='b1_subtitle margin_left_20'>
                 <div className='endColumn'>
-                  <span>{documentInfo?.branch?.name} Boshqaruvchisi {Adding_VVB(documentInfo?.branch?.id) ? 'v.v.b' : ''}</span>
+                  <span>{documentInfo?.branch?.name} Boshqaruvchisi </span>
                   <span>{fullName(documentInfo?.branch?.head)} ga</span>
                 </div>
               </div>
@@ -99,7 +97,6 @@ function B1Form() {
               user_name={fullName(user_name)}
               order_date={dateConvert(documentInfo?.order?.order_date) || dateConvert(documentInfo?.group?.clients[0]?.order?.order_date) || ""}
               boss={fullName(documentInfo?.branch?.head) || fullName(documentInfo?.group?.branch?.head) || ""}
-              vvb={Adding_VVB(documentInfo?.group?.branch?.id) ? 'v.v.b' : ''}
             />
             <div className='header_logo'>
               <div className='b1_img'>
@@ -107,7 +104,7 @@ function B1Form() {
               </div>
               <div className='b1_subtitle'>
                 <div className='startColumn'>
-                  <span>{documentInfo?.group?.branch?.name} {Adding_VVB(documentInfo?.group?.branch?.id) ? 'v.v.b' : ''}</span>
+                  <span>{documentInfo?.group?.branch?.name} Boshqaruvchisi </span>
                   <span>{fullName(documentInfo?.group?.branch?.head)} ga</span>
                 </div>
               </div>

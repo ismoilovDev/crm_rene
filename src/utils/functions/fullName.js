@@ -8,7 +8,9 @@ export default function fullName(name) {
       }
    }
 
-   if (nameArr?.length == 2) {
+   if(nameArr?.[0] === 'vvb'){
+      return `${nameArr?.[0]} ${nameArr?.[1]} ${DoubleLetter(nameArr?.[2])}.${DoubleLetter(nameArr?.[3])}.`
+   }else if (nameArr?.length == 2) {
       return `${nameArr?.[0]} ${DoubleLetter(nameArr?.[1])}.`
    } else if (nameArr?.length >= 3) {
       return `${nameArr?.[0]} ${DoubleLetter(nameArr?.[1])}.${DoubleLetter(nameArr?.[2])}.`

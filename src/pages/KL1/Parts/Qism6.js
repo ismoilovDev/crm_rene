@@ -24,15 +24,15 @@ function Oilaviy() {
     let navigate = useNavigate()
 
     function nextStep(){
-        navigate('/kl1/addkl1/7_qism', { replace: true });
+        navigate('/client-marks/add/7_qism', { replace: true });
     }
     function backStep(){
         if(biznesWindow === 'open'){
-            navigate("/kl1/addkl1/biznes", { replace: true })
+            navigate("/client-marks/add/biznes", { replace: true })
         }else if(mavsumiyWindow === 'open'){
-            navigate("/kl1/addkl1/mavsumiy", { replace: true })
+            navigate("/client-marks/add/mavsumiy", { replace: true })
         }else{
-            navigate("/kl1/addkl1/boshqa", { replace: true })
+            navigate("/client-marks/add/boshqa", { replace: true })
         }
     }
 

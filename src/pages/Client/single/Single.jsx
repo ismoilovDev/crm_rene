@@ -51,6 +51,7 @@ function ClientController() {
             console.log(error);
          }
       }
+      
       return () => {
          abortController.abort();
       };
