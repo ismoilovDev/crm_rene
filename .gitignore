@@ -3,11 +3,13 @@
 # dependencies
 /node_modules
 /.pnp
-/.env
 .pnp.js
 
 # testing
 /coverage
+
+#ignored files
+/.env
 
 # production
 /build
