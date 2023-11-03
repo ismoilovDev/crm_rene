@@ -1055,4 +1055,9 @@ td {
   .second_blank{
     page-break-inside: avoid;
   }
+  .pdf_corner{
+    position: fixed;
+    bottom: 0;
+    right: 0;
+  }
 }

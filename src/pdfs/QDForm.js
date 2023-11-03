@@ -106,6 +106,7 @@ function QDForm() {
                client_name={documentInfo?.data?.client?.name}
                contract_date={dateConvert(documentInfo?.contract_issue_date)}
                sum={getSummaText(documentInfo?.data?.supply_infos?.[0]?.gold, 'sum')}
+               length={documentInfo?.data?.supply_infos?.[0]?.gold?.length}
             />
          </PdfWrapper>
       </>
