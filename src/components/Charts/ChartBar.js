@@ -30,7 +30,8 @@ export const DemoDualAxes = memo(({ orders }) => {
     getInfo();
   }, [orders])
 
-  const transformData = []
+  const transformData = [];
+
   const config = {
     data: [uvBillData, transformData],
     xField: 'time',
@@ -61,5 +62,6 @@ export const DemoDualAxes = memo(({ orders }) => {
     ],
     color:['green','yellow', 'red'],
   };
+
   return <DualAxes {...config} />;
 })

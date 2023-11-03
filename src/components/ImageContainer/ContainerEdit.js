@@ -4,7 +4,6 @@ import { Zoom } from "yet-another-react-lightbox/plugins";
 import { MdPhotoSizeSelectLarge } from "react-icons/md";
 import { AiFillCamera, AiFillCloseSquare } from 'react-icons/ai';
 import Lightbox from "yet-another-react-lightbox";
-import { base_url } from '../../utils/const';
 import { alert } from "../Alert/alert"
 import axios from 'axios';
 import "yet-another-react-lightbox/styles.css";
@@ -76,7 +75,7 @@ const ContainerEdit = memo(({ path, setPath }) => {
             images.append(`image[${i}]`, image);
          });
          console.log(images)
-         await axios.post(`${base_url}/api/upload-photo`, images, {
+         await axios.post(`${process.env.REACT_APP_BASE_URL}/api/upload-photo`, images, {
             headers: {
                "Authorization": "Bearer " + window.localStorage.getItem('token'),
                "Content-Type": "multipart/form-data",
@@ -144,7 +143,7 @@ const ContainerEdit = memo(({ path, setPath }) => {
                                  className='photo_show'
                                  width="200"
                                  style={{ objectFit: 'contain' }}
-                                 src={`${base_url}/${image}`}
+                                 src={`${process.env.REACT_APP_BASE_URL}/${image}`}
                                  onClick={() => setIndex(index)}
                               />
                               <button type='button' onClick={() => { imageDelete(index) }}><AiFillCloseSquare className='icon_no' /></button>
@@ -178,7 +177,7 @@ const ContainerEdit = memo(({ path, setPath }) => {
             close={() => setIndex(-1)}
             plugins={[Zoom]}
             slides={!isOpenField ? path?.map(item => {
-               return { src: `${base_url}/${item}` }
+               return { src: `${process.env.REACT_APP_BASE_URL}/${item}` }
             }) : selectedImages}
          />
          <WebCamera
@@ -187,7 +186,7 @@ const ContainerEdit = memo(({ path, setPath }) => {
             setIsChanged={setIsChanged}
             sourceImages={sourceImages}
             selectedImages={!isOpenField ? path?.map(item => {
-               return { src: `${base_url}/${item}` }
+               return { src: `${process.env.REACT_APP_BASE_URL}/${item}` }
             }) : selectedImages}
             setSourceImages={setSourceImages}
             setSelectedImages={setSelectedImages}

@@ -7,7 +7,6 @@ import DeleteWarning from '../../../components/Warning/DeleteWarning'
 import SkeletonBox from '../../../components/Loader/Skeleton'
 import https from '../../../services/https'
 
-
 const role = JSON.parse(window.localStorage.getItem('role'))
 
 const SupplyInfosTable = memo(({ loading, supplyInfos, singlePage, deleteFun, editPage, role }) => {
@@ -78,7 +77,7 @@ function ClientSupplyInfos({ id }) {
 
    useEffect(() => {
       getClientSupplyInfos()
-   }, [id])
+   }, [id, getClientSupplyInfos])
 
    async function getClientSupplyInfos() {
       if (client?.id) {
