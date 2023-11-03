@@ -1,5 +1,4 @@
 import { useLocation } from 'react-router-dom'
-import { base_url } from '../utils/const';
 import fullName from '../utils/functions/fullName';
 import { AutoTable, GoldTable } from './Parts/tables';
 import { PdfWrapper } from '../components/Pdf/Wrapper';
@@ -128,7 +127,7 @@ function KD2Form() {
                            <img
                               width={documentInfo?.data?.supply_infos?.[0]?.images?.length === 1 ? "350" : "200"}
                               style={{ objectFit: "contain", maxHeight: "400px" }}
-                              src={`${base_url}/${image}`}
+                              src={`${process.env.REACT_APP_BASE_URL}/${image}`}
                            />
                         </div>
                      )
