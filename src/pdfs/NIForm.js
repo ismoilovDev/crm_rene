@@ -1,13 +1,13 @@
-import React, { useState, useMemo} from 'react'
+import { useState, useMemo} from 'react'
 import { useLocation } from 'react-router-dom'
+import { PdfControls } from '../components/Pdf/PdfControls'
+import { phoneFormat } from '../utils/functions/phoneFormat'
+import { PdfWrapper } from '../components/Pdf/Wrapper'
 import https from '../services/https'
 import Logo from '../assets/images/Logo'
 import fullName from '../utils/functions/fullName'
 import siteLogo from '../assets/images/logo-site.png'
-import { PdfWrapper } from '../components/Pdf/Wrapper'
 import dateConvert from '../utils/functions/dateConvert'
-import { PdfControls } from '../components/Pdf/PdfControls'
-import { phoneFormat } from '../utils/functions/phoneFormat'
 
 
 function checkOwner(taminot){
