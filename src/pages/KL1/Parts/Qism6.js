@@ -10,9 +10,9 @@ import { Context } from '../../../context/context';
 function Oilaviy() {
 
     // Tab active
-    const { activeTab, setActiveTab } = useContext(Context)
-    const { mavsumiyWindow, setMavsumiyWindow } = useContext(Context)
-    const { biznesWindow, setBiznesWindow } = useContext(Context)
+    const { setActiveTab } = useContext(Context)
+    const { mavsumiyWindow } = useContext(Context)
+    const { biznesWindow } = useContext(Context)
     const { familyDaromad, setFamilyDaromad } = useContext(Context)
     const { familyXarajat, setFamilyXarajat } = useContext(Context)
     const { familyMalumot, setFamilyMalumot } = useContext(Context)
@@ -256,7 +256,7 @@ function Oilaviy() {
                         >
                             Daromad qoshish
                         </button>
-                        <p className='kl1_jami'>JAMI: {getSumDaromad()} so`m</p>
+                        <p className='kl1_jami'>JAMI: {getSumDaromad()} so'm</p>
                     </div>
 
                     <p className='kl1_formtitle'>Uy xojaligining xarajatlari</p>
@@ -325,7 +325,7 @@ function Oilaviy() {
                         >
                             Xarajat qoshish
                         </button>
-                        <p className='kl1_jami'>JAMI: {getSumXarajat()} so`m</p>
+                        <p className='kl1_jami'>JAMI: {getSumXarajat()} so'm</p>
                     </div>
 
                     <p className='kl1_formtitle'>Uy xojaligi azolarining mavjud kredit va qarzdorliklari togrisidagi malumotlar</p>
@@ -409,11 +409,11 @@ function Oilaviy() {
                             Malumot qoshish
                         </button>
                         <div className='flex_column'>
-                            <p className='kl1_jami margin_bottom'>Jami asosiy qarz qoldigi: {getMalumotRest()} so`m</p>
-                            <p className='kl1_jami margin_bottom'>Jami oylik tolov miqdori: { getMalumotPay()} so`m</p>
+                            <p className='kl1_jami margin_bottom'>Jami asosiy qarz qoldigi: {getMalumotRest()} so'm</p>
+                            <p className='kl1_jami margin_bottom'>Jami oylik tolov miqdori: { getMalumotPay()} so'm</p>
                         </div>
                     </div>
-                    <p className={(Number(totalMalumot()) >= 0)? 'text_black_18 green_text' : 'text_black_18 red_text'}>Uy xojaligi byudjetining ortacha oylik ortiqcha mablagi yoki kamomadi miqdori: {totalMalumot().toLocaleString()} so`m</p>
+                    <p className={(Number(totalMalumot()) >= 0)? 'text_black_18 green_text' : 'text_black_18 red_text'}>Uy xojaligi byudjetining ortacha oylik ortiqcha mablagi yoki kamomadi miqdori: {totalMalumot().toLocaleString()} so'm</p>
                     
                     <div className='step_buttons double_button'>
                         <button type='button' onClick={()=>{backStep()}} className='previous_button'><AiOutlineDoubleLeft/><p>Oldingi</p></button>

@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { Radio } from '@nextui-org/react'
+import Select from 'react-select';
+import https from '../../../services/https';
+import Prev from '../../../components/Prev/Prev';
 import { InputSingle } from '../../../components/Input/InputSingle';
 import ContainerView from '../../../components/ImageContainer/ContainerView';
-import Prev from '../../../components/Prev/Prev';
-import https from '../../../services/https';
+import { makeTheme, customStyles } from '../../../components/Order/Functions'
 
 const positions = [
    {
@@ -33,22 +35,64 @@ function EmployeeSingle() {
    const { id } = useParams();
    const [employees, setEmployees] = useState({})
    const [path, setPath] = useState([])
+   const [workerOptions, setWorkerOptions] = useState({})
+   const [worker, setWorker] = useState([])
+
+   async function fetchWorkers() {
+      try{
+         const res = await https.get('/employees-all')
+         let selectWorkers = []
+         res?.data?.map((item) => {
+            selectWorkers.push(
+               { value: item?.id, label: item?.name }
+            )
+         })
+         setWorkerOptions(selectWorkers)
+         setWorker(selectWorkers[0])
+      }
+      catch(err){
+         console.log(err)
+      }
+   }
+
+   async function getData(){
+      try{
+         const res = await https.get(`/employees/${id}`)
+         const { data } = res;
+         setEmployees(data)
+         setPath(data?.photo)
+         console.log(res?.data);
+      }
+      catch(err){
+         console.log(err);
+      }
+   }
 
    useEffect(() => {
-      getEmployeeDetails()
-      async function getEmployeeDetails() {
-         try {
-            const { data } = await https.get(`/employees/${id}`)
-            setEmployees(data)
-            let arr = [];
-            arr.push(data?.photo);
-            setPath(arr)
-         } 
-         catch (err) {
-            console.log(err);
-         }
-      }
+      getData()
+      fetchWorkers()
    }, [id])
+
+   const changeEmployee = async (status) =>{
+      const data = {
+         first_employee_id: employees?.id,
+         second_employee_id: worker?.value,
+         position: employees?.position,
+         is_vvb: status
+      }
+      console.log(data, 'data');
+
+      try{
+         const res = await https.post('/users/setVVB', data)
+         if(res?.status===200 || res?.status===201){
+            alert("O'zgartirildi", "success")
+         }
+         getData()
+      }
+      catch(err){
+         console.log(err);
+      }
+   }
 
    return (
       <section>
@@ -110,6 +154,30 @@ function EmployeeSingle() {
                   <InputSingle label={"Bo'lim:"} value={employees?.section_name} />
                   <p className='margin_top_15'></p>
                   <ContainerView paths={path} />
+                  {
+                     employees?.position ?
+                     <div className='vvb_container'>
+                        <h4>Bu lavozimga boshqa xodim qo'yish</h4>
+                        <div className='order-select margin_top_15'>
+                           <p>Xodimlar:</p>
+                           <Select
+                              width='100%'
+                              defaultValue={worker}
+                              value={worker}
+                              options={workerOptions}
+                              className='xodim_select basic-multi-select'
+                              classNamePrefix="select"
+                              styles={customStyles}
+                              theme={makeTheme}
+                              onChange={(event) => { setWorker(event) }}
+                           />
+                        </div>
+                        <div className='buttons'>
+                           <button onClick={()=>{changeEmployee(false)}}>Doimiy</button>
+                           <button onClick={()=>{changeEmployee(true)}}>Vaqtinchalik</button>
+                        </div>
+                     </div> : <></>
+                  }
                </div>
             </div>
          </div>

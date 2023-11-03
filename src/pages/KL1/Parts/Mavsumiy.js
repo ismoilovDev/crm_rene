@@ -65,7 +65,7 @@ function Mavsumiy() {
             SumArr1.push(Number(item.value))
         })
         let totalSum1 = SumArr1.reduce((prev, current)=> prev + current, 0)
-        return totalSum1.toLocaleString()
+        return totalSum1
     }
 
     // MonthDaromad
@@ -73,7 +73,7 @@ function Mavsumiy() {
         let MonthArrSum1 = Object.values(monthDaromad);
         let totalMonth1 = MonthArrSum1.reduce((prev,current)=> Number(prev) + Number(current), 0)
 
-        return totalMonth1.toLocaleString()
+        return totalMonth1
     }
 
     // Mavsumiy Xarajats adding and deleting funtions
@@ -98,7 +98,7 @@ function Mavsumiy() {
             SumArr2.push(Number(item.value))
         })
         let totalSum2 = SumArr2.reduce((prev, current)=> prev + current, 0)
-        return totalSum2.toLocaleString()
+        return totalSum2
     }
 
     // MonthXarajat
@@ -107,7 +107,7 @@ function Mavsumiy() {
         let MonthArrSum2 = Object.values(monthXarajat);
         let totalMonth2 = MonthArrSum2.reduce((prev,current)=> Number(prev) + Number(current), 0)
 
-        return totalMonth2.toLocaleString()
+        return totalMonth2
     }
 
     function nextStep(){
@@ -172,7 +172,7 @@ function Mavsumiy() {
             <button className='kl1_add_button' onClick={()=>{addMavsumiyDaromad()}}>
             Mavsumiy daromad qoshish
             </button>
-            <p className='kl1_jami'>JAMI: {getDaromadSum()} so`m</p>
+            <p className='kl1_jami'>JAMI: {getDaromadSum()?.toLocaleString()} so'm</p>
         </div>
             <p className='kl1_formtitle'>Mavsumiy daromadlarning oylar bo'yicha taqsimlanishi</p>
             <div className='kl1_calendar'>
@@ -197,7 +197,7 @@ function Mavsumiy() {
                 }
             </div>
             <div className='endRow'>
-                <p className={(monthsSum1() !== getDaromadSum())? 'text_black_18 red_text text_degree' : 'text_black_18 text_degree'}>Jami: {monthsSum1()} so'm</p>
+                <p className={(monthsSum1() !== getDaromadSum())? 'text_black_18 red_text text_degree' : 'text_black_18 text_degree'}>Jami: {monthsSum1()?.toLocaleString()} so'm</p>
             </div>
 
         <p className='kl1_formtitle'>Mavsumiy xarajatlar</p>
@@ -246,7 +246,7 @@ function Mavsumiy() {
             <button className='kl1_add_button' onClick={()=>{addMavsumiyXarajat()}}>
             Mavsumiy xarajat qoshish
             </button>
-            <p className='kl1_jami'>JAMI: {getXarajatSum()} so`m</p>
+            <p className='kl1_jami'>JAMI: {getXarajatSum()?.toLocaleString()} so'm</p>
         </div>
         
         <p className='kl1_formtitle'>Mavsumiy xarajatlarning oylar bo'yicha taqsimlanishi</p>
@@ -272,8 +272,10 @@ function Mavsumiy() {
             }
             </div>
             <div className='endRow'>
-                <p className={(monthsSum2() !== getXarajatSum())? 'text_black_18 red_text text_degree' : 'text_black_18 text_degree'}>Jami: {monthsSum2()} so'm</p>
+                <p className={(monthsSum2() !== getXarajatSum())? 'text_black_18 red_text text_degree' : 'text_black_18 text_degree'}>Jami: {monthsSum2()?.toLocaleString()} so'm</p>
             </div>
+
+            <p className='kl1_jami_main'>Jami o'rtacha oylik daromadlari: {(getDaromadSum() - getXarajatSum())?.toLocaleString()} so'm</p>
 
             <div className='step_buttons double_button'>
                 <button type='button' onClick={()=>{backStep()}} className='previous_button'><AiOutlineDoubleLeft/><p>Oldingi</p></button>

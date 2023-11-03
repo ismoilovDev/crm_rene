@@ -15,19 +15,17 @@ function EditTable() {
 
    const [show, setShow] = useState(false)
    const [disable, setDisable] = useState(false)
-   const [orderInfo, setOrderInfo] = useState({})
 
    // Tab active
-   const { activeTab, setActiveTab } = useContext(Context)
+   const { setActiveTab } = useContext(Context)
    const { dataTable, setDataTable } = useContext(Context)
-   const { contract, setContract } = useContext(Context)
 
    useEffect(() => {
       setActiveTab(8)
    }, [])
    // components
    const {
-      infoClient, infoOrder,
+      mainInfo, infoClient, infoOrder,
       // malumot
       dataMalumot,
       // 1 Qism
@@ -50,13 +48,8 @@ function EditTable() {
 
    const [sof, setSof] = useState(1)
    const [kreditData, setKreditData] = useState({})
-   const orderIdGet = window.localStorage.getItem('order_id')
-   const markID = window.localStorage.getItem('mark_id')
    const userID = window.localStorage.getItem('user_id')
 
-   useEffect(() => {
-      getOrderData(orderIdGet);
-   }, [])
 
    // Get current location ----->
    const getCurrentLocation = () => {
@@ -184,67 +177,45 @@ function EditTable() {
       return totalSum ? totalSum : 0
    }
 
-   const getPaymentClear = (id) => {
-      // payment
-      https
-         .post(`/g1/${id}`, {})
-         .then(resp => {
-            setKreditData(resp?.data?.graph?.['0']);
-         })
-         .catch(error => {
-            console.log(error)
-         })
-   }
-
-   const getOrderData = (id) => {
-      https
-         .get(`/orders/${id}`)
-         .then(res => {
-            setOrderInfo(res?.data)
-         })
-         .catch(err => {
-            console.log(err);
-         })
-   }
-
-   const getPaymentAround = (id) => {
-      let Data = new Date();
-      let Year = Data.getFullYear();
-      let Month = Data.getMonth() + 1;
-      let Day = Data.getDate();
-      let today = `${Year}-${Month}-${Day}`
-
-      let data = {
-         type: 'annuitet',
-         sum: orderInfo?.sum,
-         time: orderInfo?.time,
-         percent: 58,
-         given_date: today,
-         first_repayment_date: today
+   const getPaymentClear = async(id) => {
+      try{
+          const res = await https.post(`/g1/${id}`, {})
+          const { data } = res;
+          setKreditData(data?.graph?.['0']);
       }
+      catch(error){
+         console.log(error)
+      }
+   }
 
-      if (data?.time && data?.sum && data?.type && data?.percent) {
-         https
-            .post('/namuna', data)
-            .then(responsive => {
-               setKreditData(responsive?.data?.['0'])
-            })
-            .catch(error => {
-               console.log(error)
-               console.log(data)
-            })
+   const namunaRequest = async(info) =>{
+      try{
+         const res = await https.post('/namuna', info)
+         const { data } = res;
+         setKreditData(data?.['0'])
+      }
+      catch(err){
+         console.log(err);
       }
    }
 
    useEffect(() => {
       setSof(GetSumDaromadBiznes() + GetTotalSumBoshqa() + GetDaromadSumMavsumiy() - GetSumXarajatBiznes() - GetXarajatSumMavsumiy())
 
-      if (contract?.id) {
-         getPaymentClear(orderIdGet)
-      } else {
-         getPaymentAround(orderIdGet)
+      const data = {
+         type: infoOrder?.type_repayment === 1 ? 'annuitet' : 'differential',
+         sum: infoOrder?.sum,
+         time: infoOrder?.time,
+         percent: infoOrder?.percent_year,
+         given_date: infoOrder?.contract ? infoOrder?.contract?.contract_issue_date : infoOrder?.order_date,
+         first_repayment_date: infoOrder?.contract ? infoOrder?.contract?.first_repayment_date : infoOrder?.order_date
       }
 
+      if(infoOrder?.contract?.id){
+         getPaymentClear(infoOrder?.id)
+      }else{
+         namunaRequest(data)   
+      }
    }, [])
 
    function ProcentNumber() {
@@ -414,7 +385,7 @@ function EditTable() {
 
       let info = {
          user_id: userID,
-         order_id: orderIdGet,
+         order_id: infoOrder?.id,
          client_id: infoClient?.id,
          doc_date: dataMalumot?.doc_date,
          mark_date: dataMalumot?.mark_date,
@@ -440,7 +411,7 @@ function EditTable() {
       }
 
       https
-         .patch(`/client-marks/${markID}`, info)
+         .patch(`/client-marks/${mainInfo?.id}`, info)
          .then(res => {
             console.log(info)
             console.log(res)
@@ -451,7 +422,7 @@ function EditTable() {
                address: dataFirstQism.address,
                owner: dataFirstQism.owner,
                duration: dataFirstQism.duration,
-               client_mark_id: markID
+               client_mark_id: mainInfo?.id
             }
             PostFirst(dataBase)
 
@@ -461,7 +432,7 @@ function EditTable() {
                   delete item?.id
                })
                let newObject = {
-                  client_mark_id: markID,
+                  client_mark_id: mainInfo?.id,
                   other_income: myDaromads
                }
                PostBoshqa(newObject)
@@ -473,7 +444,7 @@ function EditTable() {
                   delete item?.id
                })
                let newObject = {
-                  client_mark_id: markID,
+                  client_mark_id: mainInfo?.id,
                   seasonal_income: mavsumiyDaromads
                }
                PostMavsumiyDaromad(newObject)
@@ -482,7 +453,7 @@ function EditTable() {
                   delete item?.id
                })
                let newObject2 = {
-                  client_mark_id: markID,
+                  client_mark_id: mainInfo?.id,
                   seasonal_expense: mavsumiyXarajats
                }
                PostMavsumiyXarajat(newObject2)
@@ -495,7 +466,7 @@ function EditTable() {
                   biznesDaromads[index] = {...item, type:1}
                })
                let newObject = {
-                  client_mark_id: markID,
+                  client_mark_id: mainInfo?.id,
                   business_income: biznesDaromads
                }
                PostBiznes(newObject)
@@ -505,7 +476,7 @@ function EditTable() {
                   biznesXarajats[index] = {...item, type:1}
                })
                let newObject2 = {
-                  client_mark_id: markID,
+                  client_mark_id: mainInfo?.id,
                   business_expense: biznesXarajats
                }
                PostBiznesMinus(newObject2)
@@ -517,7 +488,7 @@ function EditTable() {
                   delete item?.id
                })
                let newObject = {
-                  client_mark_id: markID,
+                  client_mark_id: mainInfo?.id,
                   family_income: familyDaromad
                }
                PostFamily(newObject)
@@ -528,7 +499,7 @@ function EditTable() {
                   delete item?.id
                })
                let newObject = {
-                  client_mark_id: markID,
+                  client_mark_id: mainInfo?.id,
                   family_expense: familyXarajat
                }
                PostFamilyMinus(newObject)
@@ -539,7 +510,7 @@ function EditTable() {
                   delete item?.id
                })
                let newObject = {
-                  client_mark_id: markID,
+                  client_mark_id: mainInfo?.id,
                   family_loans: familyMalumot
                }
                PostFamilyKredit(newObject)
@@ -550,7 +521,7 @@ function EditTable() {
                   delete item?.id
                })
                let newObject = {
-                  client_mark_id: markID,
+                  client_mark_id: mainInfo?.id,
                   loans: clientLoans
                }
                PostClientKredit(newObject)
@@ -644,7 +615,7 @@ function EditTable() {
                      }}
                   />
                </div>
-               <div className='kl1_table_yellow-bg'>{dataTable?.table_personal_capital ? (dataTable?.table_personal_capital * 100 / orderInfo?.sum)?.toFixed(0) : 0}%</div>
+               <div className='kl1_table_yellow-bg'>{dataTable?.table_personal_capital ? (dataTable?.table_personal_capital * 100 / infoOrder?.sum)?.toFixed(0) : 0}%</div>
                <div className='kl1_table_yellow-bg'>50</div>
                <div className='kl1_table_dark-bg'>Daromad manbai</div>
                <div className='kl1_table_dark-bg'>Faoliyat barqarorligi</div>
@@ -682,9 +653,9 @@ function EditTable() {
                <div className='kl1_table_dark-bg'>Taminot turi</div>
                <div className='kl1_table_dark-bg'>Taminot qiymati</div>
                <div className='kl1_table_dark-bg'>Kreditni qoplash koeffitsenti</div>
-               <div>{SupplySum(orderInfo?.supply_info) ? SupplyTypes(orderInfo?.supply_info) : 'kafillik'}</div>
-               <div>{SupplySum(orderInfo?.supply_info) ? SupplySum(orderInfo?.supply_info)?.toLocaleString(undefined, { minimumFractionDigits: 2 }) : orderInfo?.sum?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</div>
-               <div className='kl1_table_yellow-bg'>{orderInfo?.supply_info?.length !== 0 ? (SupplySum(orderInfo?.supply_info) * 100 / orderInfo?.sum)?.toFixed(0)?.toLocaleString(undefined, { minimumFractionDigits: 2 }) : 100}%</div>
+               <div>{SupplySum(infoOrder?.supply_info) ? SupplyTypes(infoOrder?.supply_info) : 'kafillik'}</div>
+               <div>{SupplySum(infoOrder?.supply_info) ? SupplySum(infoOrder?.supply_info)?.toLocaleString(undefined, { minimumFractionDigits: 2 }) : infoOrder?.sum?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</div>
+               <div className='kl1_table_yellow-bg'>{infoOrder?.supply_info?.length !== 0 ? (SupplySum(infoOrder?.supply_info) * 100 / infoOrder?.sum)?.toFixed(0)?.toLocaleString(undefined, { minimumFractionDigits: 2 }) : 100}%</div>
             </div>
             <Textarea
                width='100%'

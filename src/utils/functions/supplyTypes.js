@@ -1,6 +1,6 @@
 export function typeFunc(type, kafillik) {
    const typeDescriptions = {
-      'auto': `transport vositasi garovi${kafillik ? " va kafillik" : ""}`,
+      'auto': kafillik ? 'transport vositasi garovi va kafillik' : 'transport vositasi garovi',
       'gold': 'tilla buyumlar garovi',
       'guarrantor': '3-shaxs kafilligi',
       'insurance': 'sug‘urta kompaniyasi sug‘urta polisi'
@@ -14,7 +14,11 @@ export function typesSupply(supply, kafillik) {
       if (!item?.type) return;
       switch (item.type) {
          case 'auto':
-            return `transport vositasi garovi${kafillik ? " va kafillik" : ""}`;
+            if(kafillik){
+               return `transport vositasi garovi va kafillik`
+            }else{
+               return `transport vositasi garovi`;
+            }
          case 'gold':
             return 'tilla buyumlar garovi';
          case 'guarrantor':

@@ -34,7 +34,7 @@ const creditTypes = [
 
 const paymentTypes = [
    { label: "Bir xil miqdor(annuitet)", value: 1 },
-   { label: "Kamayib boruvchi(differensial)", value: 2 }
+   { label: "Kamayib boruvchi(differеnsial)", value: 2 }
 ]
 
 const BHM = 330_000;

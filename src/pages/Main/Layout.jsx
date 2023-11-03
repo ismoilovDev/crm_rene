@@ -1,12 +1,16 @@
 import { BrowserRouter } from 'react-router-dom';
-import { memo, useEffect, useState } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import Header from '../../components/Header/Header';
-import Login from '../Login/Login';
 import Router from './Routes';
 
-function Main({ token, role, name, photo, logOutHendle }) {
-   const [sidebarActive, setSidebarActive] = useState(true)
+const name = localStorage.getItem('name')
+const photo = localStorage.getItem('photo')
+const role = JSON.parse(window.localStorage.getItem('role'))
+
+function Main({ logOutHendle }) {
+   const main_content = useRef(null)
+   const [sidebarActive, setSidebarActive] = useState(false)
    const [isSidebarMini, setIsSidebarMini] = useState(false)
    const [currentPath, setCurrentPath] = useState(window.location.pathname.replace(/^\/|\/$/g, ''))
 
@@ -16,55 +20,56 @@ function Main({ token, role, name, photo, logOutHendle }) {
          e.returnValue = '';
       };
       window.addEventListener('beforeunload', handleBeforeUnload);
+
+      setCurrentPath(window.location.pathname.replace(/^\/|\/$/g, ''));
+
       return () => {
          window.removeEventListener('beforeunload', handleBeforeUnload);
       };
    }, []);
 
-   useEffect(() => {
-      setCurrentPath(window.location.pathname.replace(/^\/|\/$/g, ''))
-      return () => { }
-   }, []);
-
-   const hendleChangeSidebarSize = () => {
+   const handleChangeSidebarSize = () => {
       setIsSidebarMini(!isSidebarMini)
+   };
+
+   const closeSidebar = () => {
+      setSidebarActive(false)
+      main_content.current.style.overflow = 'auto'
+      main_content.current.style.height = 'auto'
    }
 
-   if (token) {
-      return (
-         <div className='layout'>
-            <BrowserRouter>
-               <Sidebar
-                  role={role}
-                  currentPath={currentPath}
-                  sidebarActive={sidebarActive}
-                  setSidebarActive={setSidebarActive}
-                  isSidebarMini={isSidebarMini}
-                  setIsSidebarMini={setIsSidebarMini}
-                  hendleChangeSidebarSize={hendleChangeSidebarSize}
+   const openSidebar = () => {
+      setSidebarActive(true)
+      main_content.current.style.overflow = 'hidden'
+      main_content.current.style.height = '100vh'
+   }
+
+   return (
+      <div className='layout'>
+         <BrowserRouter>
+            <Sidebar
+               role={role}
+               currentPath={currentPath}
+               sidebarActive={sidebarActive}
+               isSidebarMini={isSidebarMini}
+               setSidebarActive={setSidebarActive}
+               setIsSidebarMini={setIsSidebarMini}
+               closeSidebar={closeSidebar}
+               handleChangeSidebarSize={handleChangeSidebarSize}
+            />
+
+            <main className={isSidebarMini ? "max_size" : null} ref={main_content}>
+               <Header
+                  userInfo={{ name, role, photo }}
+                  logOutHandler={logOutHendle}
+                  onSidebarToggle={openSidebar}
                />
-
-               <main className={isSidebarMini ? "max_size" : " "}>
-                  <Header
-                     name={name}
-                     role={role}
-                     photo={photo}
-                     removeData={logOutHendle}
-                     sidebarActive={sidebarActive}
-                     isSidebarMini={isSidebarMini}
-                     setSidebarActive={setSidebarActive}
-                  />
-                  <Router />
-               </main>
-               <div className={sidebarActive ? "sidebar_popup" : ""} onClick={() => setSidebarActive(false)}></div>
-            </BrowserRouter>
-         </div>
-      )
-   } else {
-      return (
-         <Login />
-      )
-   }
+               <Router />
+            </main>
+            <div className={sidebarActive ? "sidebar_popup" : ""} onClick={() => setSidebarActive(false)}></div>
+         </BrowserRouter>
+      </div>
+   )
 }
 
 export default memo(Main)

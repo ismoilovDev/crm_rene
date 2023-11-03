@@ -1,11 +1,12 @@
 import { useLocation } from 'react-router-dom'
-import { getSumma, getSummaText } from '../utils/functions/totalSum'
-import { PdfControls } from '../components/Pdf/PdfControls'
+import Adding_VVB from './AddingVVB'
+import AddingVVBbug from './AddingVVBbug'
+import { CardInfo } from './Parts/personal'
+import fullName from '../utils/functions/fullName'
 import { PdfWrapper } from '../components/Pdf/Wrapper'
 import useDataFetching from '../hooks/usePdfDataFetching'
-import fullName from '../utils/functions/fullName'
-import AddingVVBbug from './AddingVVBbug'
-import Adding_VVB from './AddingVVB'
+import { PdfControls } from '../components/Pdf/PdfControls'
+import { getSumma, getSummaText } from '../utils/functions/totalSum'
 
 function G1Form() {
    const location = useLocation()
@@ -107,6 +108,10 @@ function G1Form() {
                         <p>Yashash manzili:{documentInfo?.client?.city}, {documentInfo?.client?.district}, {documentInfo?.client?.address}</p>
                         <p>JSh ShIR: {documentInfo?.client?.pinfl}</p>
                         <p>Telefon: {documentInfo?.client?.phone?.join('  ')}</p>
+                        {
+                           documentInfo?.order?.type_credit === "card" ? 
+                           <CardInfo info={documentInfo?.order}/> : <></>
+                        }
                      </div>
                   </div>
                </div>

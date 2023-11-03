@@ -2,7 +2,7 @@ import { memo } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Tooltip } from '@nextui-org/react'
 import SkeletonBox from '../Loader/Skeleton'
-import dateConvert from '../../utils/functions/fullName'
+import dateConvert from '../../utils/functions/dateConvert'
 
 const userID = JSON.parse(window.localStorage.getItem('user_id'))
 

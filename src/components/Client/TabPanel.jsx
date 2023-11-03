@@ -30,7 +30,7 @@ const tabs = [
    {
       id: 6,
       label: `Monitoring`,
-      navigate: '/monitoring'
+      navigate: '/monitoring-tab'
    },
    {
       id: 7,

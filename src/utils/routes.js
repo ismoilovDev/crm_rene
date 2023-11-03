@@ -1,6 +1,5 @@
 import { lazy } from 'react';
 import Home from '../pages/Home/Home';
-
 const ClientRouting = lazy(() => import('../pages/Client/index'));
 const ContractRouting = lazy(() => import('../pages/Contract/index'));
 const OrderRouting = lazy(() => import('../pages/Order'));

@@ -1,7 +1,11 @@
 import { memo } from "react";
+import Select from 'react-select';
 import { Input } from "@nextui-org/react";
 import { BiTrash } from "react-icons/bi";
 import { NumericFormat } from "react-number-format";
+import { makeTheme, customStyles } from "../Order/Functions";
+import { gold_standarts, gold_names } from "./standarts";
+import './style.scss'
 
 export const GoldTable = memo(({ bahoItems, setBahoItems, deletePoint, addNewPoint, precisionRound }) => {
    return (
@@ -21,20 +25,23 @@ export const GoldTable = memo(({ bahoItems, setBahoItems, deletePoint, addNewPoi
                      </button>
                   </div>
                   <div className='taminot_gold_product'>
-                     <Input
-                        bordered
-                        label='Nomi'
-                        className='taminot_tableform_input'
-                        clearable
-                        placeholder="Uzuk"
-                        color="secondary"
-                        value={bahoItems.find(x => x.id === item.id).name}
-                        onChange={(e) => {
-                           const newGold = [...bahoItems]
-                           newGold[index].name = e.target.value
-                           setBahoItems(newGold)
-                        }}
-                     />
+                     <div className='order-select'>
+                        <p>Nomi</p>
+                        <Select
+                           value={gold_names?.find(x => x?.label === item?.name)}
+                           defaultValue={gold_names?.find(x => x?.label === item?.name)}
+                           options={gold_names}
+                           className='buyurtma_select_new group_selector'
+                           styles={customStyles}
+                           theme={makeTheme}
+                           onChange={(event) => {
+                              const newGold = [...bahoItems]
+                              newGold[index].name = event.label
+                              newGold[index].measure = gold_standarts?.find(x => x?.id === event?.value)?.unit
+                              setBahoItems(newGold)
+                           }}
+                        />
+                     </div>
                      <Input
                         bordered
                         label='Proba'
@@ -55,7 +62,6 @@ export const GoldTable = memo(({ bahoItems, setBahoItems, deletePoint, addNewPoi
                         bordered
                         label="O'lchov birligi"
                         className='taminot_tableform_input'
-                        placeholder="dona"
                         color="secondary"
                         value={bahoItems.find(x => x.id === item.id).measure}
                         onChange={(e) => {
@@ -81,26 +87,29 @@ export const GoldTable = memo(({ bahoItems, setBahoItems, deletePoint, addNewPoi
                         }}
                         clearable
                      />
-                     <Input
-                        bordered
-                        type='number'
-                        onWheel={(e) => e.target.blur()}
-                        label='Umumiy og`irligi(gr)'
-                        className='taminot_tableform_input'
-                        placeholder="1"
-                        min="0"
-                        step=".01"
-                        color="secondary"
-                        value={bahoItems.find(x => x.id === item.id).weight}
-                        onChange={(e) => {
-                           const newGold = [...bahoItems]
-                           newGold[index].weight = e.target.value
-                           newGold[index].clean_weight = e.target.value - newGold[index].stone_weight
-                           newGold[index].sum = (e.target.value - newGold[index].stone_weight) * newGold[index].gold_num_sum
-                           setBahoItems(newGold)
-                        }}
-                        clearable
-                     />
+                     <div className="input_warning_container">
+                        <Input
+                           bordered
+                           type='number'
+                           onWheel={(e) => e.target.blur()}
+                           label='Umumiy og`irligi(gr)'
+                           placeholder="1"
+                           min="0"
+                           step=".01"
+                           color="secondary"
+                           status={bahoItems?.find(x => x?.id === item?.id)?.weight > gold_standarts?.find(x => x?.name === bahoItems?.find(x => x?.id === item?.id)?.name)?.max_weight ? 'warning' : ''}
+                           value={bahoItems?.find(x => x?.id === item?.id)?.weight}
+                           onChange={(e) => {
+                              const newGold = [...bahoItems]
+                              newGold[index].weight = e.target.value
+                              newGold[index].clean_weight = e.target.value - newGold[index].stone_weight
+                              newGold[index].sum = (e.target.value - newGold[index].stone_weight) * newGold[index].gold_num_sum
+                              setBahoItems(newGold)
+                           }}
+                           clearable
+                        />
+                        <span className={bahoItems?.find(x => x?.id === item?.id)?.weight > gold_standarts?.find(x => x?.name === bahoItems?.find(x => x?.id === item?.id)?.name)?.max_weight ? "warning_text" : "none"}>Og'irligi odatdagidan og'irroq!!!</span>
+                     </div>
                      <Input
                         bordered
                         type='number'

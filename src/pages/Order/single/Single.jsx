@@ -76,18 +76,27 @@ function OrderSingle() {
                         <>
                            {renderButton(true, 'GS', 'gs1')}
                            {renderButton(true, 'KD', 'kd2')}
-                           {renderButton(true, 'QD', 'qd')}
                         </>
                      )}
                      {supplyTypes.includes('gold') && (
-                        renderButton(true, 'TD', 'td')
+                        <>
+                           {renderButton(true, 'QD', 'qd')}
+                           {renderButton(true, 'TD', 'td')}
+                        </>
+                     )}
+                     {supplyTypes.includes('auto') && (
+                        <>
+                           {renderButton(true, 'NI', 'ni')}
+                           {renderButton(true, 'DL', 'dl')}
+                        </>
                      )}
                   </>
                )}
                {order.open_contract && (
                   <>
                      {renderButton(true, 'B5', 'b5')}
-                     {renderButton(true, 'OC', 'contract')}
+                     {renderButton(true, 'P3', 'p3')}
+                     {renderButton(true, 'BK', 'contract')}
                   </>
                )}
             </div>

@@ -261,6 +261,44 @@
     margin-bottom: 15px;
 }
 
+/* Container - VVB */
+.vvb_container{
+    display: flex;
+    flex-direction: column;
+    border: 2px solid rgb(142, 142, 142);
+    padding: 10px;
+    border-radius: 10px;
+    margin-top: 25px;
+}
+.vvb_container .buttons{
+    margin-top: 30px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+}
+.buttons button{
+    padding: 10px 20px;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    font-weight: 700;
+    border-radius: 10px;
+    transition-duration: 0.3s;
+}
+.buttons button:hover{
+    transform: scale(1.1);
+}
+.buttons button:first-child{
+    background-color: rgba(195, 246, 195, 0.753);
+    border: 2px solid green;
+}
+.buttons button:last-child{
+    background-color: rgba(202, 202, 255, 0.764);
+    border: 2px solid blue;
+    margin-left: 25px;
+}
+
 @media (max-width: 650px) {
     .xodim_buttons button {
         flex-basis: 100%;

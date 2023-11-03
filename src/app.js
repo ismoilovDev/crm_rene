@@ -1,60 +1,44 @@
-import { useEffect, useState } from 'react';
-import Main from './pages/Main/Layout';
+import { useCallback, useContext, useEffect, useState } from 'react';
+import { AuthContext } from './context/context';
+import { login, logout } from './services/auth';
 import Login from './pages/Login/Login';
-import https from './services/https';
+import Main from './pages/Main/Layout';
+
+const loginTime = window.localStorage.getItem('loginTime')
 
 function App() {
-  const [name, setName] = useState(window.localStorage.getItem('name'))
-  const [token, setToken] = useState(window.localStorage.getItem('token'))
-  const [photo, setPhoto] = useState(window.localStorage.getItem('photo'))
-  const [role, setRole] = useState(JSON.parse(window.localStorage.getItem('role')))
-  const [loginTime, setLoginTime] = useState(window.localStorage.getItem('loginTime'))
+  const { token, setToken } = useContext(AuthContext)
+  const [isActiveLoader, setIsActiveLoader] = useState(false)
 
-  async function logOut() {
-    await https
-      .post('/logout')
-      .then(_ => {
-        clearStorage()
-      })
-      .catch(err => {
-        console.log(err);
-      })
-  }
+  const handleLogin = async (data) => {
+    try {
+      setIsActiveLoader(true)
+      await login(data, setToken);
+    } catch (error) {
+      console.log(error)
+    }
+  };
 
-  function clearStorage() {
-    window.localStorage.clear()
-    setToken(undefined)
-    setRole(undefined)
-  }
+  const handleLogout = useCallback(async () => {
+    await logout(setToken);
+  }, [setToken]);
 
   useEffect(() => {
     const currentTime = new Date().getTime();
     const timeDiff = currentTime - loginTime;
     const oneDay = 24 * 60 * 60 * 1000;
     if (timeDiff > oneDay) {
-      logOut();
+      handleLogout();
     }
-  }, []);
+  }, [handleLogout]);
 
-  return (
-    (token && role) ?
-      <Main
-        token={token}
-        role={role}
-        name={name}
-        photo={photo}
-        logOutHendle={clearStorage}
-      />
-      :
-      <Login
-        token={token}
-        setToken={setToken}
-        setRole={setRole}
-        setName={setName}
-        setPhoto={setPhoto}
-        setLoginTime={setLoginTime}
-      />
-  )
+  return token ?
+    <Main logOutHendle={handleLogout} /> :
+    <Login
+      setToken={setToken}
+      onLogin={handleLogin}
+      isActiveLoader={isActiveLoader}
+    />
 }
 
 export default App;

@@ -5,6 +5,8 @@ import { AiOutlineFileAdd, AiOutlineClear } from 'react-icons/ai';
 import { NumericFormat } from "react-number-format";
 import Logo from '../../assets/images/Logo';
 import https from '../../services/https';
+import { PdfWrapper } from '../../components/Pdf/Wrapper';
+import '../../pdfs/pdf.css'
 
 function Calculator() {
    const [creditData, setCreditData] = useState({})
@@ -140,59 +142,58 @@ function Calculator() {
          </div>
          {
             creditData?.[0] ?
-               <section className='pdf_wrapper'>
-                  <div className='pdf_container'>
-                     <div className='b1_img'>
-                        <Logo width={200} />
+               <PdfWrapper indicator={creditData}>
+                  <div className='b1_img'>
+                     <Logo width={200} />
+                  </div>
+                  <p className='text_black_18 text_center margin_top_15'>Qarz to‘lovlarini qoplash jadvali</p>
+                  <p className='text_black_18 text_center pdf_margin_top_5'>NAMUNASI</p>
+                  <p className='main_date_texts text_center pdf_margin_top_20'>
+                     <span>Kredit miqdori:</span>
+                     <span>{Number(sum)?.toLocaleString(undefined, { minimumFractionDigits: 2 })} so‘m</span>
+                  </p>
+                  <p className='main_date_texts text_center'>
+                     <span>Kredit ajratilgan sana:</span>
+                     <span>{new Date(date).toLocaleDateString()}</span>
+                  </p>
+                  <p className='main_date_texts text_center'>
+                     <span>Kreditning so'ndiirish sanasi:</span>
+                     <span>{creditData?.[creditData?.length - 1]?.date_of_payment}</span>
+                  </p>
+                  <div className='pdf_g1_table_second pdf_margin_top_30'>
+                     <div className='g1_table2_header'>
+                        <p>t/r</p>
+                        <p>So‘ndirish sanasi</p>
+                        <p>Asosiy qarz qoldig‘i</p>
+                        <p>Asosiy qarz miqdori</p>
+                        <p>Foiz miqdori</p>
+                        <p>Jami</p>
                      </div>
-                     <p className='text_black_18 text_center margin_top_15'>Qarz to‘lovlarini qoplash jadvali</p>
-                     <p className='text_black_18 text_center pdf_margin_top_5'>NAMUNASI</p>
-                     <p className='main_date_texts text_center pdf_margin_top_20'>
-                        <span>Kredit miqdori:</span>
-                        <span>{Number(sum)?.toLocaleString(undefined, { minimumFractionDigits: 2 })} so‘m</span>
-                     </p>
-                     <p className='main_date_texts text_center'>
-                        <span>Kredit ajratilgan sana:</span>
-                        <span>{new Date(date).toLocaleDateString()}</span>
-                     </p>
-                     <p className='main_date_texts text_center'>
-                        <span>Kreditning so'ndiirish sanasi:</span>
-                        <span>{creditData?.[creditData?.length - 1]?.date_of_payment}</span>
-                     </p>
-                     <div className='pdf_g1_table_second pdf_margin_top_30'>
-                        <div className='g1_table2_header'>
-                           <p>t/r</p>
-                           <p>So‘ndirish sanasi</p>
-                           <p>Asosiy qarz qoldig‘i</p>
-                           <p>Asosiy qarz miqdori</p>
-                           <p>Foiz miqdori</p>
-                           <p>Jami</p>
-                        </div>
-                        {
-                           creditData?.map((item, index) => {
-                              return (
-                                 <div className='g1_table2_header' key={item?.['#']}>
-                                    <p>{index + 1}</p>
-                                    <p>{item?.date_of_payment}</p>
-                                    <p>{item?.principal_debt_left?.toLocaleString(undefined, { minimumFractionDigits: 2 })} so'm</p>
-                                    <p>{item?.principal_debt?.toLocaleString(undefined, { minimumFractionDigits: 2 })} so'm</p>
-                                    <p>{item?.interest?.toLocaleString(undefined, { minimumFractionDigits: 2 })} so'm</p>
-                                    <p>{(item?.monthly_payment)?.toLocaleString(undefined, { minimumFractionDigits: 2 })} so'm</p>
-                                 </div>
-                              )
-                           })
-                        }
-                        <div className='g1_table2_header'>
-                           <p></p>
-                           <p className='black_text'>Jami:</p>
-                           <p></p>
-                           <p className='black_text'>{getSummaText(creditData, 'principal_debt')} so'm</p>
-                           <p className='black_text'>{(getSumma(creditData, 'monthly_payment') - getSumma(creditData, 'principal_debt'))?.toLocaleString(undefined, { minimumFractionDigits: 2 })} so'm</p>
-                           <p className='black_text'>{getSummaText(creditData, 'monthly_payment')}so'm</p>
-                        </div>
+                     {
+                        creditData?.map((item, index) => {
+                           return (
+                              <div className='g1_table2_header' key={item?.['#']}>
+                                 <p>{index + 1}</p>
+                                 <p>{item?.date_of_payment}</p>
+                                 <p>{item?.principal_debt_left?.toLocaleString(undefined, { minimumFractionDigits: 2 })} so'm</p>
+                                 <p>{item?.principal_debt?.toLocaleString(undefined, { minimumFractionDigits: 2 })} so'm</p>
+                                 <p>{item?.interest?.toLocaleString(undefined, { minimumFractionDigits: 2 })} so'm</p>
+                                 <p>{(item?.monthly_payment)?.toLocaleString(undefined, { minimumFractionDigits: 2 })} so'm</p>
+                              </div>
+                           )
+                        })
+                     }
+                     <div className='g1_table2_header'>
+                        <p></p>
+                        <p className='black_text'>Jami:</p>
+                        <p></p>
+                        <p className='black_text'>{getSummaText(creditData, 'principal_debt')} so'm</p>
+                        <p className='black_text'>{(getSumma(creditData, 'monthly_payment') - getSumma(creditData, 'principal_debt'))?.toLocaleString(undefined, { minimumFractionDigits: 2 })} so'm</p>
+                        <p className='black_text'>{getSummaText(creditData, 'monthly_payment')} so'm</p>
                      </div>
                   </div>
-               </section> : <></>
+               </PdfWrapper>
+               : <></>
          }
       </section>
    )

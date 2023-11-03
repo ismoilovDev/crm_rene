@@ -3,6 +3,7 @@ import { MainStatistics } from '../../components/Statistics/MainStatistics'
 import { BigStatistics } from '../../components/Statistics/BigStatistics'
 import DemoRingProgress from '../../components/Charts/ChartCircle'
 import DemoRingProgress2 from '../../components/Charts/ChartCircle2'
+import { LineStatistics } from '../../components/Statistics/LineStatistics'
 import https from '../../services/https'
 
 const branch_id = window.localStorage.getItem('branch_id')
@@ -16,6 +17,7 @@ function Home() {
       try {
          const { data } = await https.get('/statistics')
          setStatisticInfo(data)
+         console.log(data, 'data');
       }
       catch (err) {
          console.log(err)
@@ -189,6 +191,7 @@ function Home() {
          </div>
          <MainStatistics overData={overData} />
          <BigStatistics statisticInfo={statisticInfo} />
+         <LineStatistics orders={statisticInfo?.orders}/>
       </section>
    )
 }

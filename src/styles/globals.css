@@ -1,6 +1,5 @@
 @import url(../components/Header/style.css);
 @import url(../components/ImageContainer/style.css);
-@import url(../components/Sidebar/style.css);
 @import url(../components/Warning/style.css);
 @import url(../components/KL1/style.css);
 @import url(../pages/Branch/style.css);
@@ -14,7 +13,6 @@
 @import url(../pages/Home/style.css);
 @import url(../pages/KL1/style.css);
 @import url(../pages/KL1Form/style.css);
-@import url(../pages/Login/loader.css);
 @import url(../pages/Login/style.css);
 @import url(../pages/Order/style.css);
 @import url(../pages/Product/style.css);
@@ -24,6 +22,8 @@
 @import url(../pages/User/style.css);
 @import url(../pdfs/pdf.css);
 @import url(./spinner.css);
+@import url(./loader.css);
+@import url(../components/Sidebar/style.css);
 
 ::-webkit-scrollbar,
 ::-webkit-scrollbar-thumb {

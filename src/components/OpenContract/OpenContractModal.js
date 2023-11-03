@@ -1,13 +1,15 @@
-import { memo, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Input } from '@nextui-org/react';
 import { useRef, useState } from 'react';
 import { AiOutlineCloseCircle } from 'react-icons/ai';
 import { NumericFormat } from 'react-number-format';
-import dateConvert from './../../utils/functions/nameLengthCheck';
 import https from '../../services/https';
+import dateConvert from '../../utils/functions/dateConvert';
+import './style.scss'
+import '../Input/style.scss'
 
-export const OpenContractModal = memo(({ is_active, setIsActive, clientInfo, setOpenContractID, open, setOpen }) => {
+export const OpenContractModal = ({ is_active, setIsActive, clientInfo, setOpenContractID, open, setOpen }) => {
    const default_value = {
       sum: 0,
       start_date: "",
@@ -178,4 +180,4 @@ export const OpenContractModal = memo(({ is_active, setIsActive, clientInfo, set
          </div>
       </article>
    )
-})
+}

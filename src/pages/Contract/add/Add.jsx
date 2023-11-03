@@ -28,8 +28,7 @@ function ContractForm() {
    }
 
    const onSubmit = (data) => {
-      setDisable(true)
-      const info = { ...data }
+      let info = { ...data }
 
       if (orderItem) {
          info = { ...data, order_id: idItem, group_id: null }
@@ -39,7 +38,7 @@ function ContractForm() {
 
       https
          .post('/contracts', info)
-         .then(_ => {
+         .then(res => {
             alert("Shartnama qoshildi", 'success')
             setDisable(false)
          })

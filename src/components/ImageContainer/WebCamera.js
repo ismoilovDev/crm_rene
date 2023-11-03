@@ -1,10 +1,10 @@
-import { memo, useEffect, useRef } from "react";
+import { memo, useRef } from "react";
 import { Tooltip } from '@nextui-org/react'
-import Webcam from 'react-webcam';
 import { AiFillCamera } from "react-icons/ai";
 import { MdOutlineCancel } from "react-icons/md";
+import Webcam from 'react-webcam';
 
-export const WebCamera = memo(({ open, cameraWrap, sourceImages, selectedImages, setSourceImages, setSelectedImages, closeCameraHandle, setIsChanged }) => {
+export const WebCamera = memo(({ open, cameraWrap, sourceImages, selectedImages, setSourceImages, setSelectedImages, closeCameraHandle }) => {
    
    const webcamRef = useRef(null)
    const captureImage = () => {
@@ -13,7 +13,6 @@ export const WebCamera = memo(({ open, cameraWrap, sourceImages, selectedImages,
          const image = {
             src: imageSrc,
          }
-         setIsChanged(true)
          setSelectedImages([...selectedImages, image])
          const base64Image = imageSrc.split(',')[1];
          const blob = dataURItoBlob(base64Image);

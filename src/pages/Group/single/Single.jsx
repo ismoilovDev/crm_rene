@@ -44,7 +44,7 @@ function SingleGroup() {
    }
 
    function navigateTo(page, orderId) {
-      navigate(`/orders/single/${page}`, { state: { id: orderId } })
+      navigate(`/pdf/${page}`, { state: { id: orderId } })
    }
 
    return (

@@ -1,17 +1,17 @@
 import { memo, useState } from 'react'
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
-import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
+import { Tabs } from 'antd';
 import { AiFillDatabase, AiFillFileText, AiOutlineFileAdd, AiFillFolderOpen, AiFillFile, AiOutlineBook, AiOutlineUsergroupAdd, AiOutlineCalendar, AiOutlineCalculator } from 'react-icons/ai';
 import { BsBuilding } from 'react-icons/bs';
 import { IoCloseCircleOutline } from "react-icons/io5";
 import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
-import { Tabs } from 'antd';
 import { Link } from 'react-router-dom';
+import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import Logo from '../../assets/images/Logo';
 
 const { TabPane } = Tabs;
 
-function Sidebar({ role, sidebarActive, setSidebarActive, isSidebarMini, currentPath, hendleChangeSidebarSize }) {
+function Sidebar({ role, currentPath, sidebarActive, isSidebarMini, setSidebarActive, closeSidebar, handleChangeSidebarSize }) {
    const sidebarLink = [
       { to: '/', icon: <HomeOutlinedIcon />, span: 'Statistika', keys: 1, visible: "visible" },
       { to: '/clients/pages/1', icon: <PersonOutlineOutlinedIcon />, span: 'Mijozlar', keys: 2, visible: role.includes('admin') || role.includes("user") || role.includes("director") ? "visible" : "hidden" },
@@ -42,17 +42,17 @@ function Sidebar({ role, sidebarActive, setSidebarActive, isSidebarMini, current
    }
 
    return (
-      <nav className={sidebarActive ? 'sidebar active' : isSidebarMini ? 'sidebar min_size' : 'sidebar'}>
+      <nav className={isSidebarMini && sidebarActive ? 'sidebar min_size active' : sidebarActive ? 'sidebar active' : isSidebarMini ? 'min_size sidebar' : 'sidebar'}>
          <div className="nav_content">
             <div className="sidebar_header">
                <Link to='/'>
                   <Logo isSidebarMini={isSidebarMini} />
                </Link>
                <div className="sidebar_close">
-                  <IoCloseCircleOutline onClick={() => setSidebarActive(false)} />
+                  <IoCloseCircleOutline onClick={closeSidebar} />
                </div>
             </div>
-            <button className="sidebar_resize" onClick={hendleChangeSidebarSize}>
+            <button className="sidebar_resize" onClick={handleChangeSidebarSize}>
                {!isSidebarMini ? <MdArrowBackIos /> : <MdArrowForwardIos />}
             </button>
             <Tabs
@@ -66,19 +66,18 @@ function Sidebar({ role, sidebarActive, setSidebarActive, isSidebarMini, current
                         <TabPane
                            tab={
                               <Link to={item?.to} className={`nav-item ${item?.visible}`}>
-                                 <div className='nav-item_icon'>
-                                    {item?.icon}
-                                 </div>
+                                 <div className='nav-item_icon'>{item?.icon}</div>
                                  <span>{item?.span}</span>
                               </Link>
                            }
-                           key={item?.keys} />
+                           key={item?.keys}
+                        />
                      )
                   })
                }
             </Tabs>
          </div>
-      </nav>
+      </nav >
    )
 }
 

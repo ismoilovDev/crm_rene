@@ -41,7 +41,7 @@ function B1Form() {
             />
             <div className='header_logo'>
               <Logo width={200} />
-              <div className='b1_subtitle'>
+              <div className='b1_subtitle margin_left_20'>
                 <div className='endColumn'>
                   <span>{documentInfo?.branch?.name} Boshqaruvchisi {Adding_VVB(documentInfo?.branch?.id) ? 'v.v.b' : ''}</span>
                   <span>{fullName(documentInfo?.branch?.head)} ga</span>
