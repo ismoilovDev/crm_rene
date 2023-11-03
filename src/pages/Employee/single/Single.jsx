@@ -173,7 +173,7 @@ function EmployeeSingle() {
                            />
                         </div>
                         <div className='buttons'>
-                           <button onClick={()=>{changeEmployee(false)}}>Doimiy</button>
+                           <button onClick={()=>{changeEmployee(false)}}>Lovazimga qaytarish</button>
                            <button onClick={()=>{changeEmployee(true)}}>Vaqtinchalik</button>
                         </div>
                      </div> : <></>

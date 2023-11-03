@@ -352,6 +352,11 @@ function Table() {
    }
 
    const onSubmit = (data) => {
+      if(ProcentNumber() > 45){
+         setDisable(false)
+         return alert('KL foiz 45% oshib ketdi')
+      }
+      
       setDisable(true)
 
       let familyMembers = []
@@ -681,13 +686,13 @@ function Table() {
                <div className='kl1_table_dark-bg'>Natija</div>
                <div className='kl1_table_double kl1_table_dark-bg kl1_table_noPadding'>
                   <p className='kl1_table_yellow-bg'>{(kreditData?.interest + kreditData?.principal_debt)?.toLocaleString()}</p>
-                  <p className={ProcentNumber() > 50 || ProcentNumber() < 0 ? 'kl1_table_red-bg' : 'kl1_table_green-bg'}>{ProcentNumber() ? ProcentNumber() : "..."}</p>
+                  <p className={ProcentNumber() > 45 || ProcentNumber() < 0 ? 'kl1_table_red-bg' : 'kl1_table_green-bg'}>{ProcentNumber() ? ProcentNumber() : "..."}</p>
                </div>
                <div className='kl1_table_double kl1_table_noPadding'>
                   <p className={((sof / (kreditData?.interest + kreditData?.principal_debt)) * 100).toFixed(2) > 120 ? 'kl1_table_green-bg' : 'kl1_table_red-bg'}>{(((sof / (kreditData?.interest + kreditData?.principal_debt)) * 100).toFixed(2)) ? (((sof / (kreditData?.interest + kreditData?.principal_debt)) * 100).toFixed(2)) : "..."}%</p>
                   <p className='kl1_table_yellow-bg'>{(GetSumXarajatQism6() + GetMalumotPayQism6()) ? (GetSumXarajatQism6() + GetMalumotPayQism6())?.toLocaleString() : 0}</p>
                </div>
-               <div className='kl1_table_yellow-bg'> {`<= 50% и >= 120%`}</div>
+               <div className='kl1_table_yellow-bg'> {`<= 45% и >= 120%`}</div>
                <div className='kl1_table_dark-bg'>Shaxsiy kapital miqdori</div>
                <div className='kl1_table_dark-bg'>Shaxsiy kapital/kreditlar</div>
                <div className='kl1_table_dark-bg'>Natija</div>
@@ -751,7 +756,6 @@ function Table() {
                rounded
                color="secondary"
                className='kl1_input'
-               // placeholder='Ajratiladigan kreditga mijoz qoshimcha 150 litr LukOil moylarini, shuningdek, moy alishtirish jarayonida zaruriy bolgan avto ehtiyot qismlar savdosini ham yolga qoymoqchi. Birlamchi hisob kitoblar buyurtmachi daromadi qoshimcha 1 500 000 somga oshishini korsatmoqda.'
                label='Ajratilgan kreditning buyurtmachi uchun tasirini baholash'
                value={dataTable?.credit_impact}
                {...register("credit_impact", { required: false })}
@@ -767,7 +771,6 @@ function Table() {
                rounded
                color="secondary"
                className='kl1_input'
-               // placeholder='дохода клиента достаточно для получения кредита'
                label='Monitoring boyicha masul xodimning yakuniy xulosasi'
                value={dataTable?.conclusion}
                {...register("conclusion", { required: false })}

@@ -26,7 +26,7 @@ function EditMavsumiy() {
 
 
    function backStep() {
-      navigate("/kl1/editkl1/boshqa", { replace: true });
+      navigate("/client-marks/edit/boshqa", { replace: true });
    }
 
    const myDarkTheme = createTheme({
@@ -128,9 +128,9 @@ function EditMavsumiy() {
 
    function nextStep() {
       if (biznesWindow == 'open') {
-         navigate('/kl1/editkl1/biznes', { replace: true });
+         navigate('/client-marks/edit/biznes', { replace: true });
       } else {
-         navigate('/kl1/editkl1/6_qism', { replace: true });
+         navigate('/client-marks/edit/6_qism', { replace: true });
       }
    }
 

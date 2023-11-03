@@ -3,8 +3,6 @@ import { PdfControls } from '../components/Pdf/PdfControls'
 import { PdfWrapper } from '../components/Pdf/Wrapper';
 import useDataFetching from '../hooks/usePdfDataFetching'
 import fullName from '../utils/functions/fullName'
-import AddingVVBbug from './AddingVVBbug'
-import Adding_VVB from './AddingVVB'
 
 function K2Form() {
    const location = useLocation()
@@ -24,7 +22,7 @@ function K2Form() {
                <p className='black_text pdf_margin_top_5'>{documentInfo?.data?.contract?.contract_issue_date}</p>
             </div>
             <div className='margin_top_20'>
-               <p>{documentInfo?.data?.branch?.name} nomidan {documentInfo?.data?.branch?.contract} asosida ish yurituvchi {documentInfo?.data?.branch?.short_name} boshqaruvchisi {Adding_VVB(documentInfo?.data?.branch?.id) ? 'v.v.b' : ''} {documentInfo?.data?.branch?.head_of_branch},
+               <p>{documentInfo?.data?.branch?.name} nomidan {documentInfo?.data?.branch?.contract} asosida ish yurituvchi {documentInfo?.data?.branch?.short_name} boshqaruvchisi {documentInfo?.data?.branch?.head_of_branch},
                   bundan buyon «Qarz Beruvchi» deb ataladi , bir tomondan, va {documentInfo?.data?.client?.name}, bundan buyon  «Qarzdor» deb ataladi, ikkinchi tomondan, va {documentInfo?.data?.supply_infos?.[0]?.owner?.fio}, bundan buyon «Kafillik beruvchi» deb ataladi, uchinchi tomondan, ushbu shartnomani quyidagilar to‘g‘risida tuzdilar:
                </p>
 
@@ -223,11 +221,11 @@ function K2Form() {
                <p className='distance pdf_margin_top_5'>Telefon: {documentInfo?.data?.branch?.phone}</p>
                <div className='between margin_top_15 margin_site_20'>
                   <p>Boshqaruvchi</p>
-                  <p>{Adding_VVB(documentInfo?.data?.branch?.id) ? 'v.v.b' : ''} {fullName(documentInfo?.data?.branch?.head_of_branch)}</p>
+                  <p>{fullName(documentInfo?.data?.branch?.head_of_branch)}</p>
                </div>
                <div className='between margin_top_15 margin_site_20'>
                   <p>Bosh buxgalter</p>
-                  <p>{AddingVVBbug(documentInfo?.data?.branch?.id) ? 'v.v.b' : ''} {fullName(documentInfo?.data?.branch?.chief_accountant)}</p>
+                  <p>{fullName(documentInfo?.data?.branch?.chief_accountant)}</p>
                </div>
             </div>
          </PdfWrapper>

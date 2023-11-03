@@ -23,16 +23,16 @@ function EditBoshqa(props) {
 
     function nextStep(){
         if(mavsumiyWindow == 'open'){
-            navigate('/kl1/editkl1/mavsumiy', { replace: true });
+            navigate('/client-marks/edit/mavsumiy', { replace: true });
         }else if(biznesWindow == 'open'){
-            navigate('/kl1/editkl1/biznes', { replace: true });
+            navigate('/client-marks/edit/biznes', { replace: true });
         }else{
-            navigate('/kl1/editkl1/6_qism', { replace: true });
+            navigate('/client-marks/edit/6_qism', { replace: true });
         }
     }
 
     function backStep(){
-        navigate("/kl1/editkl1/1_qism", { replace: true });
+        navigate("/client-marks/edit/1_qism", { replace: true });
     }
 
     // My Daromads adding and deleting funtions

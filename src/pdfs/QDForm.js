@@ -1,12 +1,11 @@
 import { useLocation } from 'react-router-dom'
-import { getSummaText, supplySumProcentClient } from '../utils/functions/totalSum'
-import { PdfControls } from '../components/Pdf/PdfControls'
-import { PdfWrapper } from '../components/Pdf/Wrapper'
-import useDataFetching from '../hooks/usePdfDataFetching'
 import fullName from '../utils/functions/fullName'
-import AddingVVBkassa from './AddingVVBkassa'
-import AddingVVBbug from './AddingVVBbug'
-import Adding_VVB from './AddingVVB'
+import { PdfWrapper } from '../components/Pdf/Wrapper'
+import dateConvert from '../utils/functions/dateConvert'
+import useDataFetching from '../hooks/usePdfDataFetching'
+import { PdfControls } from '../components/Pdf/PdfControls'
+import { getSummaText, supplySumProcentClient } from '../utils/functions/totalSum'
+import SecondBlank from './Parts/SecondBlank'
 
 function QDForm() {
    const location = useLocation()
@@ -21,13 +20,12 @@ function QDForm() {
             <p className='text_black_18 text_center pdf_margin_top_5'>D A L O L A T N O M A S I</p>
             <div className='between align_center pdf_margin_top_20'>
                <p className='black_text'>{documentInfo?.data?.branch?.city}</p>
-               <p className='black_text'>{documentInfo?.contract_issue_date} yil</p>
+               <p className='black_text'>{dateConvert(documentInfo?.contract_issue_date)} yil</p>
             </div>
             <div>
-               {console.log(documentInfo)}
                <p className='pdf_margin_top_30'>
                   {documentInfo?.data?.branch?.name} va {documentInfo?.data?.client?.name} (shaxsini tasdiqlovchi hujjat ma'lumotlari: {documentInfo?.data?.client?.serial_num} raqamli {documentInfo?.data?.client?.doc_type}  {documentInfo?.data?.client?.issued_date} y. da {documentInfo?.data?.client?.issued_by} tomonidan berilgan. Yashash manzilim: {documentInfo?.data?.client?.city}, {documentInfo?.data?.client?.district}, {documentInfo?.data?.client?.address})
-                  o‘rtasidagi {documentInfo?.contract_issue_date} yil da imzolangan tilla buyumlarni garovga qabul qilish uchun kelishuv dalolatnomasiga asosan tilla buyumlar {documentInfo?.data?.client?.name} "Renesans Mikromoliya Tashkiloti" MChJga garov ta'minoti sifatida quyidagi ro‘yxat bo‘yicha qabul qilinadi (Jadval №1):
+                  o‘rtasidagi {dateConvert(documentInfo?.contract_issue_date)} yil da imzolangan tilla buyumlarni garovga qabul qilish uchun kelishuv dalolatnomasiga asosan tilla buyumlar {documentInfo?.data?.client?.name} "Renesans Mikromoliya Tashkiloti" MChJga garov ta'minoti sifatida quyidagi ro‘yxat bo‘yicha qabul qilinadi (Jadval №1):
                </p>
                <div className='endRow pdf_margin_top_10'>
                   <p>Jadval №1</p>
@@ -74,7 +72,7 @@ function QDForm() {
                   </div>
                </div>
                <p className='pdf_margin_top_30 distance'>
-                  {documentInfo?.contract_issue_date} yil da imzolangan tilla buyumlarni garovga qabul qilish uchun kelishuv dalolatnomasiga asosan {supplySumProcentClient(documentInfo?.data?.supply_infos)?.sum?.toLocaleString(undefined, { minimumFractionDigits: 2 })} so‘mga baholangan yuqorida ko‘rsatilgan tilla buyumlar
+                  {dateConvert(documentInfo?.contract_issue_date)} yil da imzolangan tilla buyumlarni garovga qabul qilish uchun kelishuv dalolatnomasiga asosan {supplySumProcentClient(documentInfo?.data?.supply_infos)?.sum?.toLocaleString(undefined, { minimumFractionDigits: 2 })} so‘mga baholangan yuqorida ko‘rsatilgan tilla buyumlar
                   {documentInfo?.data?.client?.name} tomonidan "Renesans Mikromoliya Tashkiloti" MChJga mikroqarzdan foydalanish muddatiga (yoki "Renesans Mikromoliya Tashkiloti" MChJ oldidagi Garov shartnomasi va Mikroqarz shartnomasi bo‘yicha barcha majburiyatlar to‘liq bajarilgunga qadar) topshiriladi.
                </p>
                <p className='pdf_margin_top_30'>
@@ -84,26 +82,31 @@ function QDForm() {
                   Boshqaruvchi:
                </p>
                <p>
-                  {Adding_VVB(documentInfo?.data?.branch?.id) ? 'v.v.b' : ''} {fullName(documentInfo?.data?.branch?.head_of_branch)} _______________
+                  {fullName(documentInfo?.data?.branch?.head_of_branch)} _______________
                </p>
                <p className='pdf_margin_top_10'>
                   Bosh buxgalter :
                </p>
                <p>
-                  {AddingVVBbug(documentInfo?.data?.branch?.id) ? 'v.v.b' : ''} {fullName(documentInfo?.data?.branch?.chief_accountant)}______________
+                  {fullName(documentInfo?.data?.branch?.chief_accountant)}______________
                </p>
                <div className='pdf_end_2sections pdf_margin_top_40'>
                   <div className='pdf_end_2sections_section'>
                      <p className='black_text'>Qabul qildi:</p>
                      <p className='pdf_margin_top_20'>G‘aznachi:</p>
-                     <p>{AddingVVBkassa(documentInfo?.data?.branch?.id) ? 'v.v.b' : ''} {fullName(documentInfo?.data?.branch?.chief_treasurer)}______________</p>
+                     <p>{fullName(documentInfo?.data?.branch?.chief_treasurer)}______________</p>
                   </div>
                   <div className='pdf_end_2sections_section'>
                      <p className='black_text'>Topshirdi:</p>
-                     <p className='pdf_margin_top_20'>{documentInfo?.data?.client?.name}___________________</p>
+                     <p className='pdf_margin_top_20'>{fullName(documentInfo?.data?.client?.name)}___________________</p>
                   </div>
                </div>
             </div>
+            <SecondBlank
+               client_name={documentInfo?.data?.client?.name}
+               contract_date={dateConvert(documentInfo?.contract_issue_date)}
+               sum={getSummaText(documentInfo?.data?.supply_infos?.[0]?.gold, 'sum')}
+            />
          </PdfWrapper>
       </>
    )

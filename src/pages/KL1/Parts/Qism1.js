@@ -35,10 +35,10 @@ function FirstKl1() {
    }, [])
 
    function NextStep() {
-      navigate('/kl1/addkl1/boshqa', { replace: true })
+      navigate('/client-marks/add/boshqa', { replace: true })
    }
    function BackStep() {
-      navigate("/kl1/addkl1", { replace: true });
+      navigate("/client-marks/add", { replace: true });
    }
 
 

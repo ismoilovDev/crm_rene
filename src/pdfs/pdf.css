@@ -159,6 +159,13 @@
   font-weight: 600;
 }
 
+.second_blank{
+  margin-top: 25px;
+  padding: 8px 12px;
+  margin-left: auto;
+  page-break-before: auto;
+  page-break-after: auto;
+}
 /* Av1 Form */
 .av1_form_part {
   margin: 30px 0;
@@ -760,6 +767,9 @@ td {
 .margin {
   margin-bottom: 15px;
 }
+.margin_top_10{
+  margin-top: 10px;
+}
 
 .center-column {
   align-items: center;
@@ -925,7 +935,12 @@ td {
 .pdf_inputs_container input{
   margin-right: 15px;
   padding: 5px;
-
+}
+.pdf_image_container{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
 }
 
 @media print {
@@ -1040,5 +1055,9 @@ td {
   .shartnama_pdf,
   .title_contract {
     font-size: 14pt !important;
+  }
+
+  .second_blank{
+    page-break-inside: avoid;
   }
 }
