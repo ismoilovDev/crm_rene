@@ -66,7 +66,7 @@ function Main({ logOutHendle }) {
                />
                <Router />
             </main>
-            <div className={sidebarActive ? "sidebar_popup" : ""} onClick={() => setSidebarActive(false)}></div>
+            <div className={sidebarActive ? "sidebar_popup" : ""} onClick={closeSidebar}></div>
          </BrowserRouter>
       </div>
    )
