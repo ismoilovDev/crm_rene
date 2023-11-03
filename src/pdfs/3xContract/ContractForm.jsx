@@ -1,5 +1,3 @@
-import Adding_VVB from "../AddingVVB"
-import AddingVVBbug from "../AddingVVBbug"
 import { CardInfo } from '../Parts/personal';
 import fullName from "../../utils/functions/fullName"
 import { phoneFormat } from '../../utils/functions/phoneFormat';
@@ -20,11 +18,11 @@ export function ContractForm({documentInfo, orderInfo}) {
             <div className='pdf_margin_top_20'>
                <div className='between pdf_margin_top_20'>
                   <p>Boshqaruvchi </p>
-                  <p>{Adding_VVB(documentInfo?.data?.branch?.id) ? 'v.v.b' : ''} {fullName(documentInfo?.data?.branch?.head_of_branch)}</p>
+                  <p>{fullName(documentInfo?.data?.branch?.head_of_branch)}</p>
                </div>
                <div className='between pdf_margin_top_20'>
                   <p>Bosh buxgalter </p>
-                  <p>{AddingVVBbug(documentInfo?.data?.branch?.id) ? 'v.v.b' : ''} {fullName(documentInfo?.data?.branch?.chief_accountant)}</p>
+                  <p>{fullName(documentInfo?.data?.branch?.chief_accountant)}</p>
                </div>
             </div>
          </div>

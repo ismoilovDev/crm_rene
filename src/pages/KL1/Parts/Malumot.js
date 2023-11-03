@@ -11,7 +11,7 @@ function Shaxshiy() {
     let navigate = useNavigate()
     
     function NextStep(){
-        navigate('/kl1/addkl1/1_qism', { replace: true })
+        navigate('/client-marks/add/1_qism', { replace: true })
     }
     
     const {setActiveTab, infoClient, infoOrder, dataMalumot, setDataMalumot } = useContext(Context);

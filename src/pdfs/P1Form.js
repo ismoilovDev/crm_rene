@@ -5,9 +5,7 @@ import { collectClients, collectProducts, collectReasonsClient, collectReasonsGr
 import { PdfControls } from '../components/Pdf/PdfControls';
 import { PdfWrapper } from '../components/Pdf/Wrapper';
 import fullName from '../utils/functions/fullName';
-import AddingVVBbug from './AddingVVBbug';
 import https from '../services/https';
-import Adding_VVB from './AddingVVB';
 
 function P1Form() {
    let autoSum = 0
@@ -97,11 +95,11 @@ function P1Form() {
             </div>
             <div className='between align_center pdf_margin_top_10'>
                <p>Kredit Komissiyasi Raisi</p>
-               <p>{Adding_VVB(documentInfo?.branch?.id) ? 'v.v.b' : ''} {fullName(documentInfo?.branch?.head_of_branch)}</p>
+               <p>{fullName(documentInfo?.branch?.head_of_branch)}</p>
             </div>
             <div className='between align_center pdf_margin_top_10'>
                <p>Kredit Komissiyasi a'zolari</p>
-               <p>{AddingVVBbug(documentInfo?.branch?.id) ? 'v.v.b' : ''} {fullName(documentInfo?.branch?.chief_accountant)}</p>
+               <p>{fullName(documentInfo?.branch?.chief_accountant)}</p>
             </div>
             <div className='between align_center pdf_margin_top_10'>
                <p></p>
@@ -544,11 +542,11 @@ function P1Form() {
 
             <div className='between align_center pdf_margin_top_30'>
                <p>Kredit Komissiyasi Raisi</p>
-               <p>{Adding_VVB(documentInfo?.branch?.id) ? 'v.v.b' : ''} {fullName(documentInfo?.branch?.head_of_branch)}</p>
+               <p>{fullName(documentInfo?.branch?.head_of_branch)}</p>
             </div>
             <div className='between align_center pdf_margin_top_10'>
                <p>Kredit Komissiyasi a'zolari</p>
-               <p>{AddingVVBbug(documentInfo?.branch?.id) ? 'v.v.b' : ''} {fullName(documentInfo?.branch?.chief_accountant)}</p>
+               <p>{fullName(documentInfo?.branch?.chief_accountant)}</p>
             </div>
             <div className='between align_center pdf_margin_top_10'>
                <p></p>

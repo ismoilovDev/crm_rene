@@ -21,15 +21,15 @@ function EditPart6() {
     let navigate = useNavigate()
 
     function nextStep(){
-        navigate('/kl1/editkl1/7_qism', { replace: true });
+        navigate('/client-marks/edit/7_qism', { replace: true });
     }
     function backStep(){
         if(biznesWindow === 'open'){
-            navigate("/kl1/editkl1/biznes", { replace: true })
+            navigate("/client-marks/edit/biznes", { replace: true })
         }else if(mavsumiyWindow === 'open'){
-            navigate("/kl1/editkl1/mavsumiy", { replace: true })
+            navigate("/client-marks/edit/mavsumiy", { replace: true })
         }else{
-            navigate("/kl1/editkl1/boshqa", { replace: true })
+            navigate("/client-marks/edit/boshqa", { replace: true })
         }
     }
 

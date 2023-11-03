@@ -2,7 +2,7 @@ import dateConvert from "../../utils/functions/dateConvert"
 
 export const Address = ({info}) =>(
     <span>
-        Yashash manzilim: {info?.city} {info?.district?.name_uz  ? info?.district?.name_uz : info?.district} {info?.address} {info?.temp_address ? info?.temp_address : null}.
+        Yashash manzilim: {info?.city} {info?.district?.name_uz  ? info?.district?.name_uz : info?.district} {info?.address}{info?.temp_address ? `. Vaqtincha yashash manzilim: ${info?.temp_address}` : null}.
     </span>
 )
 

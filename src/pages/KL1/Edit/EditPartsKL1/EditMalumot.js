@@ -11,7 +11,7 @@ function EditMalumot() {
     let navigate = useNavigate()
     
     function nextStep(){
-        navigate('/kl1/editkl1/1_qism', { replace: true });
+        navigate('/client-marks/edit/1_qism', { replace: true });
     }
     
     const {setActiveTab, infoClient, infoOrder, dataMalumot, setDataMalumot } = useContext(Context);

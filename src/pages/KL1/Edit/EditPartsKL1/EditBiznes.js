@@ -21,9 +21,9 @@ function EditBiznes() {
     
     function backStep(){
         if(mavsumiyWindow === 'open'){
-            navigate("/kl1/editkl1/mavsumiy", { replace: true });
+            navigate("/client-marks/edit/mavsumiy", { replace: true });
         }else{
-            navigate("/kl1/editkl1/boshqa", { replace: true });
+            navigate("/client-marks/edit/boshqa", { replace: true });
         }
     }
 
@@ -91,7 +91,7 @@ function EditBiznes() {
     }
 
     function nextStep(){
-        navigate('/kl1/editkl1/6_qism', { replace: true });
+        navigate('/client-marks/edit/6_qism', { replace: true });
     }
 
     function onSubmit(){

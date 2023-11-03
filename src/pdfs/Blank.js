@@ -1,6 +1,6 @@
 import { memo } from "react"
 
-function Blank({ order_date, user_name, boss, vvb }) {
+function Blank({ order_date, user_name, boss }) {
 
    return (
       <div className='ijro_card'>
@@ -52,7 +52,7 @@ function Blank({ order_date, user_name, boss, vvb }) {
          </div>
          <div className='between align_end name_handmark ijro_footer'>
             <p className='text_black_18 margin_right_20'>
-               Boshqaruvchi {vvb}
+               Boshqaruvchi 
             </p>
             <p className='text_black_18'>
                {boss}

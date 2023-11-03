@@ -4,7 +4,6 @@ import { PdfWrapper } from '../components/Pdf/Wrapper'
 import useDataFetching from '../hooks/usePdfDataFetching'
 import fullName from '../utils/functions/fullName'
 import Logo from '../assets/images/Logo'
-import Adding_VVB from './AddingVVB'
 import Blank from './Blank'
 import './pdf.css'
 
@@ -24,13 +23,12 @@ function B4Form() {
             user_name={fullName(user_name)}
             order_date={documentInfo?.order?.order_date || ""}
             boss={fullName(documentInfo?.branch?.head_of_branch) || ""}
-            vvb={Adding_VVB(documentInfo?.branch?.id) ? 'v.v.b' : ''}
           />
           <div className='header_logo'>
             <Logo width={200} />
             <div className='b1_subtitle'>
               <div className='endColumn'>
-                <span>{documentInfo?.branch?.name} Boshqaruvchisi {Adding_VVB(documentInfo?.branch?.id) ? 'v.v.b' : ''}</span>
+                <span>{documentInfo?.branch?.name} Boshqaruvchisi </span>
                 <span>{fullName(documentInfo?.branch?.head_of_branch)} ga</span>
               </div>
             </div>

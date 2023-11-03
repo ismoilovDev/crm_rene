@@ -1,5 +1,4 @@
 import dateConvert from '../../utils/functions/dateConvert';
-import Adding_VVB from '../AddingVVB';
 import { typeFunc } from '../../utils/functions/supplyTypes';
 import { capitalize } from '../../utils/functions/capitalize'
 import { monthDiff } from '../Parts/functions';
@@ -19,7 +18,7 @@ export function MainPart({documentInfo, orderInfo}) {
          </div>
          <div className="margin_top_20">
             “Renesans Mikromoliya tashkiloti”  MCHJ (bundan buyon matnlarda “Qarz beruvchi” deb nomlanadi) nomidan _______________ yildagi №________________-sonli ishonchnoma asosida
-            harakat qiluvchi {documentInfo?.data?.branch?.city} filiali boshqaruvchisi boshlig‘i {Adding_VVB(document?.branch?.id) ? 'v.v.b' : ''} {documentInfo?.data?.branch?.head_of_branch} bir tarafdan va (bundan buyon matnda «Qarz oluvchi» deb yuritiluvchi) {documentInfo?.data?.client?.name} ikkinchi tarafdan, ushbu bitimni (bundan buyon matnda bitim deb yuritiladi) quyidagilar to‘g‘risida tuzdilar:
+            harakat qiluvchi {documentInfo?.data?.branch?.city} filiali boshqaruvchisi boshlig‘i {documentInfo?.data?.branch?.head_of_branch} bir tarafdan va (bundan buyon matnda «Qarz oluvchi» deb yuritiluvchi) {documentInfo?.data?.client?.name} ikkinchi tarafdan, ushbu bitimni (bundan buyon matnda bitim deb yuritiladi) quyidagilar to‘g‘risida tuzdilar:
          </div>
       </>
    )

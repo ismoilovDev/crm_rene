@@ -24,10 +24,10 @@ function EditPart1() {
    }, [])
 
    function nextStep() {
-      navigate('/kl1/editkl1/boshqa', { replace: true });
+      navigate('/client-marks/edit/boshqa', { replace: true });
    }
    function backStep() {
-      navigate("/kl1/editkl1", { replace: true });
+      navigate("/client-marks/edit", { replace: true });
    }
 
    

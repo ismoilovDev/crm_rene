@@ -114,10 +114,10 @@ function BuyurtmaOylik() {
    let navigate = useNavigate()
 
    function nextStep() {
-      navigate('/kl1/addkl1/table', { replace: true });
+      navigate('/client-marks/add/table', { replace: true });
    }
    function backStep() {
-      navigate("/kl1/addkl1/6_qism", { replace: true });
+      navigate("/client-marks/add/6_qism", { replace: true });
    }
 
 
@@ -321,8 +321,8 @@ function BuyurtmaOylik() {
                         <p>Jami oylik tolov:</p>
                         <p>{(kreditData?.interest + kreditData?.principal_debt)?.toLocaleString()}</p>
                      </div>
-                     <div className={procentNumber() > 50 || procentNumber() < 0 ? 'single_buyurtma_inputs pdf_margin_top_15 red_text' : 'single_buyurtma_inputs pdf_margin_top_15 green_text'}>
-                        <p>{`Soralayotgan kredit hisobi qarzi yoki korsatkichi (<50%)`}:</p>
+                     <div className={procentNumber() > 45 || procentNumber() < 0 ? 'single_buyurtma_inputs pdf_margin_top_15 red_text' : 'single_buyurtma_inputs pdf_margin_top_15 green_text'}>
+                        <p>{`Soralayotgan kredit hisobi qarzi yoki korsatkichi (<45%)`}:</p>
                         <p>{procentNumber()}</p>
                      </div>
                   </div> :

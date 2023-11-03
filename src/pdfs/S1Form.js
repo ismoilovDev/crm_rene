@@ -1,10 +1,9 @@
 import { useLocation } from 'react-router-dom'
-import Adding_VVB from './AddingVVB'
-import AddingVVBbug from './AddingVVBbug'
 import { CardInfo } from './Parts/personal';
 import fullName from '../utils/functions/fullName';
 import { PdfWrapper } from '../components/Pdf/Wrapper'
 import useDataFetching from '../hooks/usePdfDataFetching'
+import dateConvert from '../utils/functions/dateConvert';
 import { checkOwner } from '../utils/functions/supplyTypes'
 import { PdfControls } from '../components/Pdf/PdfControls'
 import { collectGroupSupply, collectGroupSupplyFull } from '../utils/functions/totalSum'
@@ -22,18 +21,18 @@ function S1Form() {
             <p className='text_black_18 text_center title_contract'>Mikroqarz shartnomasi № {documentInfo?.contract_num}</p>
             <div className='between align_center pdf_margin_top_20'>
                <p className='black_text title_contract'>{documentInfo?.data?.branch?.city}</p>
-               <p className='black_text title_contract'>{documentInfo?.contract_issue_date} yil</p>
+               <p className='black_text title_contract'>{dateConvert(documentInfo?.contract_issue_date)} yil</p>
             </div>
             <div className='margin_top_20'>
                {
                   documentInfo?.data?.group?.name ?
-                     <p>{document?.branch?.name} {Adding_VVB(document?.branch?.id) ? 'v.v.b' : ''} nomidan {document?.branch?.contract} asosida ish yurituvchi {document?.branch?.short_name} Boshqaruvchisi {Adding_VVB(document?.branch?.id) ? 'v.v.b' : ''} {document?.branch?.head_of_branch},
+                     <p>{document?.branch?.name} Boshqaruvchisi nomidan {document?.branch?.contract} asosida ish yurituvchi {document?.branch?.short_name} Boshqaruvchisi {document?.branch?.head_of_branch},
                         bundan buyon «Qarz Beruvchi» deb ataladi, bir tomondan, va "{document?.group?.name}" Qarzdorlar guruhi a'zolari
                         {document?.group?.clients?.map(item => {
                            return (` ${item?.name}, `)
                         })} bundan buyon "Qarz oluvchilar" deb ataladilar, ikkinchi tomondan, ushbu shartnomani quyidagilar to'g'risida tuzdilar:
                      </p> :
-                     <p>{documentInfo?.data?.branch?.name} nomidan {documentInfo?.data?.branch?.contract} asosida ish yurituvchi {documentInfo?.data?.branch?.short_name} Boshqaruvchisi {Adding_VVB(documentInfo?.data?.branch?.id) ? 'v.v.b' : ''} {documentInfo?.data?.branch?.head_of_branch},
+                     <p>{documentInfo?.data?.branch?.name} nomidan {documentInfo?.data?.branch?.contract} asosida ish yurituvchi {documentInfo?.data?.branch?.short_name} Boshqaruvchisi {documentInfo?.data?.branch?.head_of_branch},
                         bundan buyon «Qarz Beruvchi» deb ataladi, bir tomondan, va {documentInfo?.data?.client?.name}, bundan buyon "Qarz oluvchi" deb ataladi, ikkinchi tomondan, ushbu shartnomani quyidagilar to'g'risida tuzdilar:
                      </p>
                }
@@ -75,7 +74,7 @@ function S1Form() {
                      {
                         documentInfo?.data?.group?.name ?
                            (collectGroupSupply(documentInfo?.data?.group?.clients)?.includes('auto') || collectGroupSupply(documentInfo?.data?.group?.clients)?.includes('gold') ?
-                              <li>Qarz oluvchilar olingan qarzni qaytarilishini ta'minlash maqsadida o'zaro solidar javobgarlik to'g'risidagi {documentInfo?.data?.contract?.contract_issue_date} yildagi {documentInfo?.contract_num}-sonli Kafillik shartnomasini taqdim qiladilar va  garov shartnomasi asosida
+                              <li>Qarz oluvchilar olingan qarzni qaytarilishini ta'minlash maqsadida o'zaro solidar javobgarlik to'g'risidagi {dateConvert(documentInfo?.data?.contract?.contract_issue_date)} yildagi {documentInfo?.contract_num}-sonli Kafillik shartnomasini taqdim qiladilar va  garov shartnomasi asosida
                                  {
                                     documentInfo?.data?.group?.clients?.map(item => {
                                        if (item?.order?.supply_info?.[0]) {
@@ -88,12 +87,12 @@ function S1Form() {
                               :
                               (
                                  collectGroupSupply(documentInfo?.data?.group?.clients)?.includes('insurance') ?
-                                    <li>Qarz oluvchilar olingan qarzni qaytarilishini ta'minlash maqsadida Qarz beruvchi, Qarz oluvchi va {collectGroupSupplyFull(documentInfo?.data?.group?.clients)?.find(item => item?.type === 'insurance')?.name} o'rtasida tuzilgan {documentInfo?.contract_issue_date} yildagi {documentInfo?.contract_num}-sonli Kredit qaytarilmasligi xavfini sug'urtalash shartnomasiga ko'ra berilgan sugurta polisini taqdim qiladilar</li>
+                                    <li>Qarz oluvchilar olingan qarzni qaytarilishini ta'minlash maqsadida Qarz beruvchi, Qarz oluvchi va {collectGroupSupplyFull(documentInfo?.data?.group?.clients)?.find(item => item?.type === 'insurance')?.name} o'rtasida tuzilgan {dateConvert(documentInfo?.contract_issue_date)} yildagi {documentInfo?.contract_num}-sonli Kredit qaytarilmasligi xavfini sug'urtalash shartnomasiga ko'ra berilgan sugurta polisini taqdim qiladilar</li>
                                     :
                                     (collectGroupSupply(documentInfo?.data?.group?.clients)?.includes('guarrantor') ?
-                                       <li>Qarz oluvchilar olingan qarzni qaytarilishini ta'minlash maqsadida Qarz beruvchi, Qarz oluvchilar va {collectGroupSupplyFull(documentInfo?.data?.group?.clients)?.find(item => item?.type === 'guarrantor')?.owner?.fio} o'rtasida tuzilgan {documentInfo?.contract_issue_date} yildagi {documentInfo?.contract_num}-sonli Kafillik shartnomasini taqdim qiladilar.</li>
+                                       <li>Qarz oluvchilar olingan qarzni qaytarilishini ta'minlash maqsadida Qarz beruvchi, Qarz oluvchilar va {collectGroupSupplyFull(documentInfo?.data?.group?.clients)?.find(item => item?.type === 'guarrantor')?.owner?.fio} o'rtasida tuzilgan {dateConvert(documentInfo?.contract_issue_date)} yildagi {documentInfo?.contract_num}-sonli Kafillik shartnomasini taqdim qiladilar.</li>
                                        :
-                                       <li>Qarz oluvchilar olingan qarzni qaytarilishini ta'minlash maqsadida o'zaro solidar javobgarlik tog'risidagi {documentInfo?.contract_issue_date} da imzolangan {documentInfo?.contract_num} - sonli Kafillik shartnomasini taqdim qiladilar.</li>
+                                       <li>Qarz oluvchilar olingan qarzni qaytarilishini ta'minlash maqsadida o'zaro solidar javobgarlik tog'risidagi {dateConvert(documentInfo?.contract_issue_date)} da imzolangan {documentInfo?.contract_num} - sonli Kafillik shartnomasini taqdim qiladilar.</li>
                                     )
                               )
                            ) :
@@ -103,15 +102,15 @@ function S1Form() {
                                  :
                                  (
                                     documentInfo?.data?.supply_infos?.[0]?.type === 'gold' ?
-                                       <li>Qarz oluvchi olingan qarzni qaytarilishini ta'minlash maqsadida tomonlar o'rtasida {documentInfo?.contract_issue_date} yilda tuzilgan {documentInfo?.contract_num}-sonli garov shartnomasi asosida o'ziga tegishli bo'lgan tilla buyumlarni garovga qo'yadi.</li>
+                                       <li>Qarz oluvchi olingan qarzni qaytarilishini ta'minlash maqsadida tomonlar o'rtasida {dateConvert(documentInfo?.contract_issue_date)} yilda tuzilgan {documentInfo?.contract_num}-sonli garov shartnomasi asosida o'ziga tegishli bo'lgan tilla buyumlarni garovga qo'yadi.</li>
                                        :
                                        (
                                           documentInfo?.data?.supply_infos?.[0]?.type === 'insurance' ?
-                                             <li>Qarz oluvchi olingan qarzni qaytarilishini ta'minlash maqsadida Qarz beruvchi, Qarz oluvchi va {documentInfo?.data?.supply_infos?.[0]?.insurance?.company_name} o'rtasida tuzilgan {documentInfo?.contract_issue_date} yildagi {documentInfo?.contract_num}-sonli Kredit qaytarilmasligi xavfini sug'urtalash shartnomasiga ko'ra berilgan sugurta polisini taqdim qiladilar</li>
+                                             <li>Qarz oluvchi olingan qarzni qaytarilishini ta'minlash maqsadida Qarz beruvchi, Qarz oluvchi va {documentInfo?.data?.supply_infos?.[0]?.insurance?.company_name} o'rtasida tuzilgan {dateConvert(documentInfo?.contract_issue_date)} yildagi {documentInfo?.contract_num}-sonli Kredit qaytarilmasligi xavfini sug'urtalash shartnomasiga ko'ra berilgan sugurta polisini taqdim qiladilar</li>
                                              :
                                              (
                                                 documentInfo?.data?.supply_infos?.[0]?.type === 'guarrantor' ?
-                                                   <li>Qarz oluvchi olingan qarzni qaytarilishini ta'minlash maqsadida Qarz beruvchi, Qarz oluvchi va {documentInfo?.data?.supply_infos?.[0]?.owner?.fio} o'rtasida tuzilgan {documentInfo?.contract_issue_date} yildagi {documentInfo?.contract_num}-sonli Kafillik shartnomasini taqdim qiladilar.</li>
+                                                   <li>Qarz oluvchi olingan qarzni qaytarilishini ta'minlash maqsadida Qarz beruvchi, Qarz oluvchi va {documentInfo?.data?.supply_infos?.[0]?.owner?.fio} o'rtasida tuzilgan {dateConvert(documentInfo?.contract_issue_date)} yildagi {documentInfo?.contract_num}-sonli Kafillik shartnomasini taqdim qiladilar.</li>
                                                    :
                                                    <li>Qarz beruvchi Qarz oluvchiga mikroqarzni hech qanday ta'minotsiz, ya'ni ishonch asosida ajratadi.</li>
                                              )
@@ -351,11 +350,11 @@ function S1Form() {
                         <div className='pdf_margin_top_20'>
                            <div className='between pdf_margin_top_20'>
                               <p>Boshqaruvchi </p>
-                              <p>{Adding_VVB(documentInfo?.data?.branch?.id) ? 'v.v.b' : ''} {fullName(documentInfo?.data?.branch?.head_of_branch)}</p>
+                              <p>{fullName(documentInfo?.data?.branch?.head_of_branch)}</p>
                            </div>
                            <div className='between pdf_margin_top_20'>
                               <p>Bosh buxgalter </p>
-                              <p>{AddingVVBbug(documentInfo?.data?.branch?.id) ? 'v.v.b' : ''} {fullName(documentInfo?.data?.branch?.chief_accountant)}</p>
+                              <p>{fullName(documentInfo?.data?.branch?.chief_accountant)}</p>
                            </div>
                         </div>
                      </div>
