@@ -2,10 +2,10 @@ import { useLocation } from 'react-router-dom'
 import { PdfWrapper } from '../components/Pdf/Wrapper'
 import { PdfControls } from '../components/Pdf/PdfControls'
 import { getSummaText, supplySumProcentClient } from '../utils/functions/totalSum'
+import SecondBlank from './Parts/SecondBlank'
 import useDataFetching from '../hooks/usePdfDataFetching'
 import dateConvert from '../utils/functions/dateConvert'
 import fullName from '../utils/functions/fullName'
-import SecondBlank from './Parts/SecondBlank'
 
 function QDForm() {
    const location = useLocation()
