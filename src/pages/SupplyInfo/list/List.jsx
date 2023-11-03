@@ -1,13 +1,14 @@
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
-import { translateType } from '../../../components/Order/Functions';
-import { alert } from '../../../components/Alert/alert';
-import CustumPagination from '../../../components/Pagination/CustumPagination';
-import DeleteWarning from '../../../components/Warning/DeleteWarning';
-import AddOrderForm from '../../../components/Order/AddOrderForm';
-import SearchForm from '../../../components/Search/SearchForm';
-import SkeletonBox from '../../../components/Loader/Skeleton';
 import https from '../../../services/https';
+import { alert } from '../../../components/Alert/alert';
+import SkeletonBox from '../../../components/Loader/Skeleton';
+import SearchForm from '../../../components/Search/SearchForm';
+import AddOrderForm from '../../../components/Order/AddOrderForm';
+import { translateType } from '../../../components/Order/Functions';
+import DeleteWarning from '../../../components/Warning/DeleteWarning';
+import { ContainerExcelButton } from '../../../components/Buttons/ExcelBtn';
+import CustumPagination from '../../../components/Pagination/CustumPagination';
 
 const role = JSON.parse(window.localStorage.getItem('role'))
 
@@ -129,6 +130,19 @@ function SupplyList() {
       }
    }
 
+   const handleOnExcel = () =>{
+      let data = []
+      taminotlar?.map(item =>{
+         const info = {
+            "F.I.Sh": item?.client?.name, 
+            summasi: item?.sum || "-", 
+            mahsulot_nomi: translateType(item?.type)
+         }
+         data = [...data, info]
+      })
+      return data;
+   }
+
    return (
       <section className='taminot'>
          <AddOrderForm
@@ -150,9 +164,10 @@ function SupplyList() {
                   placeholder="Taminot..."
                />
             </div>
+            <ContainerExcelButton data={handleOnExcel()} name={"Ta'minot"} />
          </div>
 
-         <div className='shartnamaTablePart table_root'>
+         <div className='shartnamaTablePart table_root margin_top_15'>
             <div className='shartTable responsive_table'>
                <div className='tableHeader table_header'>
                   <p className='headerTable-title_shartnoma'>F.I.Sh</p>

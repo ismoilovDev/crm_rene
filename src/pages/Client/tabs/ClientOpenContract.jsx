@@ -4,7 +4,7 @@ import { OpenContractForm } from '../../../components/OpenContract/OpenContractF
 import { OpenContractEdit } from '../../../components/OpenContract/OpenContractEdit'
 import DeleteWarning from '../../../components/Warning/DeleteWarning'
 import SkeletonBox from "../../../components/Loader/Skeleton"
-import dateConvert from '../../../utils/functions/fullName'
+import dateConvert from '../../../utils/functions/dateConvert'
 import https from '../../../services/https'
 
 const role = JSON.parse(window.localStorage.getItem('role'))

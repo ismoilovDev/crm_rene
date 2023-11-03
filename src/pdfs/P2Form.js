@@ -85,7 +85,7 @@ function P2Form() {
                   {
                      documentInfo?.group?.name ?
                         `Buyurtmachilar mikroqarz qaytarilishini ta'minlash maqsadida 
-                                ${collectGroupSupply(documentInfo?.group?.clients)?.includes('auto') ?
+                           ${collectGroupSupply(documentInfo?.group?.clients)?.includes('auto') ?
                            `o‘zaro solidar javobgarlik to‘g‘risidagi Kafillik shartnomasini taqdim qilishlarini va  garov shartnomasi asosida ${checkOwnerClient(collectGroupSupplyFull(documentInfo?.group?.clients)?.[0])}ga tegishli bo‘lgan transport vositasini garovga qo‘yishlarini ma'lum qilganlar.`
                            : (
                               collectGroupSupply(documentInfo?.group?.clients)?.includes('gold') ?
@@ -101,10 +101,10 @@ function P2Form() {
                                  )
                            )
                         }
-                                `
+                        `
                         :
                         `Buyurtmachi mikroqarz qaytarilishini ta'minlash maqsadida 
-                                ${typesSupply(documentInfo?.supply_info)?.includes('transport vositasi garovi') ?
+                           ${typesSupply(documentInfo?.supply_info)?.includes('transport vositasi garovi') || typesSupply(documentInfo?.supply_info)?.includes('transport vositasi garovi va kafillik')?
                            `garov shartnomasi asosida ${checkOwnerClient(documentInfo?.supply_info?.[0])}ga tegishli bo‘lgan transport vositasini garovga qo‘yishini ma'lum qilgan.`
                            : (
                               typesSupply(documentInfo?.supply_info)?.includes('tilla buyumlar garov') ?
@@ -120,10 +120,11 @@ function P2Form() {
                                  )
                            )
                         }
-                                `
+                        `
                   }
                </p>
             }
+            {console.log(collectGroupSupply(documentInfo?.group?.clients))}
             {(reneConfidence(documentInfo) || documentInfo?.supply_info?.[0]?.type === "without_supply") ?
                <p>
                   Buyurtmachi({documentInfo?.group?.name ? "lar" : ""}) ({documentInfo?.group?.name ? "o‘zlari" : "o‘zi"})ning kredit tarixi hamda qarz oluvchi sifatidagi obro‘sini inobatga olgan xolda, unga mikroqarzni ishonch asosida, hech qanday ta'minotsiz ajratishni so‘ragan.

@@ -1,11 +1,10 @@
-import { useState, useRef, useCallback } from 'react'
+import { useState, useRef, useCallback, memo } from 'react'
 import axios from 'axios';
 import Lightbox from "yet-another-react-lightbox";
 import { Zoom } from "yet-another-react-lightbox/plugins";
 import { MdPhotoSizeSelectLarge } from "react-icons/md";
 import { AiFillCamera, AiFillCloseSquare } from 'react-icons/ai';
 import { ImCloudUpload } from "react-icons/im";
-import { base_url } from '../../utils/const';
 import { WebCamera } from './WebCamera';
 import { alert } from "../Alert/alert"
 import "yet-another-react-lightbox/styles.css";
@@ -67,7 +66,7 @@ function Container({ setPath }) {
             images.append(`image[${i}]`, image);
          });
          console.log(sourceImages)
-         await axios.post(`${base_url}/api/upload-photo`, images, {
+         await axios.post(`${process.env.REACT_APP_BASE_URL}/api/upload-photo`, images, {
             headers: {
                "Authorization": "Bearer " + window.localStorage.getItem('token'),
                "Content-Type": "multipart/form-data",
@@ -124,9 +123,10 @@ function Container({ setPath }) {
                      return (
                         <div className='image_container' key={index}>
                            <img
-                              className='photo_show'
-                              src={image?.src}
                               width="200"
+                              src={image?.src}
+                              alt='Rasm yuklanmadi'
+                              className='photo_show'
                               style={{ objectFit: 'contain' }}
                               onClick={() => setIndex(index)}
                            />
@@ -168,4 +168,4 @@ function Container({ setPath }) {
    )
 }
 
-export default Container
+export default memo(Container);

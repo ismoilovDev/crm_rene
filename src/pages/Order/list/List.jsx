@@ -6,6 +6,8 @@ import CustumPagination from '../../../components/Pagination/CustumPagination';
 import DeleteWarning from '../../../components/Warning/DeleteWarning';
 import AddOrderForm from '../../../components/Order/AddOrderForm';
 import https from '../../../services/https';
+import dateConvert from '../../../utils/functions/dateConvert'
+import { dataSort } from '../../../utils/functions/dataSort'
 import Filters from '../filters';
 
 const role = JSON.parse(window.localStorage.getItem('role'))
@@ -82,6 +84,22 @@ const Orders = ({ filters }) => {
       setDeleteID(id)
    }
 
+   const handleOnExcel = () =>{
+      let data = []
+      orders?.map(item =>{
+         const info = {
+            "F.I.Sh": item?.client?.name, 
+            kod: item?.code, 
+            sanasi: dateConvert(item?.order_date),
+            guruh : item?.group?.name ? item?.group?.name : 'guruhsiz',
+            status: dataSort(item?.status)
+         }
+         data = [...data, info]
+      })
+
+      return data;
+   }
+
    return (
       <div className='shart_nama'>
          <AddOrderForm
@@ -98,7 +116,7 @@ const Orders = ({ filters }) => {
                   <i className='bx bx-plus-circle'></i>
                </button>
             </div>
-            <Filters branch_id={branch_id} setCurrentPage={setCurrentPage} />
+            <Filters branch_id={branch_id} setCurrentPage={setCurrentPage} handleOnExcel={handleOnExcel}/>
             <ShartNomaTable
                loading={loading}
                orders={orders}

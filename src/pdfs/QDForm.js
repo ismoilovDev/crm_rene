@@ -24,6 +24,7 @@ function QDForm() {
                <p className='black_text'>{documentInfo?.contract_issue_date} yil</p>
             </div>
             <div>
+               {console.log(documentInfo)}
                <p className='pdf_margin_top_30'>
                   {documentInfo?.data?.branch?.name} va {documentInfo?.data?.client?.name} (shaxsini tasdiqlovchi hujjat ma'lumotlari: {documentInfo?.data?.client?.serial_num} raqamli {documentInfo?.data?.client?.doc_type}  {documentInfo?.data?.client?.issued_date} y. da {documentInfo?.data?.client?.issued_by} tomonidan berilgan. Yashash manzilim: {documentInfo?.data?.client?.city}, {documentInfo?.data?.client?.district}, {documentInfo?.data?.client?.address})
                   o‘rtasidagi {documentInfo?.contract_issue_date} yil da imzolangan tilla buyumlarni garovga qabul qilish uchun kelishuv dalolatnomasiga asosan tilla buyumlar {documentInfo?.data?.client?.name} "Renesans Mikromoliya Tashkiloti" MChJga garov ta'minoti sifatida quyidagi ro‘yxat bo‘yicha qabul qilinadi (Jadval №1):

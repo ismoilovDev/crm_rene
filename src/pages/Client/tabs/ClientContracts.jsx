@@ -6,7 +6,7 @@ import { alert } from "../../../components/Alert/alert"
 import { ClientContext } from "../../../context/context"
 import Select from 'react-select';
 import DeleteWarning from "../../../components/Warning/DeleteWarning"
-import dateConvert from "../../../utils/functions/fullName"
+import dateConvert from "../../../utils/functions/dateConvert"
 import SkeletonBox from "../../../components/Loader/Skeleton"
 import https from "../../../services/https"
 
@@ -163,7 +163,7 @@ const ClientContracts = memo(({ id }) => {
           .get(`/orders/${res?.data?.order_id}`)
           .then(responsive => {
             if (responsive?.data?.status == 'accepted') {
-              navigate("/contracts/form", { state: { id: res?.data?.order_id, code: dataId?.code, order: true } })
+							navigate("/contracts/add", { state: { id: res?.data?.order_id, code: dataId?.code, order: true } })
             } else {
               return (alert("Buyurtma tasdiqlanmagan", 'error'))
             }

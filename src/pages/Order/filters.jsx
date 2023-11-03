@@ -10,8 +10,9 @@ import {
 } from "../../components/Filter/Filter";
 import OrderTabs from "../../components/Order/OrderTabs";
 import { OrderFilterContext } from "../../context/context";
+import { ExcelButton } from "../../components/Buttons/ExcelBtn";
 
-function Filters({ branch_id, setCurrentPage }) {
+function Filters({ branch_id, setCurrentPage, handleOnExcel }) {
    const { filters, setFilters, initialFilters } = useContext(OrderFilterContext);
    
    return (
@@ -30,12 +31,15 @@ function Filters({ branch_id, setCurrentPage }) {
                <DateFilter filters={filters} setFilters={setFilters} />
                <ClearFilters filters={filters} setFilters={setFilters} initialFilters={initialFilters} />
             </div>
-            <div className="indicator">
-               <h4>Indikator</h4>
-               <div className="reminder">
-                  <span className='green'>KL yozilgan(to'ldirilgan)</span>
-                  <span className='red'>KL yozilmagan(to'ldirilmagan)</span>
+            <div className="between">
+               <div className="indicator">
+                  <h4>Indikator</h4>
+                  <div className="reminder">
+                     <span className='green'>KL yozilgan(to'ldirilgan)</span>
+                     <span className='red'>KL yozilmagan(to'ldirilmagan)</span>
+                  </div>
                </div>
+               <ExcelButton data={handleOnExcel()} name={'Buyurtma'}/>
             </div>
          </div>
       </>

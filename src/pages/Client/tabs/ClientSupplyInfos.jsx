@@ -7,7 +7,6 @@ import DeleteWarning from '../../../components/Warning/DeleteWarning'
 import SkeletonBox from '../../../components/Loader/Skeleton'
 import https from '../../../services/https'
 
-
 const role = JSON.parse(window.localStorage.getItem('role'))
 
 const SupplyInfosTable = memo(({ loading, supplyInfos, singlePage, deleteFun, editPage, role }) => {
@@ -78,7 +77,7 @@ function ClientSupplyInfos({ id }) {
 
    useEffect(() => {
       getClientSupplyInfos()
-   }, [id])
+   }, [id, getClientSupplyInfos])
 
    async function getClientSupplyInfos() {
       if (client?.id) {
@@ -97,7 +96,7 @@ function ClientSupplyInfos({ id }) {
    const memoizedSupplyInfos = useMemo(() => supplyInfos, [supplyInfos]);
 
    const toCreateSupplyInfo = async () => {
-      await navigate('/taminot/form', {
+      await navigate('/supplies/add', {
          state: {
             id: client?.id,
          }
@@ -106,25 +105,25 @@ function ClientSupplyInfos({ id }) {
 
    function singlePage(type, id) {
       if (type === 'gold') {
-         navigate(`/taminot/singlegold/${id}`, { replace: false })
+         navigate(`/supplies/single-gold/${id}`, { replace: false })
       } else if (type === 'auto') {
-         navigate(`/taminot/singleavto/${id}`, { replace: false })
+         navigate(`/supplies/single-auto/${id}`, { replace: false })
       } else if (type === 'guarrantor') {
-         navigate(`/taminot/singleuchinchi/${id}`, { replace: false })
+         navigate(`/supplies/single-owner/${id}`, { replace: false })
       } else if (type === 'insurance') {
-         navigate(`/taminot/singlesugurta/${id}`, { replace: false })
+         navigate(`/supplies/single-insurance/${id}`, { replace: false })
       }
    }
 
    function editPage(type, id) {
       if (type === 'gold') {
-         navigate(`/taminot/editgold/${id}`, { replace: false })
+         navigate(`/supplies/edit-gold/${id}`, { replace: false })
       } else if (type === 'auto') {
-         navigate(`/taminot/editavto/${id}`, { replace: false })
+         navigate(`/supplies/edit-auto/${id}`, { replace: false })
       } else if (type === 'guarrantor') {
-         navigate(`/taminot/edituchinchi/${id}`, { replace: false })
+         navigate(`/supplies/edit-owner/${id}`, { replace: false })
       } else if (type === 'insurance') {
-         navigate(`/taminot/editsugurta/${id}`, { replace: false })
+         navigate(`/supplies/edit-insurance/${id}`, { replace: false })
       }
    }
 

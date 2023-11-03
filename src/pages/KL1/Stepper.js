@@ -173,7 +173,6 @@ function StepperForm() {
       december: 0
    }
 
-   const [statusData, setStatusData] = useState(true)
    const [infoClient, setInfoClient] = useState({})
    const [infoOrder, setInfoOrder] = useState({})
    const location = useLocation()
@@ -330,7 +329,7 @@ function StepperForm() {
       longitude: 0
    })
 
-   async function BuyurtmaInfo() {
+   async function orderInfo() {
       await https
          .get(`/orders/${orderId}`)
          .then(res => {
@@ -365,12 +364,7 @@ function StepperForm() {
    }, []);
 
    useEffect(() => {
-      if (statusData) {
-         window.localStorage.setItem('order_id', orderId)
-      }
-      setStatusData(false)
-
-      BuyurtmaInfo()
+      orderInfo()
    }, [])
 
 

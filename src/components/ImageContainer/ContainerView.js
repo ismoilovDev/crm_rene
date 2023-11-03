@@ -1,18 +1,16 @@
 import { useState } from 'react'
 import Lightbox from "yet-another-react-lightbox";
 import { Zoom } from "yet-another-react-lightbox/plugins";
-import { base_url } from '../../utils/const';
 import "yet-another-react-lightbox/styles.css";
 import './style.css'
 
 
 function ContainerView({ paths }) {
-   const [isActivePopup, setIsActivePopup] = useState(false);
    const [index, setIndex] = useState(-1);
 
    return (
       <div>
-         {paths?.length != 0 ?
+         {paths?.length !== 0 ?
             <>
                <p className='photo_text'>Rasmlar</p>
                <div className='taminot_photo_add'>
@@ -22,10 +20,11 @@ function ContainerView({ paths }) {
                            return (
                               <div className='image_container' key={index}>
                                  <img
-                                    className='photo_show'
                                     width="200"
+                                    alt={'Rasm yuklanmadi'}
+                                    className='photo_show'
                                     style={{ objectFit: 'contain' }}
-                                    src={`${base_url}/${image}`}
+                                    src={`${process.env.REACT_APP_BASE_URL}/${image}`}
                                     onClick={() => setIndex(index)}
                                  ></img>
                               </div>
@@ -37,23 +36,18 @@ function ContainerView({ paths }) {
                <Lightbox
                   open={index >= 0}
                   index={index}
+                  carousel={
+                     {
+                        finite: true,
+                        preload: 2,
+                     }
+                  }
                   close={() => setIndex(-1)}
                   plugins={[Zoom]}
                   slides={paths?.map(item => {
-                     return { src: `${base_url}/${item}` }
+                     return { src: `${process.env.REACT_APP_BASE_URL}/${item}` }
                   })}
                />
-               {
-                  isActivePopup ?
-                     <div className="popup">
-                        <div className="loadingio-spinner-rolling-142tch8axj4">
-                           <div className="ldio-9k6j014ej1">
-                              <div></div>
-                           </div>
-                        </div>
-                     </div>
-                     : null
-               }
             </> : <></>
          }
       </div>

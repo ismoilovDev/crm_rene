@@ -523,6 +523,32 @@
     z-index: 9999999;
 }
 
+/* Price Table */
+.price_table{
+    border: none;
+    border: 2px solid grey;
+    border-radius: 5px;
+    display: inline-block;
+}
+.price_table div{
+    border-bottom: 1px solid grey;
+    display: grid;
+    grid-template-columns: 4fr 5fr 5fr 5fr;
+    align-items: center;
+}
+.price_table div:last-child{
+    border-bottom: none;
+}
+.price_table div p{
+    height: 100%;
+    padding: 5px 10px;
+    border-right: 1px solid grey;
+    font-size: 14px;
+    font-weight: 600;
+}
+.price_table div p:last-child{
+    border-right: none;
+}
 
 @media (min-width: 1450px) {
     .kl1_content .ant-tabs-tab .ant-tabs-tab-btn {

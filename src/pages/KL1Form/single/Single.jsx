@@ -6,6 +6,7 @@ import { YMaps, Map, Placemark } from '@pbe/react-yandex-maps';
 import ContainerView from '../../../components/ImageContainer/ContainerView';
 import Prev from '../../../components/Prev/Prev';
 import https from '../../../services/https';
+import { months } from '../../../utils/constants/months';
 
 
 function SingleKL1() {
@@ -16,71 +17,68 @@ function SingleKL1() {
    const [kreditData, setKreditData] = useState({})
    const [orderInfo, setOrderInfo] = useState({})
 
-   const getPaymentAround = (id) => {
-      let Data = new Date();
-      let Year = Data.getFullYear();
-      let Month = Data.getMonth() + 1;
-      let Day = Data.getDate();
-      let today = `${Year}-${Month}-${Day}`
-
-      https
-         .get(`/orders/${id}`)
-         .then(res => {
-            console.log(res?.data);
-            let data = {
-               type: 'annuitet',
-               sum: res?.data?.sum,
-               time: res?.data?.time,
-               percent: 58,
-               given_date: today,
-               first_repayment_date: today
-            }
-            if (data?.time && data?.sum && data?.type && data?.percent) {
-               https
-                  .post('/namuna', data)
-                  .then(responsive => {
-                     setKreditData(responsive?.data?.['0'])
-                  })
-                  .catch(error => {
-                     console.log(error)
-                     console.log(data)
-                  })
-            }
-         })
-         .catch(error => {
-            console.log(error)
-         })
+   const getPaymentClear = async(id) => {
+      try{
+         const res = await https.post(`/g1/${id}`, {})
+         const { data } = res;
+         setKreditData(data?.graph?.['0']);
+      }
+      catch(error){
+         console.log(error)
+      }
    }
 
-   async function GetMainInfo() {
-      await https
-         .get(`/client-marks/${id}`)
-         .then(res => {
-            setMainInfo(res?.data)
-            console.log(res?.data);
+   const namunaRequest = async(info) =>{
+      try{
+         const res = await https.post('/namuna', info)
+         const { data } = res;
+         setKreditData(data?.['0'])
+      }
+      catch(err){
+         console.log(err);
+      }
+   }
 
-            if (res?.data?.contract?.id) {
-               // payment
-               https
-                  .post(`/g1/${res?.data?.order?.id}`, {})
-                  .then(resp => {
-                     setKreditData(resp?.data?.graph?.['0']);
-                  })
-                  .catch(error => {
-                     console.log(error)
-                  })
-            } else {
-               getPaymentAround(res?.data?.order?.id)
-            }
+   const orderGetData = async(id) =>{
+      try{
+         const res = await https.get(`/orders/${id}`)
+         setOrderInfo(res?.data)
+      }
+      catch(err){
+         console.log(err);
+      }
+   }
 
-         })
-         .catch(err => {
-            console.log(err)
-         })
+   async function getMainInfo() {
+      try{
+         const res = await https.get(`/client-marks/${id}`)
+         const { data } = res;
+
+         setMainInfo(res?.data)
+         orderGetData(res?.data?.order?.id)
+
+         const info = {
+            type: data?.order?.type_repayment === 1 ? 'annuitet' : 'differential',
+            sum: data?.order?.sum,
+            time: data?.order?.time,
+            percent: data?.order?.percent_year,
+            given_date: data?.contract?.id ? data?.contract?.contract_issue_date : data?.order?.order_date,
+            first_repayment_date: data?.contract?.id ? data?.contract?.first_repayment_date : data?.order?.order_date
+         }
+
+         if(res?.data?.contract?.id){
+            getPaymentClear(data?.order?.id)
+         }else{
+            namunaRequest(info)   
+         }
+      }
+      catch(err){
+         console.log(err)
+      }
    }
 
    useEffect(() => {
-      GetMainInfo()
+      getMainInfo()
    }, [])
 
    // Location
@@ -289,24 +287,6 @@ function SingleKL1() {
       return (BoshqaSumNumber() + (MonthlyDaromadNumber() / 12) + BiznesDaromadNumber() - (MonthlyXarajatNumber() / 12) - BiznesXarajatNumber())
    }
 
-   useEffect(() => {
-      https
-         .get(`/client-marks/${id}`)
-         .then(res => {
-            https
-               .get(`/orders/${res?.data?.order?.id}`)
-               .then(respon => {
-                  console.log(respon?.data);
-                  setOrderInfo(respon?.data)
-               })
-               .catch(error => {
-                  console.log(error)
-               })
-         })
-         .catch(err => {
-            console.log(err)
-         })
-   }, [])
 
    function supplyTypes() {
       let types = []
@@ -367,10 +347,13 @@ function SingleKL1() {
                <p>Doimiy yashash manzili:</p>
                <p>{mainInfo?.client?.address}</p>
             </div>
-            <div className='single_buyurtma_inputs pdf_margin_top_15'>
-               <p>Vaqtinchalik yashash manzili:</p>
-               <p>{mainInfo?.client?.temp_address}</p>
-            </div>
+            {
+               mainInfo?.client?.temp_address ?
+               <div className='single_buyurtma_inputs pdf_margin_top_15'>
+                  <p>Vaqtinchalik yashash manzili:</p>
+                  <p>{mainInfo?.client?.temp_address}</p>
+               </div> : <></>
+            }
             <div className='single_buyurtma_inputs pdf_margin_top_15'>
                <p>JSh ShIR:</p>
                <p>{mainInfo?.client?.pinfl}</p>
@@ -522,54 +505,16 @@ function SingleKL1() {
                      <p className='kl1_formtitle text_center'>Mavsumiy daromadlarning oylar bo'yicha taqsimlanishi</p>
 
                      <div className='kl1_calendar_single'>
-                        <div className='single_buyurtma_inputs'>
-                           <p>Yanvar:</p>
-                           <p>{mainInfo?.monthly_income?.january}</p>
-                        </div>
-                        <div className='single_buyurtma_inputs'>
-                           <p>Fevral:</p>
-                           <p>{mainInfo?.monthly_income?.february}</p>
-                        </div>
-                        <div className='single_buyurtma_inputs'>
-                           <p>Mart:</p>
-                           <p>{mainInfo?.monthly_income?.march}</p>
-                        </div>
-                        <div className='single_buyurtma_inputs'>
-                           <p>Aprel:</p>
-                           <p>{mainInfo?.monthly_income?.april}</p>
-                        </div>
-                        <div className='single_buyurtma_inputs'>
-                           <p>May:</p>
-                           <p>{mainInfo?.monthly_income?.may}</p>
-                        </div>
-                        <div className='single_buyurtma_inputs'>
-                           <p>Iyun:</p>
-                           <p>{mainInfo?.monthly_income?.june}</p>
-                        </div>
-                        <div className='single_buyurtma_inputs'>
-                           <p>Iyul:</p>
-                           <p>{mainInfo?.monthly_income?.july}</p>
-                        </div>
-                        <div className='single_buyurtma_inputs'>
-                           <p>Avgust:</p>
-                           <p>{mainInfo?.monthly_income?.august}</p>
-                        </div>
-                        <div className='single_buyurtma_inputs'>
-                           <p>Sentabr:</p>
-                           <p>{mainInfo?.monthly_income?.september}</p>
-                        </div>
-                        <div className='single_buyurtma_inputs'>
-                           <p>Oktabr:</p>
-                           <p>{mainInfo?.monthly_income?.october}</p>
-                        </div>
-                        <div className='single_buyurtma_inputs'>
-                           <p>Noyabr:</p>
-                           <p>{mainInfo?.monthly_income?.november}</p>
-                        </div>
-                        <div className='single_buyurtma_inputs'>
-                           <p>Dekabr:</p>
-                           <p>{mainInfo?.monthly_income?.december}</p>
-                        </div>
+                        {
+                           months?.map((item, index)=>{
+                              return(
+                                 <div className='single_buyurtma_inputs' key={index+10}>
+                                    <p>{item?.name}:</p>
+                                    <p>{(mainInfo?.monthly_income?.[item?.value])?.toLocaleString()}</p>
+                                 </div>
+                              )
+                           })
+                        }
                      </div>
                      <p className='kl1_jami margin_top_15'>Jami: {MonthlyDaromad()} so'm</p>
                   </> : <></>
@@ -615,54 +560,16 @@ function SingleKL1() {
 
                      <p className='kl1_formtitle text_center'>Mavsumiy xarajatlarning oylar bo'yicha taqsimlanishi</p>
                      <div className='kl1_calendar_single'>
-                        <div className='single_buyurtma_inputs'>
-                           <p>Yanvar:</p>
-                           <p>{mainInfo?.monthly_expense?.january}</p>
-                        </div>
-                        <div className='single_buyurtma_inputs'>
-                           <p>Fevral:</p>
-                           <p>{mainInfo?.monthly_expense?.february}</p>
-                        </div>
-                        <div className='single_buyurtma_inputs'>
-                           <p>Mart:</p>
-                           <p>{mainInfo?.monthly_expense?.march}</p>
-                        </div>
-                        <div className='single_buyurtma_inputs'>
-                           <p>Aprel:</p>
-                           <p>{mainInfo?.monthly_expense?.april}</p>
-                        </div>
-                        <div className='single_buyurtma_inputs'>
-                           <p>May:</p>
-                           <p>{mainInfo?.monthly_expense?.may}</p>
-                        </div>
-                        <div className='single_buyurtma_inputs'>
-                           <p>Iyun:</p>
-                           <p>{mainInfo?.monthly_expense?.june}</p>
-                        </div>
-                        <div className='single_buyurtma_inputs'>
-                           <p>Iyul:</p>
-                           <p>{mainInfo?.monthly_expense?.july}</p>
-                        </div>
-                        <div className='single_buyurtma_inputs'>
-                           <p>Avgust:</p>
-                           <p>{mainInfo?.monthly_expense?.august}</p>
-                        </div>
-                        <div className='single_buyurtma_inputs'>
-                           <p>Sentabr:</p>
-                           <p>{mainInfo?.monthly_expense?.september}</p>
-                        </div>
-                        <div className='single_buyurtma_inputs'>
-                           <p>Oktabr:</p>
-                           <p>{mainInfo?.monthly_expense?.october}</p>
-                        </div>
-                        <div className='single_buyurtma_inputs'>
-                           <p>Noyabr:</p>
-                           <p>{mainInfo?.monthly_expense?.november}</p>
-                        </div>
-                        <div className='single_buyurtma_inputs'>
-                           <p>Dekabr:</p>
-                           <p>{mainInfo?.monthly_expense?.december}</p>
-                        </div>
+                        {
+                           months?.map((item, index)=>{
+                              return(
+                                 <div className='single_buyurtma_inputs' key={index+10}>
+                                    <p>{item?.name}:</p>
+                                    <p>{(mainInfo?.monthly_expense?.[item?.value])?.toLocaleString()}</p>
+                                 </div>
+                              )
+                           })
+                        }
                      </div>
                      <p className='kl1_jami margin_top_15'>Jami: {MonthlyXarajat()} so'm</p>
                   </> : <></>

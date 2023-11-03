@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom';
 import { PdfControls } from '../components/Pdf/PdfControls';
 import { PdfWrapper } from '../components/Pdf/Wrapper';
+import { months } from '../utils/constants/months';
 import https from '../services/https';
 
 function KLPDF() {
@@ -11,91 +12,69 @@ function KLPDF() {
    const [kreditData, setKreditData] = useState({})
    const [orderInfo, setOrderInfo] = useState({})
 
-   useEffect(() => {
-      getMainInfo()
-      getClientMarks()
-   }, [id])
+   const getPaymentClear = async(id) => {
+      try{
+         const res = await https.post(`/g1/${id}`, {})
+         const { data } = res;
+         setKreditData(data?.graph?.['0']);
+      }
+      catch(error){
+         console.log(error)
+      }
+   }
 
-   const getPaymentAround = (id) => {
-      let Data = new Date();
-      let Year = Data.getFullYear();
-      let Month = Data.getMonth() + 1;
-      let Day = Data.getDate();
-      let today = `${Year}-${Month}-${Day}`
+   const namunaRequest = async(info) =>{
+      try{
+         const res = await https.post('/namuna', info)
+         const { data } = res;
+         setKreditData(data?.['0'])
+      }
+      catch(err){
+         console.log(err);
+      }
+   }
 
-      https
-         .get(`/orders/${id}`)
-         .then(res => {
-            console.log(res?.data);
-            let data = {
-               type: 'annuitet',
-               sum: res?.data?.sum,
-               time: res?.data?.time,
-               percent: 58,
-               given_date: today,
-               first_repayment_date: today
-            }
-            if (data?.time && data?.sum && data?.type && data?.percent) {
-               https
-                  .post('/namuna', data)
-                  .then(responsive => {
-                     setKreditData(responsive?.data?.['0'])
-                  })
-                  .catch(error => {
-                     console.log(error)
-                     console.log(data)
-                  })
-            }
-         })
-         .catch(error => {
-            console.log(error)
-         })
+   const orderGetData = async(id) =>{
+      try{
+         const res = await https.get(`/orders/${id}`)
+         setOrderInfo(res?.data)
+      }
+      catch(err){
+         console.log(err);
+      }
    }
 
    async function getMainInfo() {
-      await https
-         .get(`/client-marks/${id}`)
-         .then(res => {
-            setMainInfo(res?.data)
-            console.log(res?.data)
+      try{
+         const res = await https.get(`/client-marks/${id}`)
+         const { data } = res;
 
-            if (res?.data?.contract?.id) {
-               // payment
-               https
-                  .post(`/g1/${res?.data?.order?.id}`, {})
-                  .then(resp => {
-                     setKreditData(resp?.data?.graph?.['0'], "g1");
-                  })
-                  .catch(error => {
-                     console.log(error)
-                  })
-            } else {
-               getPaymentAround(res?.data?.order?.id)
-            }
+         setMainInfo(res?.data)
+         orderGetData(res?.data?.order?.id)
 
-         })
-         .catch(err => {
-            console.log(err)
-         })
+         const info = {
+            type: data?.order?.type_repayment === 1 ? 'annuitet' : 'differential',
+            sum: data?.order?.sum,
+            time: data?.order?.time,
+            percent: data?.order?.percent_year,
+            given_date: data?.contract?.id ? data?.contract?.contract_issue_date : data?.order?.order_date,
+            first_repayment_date: data?.contract?.id ? data?.contract?.first_repayment_date : data?.order?.order_date
+         }
+
+         if(res?.data?.contract?.id){
+            getPaymentClear(data?.order?.id)
+         }else{
+            namunaRequest(info)   
+         }
+      }
+      catch(err){
+         console.log(err)
+      }
    }
 
-   async function getClientMarks() {
-      await https
-         .get(`/client-marks/${id}`)
-         .then(res => {
-            https
-               .get(`/orders/${res?.data?.order?.id}`)
-               .then(respon => {
-                  setOrderInfo(respon?.data)
-               })
-               .catch(error => {
-                  console.log(error)
-               })
-         })
-         .catch(err => {
-            console.log(err)
-         })
-   }
+   useEffect(() => {
+      getMainInfo()
+   }, [])
 
    function boshqaSum() {
       let array = []
@@ -345,10 +324,13 @@ function KLPDF() {
                <p className='div_child'>Doimiy yashash manzili:</p>
                <p className='div_child'>{mainInfo?.client?.region?.name_uz} {mainInfo?.client?.district?.name_uz}, {mainInfo?.client?.address}</p>
             </div>
-            <div className='row_div between under_line margin_top_10'>
-               <p className='div_child'>Vaqtinchalik yashash manzili:</p>
-               <p className='div_child'>{mainInfo?.client?.temp_address}</p>
-            </div>
+            {
+               mainInfo?.client?.temp_address ? 
+               <div className='row_div between under_line margin_top_10'>
+                  <p className='div_child'>Vaqtinchalik yashash manzili:</p>
+                  <p className='div_child'>{mainInfo?.client?.temp_address}</p>
+               </div> : <></>
+            }
             <div className='row_div between under_line margin_top_10'>
                <p className='div_child'>JSh ShIR:</p>
                <p className='div_child'>{mainInfo?.client?.pinfl}</p>
@@ -449,10 +431,10 @@ function KLPDF() {
                                        <tr key={item?.id}>
                                           <td>{index + 1}</td>
                                           <td>{item?.name}</td>
-                                          <td>{item?.volume}</td>
-                                          <td>{item?.unit_price}</td>
-                                          <td>{item?.worth}</td>
-                                          <td>{item?.volume * item?.unit_price}</td>
+                                          <td>{item?.volume?.toLocaleString()}</td>
+                                          <td>{item?.unit_price?.toLocaleString()}</td>
+                                          <td>{item?.worth?.toLocaleString()}</td>
+                                          <td>{(item?.volume * item?.unit_price)?.toLocaleString()}</td>
                                           <td>{item?.comment}</td>
                                        </tr>
                                     )
@@ -496,54 +478,16 @@ function KLPDF() {
                         </table>
                      </div>
                      <div className='kl1_calendar_single'>
-                        <div className='row_div between under_line margin_top_10'>
-                           <p className='div_child' >Yanvar:</p>
-                           <p className='div_child' >{mainInfo?.monthly_income?.january}</p>
-                        </div>
-                        <div className='row_div between under_line margin_top_10'>
-                           <p className='div_child' >Fevral:</p>
-                           <p className='div_child' >{mainInfo?.monthly_income?.february}</p>
-                        </div>
-                        <div className='row_div between under_line margin_top_10'>
-                           <p className='div_child' >Mart:</p>
-                           <p className='div_child' >{mainInfo?.monthly_income?.march}</p>
-                        </div>
-                        <div className='row_div between under_line margin_top_10'>
-                           <p className='div_child' >Aprel:</p>
-                           <p className='div_child' >{mainInfo?.monthly_income?.april}</p>
-                        </div>
-                        <div className='row_div between under_line margin_top_10'>
-                           <p className='div_child' >May:</p>
-                           <p className='div_child' >{mainInfo?.monthly_income?.may}</p>
-                        </div>
-                        <div className='row_div between under_line margin_top_10'>
-                           <p className='div_child' >Iyun:</p>
-                           <p className='div_child' >{mainInfo?.monthly_income?.june}</p>
-                        </div>
-                        <div className='row_div between under_line margin_top_10'>
-                           <p className='div_child' >Iyul:</p>
-                           <p className='div_child' >{mainInfo?.monthly_income?.july}</p>
-                        </div>
-                        <div className='row_div between under_line margin_top_10'>
-                           <p className='div_child' >Avgust:</p>
-                           <p className='div_child' >{mainInfo?.monthly_income?.august}</p>
-                        </div>
-                        <div className='row_div between under_line margin_top_10'>
-                           <p className='div_child' >Sentabr:</p>
-                           <p className='div_child' >{mainInfo?.monthly_income?.september}</p>
-                        </div>
-                        <div className='row_div between under_line margin_top_10'>
-                           <p className='div_child' >Oktabr:</p>
-                           <p className='div_child' >{mainInfo?.monthly_income?.october}</p>
-                        </div>
-                        <div className='row_div between under_line margin_top_10'>
-                           <p className='div_child' >Noyabr:</p>
-                           <p className='div_child' >{mainInfo?.monthly_income?.november}</p>
-                        </div>
-                        <div className='row_div between under_line margin_top_10'>
-                           <p className='div_child' >Dekabr:</p>
-                           <p className='div_child' >{mainInfo?.monthly_income?.december}</p>
-                        </div>
+                        {
+                           months?.map((item, index)=>{
+                              return(
+                                 <div className='row_div between under_line margin_top_10' key={index+5}>
+                                    <p className='div_child'>{item?.name}:</p>
+                                    <p className='div_child'>{(mainInfo?.monthly_income?.[item?.value])?.toLocaleString()}</p>
+                                 </div>
+                              )
+                           })
+                        }
                      </div>
                      <p className='black_text margin_top_15'>Jami: {monthlyDaromad()} so'm</p>
                   </> : <></>
@@ -575,54 +519,16 @@ function KLPDF() {
                         </table>
                      </div>
                      <div className='kl1_calendar_single'>
-                        <div className='row_div between under_line margin_top_10'>
-                           <p className='div_child'>Yanvar:</p>
-                           <p className='div_child'>{mainInfo?.monthly_expense?.january}</p>
-                        </div>
-                        <div className='row_div between under_line margin_top_10'>
-                           <p className='div_child'>Fevral:</p>
-                           <p className='div_child'>{mainInfo?.monthly_expense?.february}</p>
-                        </div>
-                        <div className='row_div between under_line margin_top_10'>
-                           <p className='div_child'>Mart:</p>
-                           <p className='div_child'>{mainInfo?.monthly_expense?.march}</p>
-                        </div>
-                        <div className='row_div between under_line margin_top_10'>
-                           <p className='div_child'>Aprel:</p>
-                           <p className='div_child'>{mainInfo?.monthly_expense?.april}</p>
-                        </div>
-                        <div className='row_div between under_line margin_top_10'>
-                           <p className='div_child'>May:</p>
-                           <p className='div_child'>{mainInfo?.monthly_expense?.may}</p>
-                        </div>
-                        <div className='row_div between under_line margin_top_10'>
-                           <p className='div_child'>Iyun:</p>
-                           <p className='div_child'>{mainInfo?.monthly_expense?.june}</p>
-                        </div>
-                        <div className='row_div between under_line margin_top_10'>
-                           <p className='div_child'>Iyul:</p>
-                           <p className='div_child'>{mainInfo?.monthly_expense?.july}</p>
-                        </div>
-                        <div className='row_div between under_line margin_top_10'>
-                           <p className='div_child'>Avgust:</p>
-                           <p className='div_child'>{mainInfo?.monthly_expense?.august}</p>
-                        </div>
-                        <div className='row_div between under_line margin_top_10'>
-                           <p className='div_child'>Sentabr:</p>
-                           <p className='div_child'>{mainInfo?.monthly_expense?.september}</p>
-                        </div>
-                        <div className='row_div between under_line margin_top_10'>
-                           <p className='div_child'>Oktabr:</p>
-                           <p className='div_child'>{mainInfo?.monthly_expense?.october}</p>
-                        </div>
-                        <div className='row_div between under_line margin_top_10'>
-                           <p className='div_child'>Noyabr:</p>
-                           <p className='div_child'>{mainInfo?.monthly_expense?.november}</p>
-                        </div>
-                        <div className='row_div between under_line margin_top_10'>
-                           <p className='div_child'>Dekabr:</p>
-                           <p className='div_child'>{mainInfo?.monthly_expense?.december}</p>
-                        </div>
+                        {
+                           months?.map((item, index)=>{
+                              return(
+                                 <div className='row_div between under_line margin_top_10' key={index+5}>
+                                    <p className='div_child'>{item?.name}:</p>
+                                    <p className='div_child'>{(mainInfo?.monthly_expense?.[item?.value])?.toLocaleString()}</p>
+                                 </div>
+                              )
+                           })
+                        }
                      </div>
                      <p className='black_text margin_top_15'>Jami: {monthlyXarajat()} so'm</p>
                   </> : <></>

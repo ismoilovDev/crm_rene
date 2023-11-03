@@ -12,13 +12,11 @@ import https from '../../../../services/https';
 function EditPart7() {
 
     // Tab active
-    const { activeTab, setActiveTab } = useContext(Context)
+    const { infoOrder, setActiveTab } = useContext(Context)
     const { clientLoans, setClientLoans} = useContext(Context)
     const { historyKredit, setHistoryKredit } = useContext(Context)
-    const { contract, setContract } = useContext(Context)
     const [kreditData, setKreditData] = useState({})
     const [sof, setSof] = useState(1)
-    const orderIdGet = window.localStorage.getItem('order_id')
 
     // Components
     const { 
@@ -77,56 +75,27 @@ function EditPart7() {
         return(totalSum2 ? totalSum2 : 0)
     }
 
-    const getPaymentClear = (id) => {
-        // payment
-        https
-        .post(`/g1/${id}`, {})
-        .then(resp =>{
-           setKreditData(resp?.data?.graph?.['0']);
-        })
-        .catch(error =>{
+    const getPaymentClear = async(id) => {
+        try{
+            const res = await https.post(`/g1/${id}`, {})
+            const { data } = res;
+            setKreditData(data?.graph?.['0']);
+        }
+        catch(error){
            console.log(error)
-        })
+        }
     }
 
-    const getPaymentAround = (id) =>{
-        let Data = new Date();
-        let Year = Data.getFullYear();
-        let Month = Data.getMonth() + 1;
-        let Day = Data.getDate();
-        let today = `${Year}-${Month}-${Day}`
-
-
-        https
-            .get(`/orders/${id}`)
-            .then(res =>{
-                let data ={
-                    type : 'annuitet',
-                    sum : res?.data?.sum,
-                    time : res?.data?.time,
-                    percent : 58,
-                    given_date : today,
-                    first_repayment_date : today
-                }
-                if(data?.time && data?.sum && data?.type && data?.percent){
-                    https
-                    .post('/namuna', data)
-                    .then(responsive =>{
-                        setKreditData(responsive?.data?.['0'])
-                    })
-                    .catch(error =>{
-                        console.log(error)
-                        console.log(data)
-                    })
-                }
-            })
-            .catch(error =>{
-                console.log(error)
-                console.log(orderIdGet)
-            })
+    const namunaRequest = async(info) =>{
+        try{
+           const res = await https.post('/namuna', info)
+           const { data } = res;
+           setKreditData(data?.['0'])
+        }
+        catch(err){
+           console.log(err);
+        }
     }
-
-
 
     // UseForm
     const { register,
@@ -139,13 +108,21 @@ function EditPart7() {
     useEffect(() => {
 
         setSof(getSumDaromadBiznes() + getTotalSumBoshqa() + (getDaromadSumMavsumiy())/12 - getSumXarajatBiznes() - (getXarajatSumMavsumiy())/12)
-
         setActiveTab(7)
         
-        if(contract?.id){
-            getPaymentClear(orderIdGet)
+        const data = {
+            type: infoOrder?.type_repayment === 1 ? 'annuitet' : 'differential',
+            sum: infoOrder?.sum,
+            time: infoOrder?.time,
+            percent: infoOrder?.percent_year,
+            given_date: infoOrder?.contract ? infoOrder?.contract?.contract_issue_date : infoOrder?.order_date,
+            first_repayment_date: infoOrder?.contract ? infoOrder?.contract?.first_repayment_date : infoOrder?.order_date
+        }
+
+        if(infoOrder?.contract?.id){
+            getPaymentClear(infoOrder?.id)
         }else{
-            getPaymentAround(orderIdGet)   
+            namunaRequest(data)   
         }
 
     }, [])
@@ -320,6 +297,33 @@ function EditPart7() {
                     </div>
                 </div>
 
+                <div className='margit_top_30 price_table margin_bottom20'>
+                    <div>
+                        <p></p>
+                        <p>Daromad</p>
+                        <p>Xarajat</p>
+                        <p></p>
+                    </div>
+                    <div>
+                        <p>Boshqa</p>
+                        <p>{getTotalSumBoshqa()?.toLocaleString()}</p>
+                        <p>---</p>
+                        <p>{getTotalSumBoshqa()?.toLocaleString()}</p>
+                    </div>
+                    <div>
+                        <p>Mavsumiy (1 yil)</p>
+                        <p>{getDaromadSumMavsumiy()?.toLocaleString()}</p>
+                        <p>{getXarajatSumMavsumiy()?.toLocaleString()}</p>
+                        <p>{(getDaromadSumMavsumiy()-getXarajatSumMavsumiy())?.toLocaleString()}</p>
+                    </div>
+                    <div>
+                        <p>Biznes</p>
+                        <p>{getSumDaromadBiznes()?.toLocaleString()}</p>
+                        <p>{getSumXarajatBiznes()?.toLocaleString()}</p>
+                        <p>{(getSumDaromadBiznes()-getSumXarajatBiznes())?.toLocaleString()}</p>
+                    </div>
+                </div>
+
                 <h2 className='kl1_subtitle'>Oylik kredit tolovi ( eng katta tolov miqdori )</h2>
                 {
                     kreditData?.principal_debt ? 
@@ -349,7 +353,6 @@ function EditPart7() {
                     rounded
                     color="secondary"
                     className='kl1_input'
-                    // placeholder='Jami 7 marotaba kredit olgan, shu jumladan, Renesansdan 2 marotaba. Muntazam o‘z vaqtida to‘lagan. 30 kungacha kechiktirishlar soni - 0, 30 kundan ortiq kechiktirishlar soni - 0'
                     label='Kredit tarixi'
                     value={historyKredit}
                     {...register("credit_history", { required: false })}

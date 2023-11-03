@@ -12,23 +12,11 @@ import https from '../../../services/https';
 
 function Table() {
    const [show, setShow] = useState(false)
-   const [open, setOpen] = React.useState(false);
-   
-   const handleClose = () => {
-      setOpen(false);
-   };
-   
-   const handleOpen = () => {
-      setOpen(true);
-   };
-
-   const [orderInfo, setOrderInfo] = useState({})
    const userID = window.localStorage.getItem('user_id')
-
    const [disable, setDisable] = useState(false)
-
+   
    // Tab active
-   const { activeTab, setActiveTab } = useContext(Context)
+   const { setActiveTab } = useContext(Context)
    const { dataTable, setDataTable } = useContext(Context)
    useEffect(() => {
       setActiveTab(8)
@@ -52,14 +40,14 @@ function Table() {
       // 6 Qism
       familyDaromad, familyXarajat, familyMalumot,
       // 7 Qism
-      familyMavjud, dataSeventhQism, historyKredit,
+      familyMavjud, historyKredit,
       // Table
       geoLocation, setGeoLocation
    } = useContext(Context)
 
    const [sof, setSof] = useState(1)
    const [kreditData, setKreditData] = useState({})
-   const orderIdGet = window.localStorage.getItem('order_id')
+
    // Summ 
    function GetSumDaromadBiznes() {
       let newBiznesDaromad = []
@@ -170,45 +158,30 @@ function Table() {
       return(totalSum ? totalSum : 0)
    }
 
+   const namunaRequest = async(info) =>{
+      try{
+         const res = await https.post('/namuna', info)
+         const { data } = res;
+         setKreditData(data?.['0'])
+      }
+      catch(err){
+         console.log(err);
+      }
+   }
+
    useEffect(() => {
       setSof(GetSumDaromadBiznes() + getTotalSumBoshqa() + (GetDaromadSumMavsumiy()) / 12 - GetSumXarajatBiznes() - (GetXarajatSumMavsumiy()) / 12)
 
-      let Data = new Date();
-      let Year = Data.getFullYear();
-      let Month = Data.getMonth() + 1;
-      let Day = Data.getDate();
-      let today = `${Year}-${Month}-${Day}`
+      const data = {
+         type: infoOrder?.type_repayment === 1 ? 'annuitet' : 'differential',
+         sum: infoOrder?.sum,
+         time: infoOrder?.time,
+         percent: infoOrder?.percent_year,
+         given_date: infoOrder?.contract ? infoOrder?.contract?.contract_issue_date : infoOrder?.order_date,
+         first_repayment_date: infoOrder?.contract ? infoOrder?.contract?.first_repayment_date : infoOrder?.order_date
+      }
 
-      https
-         .get(`/orders/${orderIdGet}`)
-         .then(res => {
-            setOrderInfo(res?.data)
-
-            let data = {
-               type: 'annuitet',
-               sum: res?.data?.sum,
-               time: res?.data?.time,
-               percent: 58,
-               given_date: today,
-               first_repayment_date: today
-            }
-
-            if (data?.time && data?.sum && data?.type && data?.percent) {
-               https
-                  .post('/namuna', data)
-                  .then(responsive => {
-                     setKreditData(responsive?.data?.['0'])
-                  })
-                  .catch(error => {
-                     console.log(error)
-                     console.log(data)
-                  })
-            }
-         })
-         .catch(error => {
-            console.log(error)
-            console.log(orderIdGet)
-         })
+      namunaRequest(data)
    }, [])
 
    function ProcentNumber() {
@@ -730,7 +703,7 @@ function Table() {
                      }}
                   />
                </div>
-               <div className='kl1_table_yellow-bg'>{dataTable?.table_personal_capital ? (dataTable?.table_personal_capital / orderInfo?.sum)?.toLocaleString() : 0}%</div>
+               <div className='kl1_table_yellow-bg'>{dataTable?.table_personal_capital ? (dataTable?.table_personal_capital / infoOrder?.sum)?.toLocaleString() : 0}%</div>
                <div className='kl1_table_yellow-bg'>50</div>
                <div className='kl1_table_dark-bg'>Daromad manbai</div>
                <div className='kl1_table_dark-bg'>Faoliyat barqarorligi</div>
@@ -768,9 +741,9 @@ function Table() {
                <div className='kl1_table_dark-bg'>Taminot turi</div>
                <div className='kl1_table_dark-bg'>Taminot qiymati</div>
                <div className='kl1_table_dark-bg'>Kreditni qoplash koeffitsenti</div>
-               <div>{SupplySum(orderInfo?.supply_info) ? SupplyTypes(orderInfo?.supply_info) : 'kafillik'}</div>
-               <div>{SupplySum(orderInfo?.supply_info) ? SupplySum(orderInfo?.supply_info)?.toLocaleString(undefined, { minimumFractionDigits: 2 }) : orderInfo?.sum?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</div>
-               <div className='kl1_table_yellow-bg'>{SupplySum(orderInfo?.supply_info) ? (SupplySum(orderInfo?.supply_info) / orderInfo?.sum)?.toLocaleString(undefined, { minimumFractionDigits: 2 }) : 100}%</div>
+               <div>{SupplySum(infoOrder?.supply_info) ? SupplyTypes(infoOrder?.supply_info) : 'kafillik'}</div>
+               <div>{SupplySum(infoOrder?.supply_info) ? SupplySum(infoOrder?.supply_info)?.toLocaleString(undefined, { minimumFractionDigits: 2 }) : infoOrder?.sum?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</div>
+               <div className='kl1_table_yellow-bg'>{SupplySum(infoOrder?.supply_info) ? (SupplySum(infoOrder?.supply_info) / infoOrder?.sum)?.toLocaleString(undefined, { minimumFractionDigits: 2 }) : 100}%</div>
             </div>
             <Textarea
                width='100%'

@@ -4,30 +4,30 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from 'react-router-dom';
 import { Input, Radio } from '@nextui-org/react';
 import { AiOutlineClear, AiOutlineUserAdd } from 'react-icons/ai';
-import { alert } from '../../../components/Alert/alert';
-import { GoldTable } from '../../../components/SupplyInfo/GoldTable';
-import { IndependentGoldSupply } from '../../../components/SupplyInfo/SupplyInfo';
-import precisionRound from '../../../utils/functions/precisionRound'
-import LoaderBackdrop from '../../../components/Loader/LoaderBackdrop';
-import Container from '../../../components/ImageContainer/Container'
 import https from '../../../services/https';
-
-const defaultItems = [
-   {
-      id: 1,
-      name: '',
-      gold_num: 0,
-      measure: '',
-      quantity: 0,
-      weight: 0,
-      stone_weight: 0,
-      clean_weight: 0,
-      gold_num_sum: 0,
-      sum: 0
-   }
-]
+import { alert } from '../../../components/Alert/alert';
+import Container from '../../../components/ImageContainer/Container'
+import precisionRound from '../../../utils/functions/precisionRound'
+import { GoldTable } from '../../../components/SupplyInfo/GoldTable';
+import LoaderBackdrop from '../../../components/Loader/LoaderBackdrop';
+import { IndependentGoldSupply } from '../../../components/SupplyInfo/SupplyInfo';
 
 function GoldSupply({ clientId }) {
+   const defaultItems = [
+      {
+         id: 1,
+         name: '',
+         gold_num: 0,
+         measure: '',
+         quantity: 0,
+         weight: 0,
+         stone_weight: 0,
+         clean_weight: 0,
+         gold_num_sum: 0,
+         sum: 0
+      }
+   ]
+
    const [path, setPath] = useState([])
    const [bahoType, setBahoType] = useState(1)
    const [disable, setDisable] = useState(false)

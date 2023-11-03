@@ -29,14 +29,12 @@ const defaultMonthly = {
 
 function EditKL1() {
 
-   const [statusData, setStatusData] = useState(true)
    const location = useLocation()
    const markId = location?.state?.id
    let navigate = useNavigate()
 
    const [mainInfo, setMainInfo] = useState({})
-   const [orderInfo, setOrderInfo] = useState({})
-   const [orderId, setOrderId] = useState()
+   const [infoOrder, setInfoOrder] = useState({})
    const [infoClient, setInfoClient] = useState({})
    const [contract, setContract] = useState({})
 
@@ -99,16 +97,15 @@ function EditKL1() {
 
 
 
-   async function GetMainInfo() {
+   async function getMainInfo() {
       await https
          .get(`/client-marks/${markId}`)
          .then(res => {
             setMainInfo(res?.data)
             console.log(res?.data)
 
-            setOrderId(res?.data?.order?.id)
             setInfoClient(res?.data?.client)
-            setOrderInfo(res?.data?.order)
+            setInfoOrder(res?.data?.order)
 
             // malumot
             setDataMalumot({
@@ -181,9 +178,6 @@ function EditKL1() {
                setBiznesWindow('open')
                setCheckBiznes(true)
             }
-            
-            window.localStorage.setItem('order_id', res?.data?.order?.id)
-            window.localStorage.setItem('mark_id', markId)
          })
          .catch(err => {
             console.log(err)
@@ -191,12 +185,7 @@ function EditKL1() {
    }
 
    useEffect(() => {
-      GetMainInfo()
-
-      if (statusData) {
-         window.localStorage.setItem('order_id', orderId)
-      }
-      setStatusData(false)
+      getMainInfo()
    }, [])
 
    function showMavsumiy() {
@@ -236,9 +225,9 @@ function EditKL1() {
                   activeTab, setActiveTab,
                   mavsumiyWindow, setMavsumiyWindow,
                   biznesWindow, setBiznesWindow,
-                  orderId,
+                  mainInfo,
                   infoClient,
-                  orderInfo,
+                  infoOrder,
                   // Malumot
                   dataMalumot, setDataMalumot,
                   // 1-Qism

@@ -55,7 +55,7 @@ function EditBiznes() {
             newBiznesDaromad.push(item.monthly_income)
         })
         let totalDaromad = newBiznesDaromad.reduce((prev,current)=> Number(prev) + Number(current), 0)
-        return totalDaromad.toLocaleString()
+        return totalDaromad
     }
 
 
@@ -87,7 +87,7 @@ function EditBiznes() {
             newBiznesXarajat.push(item.average_monthly_expense)
         })
         let totalXarajat = newBiznesXarajat.reduce((prev,current)=> Number(prev) + Number(current), 0)
-        return totalXarajat.toLocaleString()
+        return totalXarajat
     }
 
     function nextStep(){
@@ -209,7 +209,7 @@ function EditBiznes() {
                     <button className='kl1_add_button' onClick={()=>{addBiznesDaromad()}}>
                         Biznes daromad qoshish
                     </button>
-                    <p className='kl1_jami'>JAMI: {getSumDaromad()} so`m</p>  
+                    <p className='kl1_jami'>JAMI: {getSumDaromad()?.toLocaleString()} so`m</p>  
                 </div>
             </div>
                 
@@ -316,9 +316,12 @@ function EditBiznes() {
                         <button className='kl1_add_button' onClick={()=>{addBiznesXarajat()}}>
                             Biznes xarajat qoshish
                         </button>
-                        <p className='kl1_jami'>JAMI: {getSumXarajat()} so`m</p>
+                        <p className='kl1_jami'>JAMI: {getSumXarajat()?.toLocaleString()} so`m</p>
                     </div>
                 </div>
+
+                <p className='kl1_jami_main'>Jami o'rtacha oylik daromadlari: {(getSumDaromad()-getSumXarajat())?.toLocaleString()} so'm</p>
+
                 <div className='step_buttons double_button'>
                     <button type='button' onClick={()=>{backStep()}} className='previous_button'><AiOutlineDoubleLeft/><p>Oldingi</p></button>
                     <button type='submit' onClick={()=>{onSubmit()}} className='step_next'><p>Keyingi</p> <AiOutlineDoubleRight/></button>

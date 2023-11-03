@@ -6,6 +6,7 @@ import DeleteWarning from '../../../components/Warning/DeleteWarning';
 import SkeletonBox from '../../../components/Loader/Skeleton';
 import https from '../../../services/https';
 import Filters from '../filters';
+import { ExcelButton } from '../../../components/Buttons/ExcelBtn';
 
 const role = JSON.parse(window.localStorage.getItem('role'))
 const branch_id = +window.localStorage.getItem('branch_id')
@@ -45,6 +46,19 @@ function Groups({ filters }) {
 		setDeleteID(id)
 	}
 
+	const handleOnExcel = () =>{
+		let data = []
+		groups?.map(item =>{
+		   const info = {
+			  "Nomi": item?.name, 
+			  kod: item?.code
+		   }
+		   data = [...data, info]
+		})
+  
+		return data;
+	}
+
 	return (
 		<section className='client'>
 			<div className='client_title'>
@@ -56,6 +70,7 @@ function Groups({ filters }) {
 						<p>Guruh Qo'shish</p> <i className='bx bx-plus-circle'></i>
 					</Link>
 				</div>
+				<ExcelButton data={handleOnExcel()} name={'Guruh'}/>
 			</div>
 
 			<Filters branch_id={branch_id} />

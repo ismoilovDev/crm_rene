@@ -11,8 +11,8 @@ import { Context } from '../../../context/context';
 function Biznes() {
 
    // Tab active
-   const { activeTab, setActiveTab } = useContext(Context)
-   const { mavsumiyWindow, setMavsumiyWindow } = useContext(Context)
+   const { setActiveTab } = useContext(Context)
+   const { mavsumiyWindow } = useContext(Context)
    const { biznesDaromads, setBiznesDaromads } = useContext(Context)
    const { biznesXarajats, setBiznesXarajats } = useContext(Context)
 
@@ -56,7 +56,7 @@ function Biznes() {
          newBiznesDaromad.push(item.plus)
       })
       let totalDaromad = newBiznesDaromad.reduce((prev, current) => Number(prev) + Number(current), 0)
-      return totalDaromad.toLocaleString()
+      return totalDaromad
    }
 
 
@@ -86,7 +86,7 @@ function Biznes() {
          newBiznesXarajat.push(item.minus)
       })
       let totalXarajat = newBiznesXarajat.reduce((prev, current) => Number(prev) + Number(current), 0)
-      return totalXarajat.toLocaleString()
+      return totalXarajat
    }
 
    function nextStep() {
@@ -142,7 +142,7 @@ function Biznes() {
                               />
                            </div>
                            <div className="numeric_format_input width_47">
-                              <label>1 birlikning o`rtacha sotish naxri</label>
+                              <label>1 birlikning o'rtacha sotish naxri</label>
                               <NumericFormat
                                  thousandSeparator={' '}
                                  value={biznesDaromads.find(x => x.id === item.id).price}
@@ -158,7 +158,7 @@ function Biznes() {
                            <Input
                               rounded
                               bordered
-                              label='O`rtacha ustamasi % da'
+                              label="O'rtacha ustamasi % da"
                               color="secondary"
                               width='47%'
                               type='number'
@@ -208,7 +208,7 @@ function Biznes() {
                <button className='kl1_add_button' onClick={() => { addBiznesDaromad() }}>
                   Biznes daromad qoshish
                </button>
-               <p className='kl1_jami'>JAMI: {getSumDaromad()} so`m</p>
+               <p className='kl1_jami'>JAMI: {getSumDaromad()?.toLocaleString()} so'm</p>
             </div>
          </div>
 
@@ -280,7 +280,7 @@ function Biznes() {
                               />
                            </div>
                            <div className="numeric_format_input width_47">
-                              <label>O`rtacha oylik xarajat</label>
+                              <label>O'rtacha oylik xarajat</label>
                               <NumericFormat
                                  thousandSeparator={' '}
                                  value={biznesXarajats.find(x => x.id === item.id).minus}
@@ -315,9 +315,12 @@ function Biznes() {
                <button className='kl1_add_button' onClick={() => { addBiznesXarajat() }}>
                   Biznes xarajat qoshish
                </button>
-               <p className='kl1_jami'>JAMI: {getSumXarajat()} so`m</p>
+               <p className='kl1_jami'>JAMI: {getSumXarajat()?.toLocaleString()} so'm</p>
             </div>
          </div>
+
+         <p className='kl1_jami_main'>Jami o'rtacha oylik daromadlari: {(getSumDaromad() - getSumXarajat())?.toLocaleString()} so'm</p>
+
          <div className='step_buttons double_button'>
             <button type='button' onClick={() => { backStep() }} className='previous_button'><AiOutlineDoubleLeft /><p>Oldingi</p></button>
             <button type='submit' onClick={() => { biznesData() }} className='step_next'><p>Keyingi</p> <AiOutlineDoubleRight /></button>

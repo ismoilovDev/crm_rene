@@ -2,7 +2,7 @@ import { memo, useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router"
 import { ClientContext } from "../../../context/context"
 import { RiAddLine } from "react-icons/ri";
-import DeleteWarning from "../../../components/Warning/DeleteWarning"
+import DeleteWarning from "../../../components/Warning/DeleteWarning";
 import ShartNomaTable from "../../../components/ShartnomaTable/ShartNomaTable"
 import https from "../../../services/https";
 
@@ -33,7 +33,7 @@ function ClientOrders({ id }) {
          }
 
          const res = await https.post('/check/client/code', dataId);
-         navigate("/orders/form", {
+         navigate("/orders/add", {
             state: {
                id: res?.data?.id,
                groups: res?.data?.group

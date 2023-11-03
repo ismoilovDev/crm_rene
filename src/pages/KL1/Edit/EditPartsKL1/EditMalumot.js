@@ -14,7 +14,7 @@ function EditMalumot() {
         navigate('/kl1/editkl1/1_qism', { replace: true });
     }
     
-    const {setActiveTab, infoClient, orderInfo, dataMalumot, setDataMalumot } = useContext(Context);
+    const {setActiveTab, infoClient, infoOrder, dataMalumot, setDataMalumot } = useContext(Context);
 
     // Tab active
     useEffect(() => {
@@ -78,8 +78,8 @@ function EditMalumot() {
                         <InputSingle label={'Vaqtinchalik yashash manzili:'} value={infoClient?.temp_address} /> :
                         <></>
                     }
-                    <InputSingle label={'Kredit maqsadi:'} value={orderInfo?.aim} />
-                    <InputSingle label={'Soralayotgan kredit miqdori:'} value={orderInfo?.sum} />
+                    <InputSingle label={'Kredit maqsadi:'} value={infoOrder?.aim} />
+                    <InputSingle label={'Soralayotgan kredit miqdori:'} value={infoOrder?.sum} />
                 </div>
                 <div className='step_buttons single_button'>
                     <button type='submit' className='step_next'><p>Keyingi</p><AiOutlineDoubleRight/></button>

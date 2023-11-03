@@ -1,13 +1,22 @@
 import axios from "axios";
-import { base_url } from "../utils/const";
 
 const https = axios.create({
-    baseURL: `${base_url}/api`,
-    withCredentials: true,
-    headers: {
-        'Accept': 'application/json;charset=utf-8',
-        'Authorization': "Bearer " + window.localStorage.getItem('token')
-    }
+   baseURL: `${process.env.REACT_APP_BASE_URL}/api`,
+   withCredentials: true,
+   headers: {
+      'Accept': 'application/json;charset=utf-8',
+      'Authorization': "Bearer " + localStorage.getItem('token')
+   }
 })
+
+https.interceptors.response.use(
+   response => response,
+   error => {
+      if (error.response && error.response.status === 401) {
+         localStorage.clear();
+      }
+      return Promise.reject(error);
+   }
+);
 
 export default https;
