@@ -2,17 +2,17 @@ import { useState, useEffect } from 'react';
 import { useForm } from "react-hook-form";
 import { useNavigate } from 'react-router-dom';
 import { AiOutlineClear, AiOutlineUserAdd, AiOutlineArrowDown } from 'react-icons/ai'
+import { Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
+import { ResetDataModal } from '../../../components/Client/Create/ResetData';
 import { registerLocale } from "react-datepicker";
 import { Input } from '@nextui-org/react';
 import { v4 as uuidv4 } from 'uuid';
-import { Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
-import Select from 'react-select';
 import uz from "date-fns/locale/uz";
-import { ResetDataModal } from '../../../components/Client/Create/ResetData';
+import Select from 'react-select';
+import Container from '../../../components/ImageContainer/Container';
 import { useCountries } from '../../../hooks/useCountries';
 import { useRegions } from '../../../hooks/useRegions';
 import { alert } from '../../../components/Alert/alert'
-import Container from '../../../components/ImageContainer/Container';
 import Prev from '../../../components/Prev/Prev'
 import https from '../../../services/https';
 

@@ -143,9 +143,9 @@ function ClientMarks({ filters }) {
 														<p className='td_client_marks' onDoubleClick={() => { navigate(`/client-marks/single/${item?.id}`) }}>{dateConvert(item?.mark_date) || dateConvert(item?.doc_date)}</p>
 														<div className='userButtons_shartnoma'>
 															<button><Link to={`/client-marks/single/${item?.id}`}><i className='bx bx-user white'></i></Link></button>
-															{role.includes('admin') || role.includes('monitoring') ? (
+															{role.includes('admin') || role.includes('monitoring')  ? (
 																<>
-																	<button onClick={() => { navigateEditPage(item?.id) }}>
+																	<button onClick={() => {item?.contract_id === null ? navigateEditPage(item?.id) : alert("Shartnoma to'ldirilgan")}}>
 																		<i className='bx bx-edit-alt white'></i>
 																	</button>
 																</>
