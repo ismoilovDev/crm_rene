@@ -1,7 +1,7 @@
 import { memo } from "react"
 import { RingProgressBar } from "../Charts/ChartCircle"
 
-const CirceTotalBox = memo(({ title, amount, percentage, color, pieSize }) => {
+const CirceTotalBox = memo(({ title, amount, amount2, percentage, color, pieSize }) => {
    return (
       <div className='circle-total'>
          <div className='circle_total_parts'>
@@ -9,6 +9,9 @@ const CirceTotalBox = memo(({ title, amount, percentage, color, pieSize }) => {
                <p className='price-total'>
                   {amount}
                </p>
+               {
+                  amount2 && <p className='price-total'> {amount2} </p>
+               }
                <p className='total-text'>
                   {title}
                </p>
@@ -34,23 +37,24 @@ export const LittleStatistics = memo(({ statisticInfo, overData, pieSize }) => {
          <CirceTotalBox
             color={'blue'}
             title={'Mijoz'}
-            amount={`${statisticInfo?.clients?.all || 0} mijoz`}
+            amount={`${statisticInfo?.clients?.all.toLocaleString(undefined, { minimumFractionDigits: 0 }) || 0} mijoz`}
          />
          <CirceTotalBox
             color={'yellow'}
             title={'Buyurtma'}
-            amount={`${statisticInfo?.orders?.[statisticInfo?.orders?.length - 1]?.all || 0} dona`}
-         />
-         <CirceTotalBox
-            color={'green'}
-            title={'Gender'}
-            amount={`E - ${overData?.male || 0} % / A - ${overData?.female || 0} %` || 0}
+            amount={`${statisticInfo?.orders?.[statisticInfo?.orders?.length - 1]?.all.toLocaleString(undefined, { minimumFractionDigits: 0 }) || 0} dona`}
          />
          <CirceTotalBox
             pieSize={pieSize}
             title={'Berilgan kredit'}
             percentage={overData?.percentage / 100 || 0}
             amount={`${(overData?.fact / 1000000).toFixed(2) || 0} mln`}
+         />
+         <CirceTotalBox
+            color={'green'}
+            title={'Jinsi'}
+            amount={`Erkak - ${overData?.male || 0} %` || 0}
+            amount2={`Ayol - ${overData?.female || 0} %` || 0}
          />
       </div>
    )
