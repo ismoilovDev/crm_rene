@@ -1,14 +1,15 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Input } from '@nextui-org/react'
+import { ContainerExcelButton } from '../../../components/Buttons/ExcelBtn';
 import { alert } from '../../../components/Alert/alert'
+import CustumPagination from '../../../components/Pagination/CustumPagination';
+import LoaderBackdrop from '../../../components/Loader/LoaderBackdrop';
 import DeleteWarning from '../../../components/Warning/DeleteWarning';
 import SkeletonBox from '../../../components/Loader/Skeleton';
-import CustumPagination from '../../../components/Pagination/CustumPagination';
+import SearchForm from '../../../components/Search/SearchForm'
 import dateConvert from '../../../utils/functions/dateConvert'
-import SearchForm from '../../../components/Search/SearchForm';
 import https from '../../../services/https';
-import { ContainerExcelButton } from '../../../components/Buttons/ExcelBtn';
 
 
 const role = JSON.parse(window.localStorage.getItem('role'))
@@ -28,6 +29,7 @@ function Contracts() {
 	const [modalCodeGroup, setModalCodeGroup] = useState('');
 	const [deleteModal, setDeleteModal] = useState('close')
 	const [deleteID, setDeleteID] = useState(null)
+	const [disable, setDisable] = useState(false)
 
 
 	function navigateAddOrder(idOrder) {
@@ -37,27 +39,29 @@ function Contracts() {
 
 		const dataId = { code: idOrder }
 
+		setDisable(true)
+
 		https
 			.post('/check/order/code', dataId)
 			.then(res => {
+				setDisable(false)
+
 				https
 					.get(`/orders/${res?.data?.order_id}`)
 					.then(responsive => {
-						if (responsive?.data?.status == 'accepted') {
-							navigate("/contracts/add", { state: { id: res?.data?.order_id, code: dataId?.code, order: true } })
-						} else {
+						if (responsive?.data?.status !== 'accepted') {
 							return (alert("Buyurtma tasdiqlanmagan", 'error'))
 						}
+						navigate("/contracts/add", { state: { id: res?.data?.order_id, code: dataId?.code, order: true } })
 					})
 			})
 			.catch(err => {
-				if (err?.request?.status === 404) {
-					return (
-						alert("Bunday buyurtma yo'q", 'error')
-					)
-				} else {
-					console.log(err);
+				setDisable(false)
+
+				if (err?.request?.status === 404 || err?.request?.status === 422) {
+					return alert(err?.response?.data?.message, 'error')
 				}
+				console.log(err);
 			})
 	}
 
@@ -70,34 +74,34 @@ function Contracts() {
 			code: idGroup
 		}
 
+		setDisable(true)
+
 		https
 			.post('/check/group/code', dataId)
 			.then(res => {
+				setDisable(false)
+
 				https
 					.get(`/groups/${res?.data?.group_id}`)
 					.then(responsive => {
-						console.log(responsive?.data);
 						for (let i = 0; i < responsive?.data?.clients?.length; i++) {
-							if (responsive?.data?.activeOrders?.[i]?.status == 'accepted') {
-
-							} else {
+							if (responsive?.data?.activeOrders?.[i]?.status !== 'accepted') {
 								return (alert("Buyurtmalar tasdiqlanmagan", 'error'))
 							}
 						}
 						navigate("/contracts/add", { state: { id: res?.data?.group_id, code: dataId?.code, order: false } })
 					})
 					.catch(error => {
-						console.log(error)
+						console.log(error);;
 					})
 			})
 			.catch(err => {
-				if (err?.request?.status === 404) {
-					return (
-						alert("Bunday guruh yo'q", 'error')
-					)
-				} else {
-					console.log(err);
+				setDisable(false)
+
+				if (err?.request?.status === 404 || err?.request?.status === 422) {
+					alert(err?.response?.data?.message, 'error')
 				}
+				console.log(err);
 			})
 
 	}
@@ -286,6 +290,7 @@ function Contracts() {
 					}
 				</div>
 			</div>
+			<LoaderBackdrop disable={disable} />
 			{/* Delete */}
 			<DeleteWarning
 				id={deleteID}
