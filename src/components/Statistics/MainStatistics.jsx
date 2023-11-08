@@ -52,21 +52,25 @@ export const MainStatistics = memo(({ overData }) => {
    return (
       <div className="statistics">
          <h2>Filial ko'rsatkichlari</h2>
+         <div className="statistics_header">
+            <span>{overData?.text}.</span>
+         </div>
          <div className="main-statistics">
             <div className='statistics_box'>
                <StatisticsBox
                   sum={overData?.portfel?.suma.toLocaleString(undefined, { minimumFractionDigits: 0 })}
                   count={overData?.portfel?.count.toLocaleString(undefined, { minimumFractionDigits: 0 })}
                   percent={overData?.portfel?.percent}
+                  percentage_title={'Foizi'}
                   title={'Portfel'}
                   Icon={IoBagSharp}
                   is_pros={false}
                />
                <StatisticsBox
                   sum={overData?.overdue?.portfel_overdue.toLocaleString(undefined, { minimumFractionDigits: 0 })}
-                  sum1={overData?.overdue?.amount_overdue.toLocaleString(undefined, { minimumFractionDigits: 0 })}
                   count={overData?.overdue?.count_overdue.toLocaleString(undefined, { minimumFractionDigits: 0 })}
                   percent={overData?.overdue?.percentage_portfolio}
+                  percentage_title={'Portfelga nisbatan foizi'}
                   title={'Muddati o\'tgan qarzdorliklar'}
                   Icon={BsCalendar2WeekFill}
                   is_pros={true}
@@ -74,9 +78,10 @@ export const MainStatistics = memo(({ overData }) => {
                <StatisticsBox
                   sum={overData?.par30sud?.amount_loans.toLocaleString(undefined, { minimumFractionDigits: 0 })}
                   count={overData?.par30sud?.count_credits.toLocaleString(undefined, { minimumFractionDigits: 0 })}
+                  percentage_title={'PAR30+Sud jarayonidagi kreditlarning portfelga nisbatan foizi'}
                   percent={overData?.par30sud?.percentage_loans_to_portfolio}
-                  title={'PAR30'}
                   Icon={MdAccountBalance}
+                  title={'PAR30'}
                   is_pros={false}
                />
             </div>

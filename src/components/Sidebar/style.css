@@ -134,8 +134,8 @@
   }
 }
 
-.nav_list {
-  margin-top: 30px;
+.nav-list {
+  margin-top: 25px;
   width: 100%;
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -259,7 +259,7 @@ nav::-webkit-scrollbar {
     transition: 0.2s linear;
   }
 
-  .nav_list {
+  .nav-list {
     margin-top: 5px;
   }
 

@@ -1,11 +1,11 @@
 import { memo, useCallback, useEffect, useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
+import { ExcelButton } from '../../../components/Buttons/ExcelBtn';
 import CustumPagination from '../../../components/Pagination/CustumPagination';
 import DeleteWarning from '../../../components/Warning/DeleteWarning';
 import SkeletonBox from '../../../components/Loader/Skeleton';
 import https from '../../../services/https';
 import Filters from '../filters';
-import { ExcelButton } from '../../../components/Buttons/ExcelBtn';
 
 const role = JSON.parse(window.localStorage.getItem('role'))
 
@@ -45,14 +45,14 @@ function Clients({ filters }) {
       setDeleteID(id)
    }
 
-   const handleOnExcel = () =>{
+   const handleOnExcel = () => {
       let data = []
-      clients?.map(item =>{
+      clients?.map(item => {
          const info = {
-            "F.I.Sh": item?.name, 
-            kod: item?.code, 
+            "F.I.Sh": item?.name,
+            kod: item?.code,
             pinfl: `${item?.pinfl}`,
-            shahar : item?.region?.name_uz
+            shahar: item?.region?.name_uz
          }
          data = [...data, info]
       })

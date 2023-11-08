@@ -272,8 +272,10 @@ function OrderForm() {
                <div className='order_form_main_forma'>
                   {
                      selectedGroup?.value === null && section?.label !== "ReneIshonch" ?
-                        <OpenContractsTooltip changeContractType={changeContractType} isOpenContractModal={isOpenContractModal} />
-                        : null
+                        <OpenContractsTooltip
+                           changeContractType={changeContractType}
+                           isOpenContractModal={isOpenContractModal}
+                        /> : null
                   }
                   <div className="tab_content_list">
                      <Input
