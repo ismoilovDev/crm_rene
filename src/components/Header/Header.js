@@ -1,4 +1,4 @@
-import { memo, useEffect, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Avatar } from '@mui/material';
 import { AiOutlineFullscreen, AiOutlineFullscreenExit } from 'react-icons/ai';
@@ -10,6 +10,7 @@ import IndicatorMobile from '../Indicator/IndicatorMobile';
 import fullName from '../../utils/functions/fullName';
 import logo from '../../assets/images/logo.png';
 import Indicator from '../Indicator/Indicator';
+import LoaderBackdrop from '../Loader/LoaderBackdrop';
 
 const Item = memo(({ onClick }) => (
    <MenuItem onClick={onClick}>
@@ -26,6 +27,7 @@ function Header({ userInfo: { name, role, photo }, logOutHandler, onSidebarToggl
    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
    const [isFullScreen, setIsFullScreen] = useState(false);
    const [anchorEl, setAnchorEl] = useState(null);
+   const [disable, setDisable] = useState(false);
    const open = Boolean(anchorEl);
 
    useEffect(() => {
@@ -65,6 +67,12 @@ function Header({ userInfo: { name, role, photo }, logOutHandler, onSidebarToggl
       toggleFullScreen();
    };
 
+   const logOut = () => {
+      logOutHandler();
+      handleClose();
+      setDisable(true)
+   };
+
    const handleClick = (event) => {
       setAnchorEl(event.currentTarget);
    };
@@ -74,49 +82,52 @@ function Header({ userInfo: { name, role, photo }, logOutHandler, onSidebarToggl
    };
 
    return (
-      <header>
-         {
-            windowWidth < 992 && (
-               <div className="mobile_menu">
-                  <IoMenuOutline onClick={onSidebarToggle} className='toggle' />
-                  <Link to='/'> {windowWidth < 720 ? null : <img src={logo} alt="logo" />} </Link>
+      <React.Fragment>
+         <header>
+            {
+               windowWidth < 992 && (
+                  <div className="mobile_menu">
+                     <IoMenuOutline onClick={onSidebarToggle} className='toggle' />
+                     <Link to='/'> {windowWidth < 720 ? null : <img src={logo} alt="logo" />} </Link>
+                  </div>
+               )
+            }
+            {
+               windowWidth < 992 ? <IndicatorMobile /> : <Indicator />
+            }
+            <div className='header_last'>
+               <div className="full_screen_icon" onClick={handleFullScreen}>
+                  <button> {isFullScreen ? <AiOutlineFullscreenExit /> : <AiOutlineFullscreen />} </button>
                </div>
-            )
-         }
-         {
-            windowWidth < 992 ? <IndicatorMobile /> : <Indicator />
-         }
-         <div className='header_last'>
-            <div className="full_screen_icon" onClick={handleFullScreen}>
-               <button> {isFullScreen ? <AiOutlineFullscreenExit /> : <AiOutlineFullscreen />} </button>
+               <div className='header_info'>
+                  <h2>{windowWidth < 920 ? fullName(name) : name}</h2>
+                  <p>{windowWidth < 600 ? role[0] : role.join(',')}</p>
+               </div>
+               <Avatar
+                  className='header_avatar'
+                  sx={{ width: 40, height: 40 }}
+                  onClick={handleClick}
+                  alt="Foydalanuvchi"
+                  src={
+                     photo !== 'undefined' ? `${process.env.REACT_APP_BASE_URL}/${photo}` :
+                        'https://www.transparentpng.com/thumb/human/black-human-user-profile-png-icon-free-fsR5FT.png'
+                  }
+               />
+               <Menu
+                  id="basic-menu"
+                  anchorEl={anchorEl}
+                  open={open}
+                  onClose={handleClose}
+                  MenuListProps={{
+                     'aria-labelledby': 'basic-button',
+                  }}
+               >
+                  <Item onClick={logOut} />
+               </Menu>
             </div>
-            <div className='header_info'>
-               <h2>{windowWidth < 920 ? fullName(name) : name}</h2>
-               <p>{windowWidth < 600 ? role[0] : role.join(',')}</p>
-            </div>
-            <Avatar
-               className='header_avatar'
-               sx={{ width: 40, height: 40 }}
-               onClick={handleClick}
-               alt="Foydalanuvchi"
-               src={
-                  photo !== 'undefined' ? `${process.env.REACT_APP_BASE_URL}/${photo}` :
-                     'https://www.transparentpng.com/thumb/human/black-human-user-profile-png-icon-free-fsR5FT.png'
-               }
-            />
-            <Menu
-               id="basic-menu"
-               anchorEl={anchorEl}
-               open={open}
-               onClose={handleClose}
-               MenuListProps={{
-                  'aria-labelledby': 'basic-button',
-               }}
-            >
-               <Item onClick={logOutHandler} />
-            </Menu>
-         </div>
-      </header>
+         </header>
+         <LoaderBackdrop disable={disable} />
+      </React.Fragment>
    )
 }
 

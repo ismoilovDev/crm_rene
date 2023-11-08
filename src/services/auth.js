@@ -5,9 +5,10 @@ export const login = async (data, setValue) => {
    try {
       const response = await https.post('/login', data);
       const { data: userData } = response;
-      window.location.reload(false);
-      setValue(_ => userData?.token)
       alert('Kirish muvaffaqiyatli', 'success');
+      window.location.reload(false);
+      window.location.pathname = '/';
+      setValue(_ => userData?.token)
       const roles = userData?.user?.role?.map((item) => item?.name);
       window.localStorage.setItem('token', userData?.token);
       window.localStorage.setItem('name', userData?.user?.name);

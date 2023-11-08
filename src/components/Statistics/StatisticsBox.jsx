@@ -1,6 +1,15 @@
-import { memo } from "react"
+import { memo, useState } from "react"
 
-export const StatisticsBox = memo(({ sum, sum1, percent, count, title, Icon, is_pros }) => {
+export const StatisticsBox = memo(({ sum, percent, count, title, Icon, is_pros, percentage_title }) => {
+   const [isActive, setIsActive] = useState(false)
+
+   const onMouseEnter = _ => {
+      setIsActive(true)
+   }
+   const onMouseLeave = _ => {
+      setIsActive(false)
+   }
+
    return (
       <div className="main-statistics_wrap">
          <div className="main-statistics_header">
@@ -16,27 +25,22 @@ export const StatisticsBox = memo(({ sum, sum1, percent, count, title, Icon, is_
                <span className="meaning">Soni:</span>
                <span>{count} ta</span>
             </div>
-            {
-               is_pros ?
-                  <>
-                     <div className="statistics_item total_sum">
-                        <span className="meaning">Kredit portfeli:</span>
-                        <span>{sum}</span>
-                     </div>
-                     <div className="statistics_item total_sum">
-                        <span className="meaning">Kredit summasi:</span>
-                        <span>{sum1}</span>
-                     </div>
-                  </> :
-                  <div className="statistics_item total_sum">
-                     <span className="meaning">Summa:</span>
-                     <span>{sum}</span>
-                  </div>
-            }
-            <div className='statistics_item percent'>
+            <div className="statistics_item total_sum">
+               <span className="meaning"> {is_pros ? 'Kredit portfeli:' : 'Summa:'}</span>
+               <span>{sum}</span>
+            </div>
+            <div
+               onMouseEnter={onMouseEnter}
+               onMouseLeave={onMouseLeave}
+               className='statistics_item percent'
+            >
                <span className="meaning">Foiz:</span>
                <span>{percent} %</span>
             </div>
+         </div>
+         <div className={isActive ? 'info_box active' : 'info_box'}>
+            <p>{percentage_title}: </p>
+            <p>{percent} %</p>
          </div>
       </div>
    )
