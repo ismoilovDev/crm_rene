@@ -8,17 +8,7 @@ import Logo from '../assets/images/Logo'
 import fullName from '../utils/functions/fullName'
 import siteLogo from '../assets/images/logo-site.png'
 import dateConvert from '../utils/functions/dateConvert'
-
-
-function checkOwner(taminot) {
-  if (taminot?.possessor === 'trust_owner') {
-    return taminot?.trust_owner
-  } else if (taminot?.possessor === 'owner') {
-    return taminot?.owner
-  } else if (taminot?.possessor === 'client') {
-    return false
-  }
-}
+import { checkOwner } from '../utils/functions/supplyTypes'
 
 
 function NIForm() {

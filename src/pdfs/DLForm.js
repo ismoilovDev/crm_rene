@@ -6,18 +6,9 @@ import { Address, DocInfo } from './Parts/personal'
 import { PdfWrapper } from '../components/Pdf/Wrapper'
 import dateConvert from '../utils/functions/dateConvert'
 import { PdfControls } from '../components/Pdf/PdfControls'
+import { checkOwner } from '../utils/functions/supplyTypes'
 import { phoneFormat } from '../utils/functions/phoneFormat'
 
-
-function CheckOwner(taminot){
-    if(taminot?.possessor === 'trust_owner'){
-        return taminot?.trust_owner
-    }else if(taminot?.possessor === 'owner'){
-        return taminot?.owner
-    }else if(taminot?.possessor === 'client'){
-        return false
-    }
-}
 
 function DLForm() {
 
@@ -59,7 +50,7 @@ function DLForm() {
                 <div className='pdf_margin_top_20'>
                     Quyidagi Jadval №1 da keltirilgan {documentInfo?.client?.name} (<DocInfo info={documentInfo?.client} /> <Address info={documentInfo?.client}/>) hamda "Renesans Mikromoliya Tashkiloti"    
                     MChJ {documentInfo?.branch?.short_name} o'rtasida tuzilgan {dateConvert(documentInfo?.contract?.contract_issue_date)} y. dagi {documentInfo?.contract?.contract_num}-sonli Shartnomaga asosan ta'minot sifatida
-                    garov uchun taqdim etilgan {CheckOwner(documentInfo?.supply_infos?.[0]) ? CheckOwner(documentInfo?.supply_infos?.[0])?.fio : documentInfo?.client?.name}ga tegishli bo'lgan transport
+                    garov uchun taqdim etilgan {checkOwner(documentInfo?.supply_infos?.[0]) ? checkOwner(documentInfo?.supply_infos?.[0])?.fio : documentInfo?.client?.name}ga tegishli bo'lgan transport
                     vositasini ko'zdan kechirish jarayonida garov mulki shikastlanmaganligi, u bilan bogliq yo‘l
                     transport xodisalari bo'lmaganligi, bugungi kunda but va yaxshi xolatda ekanligiga aniqlandi.
                 </div>
@@ -76,11 +67,11 @@ function DLForm() {
                     <div className='margin_top_15'>
                         <p>Garovga qo'yuvchi:</p>
                         <div className='berween margin_top_5'>
-                            <p>{CheckOwner(documentInfo?.supply_infos?.[0]) ? CheckOwner(documentInfo?.supply_infos?.[0])?.fio : documentInfo?.client?.name}</p>
+                            <p>{checkOwner(documentInfo?.supply_infos?.[0]) ? checkOwner(documentInfo?.supply_infos?.[0])?.fio : documentInfo?.client?.name}</p>
                             <p className='margin_top_15'>_______________</p>
                         </div>
                         <div className='berween margin_top_15'>
-                            <p>tel: {CheckOwner(documentInfo?.supply_infos?.[0]) ? CheckOwner(documentInfo?.supply_infos?.[0])?.phone : documentInfo?.client?.phone?.join(' ')}</p>
+                            <p>tel: {checkOwner(documentInfo?.supply_infos?.[0]) ? checkOwner(documentInfo?.supply_infos?.[0])?.phone : documentInfo?.client?.phone?.join(' ')}</p>
                         </div>
                     </div>
                 </div>
