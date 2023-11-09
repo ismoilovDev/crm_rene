@@ -70,6 +70,8 @@ function ClientForm() {
   const [selectedCountry, setSelectedCountry] = useState({})
   const [districts, setDistricts] = useState([])
   const [selectedDistrict, setSelectedDistrict] = useState({})
+  const [sources, setSources] = useState([])
+  const [selectedSource, setSelectedSource] = useState({})
   const [resetWarning, setResetWarning] = useState('warning_reset_main close')
   const [phoneArray, setPhoneArray] = useState([{ id: 1, phone: "", }])
   const { register, handleSubmit } = useForm()
@@ -95,10 +97,25 @@ function ClientForm() {
     }
   }
 
+  const getClientSources = async () => {
+    try {
+      const { data } = await https.get('/sources')
+      const list = data.map(item => ({
+        value: item.id,
+        label: item.title
+      }));
+      setSources([...list])
+    }
+    catch (err) {
+      console.log(err)
+    }
+  }
+
   useEffect(() => {
     getDistracts(1)
-    setSelectedCountry(countries[238])
+    getClientSources()
     setSelectedRegion(regions[0])
+    setSelectedCountry(countries[238])
   }, [regions, countries])
 
   function openReset(e) {
@@ -169,6 +186,7 @@ function ClientForm() {
       region_id: selectedRegion.value,
       citizenship: selectedCountry.label,
       district_id: selectedDistrict.value,
+      source_id: selectedSource.value
     };
     try {
       const response = await https.post('/clients', info);
@@ -449,6 +467,20 @@ function ClientForm() {
                   color="secondary"
                   {...register("job", { required: true })}
                 />
+                <div className='clientForm_selector'>
+                  <p>Mijoz</p>
+                  <Select
+                    defaultValue={selectedSource}
+                    value={selectedSource}
+                    options={sources}
+                    className='buyurtma_select_new source_select'
+                    styles={customStyles}
+                    theme={makeTheme}
+                    onChange={(event) => {
+                      setSelectedSource(event)
+                    }}
+                  />
+                </div>
               </div>
               <Container path={paths} setPath={setPaths} />
             </AccordionDetails>

@@ -7,8 +7,8 @@ export function useCountries() {
    useEffect(() => {
       async function fetchCountries() {
          try {
-            const res = await https.get('/countries');
-            const array = res.data.map(item => ({
+            const { data } = await https.get('/countries');
+            const array = data.map(item => ({
                value: item.num_code,
                label: item.nationality
             }));
