@@ -468,7 +468,7 @@ function ClientForm() {
                   {...register("job", { required: true })}
                 />
                 <div className='clientForm_selector'>
-                  <p>Mijoz</p>
+                  <p>Mijoz qayerdan kelgan (statistika)</p>
                   <Select
                     defaultValue={selectedSource}
                     value={selectedSource}
@@ -476,6 +476,7 @@ function ClientForm() {
                     className='buyurtma_select_new source_select'
                     styles={customStyles}
                     theme={makeTheme}
+                    required
                     onChange={(event) => {
                       setSelectedSource(event)
                     }}
