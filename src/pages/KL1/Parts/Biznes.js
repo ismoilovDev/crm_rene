@@ -90,7 +90,7 @@ function Biznes() {
    }
 
    function nextStep() {
-      navigate('/kl1/addkl1/6_qism', { replace: true });
+      navigate('/client-marks/add/6_qism', { replace: true });
    }
 
    function biznesData() {
