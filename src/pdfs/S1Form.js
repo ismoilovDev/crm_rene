@@ -78,7 +78,7 @@ function S1Form() {
                                  {
                                     documentInfo?.data?.group?.clients?.map(item => {
                                        if (item?.order?.supply_info?.[0]) {
-                                          return (` ${item?.order?.supply_info?.[0]?.type == 'auto' ? `${item?.order?.supply_info?.[0]?.auto?.[0]?.registration_cert} - sonli Transport vositasini qayd etish guvohnomasiga ko'ra ${checkOwner(item?.order?.supply_info?.[0]) ? checkOwner(item?.order?.supply_info?.[0]) : item?.name}ga tegishli bo'lgan ${item?.order?.supply_info?.[0]?.auto?.[0]?.name} rusumli transport vositasini` : `${item?.order?.supply_info?.[0]?.type == 'gold' ? `${item?.name} tegishli bo'lgan tilla buyumlarni ` : ``}`}, `)
+                                          return (` ${item?.order?.supply_info?.[0]?.type == 'auto' ? `${item?.order?.supply_info?.[0]?.auto?.[0]?.registration_cert} - sonli Transport vositasini qayd etish guvohnomasiga ko'ra ${checkOwner(item?.order?.supply_info?.[0]) ? checkOwner(item?.order?.supply_info?.[0])?.fio : item?.name}ga tegishli bo'lgan ${item?.order?.supply_info?.[0]?.auto?.[0]?.name} rusumli transport vositasini` : `${item?.order?.supply_info?.[0]?.type == 'gold' ? `${item?.name} tegishli bo'lgan tilla buyumlarni ` : ``}`}, `)
                                        }
                                     })
                                  }
@@ -98,7 +98,7 @@ function S1Form() {
                            ) :
                            (
                               documentInfo?.data?.supply_infos?.[0]?.type === 'auto' ?
-                                 <li>Qarz oluvchi olingan qarzni qaytarilishini ta'minlash maqsadida garov shartnomasi asosida {documentInfo?.data?.supply_infos?.[0]?.auto?.[0]?.registration_cert} - sonli Transport vositasini qayd etish guvohnomasiga ko'ra {checkOwner(documentInfo?.data?.supply_infos?.[0]) ? checkOwner(documentInfo?.data?.supply_infos?.[0]) : 'ozi'}ga tegishli bo'lgan {documentInfo?.data?.supply_infos?.[0]?.auto?.[0]?.name} rusumli transport vositasini garovga qo'yadi.</li>
+                                 <li>Qarz oluvchi olingan qarzni qaytarilishini ta'minlash maqsadida garov shartnomasi asosida {documentInfo?.data?.supply_infos?.[0]?.auto?.[0]?.registration_cert} - sonli Transport vositasini qayd etish guvohnomasiga ko'ra {checkOwner(documentInfo?.data?.supply_infos?.[0]) ? checkOwner(documentInfo?.data?.supply_infos?.[0])?.fio : 'ozi'}ga tegishli bo'lgan {documentInfo?.data?.supply_infos?.[0]?.auto?.[0]?.name} rusumli transport vositasini garovga qo'yadi.</li>
                                  :
                                  (
                                     documentInfo?.data?.supply_infos?.[0]?.type === 'gold' ?

@@ -74,7 +74,7 @@ export function reneConfidence(doc) {
 }
 
 export function checkOwner(item) {
-   return item?.possessor === 'trust_owner' ? item?.trust_owner : item?.owner ?? item?.client;
+   return item?.possessor === 'trust_owner' ? item?.trust_owner : item?.owner ?? false;
 }
 
 export function checkOwnerClient(item) {

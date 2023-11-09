@@ -155,7 +155,7 @@ function P1Form() {
                   `Buyurtmachilar  mikroqarz qaytarilishini ta'minlash maqsadida o‘zaro solidar javobgarlik to‘g‘risidagi Kafillik shartnomasini taqdim qilishlarini va garov shartnomasi asosida
                     ${documentInfo?.group?.clients?.map(item => {
                      if (item?.order?.supply_info?.[0]?.type == 'auto') {
-                        return (`${checkOwner(item?.order?.supply_info?.[0]) ? checkOwner(item?.order?.supply_info?.[0]) : item?.name}ga tegishli bo‘lgan transport vositasini garov`)
+                        return (`${checkOwner(item?.order?.supply_info?.[0]) ? checkOwner(item?.order?.supply_info?.[0])?.fio : item?.name}ga tegishli bo‘lgan transport vositasini garov`)
                      }
                      if (item?.order?.supply_info?.[0]?.type == 'gold') {
                         return (`o'ziga tegishli bo'lgan tilla buyumlarni garov`)
@@ -469,7 +469,7 @@ function P1Form() {
                                        Berilayotgan mikroqarzga ta'minot sifatida o'zaro solidar javobgarlik to'g'risidagi Kafillik shartnomasi va garov shartnomasi asosida
                                        {documentInfo?.group?.clients?.map(item => {
                                           if (item?.order?.supply_info?.[0]?.type == 'auto') {
-                                             return (` ${checkOwner(item?.order?.supply_info?.[0]) ? checkOwner(item?.order?.supply_info?.[0]) : item?.name}ga tegishli bo‘lgan transport vositasi`)
+                                             return (` ${checkOwner(item?.order?.supply_info?.[0]) ? checkOwner(item?.order?.supply_info?.[0])?.fio : item?.name}ga tegishli bo‘lgan transport vositasi`)
                                           } else if (item?.order?.supply_info?.[0]?.type == 'gold') {
                                              return (` o'ziga tegishli bo'lgan tilla buyumlarni garov`)
                                           } else if (item?.order?.supply_info?.[0]?.type == 'guarrantor' || item?.order?.supply_info?.[0]?.type == 'insurance') {
