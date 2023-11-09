@@ -8,6 +8,7 @@ import { PdfWrapper } from '../components/Pdf/Wrapper'
 import { typeFunc } from '../utils/functions/supplyTypes'
 import useDataFetching from '../hooks/usePdfDataFetching'
 import { PdfControls } from '../components/Pdf/PdfControls'
+import { checkOwnerClient } from '../utils/functions/supplyTypes'
 import './pdf.css'
 
 
@@ -21,15 +22,6 @@ function typesSupply(supply){
     return types
 }
 
-function checkOwnerClient(item){
-    if(item?.possessor == 'trust_owner'){
-      return item?.trust_owner?.fio
-    }else if( item?.possessor == 'owner'){
-      return item?.owner?.fio
-    }else{
-      return("o'zi")
-    }
-}
 
 const titlePart = (documentInfo, orderInfo) =>(
     <>

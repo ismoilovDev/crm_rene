@@ -12,7 +12,7 @@ function Blank({ contract_date, client_name, sum, length }) {
                 </div>
                 <div className="sub_titles_item">
                     <span>
-                    Qarz miqdor: {sum} so'm
+                    Baxosi: {sum} so'm
                     </span>
                 </div>
                 <div className="sub_titles_item">
@@ -21,13 +21,6 @@ function Blank({ contract_date, client_name, sum, length }) {
                     </span>
                 </div>
     
-            </div>
-            <div className='margin_top_10 endRow'>
-                <span className='black_text'>
-                    <article>
-                    __________________
-                    </article>
-                </span>
             </div>
         </div>
     )

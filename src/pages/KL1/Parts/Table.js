@@ -199,7 +199,7 @@ function Table() {
       navigate('/kl1', { replace: true });
    }
    function BackStep() {
-      navigate("/kl1/addkl1/7_qism", { replace: true });
+      navigate("/client-marks/add/7_qism", { replace: true });
    }
 
    // UseForm

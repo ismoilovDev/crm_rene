@@ -14,11 +14,11 @@ function AboutClient({ id }) {
     <>
       <div className="client_details_box">
         <ImageViewer
-          img_src={client?.paths?.length > 0 ? `${ process.env.BASE_URL }/${client?.paths[0]}` : not_found}
+          img_src={client?.paths?.length > 0 ? `${process.env.REACT_APP_BASE_URL}/${client?.paths[0]}` : not_found}
           slide_src={
             client?.paths?.length > 0 ?
               client?.paths?.map(item => {
-                return { src: `${process.env.BASE_URL}/${item}` }
+                return { src: `${process.env.REACT_APP_BASE_URL}/${item}` }
               }) : [{ src: not_found }]
           }
         />

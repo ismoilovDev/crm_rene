@@ -137,7 +137,7 @@ function ClientMarks({ filters }) {
 											forms?.map(item => {
 												return (
 													<li className='client_row' key={item?.id}>
-														<p className='liName td_client_marks' onDoubleClick={() => { navigate(`/kl1/singlekl1/${item?.id}`) }}>{item?.client?.name}</p>
+														<p className='liName td_client_marks' onDoubleClick={() => { navigate(`/client-marks/single/${item?.id}`) }}>{item?.client?.name}</p>
 														<p className='td_client_marks' onDoubleClick={() => { navigate(`/client-marks/single/${item?.id}`) }}>{item?.client?.code}</p>
 														<p className='td_client_marks' onDoubleClick={() => { navigate(`/client-marks/single/${item?.id}`) }}>{item?.order_code}</p>
 														<p className='td_client_marks' onDoubleClick={() => { navigate(`/client-marks/single/${item?.id}`) }}>{dateConvert(item?.mark_date) || dateConvert(item?.doc_date)}</p>
@@ -145,7 +145,7 @@ function ClientMarks({ filters }) {
 															<button><Link to={`/client-marks/single/${item?.id}`}><i className='bx bx-user white'></i></Link></button>
 															{role.includes('admin') || role.includes('monitoring')  ? (
 																<>
-																	<button onClick={() => {item?.contract_id === null ? navigateEditPage(item?.id) : alert("Shartnoma to'ldirilgan")}}>
+																	<button onClick={() => /*{item?.contract_id === null ?*/ navigateEditPage(item?.id) /*: alert("Shartnoma to'ldirilgan")}*/}>
 																		<i className='bx bx-edit-alt white'></i>
 																	</button>
 																</>
