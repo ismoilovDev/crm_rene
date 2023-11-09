@@ -137,7 +137,7 @@ function ClientMarks({ filters }) {
 											forms?.map(item => {
 												return (
 													<li className='client_row' key={item?.id}>
-														<p className='liName td_client_marks' onDoubleClick={() => { navigate(`/kl1/singlekl1/${item?.id}`) }}>{item?.client?.name}</p>
+														<p className='liName td_client_marks' onDoubleClick={() => { navigate(`/client-marks/single/${item?.id}`) }}>{item?.client?.name}</p>
 														<p className='td_client_marks' onDoubleClick={() => { navigate(`/client-marks/single/${item?.id}`) }}>{item?.client?.code}</p>
 														<p className='td_client_marks' onDoubleClick={() => { navigate(`/client-marks/single/${item?.id}`) }}>{item?.order_code}</p>
 														<p className='td_client_marks' onDoubleClick={() => { navigate(`/client-marks/single/${item?.id}`) }}>{dateConvert(item?.mark_date) || dateConvert(item?.doc_date)}</p>

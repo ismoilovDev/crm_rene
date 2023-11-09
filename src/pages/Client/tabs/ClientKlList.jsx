@@ -45,7 +45,9 @@ const ClientListTable = memo(({ loading, monitoring, deleteFun, navigateEditPage
                                 </p>
                                 <div className='userButtons_shartnoma'>
                                     <button>
-                                        <Link to={`/kl1/singlekl1/${item?.id}`}><i className='bx bx-user white'></i></Link> 
+                                        <Link to={`/client-marks/single/${item?.id}`}>
+                                            <i className='bx bx-user white'></i>
+                                        </Link> 
                                     </button>
                                     {role?.includes('admin') || role.includes('monitoring') ? (
                                         <>
@@ -146,7 +148,7 @@ const ClientKlList = memo(({ id }) => {
     }
 
     function navigateEditPage(id) {
-		navigate("/kl1/editkl1", { state: { id: id } })
+		navigate("/client-marks/edit", { state: { id: id } })
 	}
 
     function navigateTo(){
