@@ -22,13 +22,6 @@ function Blank({ contract_date, client_name, sum, length }) {
                 </div>
     
             </div>
-            <div className='margin_top_10 endRow'>
-                <span className='black_text'>
-                    <article>
-                    __________________
-                    </article>
-                </span>
-            </div>
         </div>
     )
 }

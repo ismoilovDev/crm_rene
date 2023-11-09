@@ -51,7 +51,7 @@ function ClientMarks({ filters }) {
 		}
 		const dataId = { code: id }
 		https
-			.post('/check/order/code', dataId)
+			.post('/check/order/code-client-mark', dataId)
 			.then(res => {
 				navigate("/client-marks/add", { state: { id: res?.data?.order_id } })
 			})

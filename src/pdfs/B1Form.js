@@ -39,7 +39,7 @@ function B1Form() {
             />
             <div className='header_logo'>
               <Logo width={200} />
-              <div className='b1_subtitle margin_left_20'>
+              <div className='b1_subtitle margin_left_20 blank_opposite'>
                 <div className='endColumn'>
                   <span>{documentInfo?.branch?.name} Boshqaruvchisi </span>
                   <span>{fullName(documentInfo?.branch?.head)} ga</span>
@@ -102,7 +102,7 @@ function B1Form() {
               <div className='b1_img'>
                 <Logo width={200} />
               </div>
-              <div className='b1_subtitle'>
+              <div className='b1_subtitle blank_opposite'>
                 <div className='startColumn'>
                   <span>{documentInfo?.group?.branch?.name} Boshqaruvchisi </span>
                   <span>{fullName(documentInfo?.group?.branch?.head)} ga</span>

@@ -84,6 +84,11 @@
   margin-right: 30px;
 }
 
+.blank_opposite{
+  max-width: 400px;
+  text-align-last: right;
+}
+
 .header_logo {
   display: flex;
   flex-direction: column;
