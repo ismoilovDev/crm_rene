@@ -12,7 +12,7 @@ function Blank({ contract_date, client_name, sum, length }) {
                 </div>
                 <div className="sub_titles_item">
                     <span>
-                    Qarz miqdor: {sum} so'm
+                    Baxosi: {sum} so'm
                     </span>
                 </div>
                 <div className="sub_titles_item">

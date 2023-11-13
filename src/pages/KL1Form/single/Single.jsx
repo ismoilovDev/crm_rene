@@ -326,8 +326,8 @@ function SingleKL1() {
          <div className='pdf_header'>
             <Prev />
             <button onClick={() =>{
-               if((((kreditData?.interest + kreditData?.principal_debt + ClientLoansMonthNumber()) / SofFun()) * 100).toFixed(2) > 45){
-                  return alert('KL foiz 45% oshib ketdi')
+               if((((kreditData?.interest + kreditData?.principal_debt + ClientLoansMonthNumber()) / SofFun()) * 100).toFixed(2) > 50){
+                  return alert('KL foiz 50% oshib ketdi')
                }
                navigate("/pdf/client-marks", { state: { id } })
             }}>
@@ -834,7 +834,7 @@ function SingleKL1() {
                      <p>{(kreditData?.interest + kreditData?.principal_debt)?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
                   </div>
                   <div className='single_buyurtma_inputs'>
-                     <p>Soralayotgan kredit hisobi qarzi yoki korsatkichi (${'< 45%'})</p>
+                     <p>Soralayotgan kredit hisobi qarzi yoki korsatkichi (${'< 50%'})</p>
                      <p>{(((kreditData?.interest + kreditData?.principal_debt + ClientLoansMonthNumber()) / SofFun()) * 100).toFixed(2)}</p>
                   </div>
                </div>
@@ -871,13 +871,13 @@ function SingleKL1() {
                      <div className='kl1_table_dark-bg'>Natija</div>
                      <div className='kl1_table_double kl1_table_dark-bg kl1_table_noPadding'>
                         <p className='kl1_table_yellow-bg'>{(kreditData?.interest + kreditData?.principal_debt)?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
-                        <p className={(((kreditData?.interest + kreditData?.principal_debt + ClientLoansMonthNumber()) / SofFun()) * 100).toFixed(2) > 45 || (((kreditData?.interest + kreditData?.principal_debt + ClientLoansMonthNumber()) / SofFun()) * 100).toFixed(2) < 0 ? 'kl1_table_red-bg' : 'kl1_table_green-bg'}>{(((kreditData?.interest + kreditData?.principal_debt + ClientLoansMonthNumber()) / SofFun()) * 100).toFixed(2)}%</p>
+                        <p className={(((kreditData?.interest + kreditData?.principal_debt + ClientLoansMonthNumber()) / SofFun()) * 100).toFixed(2) > 50 || (((kreditData?.interest + kreditData?.principal_debt + ClientLoansMonthNumber()) / SofFun()) * 100).toFixed(2) < 0 ? 'kl1_table_red-bg' : 'kl1_table_green-bg'}>{(((kreditData?.interest + kreditData?.principal_debt + ClientLoansMonthNumber()) / SofFun()) * 100).toFixed(2)}%</p>
                      </div>
                      <div className='kl1_table_double kl1_table_noPadding'>
                         <p className='kl1_table_yellow-bg'>{((SofFun() / (kreditData?.interest + kreditData?.principal_debt)) * 100).toFixed(2)}%</p>
                         <p className='kl1_table_yellow-bg'>{(FamilyXarajat() + FamilyLoansMonth()) ? (FamilyXarajat() + FamilyLoansMonth())?.toLocaleString(undefined, { minimumFractionDigits: 2 }) : 0}</p>
                      </div>
-                     <div className='kl1_table_yellow-bg'> {`<= 45% и >= 120%`}</div>
+                     <div className='kl1_table_yellow-bg'> {`<= 50% и >= 120%`}</div>
                      <div className='kl1_table_dark-bg'>Shaxsiy kapital miqdori</div>
                      <div className='kl1_table_dark-bg'>Shaxsiy kapital/kreditlar</div>
                      <div className='kl1_table_dark-bg'>Natija</div>
