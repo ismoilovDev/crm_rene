@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom';
 import { PdfControls } from '../components/Pdf/PdfControls';
+import { nextMonth } from '../utils/functions/nextMonth';
 import { PdfWrapper } from '../components/Pdf/Wrapper';
 import { months } from '../utils/constants/months';
 import https from '../services/https';
@@ -58,7 +59,7 @@ function KLPDF() {
             time: data?.order?.time,
             percent: data?.order?.percent_year,
             given_date: data?.contract?.id ? data?.contract?.contract_issue_date : data?.order?.order_date,
-            first_repayment_date: data?.contract?.id ? data?.contract?.first_repayment_date : data?.order?.order_date
+            first_repayment_date: data?.contract?.id ? data?.contract?.first_repayment_date : nextMonth(data?.order?.order_date)
          }
 
          if(res?.data?.contract?.id){

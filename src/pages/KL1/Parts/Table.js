@@ -1,14 +1,15 @@
 import React, { useState, useContext, useEffect } from 'react'
-import { Textarea, Radio, Input } from '@nextui-org/react'
-import { useForm } from "react-hook-form";
-import { AiOutlineDoubleLeft } from 'react-icons/ai'
-import { useNavigate } from 'react-router-dom';
 import { YMaps, Map, Placemark } from '@pbe/react-yandex-maps';
-import { NumericFormat } from 'react-number-format';
-import { alert } from '../../../components/Alert/alert';
-import { Context } from '../../../context/context';
-import LoaderBackdrop from '../../../components/Loader/LoaderBackdrop';
+import { Textarea, Radio, Input } from '@nextui-org/react'
+import { AiOutlineDoubleLeft } from 'react-icons/ai'
+import { NumericFormat } from 'react-number-format'
+import { useNavigate } from 'react-router-dom';
+import { useForm } from "react-hook-form";
 import https from '../../../services/https';
+import { Context } from '../../../context/context';
+import { alert } from '../../../components/Alert/alert';
+import { nextMonth } from '../../../utils/functions/nextMonth';
+import LoaderBackdrop from '../../../components/Loader/LoaderBackdrop';
 
 function Table() {
    const [show, setShow] = useState(false)
@@ -178,7 +179,7 @@ function Table() {
          time: infoOrder?.time,
          percent: infoOrder?.percent_year,
          given_date: infoOrder?.contract ? infoOrder?.contract?.contract_issue_date : infoOrder?.order_date,
-         first_repayment_date: infoOrder?.contract ? infoOrder?.contract?.first_repayment_date : infoOrder?.order_date
+         first_repayment_date: infoOrder?.contract ? infoOrder?.contract?.first_repayment_date : nextMonth(infoOrder?.order_date)
       }
 
       namunaRequest(data)
@@ -199,7 +200,7 @@ function Table() {
       navigate('/kl1', { replace: true });
    }
    function BackStep() {
-      navigate("/kl1/addkl1/7_qism", { replace: true });
+      navigate("/client-marks/add/7_qism", { replace: true });
    }
 
    // UseForm

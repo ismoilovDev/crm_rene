@@ -1,9 +1,10 @@
 import { useState, useContext, useEffect } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import { useForm } from "react-hook-form";
+import { useNavigate } from 'react-router-dom';
 import { Input, Textarea } from '@nextui-org/react'
 import { AiOutlineDoubleRight, AiOutlineDoubleLeft } from 'react-icons/ai'
-import { useNavigate } from 'react-router-dom';
+import { nextMonth } from '../../../utils/functions/nextMonth';
 import { NumericFormat } from 'react-number-format';
 import { Context } from '../../../context/context';
 import https from './../../../services/https';
@@ -105,7 +106,7 @@ function BuyurtmaOylik() {
          time: infoOrder?.time,
          percent: infoOrder?.percent_year,
          given_date: infoOrder?.contract ? infoOrder?.contract?.contract_issue_date : infoOrder?.order_date,
-         first_repayment_date: infoOrder?.contract ? infoOrder?.contract?.first_repayment_date : infoOrder?.order_date
+         first_repayment_date: infoOrder?.contract ? infoOrder?.contract?.first_repayment_date : nextMonth(infoOrder?.order_date)
       }
 
       namunaRequest(data)

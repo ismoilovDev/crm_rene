@@ -1,10 +1,13 @@
-import { useContext,useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { Input, Textarea,Checkbox } from '@nextui-org/react'
 import { NumericFormat } from 'react-number-format';
 import { v4 as uuidv4 } from 'uuid';
 import { AiOutlineDoubleRight, AiOutlineDoubleLeft } from 'react-icons/ai'
 import { Context } from '../../../context/context';
+import { AutoComplete, Input as InputVAl } from 'antd';
+
+const { Option } = AutoComplete;
 
 function Boshqa() {
     const { activeTab, setActiveTab } = useContext(Context)
@@ -81,6 +84,33 @@ function Boshqa() {
        
     }
 
+    const [value, setValue] = useState('');
+    const [dataSource, setDataSource] = useState(['Option 1', 'Option 2', 'Option 3', 'Data 1', 'database']);
+  
+    const handleSearch = (searchText) => {
+        const filteredOptions = dataSource.filter(option =>
+        option.toLowerCase().includes(searchText.toLowerCase())
+        );
+    
+        setDataSource(filteredOptions);
+    };
+    
+    const handleSelect = (selectedValue) => {
+        setValue(selectedValue);
+        setDataSource([]); // Clear the data source to hide suggestions.
+    };
+    
+    const handleInputChange = (inputValue) => {
+        setValue(inputValue);
+    
+        // Clear the data source if the input value length is greater than 6.
+        if (inputValue.length > 6) {
+        setDataSource([]);
+        }
+    };
+
+          
+
 
     return (
         <>
@@ -138,6 +168,18 @@ function Boshqa() {
                                     setMyDaromads(newBoshqaDaromads)
                                 }}
                             />
+                            {/* <AutoComplete
+                                value={value}
+                                dataSource={dataSource.map(option => <Option key={option}>{option}</Option>)}
+                                onSearch={handleSearch}
+                                onSelect={handleSelect}
+                                >
+                                <Input
+                                    label='Namee:'
+                                    placeholder="Enter or select an option"
+                                    onChange={(e) => handleInputChange(e.target.value)}
+                                />
+                            </AutoComplete> */}
                             <div className="numeric_format_input width_47">
                                 <label>Hajmi</label>
                                 <NumericFormat

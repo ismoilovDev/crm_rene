@@ -8,6 +8,7 @@ import Prev from '../../../components/Prev/Prev';
 import https from '../../../services/https';
 import { months } from '../../../utils/constants/months';
 import { alert } from '../../../components/Alert/alert'
+import { nextMonth } from '../../../utils/functions/nextMonth';
 
 
 function SingleKL1() {
@@ -64,7 +65,7 @@ function SingleKL1() {
             time: data?.order?.time,
             percent: data?.order?.percent_year,
             given_date: data?.contract?.id ? data?.contract?.contract_issue_date : data?.order?.order_date,
-            first_repayment_date: data?.contract?.id ? data?.contract?.first_repayment_date : data?.order?.order_date
+            first_repayment_date: data?.contract?.id ? data?.contract?.first_repayment_date : nextMonth(data?.order?.order_date)
          }
 
          if(res?.data?.contract?.id){

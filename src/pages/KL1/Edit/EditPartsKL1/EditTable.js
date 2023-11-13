@@ -1,14 +1,15 @@
 import { useState, useContext, useEffect, useMemo } from 'react'
 import { Textarea, Radio, Input } from '@nextui-org/react'
-import { useForm } from "react-hook-form";
+import { YMaps, Map, Placemark } from '@pbe/react-yandex-maps';
+import { NumericFormat } from 'react-number-format';
 import { AiOutlineDoubleLeft } from 'react-icons/ai'
 import { useNavigate } from 'react-router-dom';
-import { NumericFormat } from 'react-number-format';
-import { YMaps, Map, Placemark } from '@pbe/react-yandex-maps';
+import { useForm } from "react-hook-form";
+import https from './../../../../services/https';
 import { Context } from '../../../../context/context';
 import { alert } from '../../../../components/Alert/alert';
+import { nextMonth } from '../../../../utils/functions/nextMonth';
 import LoaderBackdrop from '../../../../components/Loader/LoaderBackdrop';
-import https from './../../../../services/https';
 
 
 function EditTable() {
@@ -179,9 +180,9 @@ function EditTable() {
 
    const getPaymentClear = async(id) => {
       try{
-          const res = await https.post(`/g1/${id}`, {})
-          const { data } = res;
-          setKreditData(data?.graph?.['0']);
+         const res = await https.post(`/g1/${id}`, {})
+         const { data } = res;
+         setKreditData(data?.graph?.['0']);
       }
       catch(error){
          console.log(error)
@@ -207,14 +208,14 @@ function EditTable() {
          sum: infoOrder?.sum,
          time: infoOrder?.time,
          percent: infoOrder?.percent_year,
-         given_date: infoOrder?.contract ? infoOrder?.contract?.contract_issue_date : infoOrder?.order_date,
-         first_repayment_date: infoOrder?.contract ? infoOrder?.contract?.first_repayment_date : infoOrder?.order_date
+         given_date: mainInfo?.contract ? mainInfo?.contract?.contract_issue_date : infoOrder?.order_date,
+         first_repayment_date: mainInfo?.contract ? mainInfo?.contract?.first_repayment_date : nextMonth(infoOrder?.order_date)
       }
 
-      if(infoOrder?.contract?.id){
+      if(mainInfo?.contract?.id){
          getPaymentClear(infoOrder?.id)
       }else{
-         namunaRequest(data)   
+         namunaRequest(data) 
       }
    }, [])
 

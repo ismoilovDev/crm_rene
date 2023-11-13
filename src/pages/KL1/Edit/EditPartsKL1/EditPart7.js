@@ -3,16 +3,17 @@ import { v4 as uuidv4 } from 'uuid'
 import { useForm } from "react-hook-form";
 import { useNavigate } from 'react-router-dom';
 import { Input, Textarea } from '@nextui-org/react'
-import { AiOutlineDoubleRight, AiOutlineDoubleLeft } from 'react-icons/ai'
+import https from '../../../../services/https';
 import { NumericFormat } from 'react-number-format';
 import { Context } from '../../../../context/context';
 import { alert } from '../../../../components/Alert/alert';
-import https from '../../../../services/https';
+import { nextMonth } from '../../../../utils/functions/nextMonth';
+import { AiOutlineDoubleRight, AiOutlineDoubleLeft } from 'react-icons/ai'
 
 function EditPart7() {
 
     // Tab active
-    const { infoOrder, setActiveTab } = useContext(Context)
+    const { mainInfo, infoOrder, setActiveTab } = useContext(Context)
     const { clientLoans, setClientLoans} = useContext(Context)
     const { historyKredit, setHistoryKredit } = useContext(Context)
     const [kreditData, setKreditData] = useState({})
@@ -115,11 +116,11 @@ function EditPart7() {
             sum: infoOrder?.sum,
             time: infoOrder?.time,
             percent: infoOrder?.percent_year,
-            given_date: infoOrder?.contract ? infoOrder?.contract?.contract_issue_date : infoOrder?.order_date,
-            first_repayment_date: infoOrder?.contract ? infoOrder?.contract?.first_repayment_date : infoOrder?.order_date
+            given_date: mainInfo?.contract ? mainInfo?.contract?.contract_issue_date : infoOrder?.order_date,
+            first_repayment_date: mainInfo?.contract ? mainInfo?.contract?.first_repayment_date : nextMonth(infoOrder?.order_date)
         }
 
-        if(infoOrder?.contract?.id){
+        if(mainInfo?.contract?.id){
             getPaymentClear(infoOrder?.id)
         }else{
             namunaRequest(data)   
