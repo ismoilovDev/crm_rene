@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { Radio } from '@nextui-org/react'
-import Select from 'react-select';
-import https from '../../../services/https';
-import Prev from '../../../components/Prev/Prev';
+import { makeTheme, customStyles } from '../../../components/Order/Functions'
 import { InputSingle } from '../../../components/Input/InputSingle';
 import ContainerView from '../../../components/ImageContainer/ContainerView';
-import { makeTheme, customStyles } from '../../../components/Order/Functions'
+import Prev from '../../../components/Prev/Prev';
+import https from '../../../services/https';
+import Select from 'react-select';
 
 const positions = [
    {
@@ -39,7 +39,7 @@ function EmployeeSingle() {
    const [worker, setWorker] = useState([])
 
    async function fetchWorkers() {
-      try{
+      try {
          const res = await https.get('/employees-all')
          let selectWorkers = []
          res?.data?.map((item) => {
@@ -50,20 +50,20 @@ function EmployeeSingle() {
          setWorkerOptions(selectWorkers)
          setWorker(selectWorkers[0])
       }
-      catch(err){
+      catch (err) {
          console.log(err)
       }
    }
 
-   async function getData(){
-      try{
+   async function getData() {
+      try {
          const res = await https.get(`/employees/${id}`)
          const { data } = res;
          setEmployees(data)
          setPath(data?.photo)
          console.log(res?.data);
       }
-      catch(err){
+      catch (err) {
          console.log(err);
       }
    }
@@ -73,7 +73,7 @@ function EmployeeSingle() {
       fetchWorkers()
    }, [id])
 
-   const changeEmployee = async (status) =>{
+   const changeEmployee = async (status) => {
       const data = {
          first_employee_id: employees?.id,
          second_employee_id: worker?.value,
@@ -82,14 +82,14 @@ function EmployeeSingle() {
       }
       console.log(data, 'data');
 
-      try{
+      try {
          const res = await https.post('/users/setVVB', data)
-         if(res?.status===200 || res?.status===201){
+         if (res?.status === 200 || res?.status === 201) {
             alert("O'zgartirildi", "success")
          }
          getData()
       }
-      catch(err){
+      catch (err) {
          console.log(err);
       }
    }
@@ -104,36 +104,38 @@ function EmployeeSingle() {
             <div className='pdf_margin_top_15'>
                <div className='single_buyurtma_info'>
                   <InputSingle label={"F.I.Sh:"} value={employees?.name} />
-                  {
-                     employees?.gender ?
-                        <Radio.Group orientation="horizontal" label="Jinsi:" defaultValue={employees?.gender} value={employees?.gender} className='radio_group margin_bottom_15'
-                        >
-                           <Radio value="male" color="secondary" size="sm">
-                              Erkak
-                           </Radio>
-                           <Radio value="female" color="secondary" size="sm" className='radio_second'>
-                              Ayol
-                           </Radio>
-                        </Radio.Group>
-                        : <></>
-                  }
+                  <Radio.Group
+                     orientation="horizontal"
+                     label="Jinsi:"
+                     defaultValue={employees?.gender}
+                     value={employees?.gender}
+                     className='radio_group margin_bottom_15'
+                  >
+                     <Radio value="male" color="secondary" size="sm">
+                        Erkak
+                     </Radio>
+                     <Radio value="female" color="secondary" size="sm" className='radio_second'>
+                        Ayol
+                     </Radio>
+                  </Radio.Group>
                   <InputSingle label={"Pasport raqami:"} value={employees?.passport_data} />
                   <InputSingle label={"PINFL:"} value={employees?.pinfl} />
                   <InputSingle label={"Tajriba:"} value={employees?.staj} />
                   <InputSingle label={"Stavka:"} value={employees?.stavka} />
-                  {
-                     employees?.graduation ?
-                        <Radio.Group orientation="horizontal" label="Oliy ta'lim:" defaultValue={employees?.graduation} value={employees?.graduation} className='radio_group margin_bottom_15'
-                        >
-                           <Radio value={true} color="secondary" size="sm">
-                              Bor
-                           </Radio>
-                           <Radio value={false} color="secondary" size="sm" className='radio_second'>
-                              Yok
-                           </Radio>
-                        </Radio.Group>
-                        : <></>
-                  }
+                  <Radio.Group
+                     orientation="horizontal"
+                     label="Oliy ta'lim:"
+                     defaultValue={employees?.graduation}
+                     value={employees?.graduation}
+                     className='radio_group margin_bottom_15'
+                  >
+                     <Radio value={true} color="secondary" size="sm">
+                        Bor
+                     </Radio>
+                     <Radio value={false} color="secondary" size="sm" className='radio_second'>
+                        Yok
+                     </Radio>
+                  </Radio.Group>
                   <InputSingle label={"Shartnoma sanasi:"} value={employees?.contract_date} />
                   <InputSingle label={"Shartnoma turi:"} value={employees?.contract_type} />
                   <InputSingle label={"Lavozim:"} value={employees?.job} />
@@ -156,27 +158,27 @@ function EmployeeSingle() {
                   <ContainerView paths={path} />
                   {
                      employees?.position ?
-                     <div className='vvb_container'>
-                        <h4>Bu lavozimga boshqa xodim qo'yish</h4>
-                        <div className='order-select margin_top_15'>
-                           <p>Xodimlar:</p>
-                           <Select
-                              width='100%'
-                              defaultValue={worker}
-                              value={worker}
-                              options={workerOptions}
-                              className='xodim_select basic-multi-select'
-                              classNamePrefix="select"
-                              styles={customStyles}
-                              theme={makeTheme}
-                              onChange={(event) => { setWorker(event) }}
-                           />
-                        </div>
-                        <div className='buttons'>
-                           <button onClick={()=>{changeEmployee(false)}}>Lovazimga qaytarish</button>
-                           <button onClick={()=>{changeEmployee(true)}}>Vaqtinchalik</button>
-                        </div>
-                     </div> : <></>
+                        <div className='vvb_container'>
+                           <h4>Bu lavozimga boshqa xodim qo'yish</h4>
+                           <div className='order-select margin_top_15'>
+                              <p>Xodimlar:</p>
+                              <Select
+                                 width='100%'
+                                 defaultValue={worker}
+                                 value={worker}
+                                 options={workerOptions}
+                                 className='xodim_select basic-multi-select'
+                                 classNamePrefix="select"
+                                 styles={customStyles}
+                                 theme={makeTheme}
+                                 onChange={(event) => { setWorker(event) }}
+                              />
+                           </div>
+                           <div className='buttons'>
+                              <button onClick={() => { changeEmployee(false) }}>Lovazimga qaytarish</button>
+                              <button onClick={() => { changeEmployee(true) }}>Vaqtinchalik</button>
+                           </div>
+                        </div> : <></>
                   }
                </div>
             </div>

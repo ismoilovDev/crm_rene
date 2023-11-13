@@ -196,8 +196,8 @@ function EditPart7() {
 
 
     const onSubmit = (data) =>{
-        if(procentNumber() > 45){
-            return alert("Soralayotgan kredit hisobi 45% dan ortik", 'error')
+        if(procentNumber() > 50){
+            return alert("So'ralayotgan kredit hisobi 50% dan ortik", 'error')
         }
 
         setTimeout(()=>{
@@ -340,8 +340,8 @@ function EditPart7() {
                             <p>Jami oylik tolov:</p>
                             <p>{(kreditData?.interest + kreditData?.principal_debt)?.toLocaleString()}</p>
                         </div>
-                        <div className={procentNumber() > 45 ? 'single_buyurtma_inputs pdf_margin_top_15 red_text' : 'single_buyurtma_inputs pdf_margin_top_15 green_text'}>
-                            <p>{`Soralayotgan kredit hisobi qarzi yoki korsatkichi (<45%)`}:</p>
+                        <div className={procentNumber() > 50 ? 'single_buyurtma_inputs pdf_margin_top_15 red_text' : 'single_buyurtma_inputs pdf_margin_top_15 green_text'}>
+                            <p>{`So'ralayotgan kredit hisobi qarzi yoki korsatkichi (<50%)`}:</p>
                             <p>{procentNumber()}</p>
                         </div>
                     </div> :

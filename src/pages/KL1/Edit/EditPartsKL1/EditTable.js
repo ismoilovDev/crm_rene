@@ -381,9 +381,9 @@ function EditTable() {
    }
 
    const onSubmit = (data) => {
-      if(ProcentNumber() > 45){
+      if(ProcentNumber() > 50){
          setDisable(false)
-         return alert('KL foiz 45% oshib ketdi')
+         return alert('KL foiz 50% oshib ketdi')
       }
 
       setDisable(true)
@@ -598,7 +598,7 @@ function EditTable() {
                <div className='kl1_table_dark-bg'>Natija</div>
                <div className='kl1_table_double kl1_table_dark-bg kl1_table_noPadding'>
                   <p className='kl1_table_yellow-bg'>{(kreditData?.interest + kreditData?.principal_debt)?.toLocaleString()}</p>
-                  <p className={ProcentNumber() > 45 ? 'kl1_table_red-bg' : 'kl1_table_green-bg'}>{ProcentNumber()}</p>
+                  <p className={ProcentNumber() > 50 ? 'kl1_table_red-bg' : 'kl1_table_green-bg'}>{ProcentNumber()}</p>
                </div>
                <div className='kl1_table_double kl1_table_noPadding'>
                   <p className={((sof / (kreditData?.interest + kreditData?.principal_debt)) * 100).toFixed(2) > 120 ? 'kl1_table_green-bg' : 'kl1_table_red-bg'}>{((sof / (kreditData?.interest + kreditData?.principal_debt)) * 100).toFixed(2)}%</p>

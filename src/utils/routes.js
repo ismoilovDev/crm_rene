@@ -1,5 +1,6 @@
 import { lazy } from 'react';
 import Home from '../pages/Home/Home';
+
 const ClientRouting = lazy(() => import('../pages/Client/index'));
 const ContractRouting = lazy(() => import('../pages/Contract/index'));
 const OrderRouting = lazy(() => import('../pages/Order'));
@@ -14,6 +15,7 @@ const ClientMarksRouting = lazy(() => import('../pages/KL1Form'));
 const PdfRouting = lazy(() => import('../pdfs/index'));
 const Calculator = lazy(() => import('../pages/Calculator/Calculator'));
 const CalendarSet = lazy(() => import('../pages/Calendar/CalendarSet'));
+const Configurations = lazy(() => import('../pages/Configurations'));
 
 
 export const routes = [
@@ -141,7 +143,16 @@ export const routes = [
             element: PdfRouting
          }
       ]
-   }
+   },
+   {
+      path: "/configurations",
+      children: [
+         {
+            path: "*",
+            element: Configurations
+         }
+      ]
+   },
 ]
 
 

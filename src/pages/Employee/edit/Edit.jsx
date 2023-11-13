@@ -170,24 +170,25 @@ function EmployeeEdit() {
                      setXodim(newxodim)
                   }}
                />
-               {
-                  xodim?.gender ?
-                     <Radio.Group orientation="horizontal" label="Jinsi:" defaultValue={xodim?.gender} value={xodim?.gender} className='radio_group margin_bottom_15'
-                        onChange={(e) => {
-                           let newxodim = { ...xodim }
-                           newxodim.gender = e
-                           setXodim(newxodim)
-                        }}
-                     >
-                        <Radio value="male" color="secondary" size="sm">
-                           Erkak
-                        </Radio>
-                        <Radio value="female" color="secondary" size="sm" className='radio_second'>
-                           Ayol
-                        </Radio>
-                     </Radio.Group>
-                     : <></>
-               }
+               <Radio.Group
+                  className='radio_group margin_bottom_15'
+                  defaultValue={xodim?.gender}
+                  value={xodim?.gender}
+                  orientation="horizontal"
+                  label="Jinsi:"
+                  onChange={(e) => {
+                     let newxodim = { ...xodim }
+                     newxodim.gender = e
+                     setXodim(newxodim)
+                  }}
+               >
+                  <Radio value="male" color="secondary" size="sm">
+                     Erkak
+                  </Radio>
+                  <Radio value="female" color="secondary" size="sm" className='radio_second'>
+                     Ayol
+                  </Radio>
+               </Radio.Group>
                <Input
                   width='100%'
                   bordered
@@ -254,24 +255,25 @@ function EmployeeEdit() {
                      setXodim(newxodim)
                   }}
                />
-               {
-                  xodim?.graduation ?
-                     <Radio.Group orientation="horizontal" label="Oliy ta'lim:" defaultValue={xodim?.graduation} value={xodim?.graduation} className='radio_group margin_bottom_15'
-                        onChange={(e) => {
-                           let newxodim = { ...xodim }
-                           newxodim.graduation = e
-                           setXodim(newxodim)
-                        }}
-                     >
-                        <Radio value={true} color="secondary" size="sm">
-                           Bor
-                        </Radio>
-                        <Radio value={false} color="secondary" size="sm" className='radio_second'>
-                           Yok
-                        </Radio>
-                     </Radio.Group>
-                     : <></>
-               }
+               <Radio.Group
+                  className='radio_group margin_bottom_15'
+                  defaultValue={xodim?.graduation}
+                  value={xodim?.graduation}
+                  orientation="horizontal"
+                  label="Oliy ta'lim:"
+                  onChange={(e) => {
+                     let newxodim = { ...xodim }
+                     newxodim.graduation = e
+                     setXodim(newxodim)
+                  }}
+               >
+                  <Radio value={true} color="secondary" size="sm">
+                     Bor
+                  </Radio>
+                  <Radio value={false} color="secondary" size="sm" className='radio_second'>
+                     Yok
+                  </Radio>
+               </Radio.Group>
                <Input
                   width='100%'
                   bordered

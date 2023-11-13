@@ -10,7 +10,6 @@
   transition: 0.2s linear;
   -ms-overflow-style: none;
   scrollbar-width: none;
-  /* overflow-y: auto; */
   z-index: 102;
 }
 
@@ -48,7 +47,6 @@
   flex-basis: 80%;
   padding-left: 18px;
 }
-
 
 .sidebar.min_size .sidebar_header a {
   padding-left: 0;
@@ -137,12 +135,19 @@
 .nav-list {
   margin-top: 25px;
   width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
 
-nav::-webkit-scrollbar {
-  display: none;
+.nav-list::-webkit-scrollbar,
+.nav-list::-webkit-scrollbar-thumb {
+  width: 1px;
+  height: 15px;
+  border-radius: 10px;
+  background-clip: padding-box;
+  border: 7px solid transparent;
 }
 
 .nav-item {
@@ -160,6 +165,7 @@ nav::-webkit-scrollbar {
 
 .ant-tabs-nav {
   width: 100%;
+  height: calc(100vh - 80px);
 }
 
 .nav-list .ant-tabs-tab {
@@ -170,7 +176,6 @@ nav::-webkit-scrollbar {
 .sidebar.min_size .nav-list .nav-item {
   padding-left: 11px;
 }
-
 
 .nav-list .ant-tabs-tab:hover {
   background: linear-gradient(118deg, #7828c8, rgba(115, 103, 240, 0.7));
