@@ -12,19 +12,19 @@ const LineGraph = ({ orders }) => {
 
     orders?.map(item=>{
         accepted.push({ 
-            name: 'Tasdiqlangan',
-            year: item?.date,
-            sum: item?.sum_accepted 
+          name: 'Tasdiqlangan',
+          year: item?.date,
+          sum: item?.sum_accepted 
         })
         denied.push({ 
-            name: 'Rad etilgan',
-            year: item?.date,
-            sum: item?.sum_denied  
+          name: 'Rad etilgan',
+          year: item?.date,
+          sum: item?.sum_denied  
         })
         pending.push({ 
-            name: 'Kutilmoqda',
-            year: item?.date,
-            sum: item?.sum_pending 
+          name: 'Kutilmoqda',
+          year: item?.date,
+          sum: item?.sum_pending 
         })
     })
 
