@@ -2,6 +2,7 @@ import { memo, useState } from 'react'
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import { Tabs } from 'antd';
 import { AiFillDatabase, AiFillFileText, AiOutlineFileAdd, AiFillFolderOpen, AiFillFile, AiOutlineBook, AiOutlineUsergroupAdd, AiOutlineCalendar, AiOutlineCalculator } from 'react-icons/ai';
+import { GrDocumentConfig } from "react-icons/gr";
 import { BsBuilding } from 'react-icons/bs';
 import { IoCloseCircleOutline } from "react-icons/io5";
 import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
@@ -26,7 +27,8 @@ function Sidebar({ role, currentPath, sidebarActive, isSidebarMini, setSidebarAc
       { to: '/sections/pages/1', icon: <AiFillDatabase />, span: "Bo'limlar", keys: 11, visible: role.includes('admin') ? "visible" : "hidden" },
       { to: '/users/pages/1', icon: <AiOutlineUsergroupAdd />, span: 'Foydalanuvchilar', keys: 12, visible: role.includes('admin') ? "visible" : "hidden" },
       { to: '/calculator', icon: <AiOutlineCalculator />, span: 'Kalkulyator', keys: 13, visible: "visible" },
-      { to: '/calendar', icon: <AiOutlineCalendar />, span: 'Kalendar', keys: 14, visible: role.includes('admin') ? "visible" : "hidden" }
+      { to: '/calendar', icon: <AiOutlineCalendar />, span: 'Kalendar', keys: 14, visible: role.includes('admin') ? "visible" : "hidden" },
+      { to: '/configurations', icon: <GrDocumentConfig />, span: 'Konfiguratsiya', keys: 15, visible: role.includes('admin') ? "visible" : "hidden" }
    ]
 
    const keys = sidebarLink.filter(item => {

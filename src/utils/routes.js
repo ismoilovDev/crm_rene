@@ -33,7 +33,11 @@ export const routes = [
          {
             path: "calendar",
             element: CalendarSet
-         }
+         },
+         {
+            path: "configurations/*",
+            element: Configurations
+         },
       ]
    },
    {
@@ -141,15 +145,6 @@ export const routes = [
          {
             path: "*",
             element: PdfRouting
-         }
-      ]
-   },
-   {
-      path: "/configurations",
-      children: [
-         {
-            path: "*",
-            element: Configurations
          }
       ]
    },

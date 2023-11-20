@@ -1,11 +1,10 @@
 import { memo, useState } from 'react';
-import { ImUpload2 } from "react-icons/im";
 import { IoBagSharp } from "react-icons/io5";
 import { MdAccountBalance } from "react-icons/md";
 import { BsCalendar2WeekFill } from "react-icons/bs";
-import { alert } from './../Alert/alert';
+import { FileUploader } from '../Uploader/FileUploader';
 import { StatisticsBox } from './StatisticsBox';
-import LoaderBackdrop from '../Loader/LoaderBackdrop';
+import { alert } from './../Alert/alert';
 import https from '../../services/https';
 
 const role = JSON.parse(window.localStorage.getItem('role'));
@@ -86,39 +85,16 @@ export const MainStatistics = memo(({ overData }) => {
                />
             </div>
             {
-               role?.includes('admin') ?
-                  <div className='file_uploader'>
-                     <div className="uploader_box">
-                        <form onSubmit={handleUpload}>
-                           <input type="file" required id='file-upload' onChange={handleFileSelect} />
-                           <label htmlFor="file-upload">
-                              <div className="upload_section">
-                                 <div className="uploader_icon">
-                                    <ImUpload2 />
-                                 </div>
-                                 <p>Fayl tanlash</p>
-                              </div>
-                              {uploadProgress > 0 && !uploadComplete && (
-                                 <div className="progress-bar">
-                                    <div className="progress" style={{ width: `${uploadProgress}%` }}></div>
-                                 </div>
-                              )}
-                              <span>
-                                 <i>{selectedFile?.name}</i>
-                              </span>
-                           </label>
-                           {
-                              selectedFile.name ?
-                                 <div className="file_submit">
-                                    <button className="file_submit_btn" type='submit'>Fayl yuklash</button>
-                                 </div>
-                                 : null
-                           }
-                        </form>
-                     </div>
-                  </div> : null
+               role?.includes('admin') &&
+               <FileUploader
+                  disable={disable}
+                  selectedFile={selectedFile}
+                  handleUpload={handleUpload}
+                  uploadComplete={uploadComplete}
+                  uploadProgress={uploadProgress}
+                  handleFileSelect={handleFileSelect}
+               />
             }
-            <LoaderBackdrop disable={disable} />
          </div>
       </div>
    )

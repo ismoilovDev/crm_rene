@@ -93,7 +93,7 @@ function FTDForm() {
                <div className='pdf_end_2sections pdf_margin_top_30'>
                   <div className='pdf_end_2sections_section'>
                      <p className='black_text'>Topshirdi (qaytardi):</p>
-                     <p className='pdf_margin_top_20'>Front ofis xodimi:</p>
+                     <p className='pdf_margin_top_20'>{documentInfo?.data?.user_job}</p>
                      <p>{fullName(documentInfo?.data?.branch?.chief_treasurer)}______________</p>
                   </div>
                   <div className='pdf_end_2sections_section'>

@@ -9,12 +9,11 @@ const LineGraph = ({ orders }) => {
     let denied = []
     let pending = []
 
-
     orders?.map(item=>{
         accepted.push({ 
           name: 'Tasdiqlangan',
           year: item?.date,
-          sum: item?.sum_accepted 
+          sum: item?.sum_accepted
         })
         denied.push({ 
           name: 'Rad etilgan',
@@ -29,9 +28,8 @@ const LineGraph = ({ orders }) => {
     })
 
     setData([...accepted, ...pending, ...denied].reverse())
-    console.log([...accepted, ...pending, ...denied]);
-
   }
+
   useEffect(() => {
     destributionOrder()
   }, [orders]);
