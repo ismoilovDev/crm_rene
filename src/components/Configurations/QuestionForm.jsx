@@ -1,25 +1,14 @@
 import { memo, useRef } from "react"
-import { Textarea } from "@nextui-org/react"
+import { Input } from "@nextui-org/react"
 import { useForm } from "react-hook-form"
 import { alert } from "../Alert/alert"
 import https from "../../services/https"
 
-const QuestionForm = memo(({ onSubmit }) => {
-   const { register, handleSubmit } = useForm()
+const QuestionForm = memo(({ onSubmit, children }) => {
+   const { handleSubmit } = useForm()
    return (
       <form onSubmit={handleSubmit(onSubmit)}>
-         <Textarea
-            bordered
-            required
-            size="md"
-            label="Matn"
-            color="secondary"
-            className="textarea"
-            labelPlacement="outside"
-            {...register("title", { required: true })}
-            placeholder="Statistika uchun variant matnini kiriting..."
-         />
-         <button type="submit">Kiritish</button>
+         {children}
       </form>
    )
 })

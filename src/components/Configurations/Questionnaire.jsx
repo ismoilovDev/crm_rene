@@ -1,5 +1,6 @@
 import React, { memo, useCallback, useEffect, useState } from "react"
-import { Tooltip } from "@nextui-org/react";
+import { Input, Tooltip } from "@nextui-org/react";
+import { useForm } from "react-hook-form";
 import { alert, warning } from "../Alert/alert";
 import SkeletonBox from '../Loader/Skeleton';
 import QuestionWrapper from './QuestionForm'
@@ -27,17 +28,40 @@ const EmptyOptions = memo(() => (
    </div>
 ))
 
-const EditingForm = memo(({ value, setValue }) => (
-   <input
-      bordered
-      value={value}
-      onChange={(e) => {
-         setValue(e.target.value)
-      }}
-   />
-))
+const AddingForm = memo(() => {
+   const { register } = useForm()
+   return (
+      <React.Fragment>
+         <Input
+            bordered
+            required
+            size="md"
+            label="Matn"
+            color="secondary"
+            className="textarea"
+            labelPlacement="outside"
+            {...register("title", { required: true })}
+            placeholder="Statistika uchun variant matnini kiriting..."
+         />
+         <button type="submit">Kiritish</button>
+      </React.Fragment>
+   )
+})
 
-const Table = memo(({ columns, value, setValue, isEditing, editingHandle, resetHandle, updateHandle, deleteHandle }) => {
+const EditingForm = memo(({ value, setValue }) => {
+   const [editingText, setEditingText] = useState('')
+   return (
+      <input
+         bordered
+         value={value}
+         onChange={(e) => {
+            setValue(e.target.value)
+         }}
+      />
+   )
+})
+
+const Table = memo(({ columns, editingHandle, deleteHandle }) => {
 
    return (
       <table>
@@ -55,46 +79,21 @@ const Table = memo(({ columns, value, setValue, isEditing, editingHandle, resetH
                columns.map((column, index) => (
                   <tr key={column?.id}>
                      <td>{index + 1}</td>
+                     <td>{column?.title}</td>
                      <td>
                         {
-                           isEditing?.editing && isEditing?.selected === index ?
-                              <input
-                                 bordered
-                                 value={value}
-                                 onChange={(e) => {
-                                    setValue(e.target.value)
-                                 }}
-                              /> :
-                              <span>{column?.title}</span>
-                        }
-                     </td>
-                     <td>
-                        {
-                           isEditing?.editing && isEditing?.selected === index ?
-                              <React.Fragment>
-                                 <Tooltip content="O'zgarishni saqlash" placement="topStart">
-                                    <button onClick={_ => updateHandle(column?.id)}>
-                                       <i class='bx bxs-message-square-check'></i>
-                                    </button>
-                                 </Tooltip>
-                                 <Tooltip content="Bekor qilish" placement="topStart">
-                                    <button onClick={resetHandle}>
-                                       <i class='bx bx-arrow-back'></i>
-                                    </button>
-                                 </Tooltip>
-                              </React.Fragment> :
-                              <React.Fragment>
-                                 <Tooltip content="O'zgartirish" placement="topStart">
-                                    <button onClick={_ => editingHandle(index)}>
-                                       <i className='bx bx-edit-alt'></i>
-                                    </button>
-                                 </Tooltip>
-                                 <Tooltip content="O'chirish" placement="topStart">
-                                    <button onClick={_ => deleteHandle(column?.id)}>
-                                       <i className='bx bx-trash'></i>
-                                    </button>
-                                 </Tooltip>
-                              </React.Fragment>
+                           <React.Fragment>
+                              <Tooltip content="O'zgartirish" placement="topStart">
+                                 <button onClick={_ => editingHandle(index)}>
+                                    <i className='bx bx-edit-alt'></i>
+                                 </button>
+                              </Tooltip>
+                              <Tooltip content="O'chirish" placement="topStart">
+                                 <button onClick={_ => deleteHandle(column?.id)}>
+                                    <i className='bx bx-trash'></i>
+                                 </button>
+                              </Tooltip>
+                           </React.Fragment>
                         }
                      </td>
                   </tr>
@@ -107,9 +106,9 @@ const Table = memo(({ columns, value, setValue, isEditing, editingHandle, resetH
 
 export const ClientQuestionnaire = memo(() => {
    const [loading, setLoading] = useState(true)
+   const [isVisable, setIsVisable] = useState(false)
    const [editingText, setEditingText] = useState('')
    const [questionnaires, setQuestionnaires] = useState([])
-   const [isVisable, setIsVisable] = useState(false)
    const [isEditing, setIsEditing] = useState({ editing: false, selected: null })
 
    const getQuestionnaires = useCallback(async () => {
@@ -142,6 +141,7 @@ export const ClientQuestionnaire = memo(() => {
    }
 
    const editingHandle = (index) => {
+      
       setIsEditing({ ...isEditing, editing: true, selected: index })
    }
 

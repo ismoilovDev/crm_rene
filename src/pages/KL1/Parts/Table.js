@@ -11,11 +11,12 @@ import { alert } from '../../../components/Alert/alert';
 import { nextMonth } from '../../../utils/functions/nextMonth';
 import LoaderBackdrop from '../../../components/Loader/LoaderBackdrop';
 
+const userID = window.localStorage.getItem('user_id')
+
 function Table() {
    const [show, setShow] = useState(false)
-   const userID = window.localStorage.getItem('user_id')
    const [disable, setDisable] = useState(false)
-   
+
    // Tab active
    const { setActiveTab } = useContext(Context)
    const { dataTable, setDataTable } = useContext(Context)
@@ -56,7 +57,7 @@ function Table() {
          newBiznesDaromad.push(item.plus)
       })
       let totalDaromad = newBiznesDaromad.reduce((prev, current) => Number(prev) + Number(current), 0)
-      return(totalDaromad ? totalDaromad : 0)
+      return (totalDaromad ? totalDaromad : 0)
    }
 
    function GetSumXarajatBiznes() {
@@ -65,7 +66,7 @@ function Table() {
          newBiznesXarajat.push(item.minus)
       })
       let totalXarajat = newBiznesXarajat.reduce((prev, current) => Number(prev) + Number(current), 0)
-      return(totalXarajat ? totalXarajat : 0)
+      return (totalXarajat ? totalXarajat : 0)
    }
 
    // Get current location ----->
@@ -90,7 +91,7 @@ function Table() {
          newSumArray.push(item.oylik)
       })
       let totalPrices = newSumArray.reduce((prev, current) => prev + current, 0)
-      return(totalPrices ? totalPrices : 0)
+      return (totalPrices ? totalPrices : 0)
    }
 
    const GetDaromadSumMavsumiy = () => {
@@ -99,7 +100,7 @@ function Table() {
          SumArr1.push(Number(item.value))
       })
       let totalSum1 = SumArr1.reduce((prev, current) => prev + current, 0)
-      return(totalSum1 ? totalSum1 : 0)
+      return (totalSum1 ? totalSum1 : 0)
    }
 
    const GetXarajatSumMavsumiy = () => {
@@ -108,7 +109,7 @@ function Table() {
          SumArr2.push(Number(item.value))
       })
       let totalSum2 = SumArr2.reduce((prev, current) => prev + current, 0)
-      return(totalSum2 ? totalSum2 : 0)
+      return (totalSum2 ? totalSum2 : 0)
    }
 
    function GetSumXarajatQism6() {
@@ -117,7 +118,7 @@ function Table() {
          xarajat.push(item.minus)
       })
       let totalXarajatSum = xarajat.reduce((prev, current) => Number(prev) + Number(current), 0)
-      return(totalXarajatSum ? totalXarajatSum : 0)
+      return (totalXarajatSum ? totalXarajatSum : 0)
    }
    function GetMalumotPayQism6() {
       let malumotPay = []
@@ -125,7 +126,7 @@ function Table() {
          malumotPay.push(item.pay)
       })
       let totalMalumotSumPay = malumotPay.reduce((prev, current) => Number(prev) + Number(current), 0)
-      return(totalMalumotSumPay ? totalMalumotSumPay : 0)
+      return (totalMalumotSumPay ? totalMalumotSumPay : 0)
    }
 
    function SupplyTypes(supply) {
@@ -156,16 +157,16 @@ function Table() {
          }
       })
       let totalSum = summ.reduce((prev, current) => prev + current, 0)
-      return(totalSum ? totalSum : 0)
+      return (totalSum ? totalSum : 0)
    }
 
-   const namunaRequest = async(info) =>{
-      try{
+   const namunaRequest = async (info) => {
+      try {
          const res = await https.post('/namuna', info)
          const { data } = res;
          setKreditData(data?.['0'])
       }
-      catch(err){
+      catch (err) {
          console.log(err);
       }
    }
@@ -353,19 +354,22 @@ function Table() {
    }
 
    const onSubmit = (data) => {
-      if(ProcentNumber() > 50){
-         setDisable(false)
-         return alert('KL foiz 50% oshib ketdi')
+      console.log(dataTable?.status)
+      if (dataTable?.status) {
+         if (ProcentNumber() > 50) {
+            setDisable(false)
+            return alert('KL foiz 50% oshib ketdi')
+         }
       }
-      
+
       setDisable(true)
 
       let familyMembers = []
-      familyMemCheck?.map(item=>{
-         if(item?.checked){
-            if(item?.counter){
+      familyMemCheck?.map(item => {
+         if (item?.checked) {
+            if (item?.counter) {
                familyMembers.push(`${item?.count} ${item?.name}`)
-            }else{
+            } else {
                familyMembers.push(item?.name)
             }
          }
@@ -376,22 +380,22 @@ function Table() {
 
 
       let mulkCopy = []
-      propertyTotal?.map(item=>{
-         if(item?.checked){
-            if(item?.counter){
+      propertyTotal?.map(item => {
+         if (item?.checked) {
+            if (item?.counter) {
                mulkCopy.push(`${item?.count} ${item?.name}`)
-            }else{
+            } else {
                mulkCopy.push(item?.name)
             }
          }
       })
-      propertyCars?.map(item=>{
-         if(item?.checked){
+      propertyCars?.map(item => {
+         if (item?.checked) {
             mulkCopy.push(item?.name)
          }
       })
-      propertyAnimals?.map(item=>{
-         if(item?.checked){
+      propertyAnimals?.map(item => {
+         if (item?.checked) {
             mulkCopy.push(`${item?.count} ${item?.name}`)
          }
       })
@@ -639,7 +643,7 @@ function Table() {
             <div className='kl1_table'>
                <div className='kl1_table_dark-bg'>Hulq atvori</div>
                <div className='kl1_table_dark-bg'>Shaxsiy sifatida baholanishi</div>
-               <div className='kl1_table_dark-bg'>Moliaviy malumotlar va savodxonlik</div>
+               <div className='kl1_table_dark-bg'>Moliaviy ma'lumotlar va savodxonlik</div>
                <div className='kl1_table_double kl1_table_noPadding'>
                   <p>сухбат</p>
                   <div className='kl1_table_inputs'>
@@ -701,7 +705,7 @@ function Table() {
                   <NumericFormat
                      thousandSeparator={' '}
                      value={dataTable?.table_personal_capital}
-                     onChange={(e)=>{
+                     onChange={(e) => {
                         const changed_number = Number((e.target.value).replace(/\s/g, ''))
                         const array = { ...dataTable }
                         array.table_personal_capital = changed_number
@@ -819,16 +823,25 @@ function Table() {
                show ? Location() : <></>
             }
             <div className='kl1_accepting'>
-               <p>Taqdim etilgan va toplangan malumotlar hamda kredit byurosidan olingan kredit tarixiga asoslanib men tomonimdan otkazilgan organish va tahlillar asosida ushbu buyurtma boyicha quiydagi yakuniy xulosamni kredit komissiyasida korib chiqish uchun taqdim etaman</p>
-               <Radio.Group label=' ' value={dataTable?.status} size='sm' className='kl1_accepting_radio'
-                  onChange={(e) => {
+               <p>Taqdim etilgan va toplangan ma'lumotlar hamda kredit byurosidan olingan kredit tarixiga asoslanib men tomonimdan otkazilgan organish va tahlillar asosida ushbu buyurtma boyicha quiydagi yakuniy xulosamni kredit komissiyasida korib chiqish uchun taqdim etaman</p>
+               <Radio.Group
+                  size='sm'
+                  label=' '
+                  value={dataTable?.status}
+                  className='kl1_accepting_radio'
+                  onChange={e => {
+                     console.log(e)
                      let array = { ...dataTable }
                      array.status = e
                      setDataTable(array)
                   }}
                >
-                  <div className='kl1_accept margin_bottom'><Radio color='success' className='radio_end' value={true}>Kredit ajratish</Radio></div>
-                  <div className='kl1_accept'><Radio color='error' className='radio_end' value={false}>Rad etish</Radio></div>
+                  <div className='kl1_accept margin_bottom'>
+                     <Radio color='success' className='radio_end' value={true}>Kredit ajratish</Radio>
+                  </div>
+                  <div className='kl1_accept'>
+                     <Radio color='error' className='radio_end' value={false}>Rad etish</Radio>
+                  </div>
                </Radio.Group>
             </div>
 

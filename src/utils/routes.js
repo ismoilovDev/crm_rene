@@ -34,10 +34,10 @@ export const routes = [
             path: "calendar",
             element: CalendarSet
          },
-         {
-            path: "configurations/*",
-            element: Configurations
-         },
+         // {
+         //    path: "configurations/*",
+         //    element: Configurations
+         // },
       ]
    },
    {
