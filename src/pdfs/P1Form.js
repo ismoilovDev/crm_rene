@@ -457,6 +457,8 @@ function P1Form() {
                      </div>
                   </div>
                   <div className='startRow pdf_margin_top_20'>
+                     
+                     {console.log(documentInfo)}
                      <p>2</p>
                      <div className='p1_left_space'>
                         {
