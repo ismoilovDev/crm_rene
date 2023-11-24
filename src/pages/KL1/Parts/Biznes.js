@@ -6,6 +6,7 @@ import { AiOutlineDoubleRight, AiOutlineDoubleLeft } from 'react-icons/ai'
 import { NumericFormat } from 'react-number-format';
 import { Context } from '../../../context/context';
 import { incomeList } from '../../../components/KL1/incomeList';
+import IncomeInput from '../../../components/KL1/IncomeInput';
 
 
 
@@ -123,40 +124,13 @@ function Biznes() {
                            <button className='kl1_delete_button' onClick={() => { deleteBiznesDaromad(index) }}><i className='bx bx-trash'></i></button>
                         </div>
                         <div className='kl1_product'>
-                           <div className='income_select_container' style={{width: '100%'}}>
-                              <Input
-                                 rounded
-                                 bordered
-                                 label='Daromad nomi'
-                                 color="secondary"
-                                 width='100%'
-                                 className='kl1_input'
-                                 value={biznesDaromads.find(x => x.id === item.id).name}
-                                 onChange={(e) => {
-                                    let newBiznesDaromadArr = [...biznesDaromads]
-                                    newBiznesDaromadArr[index].name = e.target.value
-                                    setBiznesDaromads(newBiznesDaromadArr)
-                                    handleSearch(e.target.value)
-                                    setFocusedInd(index)
-                                 }}
-                              />
-                              {
-                                 biznesDaromads?.find(x => x?.id === item?.id)?.name?.length !== 0 && incomes?.length !== 0 && focusedInd === index?
-                                 <div className='income_options'>
-                                       {
-                                          incomes?.map((income, ind)=>(
-                                             <p key={income} onClick={()=>{
-                                                let newBiznesDaromadArr = [...biznesDaromads]
-                                                newBiznesDaromadArr[index].name = income
-                                                setBiznesDaromads(newBiznesDaromadArr)
-                                                setIncomes([])
-                                                setFocusedInd(null)
-                                             }}>{income}</p>
-                                          ))
-                                       }
-                                 </div> : <></>
-                              }
-                           </div>
+                           <IncomeInput
+                              contextData={biznesDaromads}
+                              setContextData={setBiznesDaromads}
+                              item={item}
+                              index={index}
+                              width={100}
+                           />
                            <div className="numeric_format_input width_47">
                               <label>Oylik hajm</label>
                               <NumericFormat

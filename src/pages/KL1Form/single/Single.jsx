@@ -3,12 +3,14 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { AiOutlinePrinter } from 'react-icons/ai'
 import { Radio, Input } from '@nextui-org/react'
 import { YMaps, Map, Placemark } from '@pbe/react-yandex-maps';
-import ContainerView from '../../../components/ImageContainer/ContainerView';
 import Prev from '../../../components/Prev/Prev';
 import https from '../../../services/https';
 import { months } from '../../../utils/constants/months';
 import { alert } from '../../../components/Alert/alert'
-import { nextMonth } from '../../../utils/functions/nextMonth';
+import { nextMonth } from '../../../utils/functions/nextMonth'
+import dateConvert from '../../../utils/functions/dateConvert'
+import ContainerView from '../../../components/ImageContainer/ContainerView';
+import { phoneFormat } from '../../../utils/functions/phoneFormat';
 
 
 function SingleKL1() {
@@ -340,11 +342,11 @@ function SingleKL1() {
             <h1 className='text_center filial_edit_text'>{mainInfo?.client?.name}</h1>
             <div className='single_buyurtma_inputs pdf_margin_top_15'>
                <p>Hujjat tayyorlangan sana:</p>
-               <p>{mainInfo?.doc_date}</p>
+               <p>{dateConvert(mainInfo?.doc_date)}</p>
             </div>
             <div className='single_buyurtma_inputs pdf_margin_top_15'>
                <p>Mijoz tekshirilgan va organilgan sana:</p>
-               <p>{mainInfo?.mark_date}</p>
+               <p>{dateConvert(mainInfo?.mark_date)}</p>
             </div>
             <div className='single_buyurtma_inputs pdf_margin_top_15'>
                <p>Buyurtmachining F.I.Sh:</p>
@@ -367,7 +369,7 @@ function SingleKL1() {
             </div>
             <div className='single_buyurtma_inputs pdf_margin_top_15'>
                <p>Buyurtmachining telefon raqami:</p>
-               <p>{mainInfo?.client?.phone[0]}</p>
+               <p>{mainInfo?.client?.phone?.map(item => phoneFormat(item))?.join('\t')}</p>
             </div>
             <div className='single_buyurtma_inputs pdf_margin_top_15'>
                <p>Kredit maqsadi:</p>

@@ -52,7 +52,8 @@ function Owner({ clientId }) {
          setDisable(true)
          const info = {
             client_id: clientId,
-            type: 'guarrantor'
+            type: 'guarrantor',
+         
          }
          const response = await https.post(`/supply-info`, info);
 

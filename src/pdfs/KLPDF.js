@@ -5,6 +5,8 @@ import { nextMonth } from '../utils/functions/nextMonth';
 import { PdfWrapper } from '../components/Pdf/Wrapper';
 import { months } from '../utils/constants/months';
 import https from '../services/https';
+import dateConvert from '../utils/functions/dateConvert';
+import { phoneFormat } from '../utils/functions/phoneFormat'
 
 function KLPDF() {
    const location = useLocation()
@@ -311,11 +313,11 @@ function KLPDF() {
             <p className='text_black_18 text_center'>Biznesni o‘rganish / Kreditga layoqatlilikni baholash varaqasi</p>
             <div className='row_div between under_line margin_top_20'>
                <p className='div_child'>Hujjat tayyorlangan sana:</p>
-               <p className='div_child'>{mainInfo?.doc_date}</p>
+               <p className='div_child'>{dateConvert(mainInfo?.doc_date)}</p>
             </div>
             <div className='row_div between under_line margin_top_10'>
                <p className='div_child'>Mijoz tekshirilgan va organilgan sana:</p>
-               <p className='div_child'>{mainInfo?.mark_date}</p>
+               <p className='div_child'>{dateConvert(mainInfo?.mark_date)}</p>
             </div>
             <div className='row_div between under_line margin_top_10'>
                <p className='div_child'>Buyurtmachining F.I.Sh:</p>
@@ -338,7 +340,7 @@ function KLPDF() {
             </div>
             <div className='row_div between under_line margin_top_10'>
                <p className='div_child'>Buyurtmachining telefon raqami:</p>
-               <p className='div_child'>{mainInfo?.client?.phone?.join('  ')}</p>
+               <p className='div_child'>{mainInfo?.client?.phone?.map(item => phoneFormat(item))?.join('\t')}</p>
             </div>
             <div className='row_div between under_line margin_top_10'>
                <p className='div_child'>Kredit maqsadi:</p>

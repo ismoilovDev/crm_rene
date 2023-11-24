@@ -21,6 +21,7 @@ function P1Form() {
          .post(`/p1/${orderId}`, {})
          .then(res => {
             setDocumentInfo(res?.data)
+            console.log(res?.data);
             ageText(res?.data)
          })
          .catch(err => {

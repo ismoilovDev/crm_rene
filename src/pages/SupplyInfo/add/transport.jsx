@@ -136,116 +136,52 @@ function Transport({ clientId }) {
       return totalSum;
    }
 
-   async function pushingData(data) {
-      try {
-         const response = await https.post('/autos', data);
-         alert("Ta'minot qo'shildi", 'success');
-         navigate(-1)
-      } catch (err) {
-         const errorMessage = err?.response?.data?.message || "Xatolik";
-         alert(errorMessage, 'error');
-      } finally {
-         setDisable(false);
-      }
-   }
-
    const mainRequest = async (post_data) => {
       const { data } = await https.post(`/supply-info`, post_data);
       return data.id
    }
 
-   const companyRequest = async (post_data) => {
-      const { data } = await https.post(`/companies`, post_data)
-      return data.id
-   }
-
-   const ownerRequest = async (post_data) => {
-      const { data } = await https.post(`/owners`, post_data)
-   }
-
-   const trustOwnerRequest = async (post_data) => {
-      const { data } = await https.post(`/trust-owners`, post_data)
-   }
-
    const onSubmit = async (data) => {
-      if (path.length > 0) {
-         const main_data = {
-            client_id: clientId,
-            type: 'auto',
-            possessor: possessor,
-            valued_by: valuedNumber,
-            sum: giveSum,
-            date: data?.date,
-            percent: ((giveSum === 0 || getTotalSum() === 0) ? 0 : ((giveSum / getTotalSum()) * 100).toFixed(1)),
-            paths: path
-         }
-         const transports = transportProducts.map(({ id, ...item }) => item);
-         try {
-            setDisable(true);
-            if (possessor === "client") {
-               if (valuedNumber !== 1) {
-                  async function createSupplyInfo(transports) {
-                     try {
-                        const company_id = await companyRequest(data.company)
-                        const supply_info_id = await mainRequest({ ...main_data, company_id })
-                        await pushingData({ auto: transports, supply_info_id });
-                     } catch (err) {
-                        alert(`Xatolik: ${err?.response?.data?.message}`, 'error')
-                     }
-                  }
-                  createSupplyInfo(transports);
-               } else {
-                  const supply_info_id = await mainRequest(main_data)
-                  await pushingData({ auto: transports, supply_info_id })
-               }
-            } else if (possessor === "owner") {
-               if (valuedNumber !== 1) {
-                  async function createSupplyInfo(transports) {
-                     try {
-                        const company_id = await companyRequest(data.company)
-                        const supply_info_id = await mainRequest({ ...main_data, company_id })
-                        await ownerRequest({ ...data.owner, doc_type: ownerSelector, is_guarrantor: false, supply_info_id })
-                        await pushingData({ auto: transports, supply_info_id });
-                     } catch (err) {
-                        alert(`Xatolik: ${err?.response?.data?.message}`, 'error')
-                     }
-                  }
-                  createSupplyInfo(transports);
-               } else {
-                  const supply_info_id = await mainRequest(main_data)
-                  await ownerRequest({ ...data.owner, doc_type: ownerSelector, is_guarrantor: false, supply_info_id })
-                  await pushingData({ auto: transports, supply_info_id })
-               }
-            } else {
-               if (valuedNumber !== 1) {
-                  async function createSupplyInfo(transports) {
-                     try {
-                        const company_id = await companyRequest(data.company)
-                        const supply_info_id = await mainRequest({ ...main_data, company_id })
-                        await ownerRequest({ ...data.owner, doc_type: ownerSelector, is_guarrantor: false, supply_info_id })
-                        await trustOwnerRequest({ ...data.trust_owner, doc_type: trustOwnerSelector, supply_info_id })
-                        await pushingData({ auto: transports, supply_info_id });
-                     } catch (err) {
-                        alert(`Xatolik: ${err?.response?.data?.message}`, 'error')
-                     }
-                  }
-                  createSupplyInfo(transports);
-               } else {
-                  const supply_info_id = await mainRequest(main_data)
-                  await ownerRequest({ ...data.owner, doc_type: ownerSelector, is_guarrantor: false, supply_info_id })
-                  await trustOwnerRequest({ ...data.trust_owner, doc_type: trustOwnerSelector, supply_info_id })
-                  await pushingData({ auto: transports, supply_info_id })
-               }
-            }
-         } catch (err) {
-            alert(`Xatolik: ${err.message}`, 'error')
-            setDisable(false)
-         } finally {
-            setDisable(false)
-         }
-      } else {
-         alert(`Rasm kiriting!`, 'error')
+      if (path.length === 0) return alert(`Rasm kiriting!`, 'error')
+
+      // setDisable(true);
+      const transports = transportProducts.map(({ id, ...item }) => item);
+      const main_data = {
+         client_id: clientId,
+         type: 'auto',
+         possessor: possessor,
+         valued_by: valuedNumber,
+         sum: giveSum,
+         date: data?.date,
+         percent: ((giveSum === 0 || getTotalSum() === 0) ? 0 : ((giveSum / getTotalSum()) * 100).toFixed(1)),
+         paths: path,
+         auto: transports
       }
+
+      if(valuedStatus){
+         Object.assign(main_data, {company: data.company})
+      }
+
+      if(possessor === 'owner' || possessor === 'trust_owner'){
+         Object.assign(main_data, {owner: { ...data.owner, doc_type: ownerSelector}})
+      }
+
+      if(possessor === 'trust_owner'){
+         Object.assign(main_data, {trust_owner: { ...data.trust_owner, doc_type: trustOwnerSelector}})
+      }
+
+      console.log(main_data);
+
+      // try {
+      //    const res = await mainRequest(main_data)
+      //    alert("Ta'minot qo'shildi", 'success');
+      //    navigate(-1)
+      // } catch (err) {
+      //    alert(`Xatolik: ${err.message}`, 'error')
+      //    setDisable(false)
+      // } finally {
+      //    setDisable(false)
+      // }
    };
 
    return (
@@ -314,7 +250,6 @@ function Transport({ clientId }) {
                         thousandSeparator={' '}
                         value={giveSum}
                         onChange={(e) => {
-                           console.log(e.target.value)
                            const changed_number = Number((e.target.value).replace(/\s/g, ''))
                            setGiveSum(changed_number)
                         }}

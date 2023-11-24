@@ -36,7 +36,7 @@ export function typesSupplyList(supply) {
    const typeDescriptions = {
       auto: 'transport vositasi garovi',
       gold: 'tilla buyumlar garov',
-      guarantor: '3 shaxs kafilligi',
+      guarrantor: '3 shaxs kafilligi',
       insurance: 'sugurta',
    };
 
@@ -50,10 +50,6 @@ export function typesSupplyList(supply) {
    });
 
    const result = Array.from(uniqueTypes).map((type) => typeDescriptions[type]);
-
-   if (result.length === 1) {
-      return result[0];
-   }
 
    return result;
 }

@@ -55,11 +55,11 @@ export const IndependentSupply = memo(({ class_name, register, valuedStatus }) =
 export const IndependentGoldSupply = memo(({ bahoType, addStatus, register }) => {
    return (
       <div className='taminot_grid_inputs'>
-         <div className={bahoType === 2 ? 'taminot_bahoType' : 'close'}>
+         <div className={bahoType === 2 ? 'taminot_bahoType margin_btn_15' : 'close'}>
             <Input
                bordered
                label='Tilla buyumlarni baholovchi tashkilot'
-               className='taminot_tableform_input'
+               className='taminot_tableform_input margin_btn_15'
                width='100%'
                clearable
                placeholder="Voziq Mirzo"
@@ -69,7 +69,7 @@ export const IndependentGoldSupply = memo(({ bahoType, addStatus, register }) =>
             <Input
                bordered
                label='Litsenziya'
-               className='taminot_tableform_input'
+               className='taminot_tableform_input margin_btn_15'
                width='100%'
                clearable
                placeholder=" Litsenziya BL001, RR0118, 19.02.2014 y. berilgan"
@@ -79,7 +79,7 @@ export const IndependentGoldSupply = memo(({ bahoType, addStatus, register }) =>
             <Input
                bordered
                label='Baholovchining ismi sharifi'
-               className='taminot_tableform_input'
+               className='taminot_tableform_input margin_btn_15'
                width='100%'
                clearable
                placeholder="B.Asomov"

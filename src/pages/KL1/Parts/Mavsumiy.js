@@ -6,6 +6,7 @@ import { AiOutlineDoubleRight, AiOutlineDoubleLeft } from 'react-icons/ai'
 import { NumericFormat } from 'react-number-format';
 import { Context } from '../../../context/context';
 import { incomeList } from '../../../components/KL1/incomeList';
+import IncomeInput from '../../../components/KL1/IncomeInput';
 
 
 const months_uzb = ["Yanvar", "Fevral", "Mart", "Aprel", "May", "Iyun", "Iyul", "Avgust", "Sentabr", "Oktabr", "Noyabr", "Dekabr"];
@@ -15,13 +16,13 @@ function Mavsumiy() {
     // Tab active
     const { activeTab, setActiveTab } = useContext(Context)
     const { biznesWindow, setBiznesWindow } = useContext(Context)
-    const { mavsumiyDaromads, setMavsumiyDaromads } = useContext(Context)
-    const { monthDaromad, setMonthDaromad } = useContext(Context)
-    const { mavsumiyXarajats, setMavsumiyXarajats } = useContext(Context)
-    const { monthXarajat,setMonthXarajat } = useContext(Context)
-    const months = Object.keys(monthDaromad);
-    const [ incomes, setIncomes] = useState(incomeList)
-    const [ focusedInd, setFocusedInd ] = useState(null)
+        const { mavsumiyDaromads, setMavsumiyDaromads } = useContext(Context)
+        const { monthDaromad, setMonthDaromad } = useContext(Context)
+        const { mavsumiyXarajats, setMavsumiyXarajats } = useContext(Context)
+        const { monthXarajat,setMonthXarajat } = useContext(Context)
+        const months = Object.keys(monthDaromad);
+        const [ incomes, setIncomes] = useState(incomeList)
+        const [ focusedInd, setFocusedInd ] = useState(null)
 
     useEffect(() => {
         setActiveTab(4)
@@ -147,40 +148,13 @@ function Mavsumiy() {
                         <button className='kl1_delete_button' onClick={()=>{deleteMavsumiyDaromad(index)}}><i className='bx bx-trash'></i></button>
                     </div>
                     <div className='kl1_product'>
-                        <div className='income_select_container' style={{width: '47%'}}>
-                            <Input
-                                rounded
-                                bordered
-                                label='Daromad nomi'
-                                color="secondary"
-                                width='100%'
-                                className='kl1_input'
-                                value={mavsumiyDaromads.find(x => x.id === item.id).name}
-                                onChange={(e)=>{
-                                    const newArrayMavsumiyDaromads = [...mavsumiyDaromads]
-                                    newArrayMavsumiyDaromads[index].name = e.target.value
-                                    setMavsumiyDaromads(newArrayMavsumiyDaromads)
-                                    handleSearch(e.target.value)
-                                    setFocusedInd(index)
-                                }}
-                            />
-                            {
-                                mavsumiyDaromads?.find(x => x?.id === item?.id)?.name?.length !== 0 && incomes?.length !== 0 && focusedInd === index?
-                                <div className='income_options'>
-                                    {
-                                        incomes?.map((income, ind)=>(
-                                            <p key={income} onClick={()=>{
-                                                const newArrayMavsumiyDaromads = [...mavsumiyDaromads]
-                                                newArrayMavsumiyDaromads[index].name = income
-                                                setMavsumiyDaromads(newArrayMavsumiyDaromads)
-                                                setIncomes([])
-                                                setFocusedInd(null)
-                                            }}>{income}</p>
-                                        ))
-                                    }
-                                </div> : <></>
-                            }
-                        </div>
+                        <IncomeInput
+                            contextData={mavsumiyDaromads}
+                            setContextData={setMavsumiyDaromads}
+                            item={item}
+                            index={index}
+                            width={47}
+                        />
                         <div className="numeric_format_input width_47">
                             <label>Yillik daromad hajmi</label>
                             <NumericFormat
