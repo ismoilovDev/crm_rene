@@ -9,6 +9,7 @@ import https from '../../../services/https';
 import { months } from '../../../utils/constants/months';
 import { alert } from '../../../components/Alert/alert'
 import { nextMonth } from '../../../utils/functions/nextMonth';
+import { typesSupply } from '../../../utils/functions/supplyTypes';
 
 
 function SingleKL1() {
@@ -289,14 +290,17 @@ function SingleKL1() {
       return (BoshqaSumNumber() + (MonthlyDaromadNumber() / 12) + BiznesDaromadNumber() - (MonthlyXarajatNumber() / 12) - BiznesXarajatNumber())
    }
 
-
-   function supplyTypes() {
+   function supplyTypes(supply, kaffillik) {
       let types = []
-      orderInfo?.supply_info?.map(item => {
+      supply?.map(item => {
          if (item?.type == 'gold') {
-            types.push('Tilla Buyumlar Kafilligi')
+            types.push('Tilla buyumlar kafilligi')
          } else if (item?.type == 'auto') {
-            types.push('Transport Vositasi Garovi')
+            if (kaffillik){
+               types.push('Transport vositasi va kafillik')
+            }else{
+               types.push('Transport vositasi garovi')
+            }
          } else if (item?.type == 'guarrantor') {
             types.push('3 shaxs kafilligi')
          } else if (item?.type == 'insurance') {
@@ -893,7 +897,7 @@ function SingleKL1() {
                      <div className='kl1_table_dark-bg'>Taminot turi</div>
                      <div className='kl1_table_dark-bg'>Taminot qiymati</div>
                      <div className='kl1_table_dark-bg'>Kreditni qoplash koeffitsenti</div>
-                     <div>{supplySum() ? supplyTypes() : 'kafillik'}</div>
+                     <div>{supplySum() ? typesSupply(orderInfo?.supply_info, orderInfo?.group?.id) : 'kafillik'}</div>
                      <div>{supplySum() ? supplySum()?.toLocaleString(undefined, { minimumFractionDigits: 2 }) : orderInfo?.sum?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</div>
                      <div className='kl1_table_yellow-bg'>{supplySum() ? (supplySum() * 100 / orderInfo?.sum)?.toFixed(0) : 100}%</div>
                   </div>

@@ -5,6 +5,7 @@ import { nextMonth } from '../utils/functions/nextMonth';
 import { PdfWrapper } from '../components/Pdf/Wrapper';
 import { months } from '../utils/constants/months';
 import https from '../services/https';
+import { typesSupply } from '../utils/functions/supplyTypes';
 
 function KLPDF() {
    const location = useLocation()
@@ -273,23 +274,6 @@ function KLPDF() {
       return (boshqaSumNumber() + (monthlyDaromadNumber() / 12) + biznesDaromadNumber() - (monthlyXarajatNumber() / 12) - biznesXarajatNumber())
    }
 
-   function supplyTypes() {
-      let types = []
-      orderInfo?.supply_info?.map(item => {
-         if (item?.type === 'gold') {
-            types.push('Tilla Buyumlar Garovi')
-         } else if (item?.type === 'auto') {
-            types.push('Transport Vositasi Garovi')
-         } else if (item?.type === 'guarrantor') {
-            types.push('3 shaxs kafilligi')
-         } else if (item?.type === 'insurance') {
-            types.push('Sugurta kompaniyasi sugurta polisi')
-         } else {
-            types.push('Ishonch asosida')
-         }
-      })
-      return types?.join(',')
-   }
 
    function supplySum() {
       let summ = []
@@ -838,7 +822,7 @@ function KLPDF() {
                   <div className='kl1_table_dark-bg'>Taminot turi</div>
                   <div className='kl1_table_dark-bg'>Taminot qiymati</div>
                   <div className='kl1_table_dark-bg'>Kreditni qoplash koeffitsenti</div>
-                  <div>{supplySum() ? supplyTypes() : 'kafillik'}</div>
+                  <div>{supplySum() ? typesSupply(orderInfo?.supply_info, orderInfo?.group?.id) : 'kafillik'}</div>
                   <div>{supplySum() ? supplySum()?.toLocaleString(undefined, { minimumFractionDigits: 2 }) : orderInfo?.sum?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</div>
                   <div className='kl1_table_yellow-bg'>{supplySum() ? (supplySum() * 100 / orderInfo?.sum)?.toFixed(0) : 100}%</div>
                </div>

@@ -10,6 +10,7 @@ import { Context } from '../../../context/context';
 import { alert } from '../../../components/Alert/alert';
 import { nextMonth } from '../../../utils/functions/nextMonth';
 import LoaderBackdrop from '../../../components/Loader/LoaderBackdrop';
+import { typesSupply } from '../../../utils/functions/supplyTypes';
 
 const userID = window.localStorage.getItem('user_id')
 
@@ -127,24 +128,6 @@ function Table() {
       })
       let totalMalumotSumPay = malumotPay.reduce((prev, current) => Number(prev) + Number(current), 0)
       return (totalMalumotSumPay ? totalMalumotSumPay : 0)
-   }
-
-   function SupplyTypes(supply) {
-      let types = []
-      supply?.map(item => {
-         if (item?.type == 'gold') {
-            types.push('Tilla Buyumlar Kafilligi')
-         } else if (item?.type == 'auto') {
-            types.push('Transport Vositasi Garovi')
-         } else if (item?.type == 'guarrantor') {
-            types.push('3 shaxs kafilligi')
-         } else if (item?.type == 'insurance') {
-            types.push('Sugurta kompaniyasi sugurta polisi')
-         } else {
-            types.push('Ishonch asosida')
-         }
-      })
-      return types?.join(',')
    }
 
    function SupplySum(supply) {
@@ -751,7 +734,7 @@ function Table() {
                <div className='kl1_table_dark-bg'>Taminot turi</div>
                <div className='kl1_table_dark-bg'>Taminot qiymati</div>
                <div className='kl1_table_dark-bg'>Kreditni qoplash koeffitsenti</div>
-               <div>{SupplySum(infoOrder?.supply_info) ? SupplyTypes(infoOrder?.supply_info) : 'kafillik'}</div>
+               <div>{SupplySum(infoOrder?.supply_info) ? typesSupply(infoOrder?.supply_info, infoOrder?.group?.id) : 'kafillik'}</div>
                <div>{SupplySum(infoOrder?.supply_info) ? SupplySum(infoOrder?.supply_info)?.toLocaleString(undefined, { minimumFractionDigits: 2 }) : infoOrder?.sum?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</div>
                <div className='kl1_table_yellow-bg'>{SupplySum(infoOrder?.supply_info) ? (SupplySum(infoOrder?.supply_info) / infoOrder?.sum)?.toLocaleString(undefined, { minimumFractionDigits: 2 }) : 100}%</div>
             </div>
