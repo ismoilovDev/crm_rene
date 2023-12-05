@@ -12,45 +12,34 @@ import { GoldTable } from '../../../components/SupplyInfo/GoldTable';
 import LoaderBackdrop from '../../../components/Loader/LoaderBackdrop';
 import { IndependentGoldSupply } from '../../../components/SupplyInfo/SupplyInfo';
 
+const defaultItems = [
+   {
+      id: uuidv4(),
+      name: '',
+      gold_num: 0,
+      measure: '',
+      quantity: 0,
+      weight: 0,
+      stone_weight: 0,
+      clean_weight: 0,
+      gold_num_sum: 0,
+      sum: 0
+   }
+]
+
 function GoldSupply({ clientId }) {
-   const defaultItems = [
-      {
-         id: 1,
-         name: '',
-         gold_num: 0,
-         measure: '',
-         quantity: 0,
-         weight: 0,
-         stone_weight: 0,
-         clean_weight: 0,
-         gold_num_sum: 0,
-         sum: 0
-      }
-   ]
 
    const [path, setPath] = useState([])
    const [bahoType, setBahoType] = useState(1)
    const [disable, setDisable] = useState(false)
    const [addStatus, setAddStatus] = useState(false)
-   const [bahoItems, setBahoItems] = useState(defaultItems)
+   const [bahoItems, setBahoItems] = useState(JSON.parse(JSON.stringify(defaultItems)))
    const [date, setDate] = useState('')
    const navigate = useNavigate()
    const { register, handleSubmit } = useForm();
 
    function addNewPoint() {
-      const newItem = {
-         id: uuidv4(),
-         name: '',
-         gold_num: 0,
-         measure: '',
-         quantity: 0,
-         weight: 0,
-         stone_weight: 0,
-         clean_weight: 0,
-         gold_num_sum: 0,
-         sum: 0
-      };
-      setBahoItems([...bahoItems, newItem]);
+      setBahoItems([...bahoItems, JSON.parse(JSON.stringify(defaultItems))]);
    }
 
    function deletePoint(id) {
@@ -73,7 +62,7 @@ function GoldSupply({ clientId }) {
    const onSubmit = async (data) => {
       if(path.length == 0) return alert(`Rasm kiriting!`, 'error')
       
-      // setDisable(true);
+      setDisable(true);
       const total = totalSum()
       const gold = bahoItems.map(({ id, ...item }) => item)
 
@@ -93,17 +82,16 @@ function GoldSupply({ clientId }) {
          Object.assign(main_data, {company: data.company})
       }
 
-      console.log(main_data);
-      // try {
-      //    const res = await mainRequest(main_data)
-      //    alert("Ta'minot qo'shildi", 'success');
-      //    navigate(-1)
-      // } catch (err) {
-      //    alert(`Xatolik: ${err.message}`, 'error')
-      //    setDisable(false)
-      // } finally {
-      //    setDisable(false)
-      // }
+      try {
+         const res = await mainRequest(main_data)
+         alert("Ta'minot qo'shildi", 'success');
+         navigate(-1)
+      } catch (err) {
+         alert(`Xatolik: ${err.message}`, 'error')
+         setDisable(false)
+      } finally {
+         setDisable(false)
+      }
    };
 
 

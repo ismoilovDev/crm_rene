@@ -14,38 +14,27 @@ function Insurance({ clientId }) {
    const { register, handleSubmit } = useForm();
    const [ sum, setSum ] = useState(0)
 
+   const mainRequest = async (post_data) => {
+      const { data } = await https.post(`/supply-info`, post_data);
+      return data.id
+   }
+
    const onSubmit = async (data) => {
+      setDisable(true)
+
       try {
-         setDisable(true)
          const info = {
             client_id: clientId,
-            type: 'insurance'
-         }
-         const response = await https.post(`/supply-info`, info);
-
-         if (response.status !== 200) {
-            throw new Error(`Opps, xatolik: ${response.status}`);
-         } else {
-            const supply_info_id = response?.data?.id;
-            const insurance_details = {
+            type: 'insurance',
+            insurance:{
                ...data,
-               sum:sum,
-               supply_info_id
-            };
-
-            const postInsurance = async (details) => {
-               await https
-                  .post('/insurances', details)
-                  .then(_ => {
-                     alert("Ta'minot qo'shildi", 'success')
-                     navigate(-1)
-                  })
-                  .catch(err => {
-                     alert(err?.response?.data?.message, 'error')
-                  })
+               sum:sum
             }
-            postInsurance(insurance_details)
          }
+         const response = mainRequest(info);
+         alert("Ta'minot qo'shildi", 'success')
+         navigate(-1)
+         
       } catch (err) {
          alert(`Xatolik: ${err.message}`, 'error')
          setDisable(false)

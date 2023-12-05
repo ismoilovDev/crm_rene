@@ -28,7 +28,7 @@ const options = [
 
 const defaultTransportProducts = [
    {
-      id: 1,
+      id: uuidv4(),
       name: '',
       year: '',
       number: '',
@@ -54,8 +54,8 @@ function Transport({ clientId }) {
    const [valuedNumber, setValuedNumber] = useState(1)
    const [ownerStatus, setOwnerStatus] = useState(false)
    const [trustOwnerStatus, setTrustOwnerStatus] = useState(false)
-   const [giveSum, setGiveSum] = useState(0)
-   const [transportProducts, setTransportProducts] = useState(defaultTransportProducts);
+   const [giveSum, setGiveSum] = useState()
+   const [transportProducts, setTransportProducts] = useState(JSON.parse(JSON.stringify(defaultTransportProducts)));
    const [ownerSelector, setOwnerSelector] = useState(options[0].label)
    const [trustOwnerSelector, setTrustOwnerSelector] = useState(options[0].label)
    const { register, handleSubmit } = useForm();
@@ -98,23 +98,7 @@ function Transport({ clientId }) {
    }
 
    function addNewTransportProduct() {
-      const newProduct = [
-         {
-            id: uuidv4(),
-            name: '',
-            year: '',
-            number: '',
-            type_of_auto: '',
-            registration_cert: '',
-            engine_number: '',
-            body_code: '',
-            chassis: '',
-            registration_date: '',
-            registrated_by: '',
-            sum: 0
-         }
-      ]
-      setTransportProducts([...transportProducts, ...newProduct])
+      setTransportProducts([...transportProducts, ...JSON.parse(JSON.stringify(defaultTransportProducts))])
    }
 
    function deleteTransportProduct(id) {
@@ -144,7 +128,7 @@ function Transport({ clientId }) {
    const onSubmit = async (data) => {
       if (path.length === 0) return alert(`Rasm kiriting!`, 'error')
 
-      // setDisable(true);
+      setDisable(true);
       const transports = transportProducts.map(({ id, ...item }) => item);
       const main_data = {
          client_id: clientId,
@@ -163,7 +147,7 @@ function Transport({ clientId }) {
       }
 
       if(possessor === 'owner' || possessor === 'trust_owner'){
-         Object.assign(main_data, {owner: { ...data.owner, doc_type: ownerSelector}})
+         Object.assign(main_data, {owner: { ...data.owner, doc_type: ownerSelector, is_guarrantor: false}})
       }
 
       if(possessor === 'trust_owner'){
@@ -172,16 +156,16 @@ function Transport({ clientId }) {
 
       console.log(main_data);
 
-      // try {
-      //    const res = await mainRequest(main_data)
-      //    alert("Ta'minot qo'shildi", 'success');
-      //    navigate(-1)
-      // } catch (err) {
-      //    alert(`Xatolik: ${err.message}`, 'error')
-      //    setDisable(false)
-      // } finally {
-      //    setDisable(false)
-      // }
+      try {
+         const res = await mainRequest(main_data)
+         alert("Ta'minot qo'shildi", 'success');
+         // navigate(-1)
+      } catch (err) {
+         alert(`Xatolik: ${err.message}`, 'error')
+         setDisable(false)
+      } finally {
+         setDisable(false)
+      }
    };
 
    return (

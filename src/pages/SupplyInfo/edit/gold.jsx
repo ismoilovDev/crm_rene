@@ -147,6 +147,9 @@ function EditGold() {
       try {
          const total = totalSum()
          setDisable(true);
+
+         const gold_items = golds.map(({ id, ...item }) => item)
+
          const main_data = {
             client_id: goldCurrentDatas?.client_id,
             type: 'gold',
@@ -159,24 +162,9 @@ function EditGold() {
          };
 
          const gold = golds.map(({ id, ...item }) => item)
-         if (+goldInfo?.valued_by !== 1) {
-            const { id, ...companyWithoutId } = company;
-            async function createSupplyInfo(gold) {
-               try {
-                  if (!companyId) {
-                     const company_id = await companyPostRequest(companyWithoutId)
-                     const supply_info_id = await mainRequest({ ...main_data, company_id })
-                     await pushingData({ gold, supply_info_id });
-                  } else {
-                     await companyUpdateRequest(companyWithoutId)
-                     const supply_info_id = await mainRequest({ ...main_data, company_id: companyId })
-                     await pushingData({ gold, supply_info_id });
-                  }
-               } catch (err) {
-                  alert(`Xatolik: ${err?.response?.data?.message}`, 'error')
-               }
-            }
-            createSupplyInfo(gold);
+
+         if (+goldInfo?.valued_by === 1) {
+            Obje
          } else {
             const supply_info_id = await mainRequest(main_data)
             await pushingData({ gold: golds, supply_info_id })

@@ -185,7 +185,7 @@ function SupplyList() {
                                  return (
                                     <li className='client_row' key={index}>
                                        <p className='liName li_shartnoma' onDoubleClick={() => { singlePage(item?.type, item?.id) }}>{item?.client?.name}</p>
-                                       <p className='li_shartnoma' onDoubleClick={() => { singlePage(item?.type, item?.id) }}>{item?.sum?.toLocaleString() || "-"}</p>
+                                       <p className='li_shartnoma' onDoubleClick={() => { singlePage(item?.type, item?.id) }}>{item?.sum?.toLocaleString() || item?.insurance?.sum?.toLocaleString() || '---'}</p>
                                        <p className='li_shartnoma' onDoubleClick={() => { singlePage(item?.type, item?.id) }}>{translateType(item?.type)}</p>
                                        <div className='userButtons_shartnoma'>
                                           <button onClick={() => { singlePage(item?.type, item?.id) }}><i className='bx bx-user'></i></button>
