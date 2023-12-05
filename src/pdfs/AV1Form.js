@@ -35,7 +35,7 @@ function AV1Form() {
             return 930000
          }
          case 102: {
-            return 924000
+            return 935000
          }
          case 99: {
             return 960000
