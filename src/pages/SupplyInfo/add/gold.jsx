@@ -12,45 +12,34 @@ import { GoldTable } from '../../../components/SupplyInfo/GoldTable';
 import LoaderBackdrop from '../../../components/Loader/LoaderBackdrop';
 import { IndependentGoldSupply } from '../../../components/SupplyInfo/SupplyInfo';
 
+const defaultItems = [
+   {
+      id: uuidv4(),
+      name: '',
+      gold_num: 0,
+      measure: '',
+      quantity: 0,
+      weight: 0,
+      stone_weight: 0,
+      clean_weight: 0,
+      gold_num_sum: 0,
+      sum: 0
+   }
+]
+
 function GoldSupply({ clientId }) {
-   const defaultItems = [
-      {
-         id: 1,
-         name: '',
-         gold_num: 0,
-         measure: '',
-         quantity: 0,
-         weight: 0,
-         stone_weight: 0,
-         clean_weight: 0,
-         gold_num_sum: 0,
-         sum: 0
-      }
-   ]
 
    const [path, setPath] = useState([])
    const [bahoType, setBahoType] = useState(1)
    const [disable, setDisable] = useState(false)
    const [addStatus, setAddStatus] = useState(false)
-   const [bahoItems, setBahoItems] = useState(defaultItems)
+   const [bahoItems, setBahoItems] = useState(JSON.parse(JSON.stringify(defaultItems)))
    const [date, setDate] = useState('')
    const navigate = useNavigate()
    const { register, handleSubmit } = useForm();
 
    function addNewPoint() {
-      const newItem = {
-         id: uuidv4(),
-         name: '',
-         gold_num: 0,
-         measure: '',
-         quantity: 0,
-         weight: 0,
-         stone_weight: 0,
-         clean_weight: 0,
-         gold_num_sum: 0,
-         sum: 0
-      };
-      setBahoItems([...bahoItems, newItem]);
+      setBahoItems([...bahoItems, JSON.parse(JSON.stringify(defaultItems))]);
    }
 
    function deletePoint(id) {
@@ -64,70 +53,44 @@ function GoldSupply({ clientId }) {
       return +bahoItems.reduce((total, item) => Number(total) + (Number(item.sum) || 0), 0);
    }
 
-   const pushingData = async (details) => {
-      try {
-         const res = await https.post('/golds', details);
-         alert("Ta'minot qo'shildi", 'success');
-         navigate(-1)
-      } catch (err) {
-         const errorMessage = err?.response?.data?.message || "Xatolik";
-         alert(errorMessage, 'error');
-      } finally {
-         setDisable(false);
-      }
-   };
-
    const mainRequest = async (post_data) => {
       const { data } = await https.post(`/supply-info`, post_data);
       return data.id
    }
-
-   const companyRequest = async (post_data) => {
-      const { data } = await https.post(`/companies`, post_data)
-      return data.id
-   }
+   
 
    const onSubmit = async (data) => {
-      if (path.length > 0) {
-         try {
-            setDisable(true);
-            const total = totalSum()
-            const main_data = {
-               client_id: clientId,
-               type: 'gold',
-               possessor: 'client',
-               valued_by: bahoType,
-               date,
-               sum: Number(total),
-               paths: path,
-               percent: 100
-            };
-   
-            const gold = bahoItems.map(({ id, ...item }) => item)
-            if (bahoType !== 1) {
-               async function createSupplyInfo(gold) {
-                  try {
-                     const company_id = await companyRequest(data.company)
-                     const supply_info_id = await mainRequest({ ...main_data, company_id })
-                     await pushingData({ gold, supply_info_id })
-                  } catch (err) {
-                     alert(`Xatolik: ${err?.response?.data?.message}`, 'error')
-                  }
-               }
-               createSupplyInfo(gold);
-            } else {
-               const supply_info_id = await mainRequest(main_data)
-               await pushingData({ gold, supply_info_id })
-            }
-   
-         } catch (err) {
-            alert(`Xatolik: ${err.message}`, 'error')
-            setDisable(false)
-         } finally {
-            setDisable(false)
-         }
-      } else {
-         alert(`Rasm kiriting!`, 'error')
+      if(path.length == 0) return alert(`Rasm kiriting!`, 'error')
+      
+      setDisable(true);
+      const total = totalSum()
+      const gold = bahoItems.map(({ id, ...item }) => item)
+
+      const main_data = {
+         client_id: clientId,
+         type: 'gold',
+         possessor: 'client', 
+         valued_by: bahoType,
+         date,
+         sum: Number(total),
+         paths: path,
+         percent: 100,
+         gold
+      }
+
+      if(addStatus){
+         Object.assign(main_data, {company: data.company})
+      }
+
+      try {
+         const res = await mainRequest(main_data)
+         alert("Ta'minot qo'shildi", 'success');
+         navigate(-1)
+      } catch (err) {
+         alert(`Xatolik: ${err.message}`, 'error')
+         setDisable(false)
+      } finally {
+         setDisable(false)
       }
    };
 

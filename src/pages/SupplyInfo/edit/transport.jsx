@@ -16,6 +16,7 @@ import ContainerEdit from '../../../components/ImageContainer/ContainerEdit';
 import LoaderBackdrop from '../../../components/Loader/LoaderBackdrop';
 import Prev from '../../../components/Prev/Prev';
 import https from '../../../services/https';
+import { SinglePage } from '../../../utils/functions/supplySinglePage';
 
 const options = [
    { value: '1', label: "O'zR fuqarosining ID kartasi" },
@@ -66,7 +67,6 @@ function EditAuto() {
    const [currentautoData, setCurrentAutoData] = useState({})
    const [company, setCompany] = useState(company_details)
    const [owner, setOwner] = useState(owner_details)
-   const [companyId, setCompanyId] = useState('')
    const [disable, setDisable] = useState(false)
    const [loading, setLoading] = useState(true)
    const [autoInfo, setAutoInfo] = useState({})
@@ -87,11 +87,11 @@ function EditAuto() {
             setCurrentAutoData(data)
             if (data?.valued_by == 2) {
                setCompany(data?.company)
-               setCompanyId(data?.company?.id)
             }
             if (data?.possessor === "owner" || data?.possessor === "trust_owner") {
                setOwner(data?.owner)
-            } else if (data?.possessor === "trust_owner") {
+            }
+            if (data?.possessor === "trust_owner") {
                setTrustOwner(data?.trust_owner)
             }
             setCars(data?.auto)
@@ -197,24 +197,13 @@ function EditAuto() {
       return data.id
    }
 
-   const companyUpdateRequest = async (post_data) => {
-      const { data } = await https.patch(`/companies/${companyId}`, post_data)
-   }
-
-   const companyPostRequest = async (post_data) => {
-      const { data } = await https.post(`/companies`, post_data)
-      return data.id
-   }
-
-   const ownerRequest = async (post_data) => {
-      const { data } = await https.post(`/owners`, post_data)
-   }
-
-   const trustOwnerRequest = async (post_data) => {
-      const { data } = await https.post(`/trust-owners`, post_data)
-   }
-
    const onSubmit = async () => {
+      const total = totalSum()
+      const transports = cars?.map(({ id, ...item }) => item);
+      
+      if(((autoInfo?.sum / totalSum()) * 100) > 100) return alert("Qabul qilish qiymati 100% dan ortiq", 'error');
+      setDisable(true);
+
       const main_data = {
          client_id: currentautoData?.client_id,
          type: 'auto',
@@ -223,98 +212,34 @@ function EditAuto() {
          sum: giveSum === 0 ? autoInfo?.sum : giveSum,
          date: autoInfo?.date,
          percent: ((giveSum === 0 || totalSum() === 0) ? 0 : ((giveSum / totalSum()) * 100).toFixed(1)) === 0 ? autoInfo?.percent : ((giveSum === 0 || totalSum() === 0) ? 0 : ((giveSum / totalSum()) * 100).toFixed(1)),
-         paths: path
+         paths: path,
+         auto: transports
       }
 
+      if(+autoInfo?.valued_by === 2){
+         const companyWithoutId = { ...company };
+         delete companyWithoutId.id
+         Object.assign(main_data, {company: companyWithoutId})
+      }
+
+      if(autoInfo?.possessor === 'owner' || autoInfo?.possessor === 'trust_owner'){
+         Object.assign(main_data, {owner: { ...owner, is_guarrantor: false }})
+      }
+
+      if(autoInfo?.possessor === 'trust_owner'){
+         Object.assign(main_data, {trust_owner: { ...trustOwner }})
+      }
+
+
       try {
-         const transports = cars?.map(({ id, ...item }) => item);
-         const total = totalSum()
-         if (giveSum <= total) {
-            setDisable(true);
-            const companyWithoutId = { ...company };
-            delete companyWithoutId.id
-            if (autoInfo?.possessor === "client") {
-               if (+autoInfo?.valued_by !== 1) {
-                  async function createSupplyInfo(transports) {
-                     try {
-                        if (!companyId) {
-                           const company_id = await companyPostRequest(companyWithoutId)
-                           const supply_info_id = await mainRequest({ ...main_data, company_id })
-                           await pushingData({ auto: transports, supply_info_id });
-                        } else {
-                           await companyUpdateRequest(companyWithoutId)
-                           const supply_info_id = await mainRequest({ ...main_data, company_id: companyId })
-                           await pushingData({ auto: transports, supply_info_id });
-                        }
-                     } catch (err) {
-                        alert(`Xatolik: ${err?.response?.data?.message}`, 'error')
-                     }
-                  }
-                  createSupplyInfo(transports);
-               } else {
-                  const supply_info_id = await mainRequest(main_data)
-                  await pushingData({ auto: transports, supply_info_id })
-               }
-            } else if (autoInfo?.possessor === "owner") {
-               if (+autoInfo?.valued_by !== 1) {
-                  async function createSupplyInfo(transports) {
-                     try {
-                        if (!companyId) {
-                           const company_id = await companyPostRequest(companyWithoutId)
-                           const supply_info_id = await mainRequest({ ...main_data, company_id })
-                           await pushingData({ auto: transports, supply_info_id });
-                           await ownerRequest({ ...owner, is_guarrantor: false, supply_info_id })
-                        } else {
-                           await companyUpdateRequest(companyWithoutId)
-                           const supply_info_id = await mainRequest({ ...main_data, company_id: companyId })
-                           await pushingData({ auto: transports, supply_info_id });
-                           await ownerRequest({ ...owner, is_guarrantor: false, supply_info_id })
-                        }
-                     } catch (err) {
-                        alert(`Xatolik: ${err?.response?.data?.message}`, 'error')
-                     }
-                  }
-                  createSupplyInfo(transports);
-               } else {
-                  const supply_info_id = await mainRequest(main_data)
-                  await pushingData({ auto: transports, supply_info_id })
-                  await ownerRequest({ ...owner, is_guarrantor: false, supply_info_id })
-               }
-            } else {
-               if (+autoInfo?.valued_by !== 1) {
-                  async function createSupplyInfo(transports) {
-                     try {
-                        if (!companyId) {
-                           const company_id = await companyPostRequest(companyWithoutId)
-                           const supply_info_id = await mainRequest({ ...main_data, company_id })
-                           await pushingData({ auto: transports, supply_info_id })
-                           await ownerRequest({ ...owner, is_guarrantor: false, supply_info_id })
-                           await trustOwnerRequest({ ...trustOwner, supply_info_id })
-                        } else {
-                           await companyUpdateRequest(companyWithoutId)
-                           const supply_info_id = await mainRequest({ ...main_data, company_id: companyId })
-                           await pushingData({ auto: transports, supply_info_id })
-                           await ownerRequest({ ...owner, is_guarrantor: false, supply_info_id })
-                           await trustOwnerRequest({ ...trustOwner, supply_info_id })
-                        }
-                     } catch (err) {
-                        alert(`Xatolik: ${err?.response?.data?.message}`, 'error')
-                     }
-                  }
-                  createSupplyInfo(transports);
-               } else {
-                  const supply_info_id = await mainRequest(main_data)
-                  await pushingData({ auto: transports, supply_info_id })
-                  await ownerRequest({ ...owner, is_guarrantor: false, supply_info_id })
-                  await trustOwnerRequest({ ...trustOwner, supply_info_id })
-               }
-            }
-         } else {
-            alert("Qabul qilish qiymati 100% dan ortiq", 'error');
-            setDisable(false);
-         }
+         const res = await mainRequest(main_data)
+         alert("Ta'minot o'zgartirildi", 'success');
+         // SinglePage('auto', id)
       } catch (err) {
-         alert(`Xatolik: ${err.message}`, 'error')
+         console.log(err)
+         const errorMessage = err?.response?.data?.message || "Xatolik";
+         alert(errorMessage, 'error');
+      } finally {
          setDisable(false)
       }
    };

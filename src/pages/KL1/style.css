@@ -497,33 +497,6 @@
     font-weight: 600;
 }
 
-/* Select Income */
-.income_select_container{
-    position: relative;
-    margin: 0;
-}
-.income_options{
-    position: absolute;
-    max-height: 200px;
-    width: 100%;
-    overflow-y: scroll;
-    background-color: #fff;
-    border: 2px solid grey;
-    top: 70px;
-    border-radius: 7px;
-    z-index: 200;
-    padding: 0;
-}
-.income_options p{
-    margin: 0;
-    width: 100%;
-    padding: 5px 10px;
-    font-weight: 500;
-}
-.income_options p:hover{
-    background-color: rgb(224, 223, 223);
-}
-
 /* **********___Edit_KL1___************* */
 .list_sinlge_form {
     display: flex;

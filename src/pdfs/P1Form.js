@@ -468,11 +468,11 @@ function P1Form() {
                                     <p>
                                        Berilayotgan mikroqarzga ta'minot sifatida o'zaro solidar javobgarlik to'g'risidagi Kafillik shartnomasi va garov shartnomasi asosida
                                        {documentInfo?.group?.clients?.map(item => {
-                                          if (item?.order?.supply_info?.[0]?.type == 'auto') {
+                                          if (item?.order?.supply_info?.[0]?.type === 'auto') {
                                              return (` ${checkOwner(item?.order?.supply_info?.[0]) ? checkOwner(item?.order?.supply_info?.[0])?.fio : item?.name}ga tegishli bo‘lgan transport vositasi`)
-                                          } else if (item?.order?.supply_info?.[0]?.type == 'gold') {
+                                          } else if (item?.order?.supply_info?.[0]?.type === 'gold') {
                                              return (` o'ziga tegishli bo'lgan tilla buyumlarni garov`)
-                                          } else if (item?.order?.supply_info?.[0]?.type == 'guarrantor' || item?.order?.supply_info?.[0]?.type == 'insurance') {
+                                          } else if (item?.order?.supply_info?.[0]?.type === 'guarrantor' || item?.order?.supply_info?.[0]?.type == 'insurance') {
                                              return (` ${typeFunc(item?.order?.supply_info?.[0]?.type)}`)
                                           }
                                        })}

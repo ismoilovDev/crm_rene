@@ -1,23 +1,21 @@
 import { useContext, useEffect, useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { Input, Textarea,Checkbox } from '@nextui-org/react'
+import { Textarea,Checkbox } from '@nextui-org/react'
 import { NumericFormat } from 'react-number-format';
 import { v4 as uuidv4 } from 'uuid';
 import { AiOutlineDoubleRight, AiOutlineDoubleLeft } from 'react-icons/ai'
 import { Context } from '../../../context/context';
-import { incomeList } from '../../../components/KL1/incomeList';
+import IncomeInput from '../../../components/KL1/IncomeInput';
 
 
 function Boshqa() {
-    const { activeTab, setActiveTab } = useContext(Context)
+    const { setActiveTab } = useContext(Context)
     const { mavsumiyWindow, setMavsumiyWindow } = useContext(Context)
     const { biznesWindow, setBiznesWindow } = useContext(Context)
     const { myDaromads, setMyDaromads } = useContext(Context)
     const { checkMavsumiy, setCheckMavsumiy } = useContext(Context)
     const { checkBiznes,setCheckBiznes } = useContext(Context)
     const { checkOthers,setCheckOthers } = useContext(Context)
-    const [ incomes, setIncomes] = useState(incomeList)
-    const [ focusedInd, setFocusedInd ] = useState(null)
 
 
     useEffect(() => {
@@ -84,13 +82,6 @@ function Boshqa() {
         },500)
        
     }
-  
-    const handleSearch = (searchText) => {
-        const filteredOptions = incomeList?.filter(option =>
-            option?.toLowerCase()?.includes(searchText?.toLowerCase())
-        )
-        setIncomes(filteredOptions);
-    }
 
     return (
         <>
@@ -134,40 +125,13 @@ function Boshqa() {
                             <button className='kl1_delete_button' onClick={()=>{deleteMyDaromad(item.id)}}><i className='bx bx-trash'></i></button>
                         </div>
                         <div className='kl1_product'>
-                            <div className='income_select_container' style={{width: '100%'}}>
-                                <Input
-                                    rounded
-                                    bordered
-                                    label='Daromad nomi'
-                                    color="secondary"
-                                    width='100%'
-                                    className='kl1_input'
-                                    value={myDaromads.find(x => x.id === item.id).nomi}
-                                    onChange={(e)=>{
-                                        const newBoshqaDaromads = [...myDaromads]
-                                        newBoshqaDaromads[index].nomi = e.target.value
-                                        handleSearch(e.target.value)
-                                        setMyDaromads(newBoshqaDaromads)
-                                        setFocusedInd(index)
-                                    }}
-                                />
-                                {
-                                    myDaromads.find(x => x.id === item.id)?.nomi?.length !== 0 && incomes?.length !== 0 && focusedInd === index?
-                                    <div className='income_options'>
-                                        {
-                                            incomes?.map((income, ind)=>(
-                                                <p key={income} onClick={()=>{
-                                                    const newBoshqaDaromads = [...myDaromads]
-                                                    newBoshqaDaromads[index].nomi = income
-                                                    setMyDaromads(newBoshqaDaromads)
-                                                    setIncomes([])
-                                                    setFocusedInd(null)
-                                                }}>{income}</p>
-                                            ))
-                                        }
-                                    </div> : <></>
-                                }
-                            </div>
+                            <IncomeInput
+                                contextData={myDaromads}
+                                setContextData={setMyDaromads}
+                                item={item}
+                                index={index}
+                                width={100}
+                            />
                             <div className="numeric_format_input width_47">
                                 <label>Hajmi</label>
                                 <NumericFormat
