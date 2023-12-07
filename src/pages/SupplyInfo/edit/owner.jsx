@@ -8,6 +8,7 @@ import Select from 'react-select';
 import LoaderBackdrop from '../../../components/Loader/LoaderBackdrop'
 import Prev from '../../../components/Prev/Prev';
 import https from '../../../services/https'
+import { SinglePage } from '../../../utils/functions/supplySinglePage'
 
 const options = [
    { value: '1', label: "O'zR fuqarosining ID kartasi" },
@@ -79,36 +80,19 @@ function EditOwner() {
          setDisable(true)
          const info = {
             client_id: clientId,
-            type: 'guarrantor'
+            type: 'guarrantor',
+            owner:{
+               ...ownerData,
+               is_guarrantor: true,
+               doc_type: ownerData?.doc_type
+            }
          }
          const response = await https.patch(`/supply-info/${id}`, info);
-
-         if (response.status !== 200) {
-            throw new Error(`Opps, xatolik: ${response.status}`);
-         } else {
-            const supply_info_id = response.data.id;
-            const owner_details = {
-               ...ownerData,
-               supply_info_id,
-               id: ownerData?.id,
-               doc_type: ownerData?.doc_type
-            };
-            const postOwner = async (details) => {
-               await https
-                  .post('/owners', details)
-                  .then(_ => {
-                     alert("Ta'minot o'zgartirildi", 'success')
-                     navigate(`/taminot/singleuchinchi/${id}`)
-                  })
-                  .catch(err => {
-                     alert(err?.response?.data?.message, 'error')
-                  })
-            }
-            postOwner(owner_details)
-         }
+         alert("Ta'minot o'zgartirildi", 'success');
+         // SinglePage('guarrantor', id)
       } catch (err) {
-         alert(`Xatolik: ${err.message}`, 'error')
-         setDisable(false)
+         const errorMessage = err?.response?.data?.message || "Xatolik";
+         alert(errorMessage, 'error');
       } finally {
          setDisable(false)
       }

@@ -8,6 +8,7 @@ import { alert } from '../../../components/Alert/alert';
 import LoaderBackdrop from '../../../components/Loader/LoaderBackdrop'
 import Prev from '../../../components/Prev/Prev';
 import https from '../../../services/https'
+import { SinglePage } from '../../../utils/functions/supplySinglePage'
 
 function EditInsurance() {
    const [loading, setLoading] = useState(true)
@@ -40,34 +41,15 @@ function EditInsurance() {
       try {
          const info = {
             client_id: clientId,
-            type: 'insurance'
+            type: 'insurance',
+            insurance: {...insuranceData}
          }
          const response = await https.patch(`/supply-info/${id}`, info);
-
-         if (response.status !== 200) {
-            throw new Error(`Opps, xatolik: ${response.status}`);
-         } else {
-            const supply_info_id = response.data.id;
-            const insurance_details = {
-               ...insuranceData,
-               supply_info_id
-            };
-            const postInsurance = async (details) => {
-               await https
-                  .post('/insurances', details)
-                  .then(_ => {
-                     alert("Ta'minot o'zgartirildi", 'success')
-                     navigate(`/taminot/singlesugurta/${id}`)
-                  })
-                  .catch(err => {
-                     alert(err?.response?.data?.message, 'error')
-                  })
-            }
-            postInsurance(insurance_details)
-         }
+         alert("Ta'minot o'zgartirildi", 'success');
+         // SinglePage('insurance', id)
       } catch (err) {
-         alert(`Xatolik: ${err.message}`, 'error')
-         setDisable(false)
+         const errorMessage = err?.response?.data?.message || "Xatolik";
+         alert(errorMessage, 'error');
       } finally {
          setDisable(false)
       }

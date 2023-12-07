@@ -154,12 +154,11 @@ function Transport({ clientId }) {
          Object.assign(main_data, {trust_owner: { ...data.trust_owner, doc_type: trustOwnerSelector}})
       }
 
-      console.log(main_data);
-
+      
       try {
          const res = await mainRequest(main_data)
          alert("Ta'minot qo'shildi", 'success');
-         // navigate(-1)
+         navigate(-1)
       } catch (err) {
          alert(`Xatolik: ${err.message}`, 'error')
          setDisable(false)

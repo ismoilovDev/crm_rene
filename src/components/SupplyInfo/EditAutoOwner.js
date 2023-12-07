@@ -152,8 +152,6 @@ export const EditAutoOwner = memo(({ autoInfo, owner, setOwner, options }) => {
                width='100%'
                color="secondary"
                bordered
-               type='number'
-               onWheel={(e) => e.target.blur()}
                className='vall'
                value={owner?.pinfl}
                required={(autoInfo?.possessor == 'trust_owner' || autoInfo?.possessor == 'owner') ? true : false}
@@ -305,9 +303,7 @@ export const EditAutoTrustOwner = memo(({ autoInfo, trustOwner, setTrustOwner, o
                color="secondary"
                bordered
                className='vall'
-               type='number'
-               onWheel={(e) => e.target.blur()}
-               value={autoInfo?.trustOwner?.pinfl}
+               value={trustOwner?.pinfl}
                required={autoInfo?.possessor == 'trust_owner' ? true : false}
                minLength={14}
                maxLength={14}
