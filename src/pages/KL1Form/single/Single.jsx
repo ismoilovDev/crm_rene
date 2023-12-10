@@ -3,12 +3,15 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { AiOutlinePrinter } from 'react-icons/ai'
 import { Radio, Input } from '@nextui-org/react'
 import { YMaps, Map, Placemark } from '@pbe/react-yandex-maps';
-import { alert } from '../../../components/Alert/alert'
 import { months } from '../../../utils/constants/months';
-import { nextMonth } from '../../../utils/functions/nextMonth';
-import ContainerView from '../../../components/ImageContainer/ContainerView';
-import Prev from '../../../components/Prev/Prev';
+import { alert } from '../../../components/Alert/alert'
+import { typesSupply } from '../../../utils/functions/supplyTypes';
+import { nextMonth } from '../../../utils/functions/nextMonth'
+import { phoneFormat } from '../../../utils/functions/phoneFormat';
 import https from '../../../services/https';
+import Prev from '../../../components/Prev/Prev';
+import dateConvert from '../../../utils/functions/dateConvert'
+import ContainerView from '../../../components/ImageContainer/ContainerView';
 
 
 function SingleKL1() {
@@ -285,14 +288,17 @@ function SingleKL1() {
       return (BoshqaSumNumber() + (MonthlyDaromadNumber() / 12) + BiznesDaromadNumber() - (MonthlyXarajatNumber() / 12) - BiznesXarajatNumber())
    }
 
-
-   function supplyTypes() {
+   function supplyTypes(supply, kaffillik) {
       let types = []
-      orderInfo?.supply_info?.map(item => {
+      supply?.map(item => {
          if (item?.type == 'gold') {
-            types.push('Tilla Buyumlar Kafilligi')
+            types.push('Tilla buyumlar kafilligi')
          } else if (item?.type == 'auto') {
-            types.push('Transport Vositasi Garovi')
+            if (kaffillik){
+               types.push('Transport vositasi va kafillik')
+            }else{
+               types.push('Transport vositasi garovi')
+            }
          } else if (item?.type == 'guarrantor') {
             types.push('3 shaxs kafilligi')
          } else if (item?.type == 'insurance') {
@@ -336,11 +342,11 @@ function SingleKL1() {
             <h1 className='text_center filial_edit_text'>{mainInfo?.client?.name}</h1>
             <div className='single_buyurtma_inputs pdf_margin_top_15'>
                <p>Hujjat tayyorlangan sana:</p>
-               <p>{mainInfo?.doc_date}</p>
+               <p>{dateConvert(mainInfo?.doc_date)}</p>
             </div>
             <div className='single_buyurtma_inputs pdf_margin_top_15'>
                <p>Mijoz tekshirilgan va organilgan sana:</p>
-               <p>{mainInfo?.mark_date}</p>
+               <p>{dateConvert(mainInfo?.mark_date)}</p>
             </div>
             <div className='single_buyurtma_inputs pdf_margin_top_15'>
                <p>Buyurtmachining F.I.Sh:</p>
@@ -363,7 +369,7 @@ function SingleKL1() {
             </div>
             <div className='single_buyurtma_inputs pdf_margin_top_15'>
                <p>Buyurtmachining telefon raqami:</p>
-               <p>{mainInfo?.client?.phone[0]}</p>
+               <p>{mainInfo?.client?.phone?.map(item => phoneFormat(item))?.join('\t')}</p>
             </div>
             <div className='single_buyurtma_inputs pdf_margin_top_15'>
                <p>Kredit maqsadi:</p>
@@ -889,7 +895,7 @@ function SingleKL1() {
                      <div className='kl1_table_dark-bg'>Taminot turi</div>
                      <div className='kl1_table_dark-bg'>Taminot qiymati</div>
                      <div className='kl1_table_dark-bg'>Kreditni qoplash koeffitsenti</div>
-                     <div>{supplySum() ? supplyTypes() : 'kafillik'}</div>
+                     <div>{supplySum() ? typesSupply(orderInfo?.supply_info, orderInfo?.group?.id) : 'kafillik'}</div>
                      <div>{supplySum() ? supplySum()?.toLocaleString(undefined, { minimumFractionDigits: 2 }) : orderInfo?.sum?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</div>
                      <div className='kl1_table_yellow-bg'>{supplySum() ? (supplySum() * 100 / orderInfo?.sum)?.toFixed(0) : 100}%</div>
                   </div>

@@ -5,6 +5,7 @@ import { NumericFormat } from 'react-number-format';
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { Context } from '../../../../context/context';
+import IncomeInput from '../../../../components/KL1/IncomeInput';
 
 const months_uzb = ["Yanvar", "Fevral", "Mart", "Aprel", "May", "Iyun", "Iyul", "Avgust", "Sentabr", "Oktabr", "Noyabr", "Dekabr"];
 
@@ -28,19 +29,6 @@ function EditMavsumiy() {
    function backStep() {
       navigate("/client-marks/edit/boshqa", { replace: true });
    }
-
-   const myDarkTheme = createTheme({
-      type: 'dark',
-      theme: {
-         colors: {
-            background: '#1d1d1d',
-            text: '#fff',
-            myDarkColor: 'black'
-         },
-         space: {},
-         fonts: {}
-      }
-   })
 
 
    // Mavsumiy Daromads adding and deleting funtions
@@ -152,19 +140,12 @@ function EditMavsumiy() {
                         <button className='kl1_delete_button' onClick={() => { deleteMavsumiyDaromad(index) }}><i className='bx bx-trash'></i></button>
                      </div>
                      <div className='kl1_product'>
-                        <Input
-                           rounded
-                           bordered
-                           label='Daromad nomi'
-                           color="secondary"
-                           width='47%'
-                           className='kl1_input'
-                           value={mavsumiyDaromads.find(x => x.id === item.id).name}
-                           onChange={(e) => {
-                              const newArrayMavsumiyDaromads = [...mavsumiyDaromads]
-                              newArrayMavsumiyDaromads[index].name = e.target.value
-                              setMavsumiyDaromads(newArrayMavsumiyDaromads)
-                           }}
+                        <IncomeInput
+                           contextData={mavsumiyDaromads}
+                           setContextData={setMavsumiyDaromads}
+                           item={item}
+                           index={index}
+                           width={47}
                         />
                         <div className="numeric_format_input width_47">
                            <label>Yillik daromad hajmi</label>

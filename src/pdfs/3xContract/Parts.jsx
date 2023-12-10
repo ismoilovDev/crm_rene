@@ -18,7 +18,7 @@ export function MainPart({documentInfo, orderInfo}) {
          </div>
          <div className="margin_top_20">
             “Renesans Mikromoliya tashkiloti”  MCHJ (bundan buyon matnlarda “Qarz beruvchi” deb nomlanadi) nomidan _______________ yildagi №________________-sonli ishonchnoma asosida
-            harakat qiluvchi {documentInfo?.data?.branch?.city} filiali boshqaruvchisi boshlig‘i {documentInfo?.data?.branch?.head_of_branch} bir tarafdan va (bundan buyon matnda «Qarz oluvchi» deb yuritiluvchi) {documentInfo?.data?.client?.name} ikkinchi tarafdan, ushbu bitimni (bundan buyon matnda bitim deb yuritiladi) quyidagilar to‘g‘risida tuzdilar:
+            harakat qiluvchi {documentInfo?.data?.branch?.city} filiali boshqaruvchisi boshlig‘i {documentInfo?.data?.branch?.head_of_branch} bir tarafdan va (bundan buyon matnda «Qarz oluvchi» deb yuritiluvchi) Fuqaro {documentInfo?.data?.client?.name} ikkinchi tarafdan, ushbu bitimni (bundan buyon matnda bitim deb yuritiladi) quyidagilar to‘g‘risida tuzdilar:
          </div>
       </>
    )
@@ -36,10 +36,16 @@ function supplyTypeTwo(type){
 export function Part1({orderInfo}) {
    return (
       <>
-         <p className='black_text pdf_margin_top_20 title_contract_part'>1. Bitim predmeti</p>
+         <p className='black_text pdf_margin_top_20 title_contract_part'>1. Kelishuv predmeti</p>
          <div className='part'>
             <p className="pdf_margin_top_5">
-               1.1. Mazkur bitimga muvofiq qarz beruvchi qarz oluvchiga {monthDiff(new Date(orderInfo?.open_contract?.start_date), new Date(orderInfo?.open_contract?.end_date))} oy muddatga kredit taqdim qilish uchun liniya ochish majburiyatini, qarz oluvchi esa liniya miqdoridan kelib chiqib, mikromiloya tashkiloti kredit siyosati talablari doirasida ta’minot bilan ta’minlash, liniya bo‘yicha olinishi nazarda tutilgan mikroqarzlarni bosh kelishuvga asosan tuzilgan mikroqarz shartnomada (keyingi o‘rinlarda mikroqarz shartnoma) nazarda tutilgan muddatlarda qaytarish, ular bo‘yicha hisoblangan foizlar shuningdek, mikroqarz shartnomasiga asosan yuzaga keladigan boshqa to‘lovlar to‘lash, majburiyatlarni bajaradi va huquqlardan foydalanadi.
+               1.1. Mazkur kelishuvga muvofiq qarz beruvchi qarz oluvchiga {monthDiff(new Date(orderInfo?.open_contract?.start_date), new Date(orderInfo?.open_contract?.end_date))} oy muddatga, {monthDiff(new Date(orderInfo?.open_contract?.start_date), new Date(orderInfo?.open_contract?.end_date))} oy imtiyozli
+               davr asosida {orderInfo?.open_contract?.sum?.toLocaleString()} so‘m miqdorida kredit taqdim qilish uchun liniya ochish
+               majburiyatini, qarz oluvchi esa liniya miqdoridan kelib chiqib, mikromoliya tashkiloti kredit siyosati
+               talablari doirasida ta’minot bilan ta’minlash, liniya bo‘yicha olinishi nazarda tutilgan kredit bosh
+               kelishuvga asosan tuzilgan kredit shartnomada (keyingi o‘rinlarda kredit shartnoma) nazarda tutilgan
+               muddatlarda qaytarish, ular bo‘yicha hisoblangan foizlar shuningdek, kredit shartnomasiga asosan
+               yuzaga keladigan boshqa to‘lovlar to‘lash, majburiyatlarni bajaradi va huquqlardan foydalanadi.
             </p>
          </div>
       </>
@@ -52,61 +58,69 @@ export function Part2({documentInfo}) {
          <p className='black_text pdf_margin_top_20 title_contract_part'>2. Umumiy qoidalar </p>
          <div className='part'>
             <p className="pdf_margin_top_5">
-               2.1.	Mazkur bitimga asosan qarz oluvchi bitimning 3.1-bandida ko‘rsatilgan miqdorgacha mikroqarz shartnomasidagi maqsadlari uchun olishi mumkin.
+               2.1.	Mazkur kelishuvga asosan qarz oluvchi kelishuvning 3.1-bandida ko‘rsatilgan miqdorgacha kredit shartnomasidagi maqsadlari uchun olishi mumkin.
             </p>
             <p className="pdf_margin_top_5">
-               2.2.	Ajratiladigan mikroqarz mazkur bitimga asosan qiymatidan kelib chiqib, liniya doirasida mikroqarz shartnoma tuzish orqali taqdim qilinadi.
+               2.2. Ajratiladigan kredit mazkur kelishuvga asosan qiymatidan kelib chiqib, liniya doirasida kredit
+               shartnoma tuzish orqali taqdim qilinadi.
             </p>
             <p className="pdf_margin_top_5">
-               2.3.	Bosh kelishuvga asosan o‘rnatilgan limit doirasida mikroqarz liniyalaridan foydalanish muddati shartnoma imzolangan sanadan boshlab bosh kelishuv muddati tugashiga 6 oy qolguncha amal qiladi. Bu muddat tugaganidan so‘ng qarz oluvchi liniyalari (transh) ochish huquqini yo‘qotadi.
+               2.3.	Bosh kelishuvga asosan o‘rnatilgan limit doirasida kredit liniyalaridan foydalanish muddati
+               shartnoma imzolangan sanadan boshlab bosh kelishuv muddati tugashiga 6 oy qolguncha amal qiladi.
+               Bu muddat tugaganidan so‘ng qarz oluvchi liniyalari (transh) ochish huquqini yo‘qotadi.
             </p>
             <p className="pdf_margin_top_5">
-               2.4.	Mikroqarz shartnomalari asosida har bir transh alohida ssuda hisob raqamlar ochish orqali amalga oshiriladi. Bunda bosh kelishuv doirasida mikroqarz shartnomasiga asosan ajratiladigan mikroqarzlarning so‘ndirish muddati bosh kelishuvning tugash muddatidan ortib ketmasligi shart.
+               2.4.	Kredit shartnomalari asosida har bir transh alohida ssuda hisob raqamlar ochish orqali amalga
+               oshiriladi. Bunda bosh kelishuv doirasida kredit shartnomasiga asosan ajratiladigan kreditlarning
+               so‘ndirish muddati bosh kelishuvning tugash muddatidan ortib ketmasligi shart.
             </p>
             <p className="pdf_margin_top_5">
-               2.5.	Qarz oluvchi ajratilgan mablag‘lardan mikroqarz shartnomalarida ko‘rsatilgan maqsadlarda foydalanadi.
+               2.5.	Qarz oluvchi ajratilgan mablag‘lardan kredit shartnomalarida ko‘rsatilgan maqsadlarda foydalanadi.
             </p>
             <p className="pdf_margin_top_5">
-               2.6.	Mikroqarz ajratishda shartnomada ko‘rsatilgan barcha shartlarga va mikroqarzni qaytarishni ta’minlash maqsadida tuzilgan boshqa barcha shartnomalarga rioya etiladi. Qarz oluvchida qarz mablag‘lariga extiyoj paydo bo‘lganda ochilgan liniya limitiga mos miqdorda mikroqarzdan foydalanadi.
+               2.6.	Kredit ajratishda shartnomada ko‘rsatilgan barcha shartlarga va kreditni qaytarishni
+               ta’minlash maqsadida tuzilgan boshqa barcha shartnomalarga rioya etiladi. Qarz oluvchida qarz
+               mablag’lariga extiyoj paydo bo’lganda ochilgan liniya limitiga mos miqdorda kreditdan foydalanadi.
             </p>
             <p className="pdf_margin_top_5">
-               2.7.	Mikroqarz qaytarishlilik, to‘lovlilik va muddatlilik shartlari asosida beriladi.
+               2.7.	Kredit qaytarishlilik, to‘lovlilik va maqsadlilik, muddatlilik, taminlanganlik, shartlari asosida beriladi.
             </p>
             <p className="pdf_margin_top_5">
-               2.8.	Mikromoliya tashkiloti mikroqarz shartnomasi imzolanganidan so‘ng 60 kalendar kuni davomida mikroqarzni ajratishni o‘z zimmasiga oladi. Ko‘rsatilgan muddat o‘tganidan so‘ng qarz oluvchining kreditni olish huquqi va qarz beruvchining uni ajratishga oid majburiyati tugagan hisoblanadi.
-            </p>
-            <div className="pdf_margin_top_5">
-               2.9.	Qarz oluvchi qarz beruvchi tomonidan taqdim etilgan mikroqarzdan quyidagi maqsadlarda foydalanmaslik majburiyatini o‘z zimmasiga oladi:
+               2.8.	Mikromoliya tashkiloti kredit shartnomasi imzolanganidan so’ng 60 kalendar kuni davomida
+               kreditni ajratishni o’z zimmasiga oladi. Ko’rsatilgan muddat o’tganidan so’ng qarz oluvchining kreditni
+               olish huquqi va qarz beruvchining uni ajratishga oid majburiyati tugagan hisoblanadi.
+               Qarz oluvchi qarz beruvchi tomonidan taqdim etilgan kreditdan quyidagi maqsadlarda foydalanmaslik
+               majburiyatini o’z zimmasiga oladi:
                <ol type="a">
                   <li>
-                     Qarz oluvchining muddati o‘tgan majburiyatlarini bevosita yoki bilvosita (shu jumladan uchinchi shaxslar orqali) to‘lash,
+                     Qarz oluvchining muddati o’tgan majburiyatlarini bevosita yoki bilvosita (shu jumladan uchinchi
+                     shaxslar orqali) to’lash
                   </li>
                   <li>
                      Uchinchi shaxslarga qarzlarni taqdim etish;
                   </li>
                   <li>
-                     Amaldagi qonun xujjatlari va kredit siyosatiga asosan taqiqlangan boshqa barcha maqsadlarga.
+                     Amaldagi qonun xujjatlari va kredit siyosatiga asosan taqiqlangan boshqa barcha maqsadlarg.
+                  </li>
+                  <li>
+                     Shartnoma bo’yicha majburiyatlarni bajarishni ta’minlash uchun qarz oluvchi va/yoki uchinchi
+                     shaxslar quyidagi ta’minotlarni taqdim etadi:
+                     <br/>
+                     <p>
+                        -{capitalize(supplyTypeTwo(documentInfo?.data?.supply_infos?.[0]?.type))}ni garovga qo’yish to’g’risida garov shartnomasi;
+                        qarz oluvchilarning qarz beruvchi oldidagi majburiyatlarini bajarish bo’yicha solidar tartibdagi kafillik
+                        shartnomasi.
+                     </p>
                   </li>
                </ol>
-            </div>
-            <div className="pdf_margin_top_5">
-               <p>
-                  2.10.	Shartnoma bo‘yicha majburiyatlarni bajarishni ta’minlash uchun qarz oluvchi va/yoki uchinchi shaxslar quyidagi ta’minotlarni taqdim etadi:
-               </p>
-               <ul className='p1_left_space'>
-                  <li>
-                     -{capitalize(supplyTypeTwo(documentInfo?.data?.supply_infos?.[0]?.type))}ni garovga qo‘yish to‘g‘risida garov shartnomasi;
-                  </li>
-                  <li>
-                     -Qarz oluvchilarning qarz beruvchi oldidagi majburiyatlarini bajarish bo‘yicha solidar tartibdagi kafillik shartnomasi.
-                  </li>
-               </ul>
-            </div>
-            <p className="pdf_margin_top_5">
-               2.11.	Mazkur Bosh kelishuvga asosan tuzilgan mikroqarz shartnomasi kelishuvning ajralmas qismi hisoblanadi.
             </p>
             <p className="pdf_margin_top_5">
-               2.12.	Mazkur Bosh kelishuv qoidalari unga asosan tuzilgan mikroqarz shartnomasiga nisbatan to‘liq hajmda qo‘llaniladi. Bunda bosh kelishuv hamda bosh kelishuvga asosan tuzilgan mikroqarz shartnomasi qoidalari o‘rtasida ziddiyat vujudga kelgan taqdirda, bosh kelishuv qoidalari ustunroq kuchga ega bo‘ladi.
+               2.9.	Mazkur Bosh kelishuvga asosan tuzilgan kredit shartnomasi kelishuvning ajralmas qismi hisoblanadi.
+            </p>
+            <p className="pdf_margin_top_5">
+               2.10.	Mazkur Bosh kelishuv qoidalari unga asosan tuzilgan kredit shartnomasiga nisbatan to’liq hajmda
+               qo’llaniladi. Bunda bosh kelishuv hamda bosh kelishuvga asosan tuzilgan kredit shartnomasi qoidalari
+               o’rtasida ziddiyat vujudga kelgan taqdirda, bosh kelishuv qoidalari ustunroq kuchga ega bo’ladi.
             </p>
          </div>
       </>
@@ -116,13 +130,13 @@ export function Part2({documentInfo}) {
 export function Part3({orderInfo}) {
    return (
       <>
-         <p className='black_text pdf_margin_top_20 title_contract_part'>3. Bitim bahosi</p>
+         <p className='black_text pdf_margin_top_20 title_contract_part'>3. Kelishuv bahosi</p>
          <div className='part'>
             <p className="pdf_margin_top_5">
-               3.1. Bosh kelishuvga asosan liniya miqdori {orderInfo?.open_contract?.sum?.toLocaleString()} so‘mni tashkil qiladi.
+               3.1. Bosh kelishuvga asosan kredit liniya miqdori {orderInfo?.open_contract?.sum?.toLocaleString()} so’mni tashkil qiladi.
             </p>
             <p className="pdf_margin_top_5">
-               3.2. Har bir beriladigan mikroqarz miqdori mikroqarz shartnomaga asosan belgilanadi.
+               3.2. Har bir beriladigan kredit miqdori kredit shartnomaga asosan belgilanadi.
             </p>
          </div>
       </>
@@ -135,10 +149,12 @@ export function Part4() {
          <p className='black_text pdf_margin_top_20 title_contract_part'>4. Tasdiqlash va kafolatlar berish</p>
          <div className='part'>
             <p className="pdf_margin_top_5">
-               4.1. Qarz oluvchi qarz beruvchiga taqdim etgan mikroqarz olish bilan bog‘liq bo‘lgan zaruriy hujjatlar xaqiqiyligini, ma’lumotlarning ishonchliligini va hujjatlarning nusxalari asliga to‘g‘riligini kafolatlaydi.
+               4.1. Qarz oluvchi qarz beruvchiga taqdim etgan kredit olish bilan bog’liq bo’lgan zaruriy hujjatlar xaqiqiyligini, ma’lumotlarning ishonchliligini va hujjatlarning nusxalari asliga to’g’riligini kafolatlaydi.
             </p>
             <p className="pdf_margin_top_5">
-               4.2. Tasdiqlash va kafolatlar berishga qarz oluvchi to‘liq hajmda amal qilishi lozim. Kelishuvda ko‘zda tutilgan tasdiqlash va kafolatlar berishga amal qilinmagan yoki lozim darajada amal qilinmagan taqdirda qarz beruvchi qarz oluvchiga mikroqarz taqdim etishdan bosh tortishga haqli.
+               4.2. Tasdiqlash va kafolatlar berishga qarz oluvchi to’liq hajmda amal qilishi lozim. Kelishuvda ko’zda
+               tutilgan tasdiqlash va kafolatlar berishga amal qilinmagan yoki lozim darajada amal qilinmagan taqdirda
+               qarz beruvchi qarz oluvchiga kredit taqdim etishdan bosh tortishga haqli.
             </p>
          </div>
       </>
@@ -152,66 +168,80 @@ export function Part5() {
          <div className='part'>
             <p className="sub_title_contract_part">5.1. Qarz oluvchi quyidagi huquqlarga ega:</p>
             <p className="pdf_margin_top_5">
-               5.1.1. Garov ta'minoti qarz beruvchi tomonidan sugurta qilinmaydi, qarz oluvchining xoxishiga ko'ra, uning o'z hisobidan sug'urta qilinishi mumkin.
+               5.1.1. Garov ta’minoti yuzasidan sug’urta kompaniyasini o’z ixtiyoriga asosan tanlash.
             </p>
             <p className="pdf_margin_top_5">
-               5.1.2. Mikroqarzdan foydalanish, uni so‘ndirish bilan bog‘liq masalalar bo‘yicha qarz beruvchining  vakiliga murojaat qilish;
+               5.1.2. Kreditdan foydalanish, uni so’ndirish bilan bog’liq masalalar bo’yicha qarz beruvchining vakiliga murojaat qilish;
             </p>
             <p className="pdf_margin_top_5">
-               5.1.3. Bitim va mikroqarz shartnomalarni imzo qo‘ymasdan oldin tanishib chiqishi uchun o‘zi bilan olib ketish;
+               5.1.3.  Kelishuv va kredit shartnomalarni imzo qo’ymasdan oldin tanishib chiqishi uchun o’zi bilan olib ketish;
             </p>
             <p className="pdf_margin_top_5">
-               5.1.4. Bitim yoki mikroqarz shartnoma tuzilgandan keyin pul mablag‘lari olingunga qadar bo‘lgan davrda mikroqarz olishdan bepul asosda voz kechish;
+               5.1.4. Kelishuv yoki kredit shartnoma tuzilgandan keyin pul mablag’lari olingunga qadar bo’lgan davrda kredit olishdan bepul asosda voz kechish;
             </p>
             <p className="pdf_margin_top_5">
-               5.1.5. Istalgan vaqtda mikroqarzni muddatidan oldin so‘ndirish;
+               5.1.5. Istalgan vaqtda kreditni muddatidan oldin so’ndirish;
             </p>
             <p className="pdf_margin_top_5">
-               5.1.6. Mikroqarz ajratish jarayoni yuzasidan qonun hujjatlarida belgilangan talab va qoidalar to‘g‘risida qarz beruvchidan maslahatlar olish;
+               5.1.6. Kredit ajratish jarayoni yuzasidan qonun hujjatlarida belgilangan talab va qoidalar to’g’risida qarz beruvchidan maslahatlar olish;
             </p>
             <p className="pdf_margin_top_5">
-               5.1.7. Qarz beruvchidan bitimda belgilangan shartlar asosida belgilangan miqdorda mikroqarz mablag‘ini o‘z vaqtida ajratilishini talab qilish;
+               5.1.7. Qarz beruvchidan kelishuvda belgilangan shartlar asosida belgilangan miqdorda kredit mablag’ini o’z vaqtida ajratilishini talab qilish;
             </p>
             <p className="pdf_margin_top_5">
-               5.1.8. Qarz beruvchi tomonidan bitimda ko‘zda tutilgan mikroqarz uzrli sabablarsiz yoki kechiktirib ajratilgani uchun neustoyka to‘lashni talab qilish;
+               5.1.8. Qarz beruvchi tomonidan kelishuvda ko’zda tutilgan kredit uzrli sabablarsiz yoki kechiktirib ajratilgani uchun neustoyka to’lashni talab qilish;
             </p>
             <p className="pdf_margin_top_5">
-               5.1.9. Kredit to‘lovlari to‘g‘risida ma’lumotlar olish;
+               5.1.9. Kredit to’lovlari to’g’risida ma’lumotlar olish;
             </p>
             <p className="pdf_margin_top_5">
-               5.1.10. Qonun hujjatlarida belgilangan nizoni sudgacha hal qilish usullarini, shu jumladan muzokaralar o‘tkazish orqali, qo‘llash.
+               5.1.10. Qonun hujjatlarida belgilangan nizoni sudgacha hal qilish usullarini, shu jumladan muzokaralar o’tkazish orqali, qo’llash.
             </p>
          </div>
          <div className='part'>
             <p className="sub_title_contract_part">5.2.  Qarz oluvchining majburiyatlari quyidagilar: </p>
             <p className="pdf_margin_top_5">
-               5.2.1. Mikroqarzni olishga va undan foydalanishga bevosita aloqador bo‘lgan faoliyat bilan qarz beruvchining to‘siqsiz tanishishiga imkon berish;
+               5.2.1. Kreditni olishga va undan foydalanishga bevosita aloqador bo’lgan faoliyat bilan qarz beruvchining to’siqsiz tanishishiga imkon berish;
             </p>
             <p className="pdf_margin_top_5">
-               5.2.2. Qarz beruvchi tomonidan qarz oluvchining moliyaviy holatidan kelib chiqib talab qilinishi mumkin bo‘lgan barcha kerakli ma’lumotlar belgilangan muddatlarda qarz beruvchiga taqdim etilishini ta’minlash, shuningdek, 5 ish kuni davomida kredit va unga hisoblangan foizlarni vaqtida va to‘laligicha to‘lashga ta’sir ko‘rsatadigan boshqa holatlar haqida qarz beruvchini xabardor qilish;
+               5.2.2. Qarz beruvchi tomonidan qarz oluvchining moliyaviy holatidan kelib chiqib talab qilinishi
+               mumkin bo’lgan barcha kerakli ma’lumotlar belgilangan muddatlarda qarz beruvchiga taqdim etilishini ta’minlash, shuningdek, 5 ish kuni davomida kredit va unga hisoblangan foizlarni vaqtida va to’laligicha
+               to’lashga ta’sir ko’rsatadigan boshqa holatlar haqida qarz beruvchini xabardor qilish;
             </p>
             <p className="pdf_margin_top_5">
-               5.2.3. Bitim va mikroqarz shartnomasi imzolangandan so‘ng, bitimga asosan mikroqarz ta’minotiga oid barcha talablarni bajarish, jumladan, mikroqarz ta’minoti sifatida taqdim qilinayotgan mol-mulklarni (yoki mulkiy huquqlarni) shartnoma muddatiga ixtiyoriy tartibda sug‘urta qilish, garov shartnomalarini qonunchilikda belgilangan tartibda rasmiylashtirish, vakolatli organlarda ro‘yxatdan o‘tkazish hamda ta’qiq qo‘yish yoki uchinchi shaxsga tegishli ta’minot taqdim qilinayotgan bo‘lsa, garov shartnomalarini qonuniy tartibda rasmiylashtirish;
+               5.2.3. Kelishuv va kredit shartnomasi imzolangandan so’ng, kelishuvga asosan kredit ta’minotiga
+               oid barcha talablarni bajarish, jumladan, kredit ta’minoti sifatida taqdim qilinayotgan mol-mulklarni
+               (yoki mulkiy huquqlarni) shartnoma muddatiga sug’urta qilish, garov shartnomalarini qonunchilikda
+               belgilangan tartibda rasmiylashtirish, vakolatli organlarda ro’yxatdan o’tkazish hamda ta’qiq qo’yish
+               yoki ta’minot sifatida kafillik taqdim qilinayotgan bo’lsa, kafillik shartnomalarini qonuniy tartibda
+               rasmiylashtirish;
             </p>
             <p className="pdf_margin_top_5">
-               5.2.4. Ajratilgan kreditlar uchun 125 foizdan kam bo‘lmagan qiymatdagi likvidli bo‘lgan ta’minot turlarini taqdim qilish. Qarz beruvchi tomonidan monitoring, undiruv davomida yoki boshqa sabablarga ko‘ra garov ta’minoti qarz majburiyatlarini qoplashga yetarli emas deb topilgan taqdirda yetarlicha miqdorda qo‘shimcha ta’minot taqdim qiladi hamda uni tegishli tartibda rasmiylashtirilishini ta’minlaydi;
+               5.2.4. Ajratilgan kreditlar uchun 125 foizdan kam bo’lmagan qiymatdagi likvidli bo’lgan ta’minot
+               turlarini taqdim qilish. Qarz beruvchi tomonidan monitoring, undiruv davomida yoki boshqa sabablarga
+               ko‘ra garov ta’minoti qarz majburiyatlarini qoplashga yetarli emas deb topilgan taqdirda yetarlicha
+               miqdorda qo’shimcha ta’minot taqdim qiladi hamda uni tegishli tartibda rasmiylashtirilishini
+               ta’minlaydi;
             </p>
             <div className="pdf_margin_top_5">
-               5.2.5 Qarz oluvchining faoliyatini amalga oshirilishi jarayonida O‘zbekiston Respublikasining mehnat to‘g‘risidagi qonun hujjatlari talablariga amal qilish majburiyatini oladi, shu jumladan:
+               5.2.5 Qarz oluvchining faoliyatini amalga oshirilishi jarayonida O’zbekiston Respublikasining
+               mehnat to’g’risidagi qonun hujjatlari talablariga amal qilish majburiyatini oladi, shu jumladan:
                <ol type="a">
                   <li>
-                     Bolalar mehnatining yo‘qligi;
+                     Bolalar mehnatining yo’qligi;
                   </li>
                   <li>
-                     Ishchilar bandligiga oid kamsitishlarning yo‘qligi;
+                     Ishchilar bandligiga oid kamsitishlarning yo’qligi;
                   </li>
                   <li>
-                     Majburiy mehnatning yo‘qligi.
+                     Majburiy mehnatning yo’qligi.
                   </li>
                </ol>
             </div>
             <p className="pdf_margin_top_5">
-               5.2.6. Qarz oluvchi (garovga qo‘yuvchi) ta’minotga taqdim etilgan obe’ktni (mol-mulkni, mulkiy huquqlarni, huquqlarni) mikroqarz va uning foizlari to‘liq to‘langunga qadar Qarz beruvchining roziligisiz sotishga yoki boshqacha tarzda realizatsiya qilishga haqli emas.
+               5.2.6. Qarz oluvchi (garovga qo’yuvchi) ta’minotga taqdim etilgan obe’ktni (mol-mulkni, mulkiy
+               huquqlarni, huquqlarni) kredit va uning foizlari to’liq to’langunga qadar Qarz beruvchining roziligisiz
+               sotishga yoki boshqacha tarzda realizatsiya qilishga haqli emas.
             </p>
          </div>
       </>
@@ -429,6 +459,7 @@ export function Part11() {
       </>
    )
 }
+
 
 export function Part12() {
    return (

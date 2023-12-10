@@ -47,39 +47,27 @@ function Owner({ clientId }) {
    const navigate = useNavigate()
    const { register, handleSubmit } = useForm()
 
+   const mainRequest = async (post_data) => {
+      const { data } = await https.post(`/supply-info`, post_data);
+      return data.id
+   }
+
    const onSubmit = async (data) => {
+      setDisable(true)
+
       try {
-         setDisable(true)
          const info = {
             client_id: clientId,
-            type: 'guarrantor'
-         }
-         const response = await https.post(`/supply-info`, info);
-
-         if (response.status !== 200) {
-            throw new Error(`Opps, xatolik: ${response.status}`);
-         } else {
-            const supply_info_id = response.data.id;
-            const details = {
-               ...data,
+            type: 'guarrantor',
+            owner:{
                doc_type: optionSelected?.label,
-               is_guarrantor: 0,
-               supply_info_id
-            };
-
-            const postOwner = async (details) => {
-               await https.post('/owners', details)
-                  .then(_ => {
-                     alert("Ta'minot qoshildi", 'success');
-                     navigate(-1)
-                  })
-                  .catch(err => {
-                     alert(err?.response?.data?.message, 'error');
-                  })
-            };
-            postOwner(details)
+               is_guarrantor: true,
+               ...data
+            }
          }
-
+         const res = mainRequest(info)
+         alert("Ta'minot qo'shildi", 'success');
+         navigate(-1)
       } catch (err) {
          alert(`Xatolik: ${err.message}`, 'error')
          setDisable(false)

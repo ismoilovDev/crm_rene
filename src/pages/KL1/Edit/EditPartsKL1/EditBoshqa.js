@@ -5,6 +5,7 @@ import { Context } from '../../../../context/context';
 import { AiOutlineDoubleRight, AiOutlineDoubleLeft } from 'react-icons/ai'
 import { useNavigate } from 'react-router-dom';
 import { NumericFormat } from 'react-number-format';
+import IncomeInput from '../../../../components/KL1/IncomeInput';
 
 function EditBoshqa(props) {
     const { activeTab, setActiveTab } = useContext(Context)
@@ -125,20 +126,13 @@ function EditBoshqa(props) {
                                 <button className='kl1_delete_button' onClick={()=>{deleteMyDaromad(item.id)}}><i className='bx bx-trash'></i></button>
                             </div>
                             <div className='kl1_product'>
-                                <Input
-                                    rounded
-                                    bordered
-                                    label='Daromad nomi'
-                                    color="secondary"
-                                    width='100%'
-                                    className='kl1_input'
-                                    value={myDaromads.find(x => x.id === item.id).name}
-                                    onChange={(e)=>{
-                                        const newBoshqaDaromads = [...myDaromads]
-                                        newBoshqaDaromads[index].name = e.target.value
-                                        setMyDaromads(newBoshqaDaromads)
-                                    }}
-                                /> 
+                                <IncomeInput
+                                    contextData={myDaromads}
+                                    setContextData={setMyDaromads}
+                                    item={item}
+                                    index={index}
+                                    width={100}
+                                />
                                 <div className="numeric_format_input width_47">
                                     <label>Hajmi</label>
                                     <NumericFormat
