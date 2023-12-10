@@ -3,7 +3,7 @@ import { Input, Tooltip } from "@nextui-org/react";
 import { useForm } from "react-hook-form";
 import { alert, warning } from "../Alert/alert";
 import SkeletonBox from '../Loader/Skeleton';
-import QuestionWrapper from './QuestionForm'
+import QuestionFrom from './QuestionForm'
 import https from "../../services/https"
 
 const head_columns = [
@@ -28,10 +28,10 @@ const EmptyOptions = memo(() => (
    </div>
 ))
 
-const AddingForm = memo(() => {
-   const { register } = useForm()
+const AddingForm = memo(({ onSubmitHandle }) => {
+   const { register, handleSubmit } = useForm()
    return (
-      <React.Fragment>
+      <form onSubmit={handleSubmit(onSubmitHandle)}>
          <Input
             bordered
             required
@@ -39,25 +39,37 @@ const AddingForm = memo(() => {
             label="Matn"
             color="secondary"
             className="textarea"
-            labelPlacement="outside"
+            labelplacement="outside"
             {...register("title", { required: true })}
             placeholder="Statistika uchun variant matnini kiriting..."
          />
          <button type="submit">Kiritish</button>
-      </React.Fragment>
+      </form>
    )
 })
 
-const EditingForm = memo(({ value, setValue }) => {
-   const [editingText, setEditingText] = useState('')
+const EditingForm = memo(({ value, setValue, onSubmitHandle }) => {
+   const { register, handleSubmit } = useForm()
    return (
-      <input
-         bordered
-         value={value}
-         onChange={(e) => {
-            setValue(e.target.value)
-         }}
-      />
+      <form onSubmit={handleSubmit(onSubmitHandle)}>
+         <Input
+            bordered
+            required
+            size="md"
+            label="Matn"
+            value={value}
+            color="secondary"
+            className="textarea"
+            labelplacement="outside"
+            {...register("title", { required: true })}
+            onChange={e => {
+               const text = e.target.value
+               setValue(text)
+            }}
+            placeholder="Statistika uchun variant matnini kiriting..."
+         />
+         <button type="submit">O'zgartirish</button>
+      </form>
    )
 })
 
@@ -84,7 +96,7 @@ const Table = memo(({ columns, editingHandle, deleteHandle }) => {
                         {
                            <React.Fragment>
                               <Tooltip content="O'zgartirish" placement="topStart">
-                                 <button onClick={_ => editingHandle(index)}>
+                                 <button onClick={_ => editingHandle(column)}>
                                     <i className='bx bx-edit-alt'></i>
                                  </button>
                               </Tooltip>
@@ -109,7 +121,7 @@ export const ClientQuestionnaire = memo(() => {
    const [isVisable, setIsVisable] = useState(false)
    const [editingText, setEditingText] = useState('')
    const [questionnaires, setQuestionnaires] = useState([])
-   const [isEditing, setIsEditing] = useState({ editing: false, selected: null })
+   const [isEditing, setIsEditing] = useState({ editing: false, id: null })
 
    const getQuestionnaires = useCallback(async () => {
       try {
@@ -126,10 +138,6 @@ export const ClientQuestionnaire = memo(() => {
       getQuestionnaires()
    }, [getQuestionnaires])
 
-   const resetHandle = () => {
-      setIsEditing({ editing: false, selected: null })
-   }
-
    const openFormHandle = () => {
       document.body.style.overflow = 'hidden'
       setIsVisable(true)
@@ -138,43 +146,53 @@ export const ClientQuestionnaire = memo(() => {
    const closeFormHandle = () => {
       document.body.style.overflow = 'visible'
       setIsVisable(false)
+      setIsEditing({ ...isEditing, editing: false, value: '' })
    }
 
-   const editingHandle = (index) => {
-      
-      setIsEditing({ ...isEditing, editing: true, selected: index })
-   }
-
-   const updateHandle = async (id) => {
-      warning("O'zgarishni saqlamoqchimisiz?").then(async (result) => {
-         if (result.isConfirmed) {
-            try {
-               const updated_data = { title: editingText }
-               const res = await https.patch(`/sources/${id}`, updated_data)
-               if (res.statusText !== 'OK') {
-                  throw new Error('Request failed with status: ' + res.status);
-               }
-               const { data } = res
-               const newOptions = questionnaires?.map(option => {
-                  if (option?.id === id) {
-                     let new_option = { ...option }
-                     new_option.title = data?.title
-                     return new_option
-                  } else {
-                     return option
-                  }
-               })
-               setQuestionnaires([...newOptions])
-               alert("O'zgartirildi", 'success')
-               resetHandle()
-            } catch (error) {
-               const message = error?.response?.data?.message
-               alert(message, 'error')
-            }
-
+   const addingHandle = async (data) => {
+      try {
+         const res = await https.post('/sources', data)
+         if (res?.statusText === "Created") {
+            setQuestionnaires([...questionnaires, res?.data])
+            alert('Variant kiritildi', 'success', 1500)
          }
-      })
+      } catch (error) {
+         const message = error?.response?.data?.message
+         alert(message, 'error', 1500)
+      } finally {
+         closeFormHandle()
+      }
+   }
 
+   const editingHandle = (value) => {
+      openFormHandle()
+      setEditingText(value?.title)
+      setIsEditing({ ...isEditing, editing: true, id: value?.id })
+   }
+
+   const updatingHandle = async (updated_data) => {
+      try {
+         const res = await https.patch(`/sources/${isEditing.id}`, updated_data)
+         if (res.statusText !== 'OK') {
+            throw new Error('Request failed with status: ' + res.status);
+         }
+         const { data } = res
+         const newOptions = questionnaires?.map(option => {
+            if (option?.id === isEditing.id) {
+               let new_option = { ...option }
+               new_option.title = data?.title
+               return new_option
+            } else {
+               return option
+            }
+         })
+         setQuestionnaires([...newOptions])
+         closeFormHandle()
+         alert("O'zgartirildi", 'success')
+      } catch (error) {
+         const message = error?.response?.data?.message
+         alert(message, 'error')
+      }
    }
 
    const deleteHandle = async (id) => {
@@ -201,8 +219,24 @@ export const ClientQuestionnaire = memo(() => {
       <div className="client_questionnaire">
          <button className="add_wrap" onClick={openFormHandle}>Qo'shish</button>
          {
-            isVisable ?
-               <QuestionWrapper questionnaires={questionnaires} setQuestionnaires={setQuestionnaires} closeFormHandle={closeFormHandle} /> : null
+            isVisable &&
+            <QuestionFrom
+               questionnaires={questionnaires}
+               setQuestionnaires={setQuestionnaires}
+               closeFormHandle={closeFormHandle}
+            >
+               {
+                  isEditing.editing ?
+                     <EditingForm
+                        value={editingText}
+                        setValue={setEditingText}
+                        onSubmitHandle={updatingHandle}
+                     /> :
+                     <AddingForm
+                        onSubmitHandle={addingHandle}
+                     />
+               }
+            </QuestionFrom>
          }
          {
             loading > 0 ?
@@ -210,12 +244,7 @@ export const ClientQuestionnaire = memo(() => {
                questionnaires?.length <= 0 ?
                   <EmptyOptions /> :
                   <Table
-                     value={editingText}
-                     isEditing={isEditing}
                      columns={questionnaires}
-                     setValue={setEditingText}
-                     resetHandle={resetHandle}
-                     updateHandle={updateHandle}
                      deleteHandle={deleteHandle}
                      editingHandle={editingHandle}
                   />

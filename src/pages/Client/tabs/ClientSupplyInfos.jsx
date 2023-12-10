@@ -77,7 +77,7 @@ function ClientSupplyInfos({ id }) {
 
    useEffect(() => {
       getClientSupplyInfos()
-   }, [id, getClientSupplyInfos])
+   }, [id])
 
    async function getClientSupplyInfos() {
       if (client?.id) {

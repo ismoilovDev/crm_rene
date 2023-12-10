@@ -1,38 +1,60 @@
-import { memo } from 'react'
+import { memo, useState } from 'react'
 import { Input } from '@nextui-org/react';
-import { useForm } from "react-hook-form";
+import { alert } from './../../components/Alert/alert';
 import Logo from '../../assets/images/Logo'
+import ReCAPTCHA from 'react-google-recaptcha';
 import LoginBack from '../../assets/images/LoginBack'
 
 const AuthForm = memo(({ onLogin, isActiveLoader }) => {
-   const { register, handleSubmit } = useForm()
+   const [email, setEmail] = useState('')
+   const [password, setPassword] = useState('')
+   const [isCaptchaVerified, setIsCaptchaVerified] = useState(false);
+
+   const handleCaptchaChange = (value) => {
+      if (value) {
+         setIsCaptchaVerified(true);
+      }
+   };
+
+   const handleLogin = (e) => {
+      e.preventDefault();
+      if (isCaptchaVerified) {
+         const data = { email, password }
+         onLogin(data)
+      } else {
+         alert('Iltimos, reCAPTCHA ni tasdiqlang.');
+      }
+   };
 
    return (
       <div className='login-secondary_wrapper'>
          <h1>Renesansga xush kelibsiz!👋</h1>
-         <span>Iltimos, hisobingizga kiring va ishlashni boshlashingiz mumkin. Hayrli kun!</span>
-         <form onSubmit={handleSubmit(onLogin)}>
+         <span>Iltimos, hisobingizga kiring va ishlashni boshlashingiz mumkin. Xayrli kun!</span>
+         <form onSubmit={handleLogin}>
             <Input
-               width='90%'
-               clearable
-               label="E-mail"
-               placeholder='admin@mail.com'
-               bordered
-               className='login_vall vall'
-               color="secondary"
                required
+               bordered
+               clearable
+               width='90%'
                type="email"
-               {...register("email", { required: true })}
+               value={email}
+               label="E-mail"
+               color="secondary"
+               className='login_vall vall'
+               placeholder='admin@mail.com'
+               onChange={e => setEmail(e?.target?.value)}
             />
             <Input.Password
-               label="Password"
                bordered
-               className='login_vall vall'
-               placeholder='12345'
                width='90%'
+               value={password}
+               label="Password"
                color="secondary"
-               {...register("password", { required: true })}
+               placeholder='12345'
+               className='login_vall vall'
+               onChange={e => setPassword(e?.target?.value)}
             />
+            <ReCAPTCHA sitekey={process.env.REACT_APP_CAPTCHA_KEY} onChange={handleCaptchaChange} />
             <button type='submit' className='login_submit'>
                <span className={isActiveLoader ? "btn_text" : "btn_text active_content"}>Kirish</span>
                <div className={isActiveLoader ? "spinner active_content" : "spinner"}>

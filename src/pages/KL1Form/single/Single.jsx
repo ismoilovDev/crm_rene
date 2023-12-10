@@ -3,12 +3,12 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { AiOutlinePrinter } from 'react-icons/ai'
 import { Radio, Input } from '@nextui-org/react'
 import { YMaps, Map, Placemark } from '@pbe/react-yandex-maps';
+import { alert } from '../../../components/Alert/alert'
+import { months } from '../../../utils/constants/months';
+import { nextMonth } from '../../../utils/functions/nextMonth';
 import ContainerView from '../../../components/ImageContainer/ContainerView';
 import Prev from '../../../components/Prev/Prev';
 import https from '../../../services/https';
-import { months } from '../../../utils/constants/months';
-import { alert } from '../../../components/Alert/alert'
-import { nextMonth } from '../../../utils/functions/nextMonth';
 
 
 function SingleKL1() {
@@ -19,43 +19,42 @@ function SingleKL1() {
    const [kreditData, setKreditData] = useState({})
    const [orderInfo, setOrderInfo] = useState({})
 
-   const getPaymentClear = async(id) => {
-      try{
-         const res = await https.post(`/g1/${id}`, {})
-         const { data } = res;
-         setKreditData(data?.graph?.['0']);
-      }
-      catch(error){
-         console.log(error)
-      }
-   }
+   // const getPaymentClear = async (id) => {
+   //    try {
+   //       const res = await https.post(`/g1/${id}`, {})
+   //       const { data } = res;
+   //       setKreditData(data?.graph?.['0']);
+   //    }
+   //    catch (error) {
+   //       console.log(error)
+   //    }
+   // }
 
-   const namunaRequest = async(info) =>{
-      try{
+   const namunaRequest = async (info) => {
+      try {
          const res = await https.post('/namuna', info)
          const { data } = res;
          setKreditData(data?.['0'])
       }
-      catch(err){
+      catch (err) {
          console.log(err);
       }
    }
 
-   const orderGetData = async(id) =>{
-      try{
+   const orderGetData = async (id) => {
+      try {
          const res = await https.get(`/orders/${id}`)
          setOrderInfo(res?.data)
       }
-      catch(err){
+      catch (err) {
          console.log(err);
       }
    }
 
    async function getMainInfo() {
-      try{
+      try {
          const res = await https.get(`/client-marks/${id}`)
          const { data } = res;
-
          setMainInfo(res?.data)
          orderGetData(res?.data?.order?.id)
 
@@ -64,17 +63,14 @@ function SingleKL1() {
             sum: data?.order?.sum,
             time: data?.order?.time,
             percent: data?.order?.percent_year,
-            given_date: data?.contract?.id ? data?.contract?.contract_issue_date : data?.order?.order_date,
-            first_repayment_date: data?.contract?.id ? data?.contract?.first_repayment_date : nextMonth(data?.order?.order_date)
+            given_date: data?.order?.order_date,
+            first_repayment_date: nextMonth(data?.order?.order_date)
          }
 
-         if(res?.data?.contract?.id){
-            getPaymentClear(data?.order?.id)
-         }else{
-            namunaRequest(info)   
-         }
+         namunaRequest(info)
+
       }
-      catch(err){
+      catch (err) {
          console.log(err)
       }
    }
@@ -325,8 +321,8 @@ function SingleKL1() {
       <div>
          <div className='pdf_header'>
             <Prev />
-            <button onClick={() =>{
-               if((((kreditData?.interest + kreditData?.principal_debt + ClientLoansMonthNumber()) / SofFun()) * 100).toFixed(2) > 50){
+            <button onClick={() => {
+               if ((((kreditData?.interest + kreditData?.principal_debt + ClientLoansMonthNumber()) / SofFun()) * 100).toFixed(2) > 50) {
                   return alert('KL foiz 50% oshib ketdi')
                }
                navigate("/pdf/client-marks", { state: { id } })
@@ -356,10 +352,10 @@ function SingleKL1() {
             </div>
             {
                mainInfo?.client?.temp_address ?
-               <div className='single_buyurtma_inputs pdf_margin_top_15'>
-                  <p>Vaqtinchalik yashash manzili:</p>
-                  <p>{mainInfo?.client?.temp_address}</p>
-               </div> : <></>
+                  <div className='single_buyurtma_inputs pdf_margin_top_15'>
+                     <p>Vaqtinchalik yashash manzili:</p>
+                     <p>{mainInfo?.client?.temp_address}</p>
+                  </div> : <></>
             }
             <div className='single_buyurtma_inputs pdf_margin_top_15'>
                <p>JSh ShIR:</p>
@@ -513,9 +509,9 @@ function SingleKL1() {
 
                      <div className='kl1_calendar_single'>
                         {
-                           months?.map((item, index)=>{
-                              return(
-                                 <div className='single_buyurtma_inputs' key={index+10}>
+                           months?.map((item, index) => {
+                              return (
+                                 <div className='single_buyurtma_inputs' key={index + 10}>
                                     <p>{item?.name}:</p>
                                     <p>{(mainInfo?.monthly_income?.[item?.value])?.toLocaleString()}</p>
                                  </div>
@@ -568,9 +564,9 @@ function SingleKL1() {
                      <p className='kl1_formtitle text_center'>Mavsumiy xarajatlarning oylar bo'yicha taqsimlanishi</p>
                      <div className='kl1_calendar_single'>
                         {
-                           months?.map((item, index)=>{
-                              return(
-                                 <div className='single_buyurtma_inputs' key={index+10}>
+                           months?.map((item, index) => {
+                              return (
+                                 <div className='single_buyurtma_inputs' key={index + 10}>
                                     <p>{item?.name}:</p>
                                     <p>{(mainInfo?.monthly_expense?.[item?.value])?.toLocaleString()}</p>
                                  </div>
@@ -834,7 +830,7 @@ function SingleKL1() {
                      <p>{(kreditData?.interest + kreditData?.principal_debt)?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
                   </div>
                   <div className='single_buyurtma_inputs'>
-                     <p>Soralayotgan kredit hisobi qarzi yoki korsatkichi (${'< 50%'})</p>
+                     <p>Soralayotgan kredit hisobi qarzi yuki korsatkichi (${'< 50%'})</p>
                      <p>{(((kreditData?.interest + kreditData?.principal_debt + ClientLoansMonthNumber()) / SofFun()) * 100).toFixed(2)}</p>
                   </div>
                </div>

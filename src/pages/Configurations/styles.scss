@@ -24,8 +24,16 @@
       color: white;
    }
 
+   .client_questionnaire {
+      overflow-x: auto;
+
+      @media (min-width: 420px) {
+         overflow-x: visible;
+      }
+   }
+
    table {
-      width: 100%;
+      width: 370px;
       border-collapse: collapse;
       border: 1px solid #D8D6D6;
 
@@ -45,6 +53,7 @@
       td {
          padding: 7px 0;
          font-size: 15px;
+         font-weight: 500;
          text-align: center;
          border: 1px solid #D8D6D6;
 
@@ -85,13 +94,25 @@
                button {
                   border: none;
                   color: white;
-                  font-size: 18px;
+                  font-size: 14px;
                   font-weight: 600;
-                  width: 35px;
-                  height: 35px;
+                  width: 25px;
+                  height: 25px;
                   border-radius: 5px;
                   transition-duration: 0.2s;
                   cursor: pointer;
+
+                  @media (min-width: 420px) {
+                     width: 30px;
+                     height: 30px;
+                     font-size: 16px;
+                  }
+
+                  @media (min-width: 768px) {
+                     width: 35px;
+                     height: 35px;
+                     font-size: 18px;
+                  }
                }
 
                &:nth-child(1) {
@@ -109,6 +130,10 @@
             }
          }
 
+      }
+
+      @media (min-width: 420px) {
+         width: 100%;
       }
    }
 }
@@ -135,9 +160,11 @@
       border-radius: 15px;
       background-color: #fff;
       box-shadow: 0px 0px 8px 0px rgba(34, 60, 80, 0.2);
+
       .textarea {
          width: 200px;
       }
+
       button {
          display: inline-block;
          padding: 8px 22px;
@@ -154,6 +181,7 @@
 
       @media (min-width: 556px) {
          width: 350px;
+
          .textarea {
             width: 300px;
          }
@@ -161,6 +189,7 @@
 
       @media (min-width: 992px) {
          width: 450px;
+
          .textarea {
             width: 400px;
          }
@@ -168,6 +197,7 @@
 
       @media (min-width: 1280px) {
          width: 550px;
+
          .textarea {
             width: 500px;
          }

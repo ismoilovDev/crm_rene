@@ -35,6 +35,7 @@ function Sidebar({ role, currentPath, sidebarActive, isSidebarMini, setSidebarAc
       let linkUrl = item.to.replace(/^\/|\/$/g, '').substring(0, 4);
       return currentPath.includes(linkUrl)
    })
+
    const key = keys.length > 1 ? keys[1].keys.toString() : keys[0].keys.toString()
    const [activeKey, setActiveKey] = useState(key);
 

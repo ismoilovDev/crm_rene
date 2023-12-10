@@ -314,7 +314,7 @@ function KLPDF() {
                <p className='div_child'>{mainInfo?.doc_date}</p>
             </div>
             <div className='row_div between under_line margin_top_10'>
-               <p className='div_child'>Mijoz tekshirilgan va organilgan sana:</p>
+               <p className='div_child'>Mijoz tekshirilgan va o'rganilgan sana:</p>
                <p className='div_child'>{mainInfo?.mark_date}</p>
             </div>
             <div className='row_div between under_line margin_top_10'>
@@ -345,12 +345,12 @@ function KLPDF() {
                <p className='div_child'>{mainInfo?.order?.aim}</p>
             </div>
             <div className='row_div between under_line margin_top_10'>
-               <p className='div_child'>Soralayotgan kredit miqdori:</p>
+               <p className='div_child'>So'ralayotgan kredit miqdori:</p>
                <p className='div_child'>{mainInfo?.order?.sum?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
             </div>
 
             {/* ********Part 1********* */}
-            <p className='text_black_18 text_center margin_top_30'>Buyurtmachining oilaviy sharoitini organish natijalari</p>
+            <p className='text_black_18 text_center margin_top_30'>Buyurtmachining oilaviy sharoitini o'rganish natijalari</p>
             <p className='black_text text_center'>Birgalikda istiqomat qiluvchilar</p>
             <div className='row_div between under_line margin_top_10'>
                <p>Istiqomat qiluvchi:</p>
@@ -365,7 +365,7 @@ function KLPDF() {
                </div>
             </div>
             <div className='row_div between under_line margin_top_10'>
-               <p className='div_child'>Oila azolari bilan suhbat davomida aniqlangan muhim malumotlar:</p>
+               <p className='div_child'>Oila a'zolari bilan suhbat davomida aniqlangan muhim malumotlar:</p>
                <p className='div_child'>{mainInfo?.conversation_result}</p>
             </div>
             <p className='black_text text_center margin_top_15'>Buyurtmachining boshqa mulklari</p>
@@ -385,7 +385,7 @@ function KLPDF() {
                <p className='div_child'>Yashash sharoiti:</p>
                <p className='div_child'>{mainInfo?.living_condition}</p>
             </div>
-            <p className='text_black_18 margin_top_20 text_center'>Buyurtmachining faoliyati va daromad  manbalarini organish natijalari</p>
+            <p className='text_black_18 margin_top_20 text_center'>Buyurtmachining faoliyati va daromad  manbalarini o'rganish natijalari</p>
             <div className='row_div between under_line margin_top_10'>
                <p className='div_child'>Buyurtmachining faoliyat turi:</p>
                <p className='div_child'>{mainInfo?.activity?.type}</p>
@@ -399,7 +399,7 @@ function KLPDF() {
                <p className='div_child'>{mainInfo?.activity?.owner}</p>
             </div>
             <div className='row_div between under_line margin_top_10'>
-               <p className='div_child'>Ushbu sohada foliyat yuritish davomiyligi:</p>
+               <p className='div_child'>Ushbu sohada faoliyat yuritish davomiyligi:</p>
                <p className='div_child'>{mainInfo?.activity?.duration}</p>
             </div>
 
@@ -621,7 +621,7 @@ function KLPDF() {
             <div>
                {
                   mainInfo?.family_incomes?.length != 0 ? <>
-                     <p className='black_text text_center'>Oila azolarining daromadlar , shuningdek uy xojaligining boshqa daromadlari</p>
+                     <p className='black_text text_center'>Oila a'zolarining daromadlar , shuningdek uy xojaligining boshqa daromadlari</p>
                      <div className='margin_top_20'>
                         <table className='single_table_pdf'>
                            <tbody>
@@ -689,7 +689,7 @@ function KLPDF() {
                }
                {
                   mainInfo?.family_loans?.length != 0 ? <>
-                     <p className='black_text text_center'>Uy xojaligi azolarining mavjud kredit va qarzdorliklari togrisidagi malumotlar</p>
+                     <p className='black_text text_center'>Uy xojaligi a'zolarining mavjud kredit va qarzdorliklari togrisidagi malumotlar</p>
                      <div className='margin_top_20'>
                         <table className='single_table_pdf'>
                            <tbody>
@@ -697,7 +697,7 @@ function KLPDF() {
                                  <td>№</td>
                                  <td>Malumot nomi:</td>
                                  <td>Asosiy qarz qoldigi:</td>
-                                 <td>Oylik tolov miqdori:</td>
+                                 <td>Oylik to'lov miqdori:</td>
                                  <td>Izoh:</td>
                               </tr>
                               {
@@ -718,7 +718,7 @@ function KLPDF() {
                      </div>
                      <div className='flex_column margin_top_10'>
                         <p className='black_text margin_bottom'>Jami asosiy qarz qoldigi: {familyLoansMain()} so`m</p>
-                        <p className='black_text margin_bottom'>Jami oylik tolov miqdori: {familyLoansMonth()?.toLocaleString(undefined, { minimumFractionDigits: 2 })} so`m</p>
+                        <p className='black_text margin_bottom'>Jami oylik to'lov miqdori: {familyLoansMonth()?.toLocaleString(undefined, { minimumFractionDigits: 2 })} so`m</p>
                      </div>
                   </> : <></>
                }
@@ -741,7 +741,7 @@ function KLPDF() {
                                  <td>№</td>
                                  <td>Mavjud kredit va qarzlar:</td>
                                  <td>Asosiy qarz qoldigi:</td>
-                                 <td>Oylik tolov miqdori:</td>
+                                 <td>Oylik to'lov miqdori:</td>
                                  <td>Izoh:</td>
                               </tr>
                               {
@@ -762,12 +762,12 @@ function KLPDF() {
                      </div>
                      <div className='flex_column margin_top_15'>
                         <p className='black_text margin_bottom'>Jami asosiy qarz qoldigi: {clientLoansMain()} so`m</p>
-                        <p className='black_text margin_bottom'>Jami oylik tolov miqdori: {clientLoansMonth()} so`m</p>
-                        <p className='black_text '>Joiriy kreditlar boyicha qarz yuki korsatkichi: {((clientLoansMonthNumber() / sofFun()) * 100)?.toFixed(2)}%</p>
+                        <p className='black_text margin_bottom'>Jami oylik to'lov miqdori: {clientLoansMonth()} so`m</p>
+                        <p className='black_text '>Joiriy kreditlar boyicha qarz yuki ko'rsatkichi: {((clientLoansMonthNumber() / sofFun()) * 100)?.toFixed(2)}%</p>
                      </div>
                   </> : <></>
                }
-               <p className='text_black_18 text_center margin_top_30'>Oylik kredit tolovi ( eng katta tolov miqdori )</p>
+               <p className='text_black_18 text_center margin_top_30'>Oylik kredit to'lovi ( eng katta to'lov miqdori )</p>
                <div className='row_div between under_line margin_top_10'>
                   <p className='div_child'>Asosiy qarz:</p>
                   <p className='div_child'>{(kreditData?.principal_debt)?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
@@ -777,11 +777,11 @@ function KLPDF() {
                   <p className='div_child'>{(kreditData?.interest)?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
                </div>
                <div className='row_div between under_line margin_top_10'>
-                  <p className='div_child'>Jami oylik tolov:</p>
+                  <p className='div_child'>Jami oylik to'lov:</p>
                   <p className='div_child'>{(kreditData?.interest + kreditData?.principal_debt)?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
                </div>
                <div className='row_div between under_line margin_top_10'>
-                  <p className='div_child'>Soralayotgan kredit hisobi qarzi yoki korsatkichi (${'< 50%'})</p>
+                  <p className='div_child'>So'ralayotgan kredit hisobi qarzi yoki ko'rsatkichi (${'< 50%'})</p>
                   <p className='div_child'>{(((kreditData?.interest + kreditData?.principal_debt + clientLoansMonthNumber()) / sofFun()) * 100).toFixed(2)}%</p>
                </div>
                <div className='row_div between under_line margin_top_10'>
@@ -793,9 +793,9 @@ function KLPDF() {
             {/******___Table___******/}
             <div>
                <div className='kl1_table'>
-                  <div className='kl1_table_dark-bg'>Hulq atvori</div>
+                  <div className='kl1_table_dark-bg'>Xulq atvori</div>
                   <div className='kl1_table_dark-bg'>Shaxsiy sifatida baholanishi</div>
-                  <div className='kl1_table_dark-bg'>Moliaviy malumotlar va savodxonlik</div>
+                  <div className='kl1_table_dark-bg'>Moliyaviy ma'lumotlar va savodxonlik</div>
                   <div className='kl1_table_double kl1_table_noPadding'>
                      <p>Suhbat</p>
                      <p>{mainInfo?.table_conversation_result}</p>
@@ -806,7 +806,7 @@ function KLPDF() {
                   </div>
                   <div>{mainInfo?.table_financial_literacy}</div>
                   <div className='kl1_table_double kl1_table_noPadding'>
-                     <p>Oylik tolov</p>
+                     <p>Oylik to'lov</p>
                      <p>OT/OD</p>
                   </div>
                   <div className='kl1_table_double kl1_table_dark-bg kl1_table_noPadding'>
@@ -835,8 +835,8 @@ function KLPDF() {
                   <div>{mainInfo?.table_income_source}</div>
                   <div>{mainInfo?.table_work_stability}</div>
                   <div>{mainInfo?.table_expected_growth}</div>
-                  <div className='kl1_table_dark-bg'>Taminot turi</div>
-                  <div className='kl1_table_dark-bg'>Taminot qiymati</div>
+                  <div className='kl1_table_dark-bg'>Ta'minot turi</div>
+                  <div className='kl1_table_dark-bg'>Ta'minot qiymati</div>
                   <div className='kl1_table_dark-bg'>Kreditni qoplash koeffitsenti</div>
                   <div>{supplySum() ? supplyTypes() : 'kafillik'}</div>
                   <div>{supplySum() ? supplySum()?.toLocaleString(undefined, { minimumFractionDigits: 2 }) : orderInfo?.sum?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</div>
@@ -860,7 +860,7 @@ function KLPDF() {
                   <p className='div_child'>{mainInfo?.geolocation?.longitude}</p>
                </div>
                <div className='kl1_pdf_status_part margin_top_20'>
-                  <p>Taqdim etilgan va toplangan malumotlar hamda kredit byurosidan olingan kredit tarixiga asoslanib men tomonimdan otkazilgan organish va tahlillar asosida ushbu buyurtma boyicha quiydagi yakuniy xulosamni kredit komissiyasida korib chiqish uchun taqdim etaman</p>
+                  <p>Taqdim etilgan va to'plangan ma'lumotlar hamda kredit byurosidan olingan kredit tarixiga asoslanib men tomonimdan o'tkazilgan o'rganish va tahlillar asosida ushbu buyurtma bo'yicha quyidagi yakuniy xulosamni kredit komissiyasida ko'rib chiqish uchun taqdim etaman</p>
                   {
                      mainInfo?.status ?
                         <p className='text_black_18 text_center'>Kredit ajratish</p>

@@ -56,23 +56,21 @@
   padding-left: 0;
 }
 
-.sidebar_header a img {
+.sidebar_header a img.logo {
   width: 100%;
 }
 
-.sidebar_header a img.hide {
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.7s;
+.sidebar_header a img.mini_logo {
+  animation: logo_anime 2.5s;
 }
 
-.sidebar_header a svg {
-  position: relative;
-  display: inline-block;
-  color: rgb(239, 127, 26);
-  font-size: 25px;
-  transform: translate(8px, 10px);
-  animation: sidebarResizeAnimation 1s;
+@keyframes logo_anime {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .sidebar_close {
@@ -133,7 +131,7 @@
 }
 
 .nav-list {
-  margin-top: 25px;
+  margin-top: 15px;
   width: 100%;
   overflow-y: auto;
   overflow-x: hidden;
