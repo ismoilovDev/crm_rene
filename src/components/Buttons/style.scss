@@ -16,11 +16,23 @@
     border-radius: 5px;
     box-sizing: border-box;
     transition-duration: 0.2s;
+
+    @media (max-width: 992px) {
+        padding: 5px;
+        font-size: 12px;
+        width: auto;
+    }
+    @media (max-width: 400px) {
+        margin-top: 10px;
+    }
 }
 .excel_btn .icon_down{
     margin-left: 5px;
     font-size: 17px;
     vertical-align: middle;
+    @media (max-width: 992px) {
+        font-size: 12px;
+    }
 }
 .excel_btn:hover{
     transform: scale(1.1);

@@ -100,13 +100,15 @@
       flex-direction: row;
       align-items: center;
       font-weight: 600;
-      padding: 0 2px;
+      padding: 5px;
       border: 1px solid orange;
       border-radius: 7px;
       color: orange;
 
       .main_text_indi {
-         display: none;
+         display: block;
+         font-size: 10px;
+         margin: 0;
       }
 
       @media (min-width: 380px) {
