@@ -33,13 +33,35 @@ function GoldSupply({ clientId }) {
    const [bahoType, setBahoType] = useState(1)
    const [disable, setDisable] = useState(false)
    const [addStatus, setAddStatus] = useState(false)
-   const [bahoItems, setBahoItems] = useState(JSON.parse(JSON.stringify(defaultItems)))
+   const [bahoItems, setBahoItems] = useState([{
+      id: 1,
+      name: '',
+      gold_num: 0,
+      measure: '',
+      quantity: 0,
+      weight: 0,
+      stone_weight: 0,
+      clean_weight: 0,
+      gold_num_sum: 0,
+      sum: 0
+   }])
    const [date, setDate] = useState('')
    const navigate = useNavigate()
    const { register, handleSubmit } = useForm();
 
    function addNewPoint() {
-      setBahoItems([...bahoItems, JSON.parse(JSON.stringify(defaultItems))]);
+      setBahoItems([...bahoItems, {
+         id: uuidv4(),
+         name: '',
+         gold_num: 0,
+         measure: '',
+         quantity: 0,
+         weight: 0,
+         stone_weight: 0,
+         clean_weight: 0,
+         gold_num_sum: 0,
+         sum: 0
+      }]);
    }
 
    function deletePoint(id) {
