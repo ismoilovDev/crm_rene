@@ -22,7 +22,7 @@ function Clients({ filters }) {
 
    const getUrl = useCallback(async () => {
       setLoading(true)
-      const url = `/clients?page=${currentPage}&branch_id=&region_id=${filters?.region_id}&district_id=${filters?.district_id}&gende=${filters?.gender}&from_created_at=${filters?.from}&to_created_at=${filters?.to}&search=${filters?.query}`;
+      const url = `/clients?page=${currentPage}&branch_id=&region_id=${filters?.region_id}&district_id=${filters?.district_id}&gender=${filters?.gender}&from_created_at=${filters?.from}&to_created_at=${filters?.to}&search=${filters?.query}`;
 
       try {
          const { data } = await https.get(url)

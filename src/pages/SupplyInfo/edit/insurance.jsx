@@ -42,7 +42,7 @@ function EditInsurance() {
          const info = {
             client_id: clientId,
             type: 'insurance',
-            insurance: {...insuranceData}
+            insurance: { ...insuranceData }
          }
          const response = await https.patch(`/supply-info/${id}`, info);
          alert("Ta'minot o'zgartirildi", 'success');

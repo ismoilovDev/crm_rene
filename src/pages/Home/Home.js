@@ -16,7 +16,6 @@ function Home() {
       try {
          const { data } = await https.get('/statistics')
          setStatisticInfo(data)
-         console.log(data, 'data');
       }
       catch (err) {
          console.log(err)

@@ -8,3 +8,13 @@ export function alert(message, type, timer) {
       timer: timer ? timer : false
    })
 }
+
+export const warning = (title) => {
+   return Swal.fire({
+      title: title,
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: "Ha",
+      denyButtonText: `Yo'q`
+   })
+}

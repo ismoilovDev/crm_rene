@@ -5,7 +5,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { AiOutlineDoubleRight, AiOutlineDoubleLeft } from 'react-icons/ai'
 import { NumericFormat } from 'react-number-format';
 import { Context } from '../../../context/context';
-import { incomeList } from '../../../components/KL1/incomeList';
 import IncomeInput from '../../../components/KL1/IncomeInput';
 
 
@@ -14,15 +13,13 @@ const months_uzb = ["Yanvar", "Fevral", "Mart", "Aprel", "May", "Iyun", "Iyul", 
 function Mavsumiy() {
 
     // Tab active
-    const { activeTab, setActiveTab } = useContext(Context)
-    const { biznesWindow, setBiznesWindow } = useContext(Context)
+    const { setActiveTab } = useContext(Context)
+    const { biznesWindow } = useContext(Context)
         const { mavsumiyDaromads, setMavsumiyDaromads } = useContext(Context)
         const { monthDaromad, setMonthDaromad } = useContext(Context)
         const { mavsumiyXarajats, setMavsumiyXarajats } = useContext(Context)
         const { monthXarajat,setMonthXarajat } = useContext(Context)
         const months = Object.keys(monthDaromad);
-        const [ incomes, setIncomes] = useState(incomeList)
-        const [ focusedInd, setFocusedInd ] = useState(null)
 
     useEffect(() => {
         setActiveTab(4)
@@ -33,19 +30,6 @@ function Mavsumiy() {
     function backStep(){
         navigate("/client-marks/add/boshqa", { replace: true });
     }
-
-    const myDarkTheme = createTheme({
-        type: 'dark',
-        theme: {
-          colors: {
-            background: '#1d1d1d',
-            text: '#fff',
-            myDarkColor: 'black'
-          },
-          space: {},
-          fonts: {}
-        }
-    })
       
 
     // Mavsumiy Daromads adding and deleting funtions
@@ -127,13 +111,6 @@ function Mavsumiy() {
         setTimeout(()=>{
             nextStep()
         },500)
-    }
-
-    const handleSearch = (searchText) => {
-        const filteredOptions = incomeList?.filter(option =>
-            option?.toLowerCase()?.includes(searchText?.toLowerCase())
-        )
-        setIncomes(filteredOptions);
     }
 
     return (

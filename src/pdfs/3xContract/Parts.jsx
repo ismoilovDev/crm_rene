@@ -88,7 +88,7 @@ export function Part2({documentInfo}) {
                      Uchinchi shaxslarga qarzlarni taqdim etish;
                   </li>
                   <li>
-                     Amaldagi qonun xujjatlari va kredit siyosatiga asosan taqiqlangan boshqa barcha maqsadlarga.
+                     Amaldagi qonun xujjatlari va kredit siyosatiga asosan taqiqlangan boshqa barcha maqsadlarg.
                   </li>
                   <li>
                      Shartnoma bo’yicha majburiyatlarni bajarishni ta’minlash uchun qarz oluvchi va/yoki uchinchi shaxslar quyidagi ta’minotlarni taqdim etadi:
@@ -416,6 +416,7 @@ export function Part11() {
       </>
    )
 }
+
 
 export function Part12() {
    return (

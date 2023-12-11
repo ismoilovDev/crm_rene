@@ -9,6 +9,7 @@ import https from './../../../../services/https';
 import { Context } from '../../../../context/context';
 import { alert } from '../../../../components/Alert/alert';
 import { nextMonth } from '../../../../utils/functions/nextMonth';
+import { typesSupply } from '../../../../utils/functions/supplyTypes';
 import LoaderBackdrop from '../../../../components/Loader/LoaderBackdrop';
 
 
@@ -147,24 +148,6 @@ function EditTable() {
       return (totalSumPay ? totalSumPay : 0)
    }
 
-   function SupplyTypes(supply) {
-      let types = []
-      supply?.map(item => {
-         if (item?.type == 'gold') {
-            types.push('Tilla Buyumlar Kafilligi')
-         } else if (item?.type == 'auto') {
-            types.push('Transport Vositasi Garovi')
-         } else if (item?.type == 'guarrantor') {
-            types.push('3 shaxs kafilligi')
-         } else if (item?.type == 'insurance') {
-            types.push('Sugurta kompaniyasi sugurta polisi')
-         } else {
-            types.push('Ishonch asosida')
-         }
-      })
-      return types?.join(',')
-   }
-
    function SupplySum(supply) {
       let summ = []
       supply?.map(item => {
@@ -178,24 +161,24 @@ function EditTable() {
       return totalSum ? totalSum : 0
    }
 
-   const getPaymentClear = async(id) => {
-      try{
+   const getPaymentClear = async (id) => {
+      try {
          const res = await https.post(`/g1/${id}`, {})
          const { data } = res;
          setKreditData(data?.graph?.['0']);
       }
-      catch(error){
+      catch (error) {
          console.log(error)
       }
    }
 
-   const namunaRequest = async(info) =>{
-      try{
+   const namunaRequest = async (info) => {
+      try {
          const res = await https.post('/namuna', info)
          const { data } = res;
          setKreditData(data?.['0'])
       }
-      catch(err){
+      catch (err) {
          console.log(err);
       }
    }
@@ -212,10 +195,10 @@ function EditTable() {
          first_repayment_date: mainInfo?.contract ? mainInfo?.contract?.first_repayment_date : nextMonth(infoOrder?.order_date)
       }
 
-      if(mainInfo?.contract?.id){
+      if (mainInfo?.contract?.id) {
          getPaymentClear(infoOrder?.id)
-      }else{
-         namunaRequest(data) 
+      } else {
+         namunaRequest(data)
       }
    }, [])
 
@@ -382,9 +365,11 @@ function EditTable() {
    }
 
    const onSubmit = (data) => {
-      if(ProcentNumber() > 50){
-         setDisable(false)
-         return alert('KL foiz 50% oshib ketdi')
+      if (dataTable?.status === 1 || dataTable?.status) {
+         if (ProcentNumber() > 50) {
+            setDisable(false)
+            return alert('KL foiz 50% oshib ketdi')
+         }
       }
 
       setDisable(true)
@@ -469,7 +454,7 @@ function EditTable() {
             if (checkBiznes) {
                biznesDaromads?.map((item, index) => {
                   delete item?.id
-                  biznesDaromads[index] = {...item, type:1}
+                  biznesDaromads[index] = { ...item, type: 1 }
                })
                let newObject = {
                   client_mark_id: mainInfo?.id,
@@ -477,9 +462,9 @@ function EditTable() {
                }
                PostBiznes(newObject)
 
-               biznesXarajats?.map((item,index) => {
+               biznesXarajats?.map((item, index) => {
                   delete item?.id
-                  biznesXarajats[index] = {...item, type:1}
+                  biznesXarajats[index] = { ...item, type: 1 }
                })
                let newObject2 = {
                   client_mark_id: mainInfo?.id,
@@ -533,7 +518,7 @@ function EditTable() {
                PostClientKredit(newObject)
             }
 
-            alert("KL1 shakl qo'shildi", 'success')
+            alert("KL1 shakl o'zgartirildi", 'success')
             setDisable(false)
          }
          )
@@ -659,7 +644,7 @@ function EditTable() {
                <div className='kl1_table_dark-bg'>Taminot turi</div>
                <div className='kl1_table_dark-bg'>Taminot qiymati</div>
                <div className='kl1_table_dark-bg'>Kreditni qoplash koeffitsenti</div>
-               <div>{SupplySum(infoOrder?.supply_info) ? SupplyTypes(infoOrder?.supply_info) : 'kafillik'}</div>
+               <div>{SupplySum(infoOrder?.supply_info) ? typesSupply(infoOrder?.supply_info, infoOrder?.group?.id) : 'kafillik'}</div>
                <div>{SupplySum(infoOrder?.supply_info) ? SupplySum(infoOrder?.supply_info)?.toLocaleString(undefined, { minimumFractionDigits: 2 }) : infoOrder?.sum?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</div>
                <div className='kl1_table_yellow-bg'>{infoOrder?.supply_info?.length !== 0 ? (SupplySum(infoOrder?.supply_info) * 100 / infoOrder?.sum)?.toFixed(0)?.toLocaleString(undefined, { minimumFractionDigits: 2 }) : 100}%</div>
             </div>
@@ -732,15 +717,24 @@ function EditTable() {
             }
             <div className='kl1_accepting'>
                <p>Taqdim etilgan va toplangan malumotlar hamda kredit byurosidan olingan kredit tarixiga asoslanib men tomonimdan otkazilgan organish va tahlillar asosida ushbu buyurtma boyicha quiydagi yakuniy xulosamni kredit komissiyasida korib chiqish uchun taqdim etaman</p>
-               <Radio.Group label=' ' defaultValue={dataTable?.status === 1 ? true : false} value={dataTable?.status === 1 ? true : false} size='sm' className='kl1_accepting_radio'
+               <Radio.Group
+                  size='sm'
+                  label=' '
+                  className='kl1_accepting_radio'
+                  defaultValue={dataTable?.status === 1 ? true : false}
+                  value={dataTable?.status || dataTable?.status === 1 ? true : false}
                   onChange={(e) => {
                      let array = { ...dataTable }
                      array.status = e
                      setDataTable(array)
                   }}
                >
-                  <div className='kl1_accept margin_bottom'><Radio color='success' className='radio_end' value={true}>Kredit ajratish</Radio></div>
-                  <div className='kl1_accept'><Radio color='error' className='radio_end' value={false}>Rad etish</Radio></div>
+                  <div className='kl1_accept margin_bottom'>
+                     <Radio color='success' className='radio_end' value={true}>Kredit ajratish</Radio>
+                  </div>
+                  <div className='kl1_accept'>
+                     <Radio color='error' className='radio_end' value={false}>Rad etish</Radio>
+                  </div>
                </Radio.Group>
             </div>
 

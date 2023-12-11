@@ -24,7 +24,7 @@ function P1Form() {
             ageText(res?.data)
          })
          .catch(err => {
-            console.log(err)
+            console.error(err)
          })
    }, [])
 

@@ -5,7 +5,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { AiOutlineDoubleRight, AiOutlineDoubleLeft } from 'react-icons/ai'
 import { NumericFormat } from 'react-number-format';
 import { Context } from '../../../context/context';
-import { incomeList } from '../../../components/KL1/incomeList';
 import IncomeInput from '../../../components/KL1/IncomeInput';
 
 
@@ -17,8 +16,6 @@ function Biznes() {
    const { mavsumiyWindow } = useContext(Context)
    const { biznesDaromads, setBiznesDaromads } = useContext(Context)
    const { biznesXarajats, setBiznesXarajats } = useContext(Context)
-   const [ incomes, setIncomes] = useState(incomeList)
-   const [ focusedInd, setFocusedInd ] = useState(null)
 
    useEffect(() => {
       setActiveTab(5)
@@ -102,13 +99,6 @@ function Biznes() {
          nextStep()
       }, 500)
    }
-
-   const handleSearch = (searchText) => {
-      const filteredOptions = incomeList?.filter(option =>
-         option?.toLowerCase()?.includes(searchText?.toLowerCase())
-      )
-      setIncomes(filteredOptions);
-  }
 
    return (
       <section>

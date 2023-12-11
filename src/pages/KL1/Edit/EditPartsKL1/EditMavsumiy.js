@@ -30,19 +30,6 @@ function EditMavsumiy() {
       navigate("/client-marks/edit/boshqa", { replace: true });
    }
 
-   const myDarkTheme = createTheme({
-      type: 'dark',
-      theme: {
-         colors: {
-            background: '#1d1d1d',
-            text: '#fff',
-            myDarkColor: 'black'
-         },
-         space: {},
-         fonts: {}
-      }
-   })
-
 
    // Mavsumiy Daromads adding and deleting funtions
    function addMavsumiyDaromad() {
