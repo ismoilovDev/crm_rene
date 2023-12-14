@@ -34,7 +34,7 @@ function ContractPDF() {
    return (
       <>
          <PdfControls />
-         <PdfWrapper indicator={documentInfo}>
+         <PdfWrapper indicator={true}>
             <MainPart documentInfo={documentInfo} orderInfo={orderInfo} />
             <Part1 orderInfo={orderInfo} />
             <Part2 documentInfo={documentInfo} />
@@ -48,10 +48,9 @@ function ContractPDF() {
             <Part10 />
             <Part11 />
             <Part12 />
-            <Part13 />
-            <Part14 >
+            <Part13 >
                <ContractForm documentInfo={documentInfo} orderInfo={orderInfo}/>
-            </Part14>
+            </Part13>
          </PdfWrapper>
       </>
    )
