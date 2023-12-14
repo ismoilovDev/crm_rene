@@ -46,7 +46,7 @@ function KLPDF() {
          orderGetData(res?.data?.order?.id)
 
          const info = {
-            type: data?.order?.type_repayment === 1 ? 'annuitet' : 'differential',
+            type: Number(data?.order?.type_repayment) === 1 ? 'annuitet' : 'differential',
             sum: data?.order?.sum,
             time: data?.order?.time,
             percent: data?.order?.percent_year,
