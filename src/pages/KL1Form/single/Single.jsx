@@ -62,7 +62,7 @@ function SingleKL1() {
          orderGetData(res?.data?.order?.id)
 
          const info = {
-            type: data?.order?.type_repayment === 1 ? 'annuitet' : 'differential',
+            type: Number(data?.order?.type_repayment) === 1 ? 'annuitet' : 'differential',
             sum: data?.order?.sum,
             time: data?.order?.time,
             percent: data?.order?.percent_year,
@@ -364,7 +364,7 @@ function SingleKL1() {
                   </div> : <></>
             }
             <div className='single_buyurtma_inputs pdf_margin_top_15'>
-               <p>JSh ShIR:</p>
+               <p>JShShIR:</p>
                <p>{mainInfo?.client?.pinfl}</p>
             </div>
             <div className='single_buyurtma_inputs pdf_margin_top_15'>
@@ -376,12 +376,12 @@ function SingleKL1() {
                <p>{mainInfo?.order?.aim}</p>
             </div>
             <div className='single_buyurtma_inputs pdf_margin_top_15'>
-               <p>Soralayotgan kredit miqdori:</p>
+               <p>So'ralayotgan kredit miqdori:</p>
                <p>{mainInfo?.order?.sum?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
             </div>
 
             {/* ********Part 1********* */}
-            <h2 className='kl1_subtitle margin_top_30'>Buyurtmachining oilaviy sharoitini organish natijalari</h2>
+            <h2 className='kl1_subtitle margin_top_30'>Buyurtmachining oilaviy sharoitini o'rganish natijalari</h2>
             <p className='kl1_formtitle text_center'>Birgalikda istiqomat qiluvchilar</p>
             <div className='list_sinlge_form'>
                <p>Istiqomat qiluvchi:</p>
@@ -394,7 +394,7 @@ function SingleKL1() {
                }
             </div>
             <div className='single_buyurtma_inputs pdf_margin_top_15'>
-               <p>Oila azolari bilan suhbat davomida aniqlangan muhim malumotlar:</p>
+               <p>Oila azolari bilan suhbat davomida aniqlangan muhim ma'lumotlar:</p>
                <p>{mainInfo?.conversation_result}</p>
             </div>
             <p className='kl1_formtitle text_center'>Buyurtmachining boshqa mulklari</p>
@@ -412,7 +412,7 @@ function SingleKL1() {
                <p>Yashash sharoiti:</p>
                <p>{mainInfo?.living_condition}</p>
             </div>
-            <h2 className='kl1_subtitle margin_top_30'>Buyurtmachining faoliyati va daromad  manbalarini organish natijalari</h2>
+            <h2 className='kl1_subtitle margin_top_30'>Buyurtmachining faoliyati va daromad  manbalarini o'rganish natijalari</h2>
             <div className='single_buyurtma_inputs pdf_margin_top_15'>
                <p>Buyurtmachining faoliyat turi:</p>
                <p>{mainInfo?.activity?.type}</p>
@@ -741,7 +741,7 @@ function SingleKL1() {
                }
                {
                   mainInfo?.family_loans?.[0] ? <>
-                     <p className='kl1_formtitle text_center'>Uy xojaligi azolarining mavjud kredit va qarzdorliklari togrisidagi malumotlar</p>
+                     <p className='kl1_formtitle text_center'>Uy xojaligi azolarining mavjud kredit va qarzdorliklari togrisidagi ma'lumotlar</p>
                      {
                         mainInfo?.family_loans?.map((item, index) => {
                            return (
@@ -836,7 +836,7 @@ function SingleKL1() {
                      <p>{(kreditData?.interest + kreditData?.principal_debt)?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
                   </div>
                   <div className='single_buyurtma_inputs'>
-                     <p>Soralayotgan kredit hisobi qarzi yuki korsatkichi (${'< 50%'})</p>
+                     <p>So'ralayotgan kredit hisobi qarzi yuki korsatkichi (${'< 50%'})</p>
                      <p>{(((kreditData?.interest + kreditData?.principal_debt + ClientLoansMonthNumber()) / SofFun()) * 100).toFixed(2)}</p>
                   </div>
                </div>
@@ -852,7 +852,7 @@ function SingleKL1() {
                   <div className='kl1_table'>
                      <div className='kl1_table_dark-bg'>Hulq atvori</div>
                      <div className='kl1_table_dark-bg'>Shaxsiy sifatida baholanishi</div>
-                     <div className='kl1_table_dark-bg'>Moliaviy malumotlar va savodxonlik</div>
+                     <div className='kl1_table_dark-bg'>Moliaviy ma'lumotlar va savodxonlik</div>
                      <div className='kl1_table_double kl1_table_noPadding'>
                         <p>сухбат</p>
                         <p>{mainInfo?.table_conversation_result}</p>
@@ -892,8 +892,8 @@ function SingleKL1() {
                      <div>{mainInfo?.table_income_source}</div>
                      <div>{mainInfo?.table_work_stability}</div>
                      <div>{mainInfo?.table_expected_growth}</div>
-                     <div className='kl1_table_dark-bg'>Taminot turi</div>
-                     <div className='kl1_table_dark-bg'>Taminot qiymati</div>
+                     <div className='kl1_table_dark-bg'>Ta'minot turi</div>
+                     <div className='kl1_table_dark-bg'>Ta'minot qiymati</div>
                      <div className='kl1_table_dark-bg'>Kreditni qoplash koeffitsenti</div>
                      <div>{supplySum() ? typesSupply(orderInfo?.supply_info, orderInfo?.group?.id) : 'kafillik'}</div>
                      <div>{supplySum() ? supplySum()?.toLocaleString(undefined, { minimumFractionDigits: 2 }) : orderInfo?.sum?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</div>
@@ -922,7 +922,7 @@ function SingleKL1() {
                   Location()
                }
                <div className='kl1_accepting'>
-                  <p>Taqdim etilgan va toplangan malumotlar hamda kredit byurosidan olingan kredit tarixiga asoslanib men tomonimdan otkazilgan organish va tahlillar asosida ushbu buyurtma boyicha quiydagi yakuniy xulosamni kredit komissiyasida korib chiqish uchun taqdim etaman</p>
+                  <p>Taqdim etilgan va to'plangan ma'lumotlar hamda kredit byurosidan olingan kredit tarixiga asoslanib men tomonimdan o'tkazilgan o'rganish va tahlillar asosida ushbu buyurtma bo'yicha quyidagi yakuniy xulosamni kredit komissiyasida ko'rib chiqish uchun taqdim etaman</p>
                   <Radio.Group label=' ' value={mainInfo?.status == 1 ? true : false} size='sm' className='kl1_accepting_radio'>
                      <div className='kl1_accept margin_bottom'><Radio color='success' className='radio_end' value={true}>Kredit ajratish</Radio></div>
                      <div className='kl1_accept'><Radio color='error' className='radio_end' value={false}>Rad etish</Radio></div>

@@ -16,40 +16,29 @@ function KLPDF() {
    const [kreditData, setKreditData] = useState({})
    const [orderInfo, setOrderInfo] = useState({})
 
-   const getPaymentClear = async(id) => {
-      try{
-         const res = await https.post(`/g1/${id}`, {})
-         const { data } = res;
-         setKreditData(data?.graph?.['0']);
-      }
-      catch(error){
-         console.log(error)
-      }
-   }
-
-   const namunaRequest = async(info) =>{
-      try{
+   const namunaRequest = async (info) => {
+      try {
          const res = await https.post('/namuna', info)
          const { data } = res;
          setKreditData(data?.['0'])
       }
-      catch(err){
+      catch (err) {
          console.log(err);
       }
    }
 
-   const orderGetData = async(id) =>{
-      try{
+   const orderGetData = async (id) => {
+      try {
          const res = await https.get(`/orders/${id}`)
          setOrderInfo(res?.data)
       }
-      catch(err){
+      catch (err) {
          console.log(err);
       }
    }
 
    async function getMainInfo() {
-      try{
+      try {
          const res = await https.get(`/client-marks/${id}`)
          const { data } = res;
 
@@ -57,7 +46,7 @@ function KLPDF() {
          orderGetData(res?.data?.order?.id)
 
          const info = {
-            type: data?.order?.type_repayment === 1 ? 'annuitet' : 'differential',
+            type: Number(data?.order?.type_repayment) === 1 ? 'annuitet' : 'differential',
             sum: data?.order?.sum,
             time: data?.order?.time,
             percent: data?.order?.percent_year,
@@ -65,13 +54,10 @@ function KLPDF() {
             first_repayment_date: data?.contract?.id ? data?.contract?.first_repayment_date : nextMonth(data?.order?.order_date)
          }
 
-         if(res?.data?.contract?.id){
-            getPaymentClear(data?.order?.id)
-         }else{
-            namunaRequest(info)   
-         }
+         namunaRequest(info)
+
       }
-      catch(err){
+      catch (err) {
          console.log(err)
       }
    }
@@ -312,11 +298,11 @@ function KLPDF() {
                <p className='div_child'>{mainInfo?.client?.region?.name_uz} {mainInfo?.client?.district?.name_uz}, {mainInfo?.client?.address}</p>
             </div>
             {
-               mainInfo?.client?.temp_address ? 
-               <div className='row_div between under_line margin_top_10'>
-                  <p className='div_child'>Vaqtinchalik yashash manzili:</p>
-                  <p className='div_child'>{mainInfo?.client?.temp_address}</p>
-               </div> : <></>
+               mainInfo?.client?.temp_address ?
+                  <div className='row_div between under_line margin_top_10'>
+                     <p className='div_child'>Vaqtinchalik yashash manzili:</p>
+                     <p className='div_child'>{mainInfo?.client?.temp_address}</p>
+                  </div> : <></>
             }
             <div className='row_div between under_line margin_top_10'>
                <p className='div_child'>JSh ShIR:</p>
@@ -466,9 +452,9 @@ function KLPDF() {
                      </div>
                      <div className='kl1_calendar_single'>
                         {
-                           months?.map((item, index)=>{
-                              return(
-                                 <div className='row_div between under_line margin_top_10' key={index+5}>
+                           months?.map((item, index) => {
+                              return (
+                                 <div className='row_div between under_line margin_top_10' key={index + 5}>
                                     <p className='div_child'>{item?.name}:</p>
                                     <p className='div_child'>{(mainInfo?.monthly_income?.[item?.value])?.toLocaleString()}</p>
                                  </div>
@@ -507,9 +493,9 @@ function KLPDF() {
                      </div>
                      <div className='kl1_calendar_single'>
                         {
-                           months?.map((item, index)=>{
-                              return(
-                                 <div className='row_div between under_line margin_top_10' key={index+5}>
+                           months?.map((item, index) => {
+                              return (
+                                 <div className='row_div between under_line margin_top_10' key={index + 5}>
                                     <p className='div_child'>{item?.name}:</p>
                                     <p className='div_child'>{(mainInfo?.monthly_expense?.[item?.value])?.toLocaleString()}</p>
                                  </div>
@@ -768,6 +754,7 @@ function KLPDF() {
                </div>
                <div className='row_div between under_line margin_top_10'>
                   <p className='div_child'>So'ralayotgan kredit hisobi qarzi yoki ko'rsatkichi (${'< 50%'})</p>
+
                   <p className='div_child'>{(((kreditData?.interest + kreditData?.principal_debt + clientLoansMonthNumber()) / sofFun()) * 100).toFixed(2)}%</p>
                </div>
                <div className='row_div between under_line margin_top_10'>

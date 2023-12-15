@@ -76,17 +76,6 @@ function EditPart7() {
         return(totalSum2 ? totalSum2 : 0)
     }
 
-    const getPaymentClear = async(id) => {
-        try{
-            const res = await https.post(`/g1/${id}`, {})
-            const { data } = res;
-            setKreditData(data?.graph?.['0']);
-        }
-        catch(error){
-           console.log(error)
-        }
-    }
-
     const namunaRequest = async(info) =>{
         try{
            const res = await https.post('/namuna', info)
@@ -112,7 +101,7 @@ function EditPart7() {
         setActiveTab(7)
         
         const data = {
-            type: infoOrder?.type_repayment === 1 ? 'annuitet' : 'differential',
+            type: Number(infoOrder?.type_repayment) === 1 ? 'annuitet' : 'differential',
             sum: infoOrder?.sum,
             time: infoOrder?.time,
             percent: infoOrder?.percent_year,
@@ -120,11 +109,7 @@ function EditPart7() {
             first_repayment_date: mainInfo?.contract ? mainInfo?.contract?.first_repayment_date : nextMonth(infoOrder?.order_date)
         }
 
-        if(mainInfo?.contract?.id){
-            getPaymentClear(infoOrder?.id)
-        }else{
-            namunaRequest(data)   
-        }
+        namunaRequest(data)
 
     }, [])
 

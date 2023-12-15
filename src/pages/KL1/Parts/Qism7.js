@@ -101,7 +101,7 @@ function BuyurtmaOylik() {
       setActiveTab(7)
 
       const data = {
-         type: infoOrder?.type_repayment === 1 ? 'annuitet' : 'differential',
+         type: Number(infoOrder?.type_repayment) === 1 ? 'annuitet' : 'differential',
          sum: infoOrder?.sum,
          time: infoOrder?.time,
          percent: infoOrder?.percent_year,
