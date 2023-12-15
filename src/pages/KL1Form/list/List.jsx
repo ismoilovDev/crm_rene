@@ -145,7 +145,7 @@ function ClientMarks({ filters }) {
 															<button><Link to={`/client-marks/single/${item?.id}`}><i className='bx bx-user white'></i></Link></button>
 															{role.includes('admin') || role.includes('monitoring')  ? (
 																<>
-																	<button onClick={() => /*{item?.contract_id === null ?*/ navigateEditPage(item?.id) /*: alert("Shartnoma to'ldirilgan")}*/}>
+																	<button className={item?.contract?.id ? 'disable_edit' : ''} onClick={() => {item?.contract === null ? navigateEditPage(item?.id) : alert("Shartnoma to'ldirilgan")}} >
 																		<i className='bx bx-edit-alt white'></i>
 																	</button>
 																</>

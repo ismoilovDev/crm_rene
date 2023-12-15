@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import https from '../../../services/https';
 import { Context } from '../../../context/context';
-import { alert } from '../../../components/Alert/alert';
+import { alert, warning } from '../../../components/Alert/alert';
 import { nextMonth } from '../../../utils/functions/nextMonth';
 import LoaderBackdrop from '../../../components/Loader/LoaderBackdrop';
 import { typesSupply } from '../../../utils/functions/supplyTypes';
@@ -158,7 +158,7 @@ function Table() {
       setSof(GetSumDaromadBiznes() + getTotalSumBoshqa() + (GetDaromadSumMavsumiy()) / 12 - GetSumXarajatBiznes() - (GetXarajatSumMavsumiy()) / 12)
 
       const data = {
-         type: infoOrder?.type_repayment === 1 ? 'annuitet' : 'differential',
+         type: +infoOrder?.type_repayment === 1 ? 'annuitet' : 'differential',
          sum: infoOrder?.sum,
          time: infoOrder?.time,
          percent: infoOrder?.percent_year,
@@ -336,17 +336,19 @@ function Table() {
          })
    }
 
-   const onSubmit = (data) => {
-      console.log(dataTable?.status)
+   const onSubmit = async(data) => {
       if (dataTable?.status) {
-         if (ProcentNumber() > 50) {
-            setDisable(false)
-            return alert('KL foiz 50% oshib ketdi')
+         if (ProcentNumber() > 45) {
+            const result = await warning("Foiz 45%dan oshib ketdi. Bari bir KLni qo'shmoqchimisiz?")
+
+            if(result.isDenied){
+               console.log('stop');
+               return
+            }
          }
       }
 
       setDisable(true)
-
       let familyMembers = []
       familyMemCheck?.map(item => {
          if (item?.checked) {
@@ -618,6 +620,7 @@ function Table() {
             return (alert(err?.response?.data?.message, 'error'))
          })
 
+
    }
 
    return (
@@ -674,7 +677,7 @@ function Table() {
                <div className='kl1_table_dark-bg'>Natija</div>
                <div className='kl1_table_double kl1_table_dark-bg kl1_table_noPadding'>
                   <p className='kl1_table_yellow-bg'>{(kreditData?.interest + kreditData?.principal_debt)?.toLocaleString()}</p>
-                  <p className={ProcentNumber() > 50 || ProcentNumber() < 0 ? 'kl1_table_red-bg' : 'kl1_table_green-bg'}>{ProcentNumber() ? ProcentNumber() : "..."}</p>
+                  <p className={ProcentNumber() > 45 || ProcentNumber() < 0 ? 'kl1_table_red-bg' : 'kl1_table_green-bg'}>{ProcentNumber() ? ProcentNumber() : "..."}</p>
                </div>
                <div className='kl1_table_double kl1_table_noPadding'>
                   <p className={((sof / (kreditData?.interest + kreditData?.principal_debt)) * 100).toFixed(2) > 120 ? 'kl1_table_green-bg' : 'kl1_table_red-bg'}>{(((sof / (kreditData?.interest + kreditData?.principal_debt)) * 100).toFixed(2)) ? (((sof / (kreditData?.interest + kreditData?.principal_debt)) * 100).toFixed(2)) : "..."}%</p>

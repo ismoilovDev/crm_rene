@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import https from './../../../../services/https';
 import { Context } from '../../../../context/context';
-import { alert } from '../../../../components/Alert/alert';
+import { alert, warning } from '../../../../components/Alert/alert';
 import { nextMonth } from '../../../../utils/functions/nextMonth';
 import { typesSupply } from '../../../../utils/functions/supplyTypes';
 import LoaderBackdrop from '../../../../components/Loader/LoaderBackdrop';
@@ -161,17 +161,6 @@ function EditTable() {
       return totalSum ? totalSum : 0
    }
 
-   const getPaymentClear = async (id) => {
-      try {
-         const res = await https.post(`/g1/${id}`, {})
-         const { data } = res;
-         setKreditData(data?.graph?.['0']);
-      }
-      catch (error) {
-         console.log(error)
-      }
-   }
-
    const namunaRequest = async (info) => {
       try {
          const res = await https.post('/namuna', info)
@@ -187,19 +176,15 @@ function EditTable() {
       setSof(GetSumDaromadBiznes() + GetTotalSumBoshqa() + GetDaromadSumMavsumiy() - GetSumXarajatBiznes() - GetXarajatSumMavsumiy())
 
       const data = {
-         type: infoOrder?.type_repayment === 1 ? 'annuitet' : 'differential',
+         type: +infoOrder?.type_repayment === 1 ? 'annuitet' : 'differential',
          sum: infoOrder?.sum,
          time: infoOrder?.time,
          percent: infoOrder?.percent_year,
          given_date: mainInfo?.contract ? mainInfo?.contract?.contract_issue_date : infoOrder?.order_date,
-         first_repayment_date: mainInfo?.contract ? mainInfo?.contract?.first_repayment_date : nextMonth(infoOrder?.order_date)
+         first_repayment_date: nextMonth(infoOrder?.order_date)
       }
 
-      if (mainInfo?.contract?.id) {
-         getPaymentClear(infoOrder?.id)
-      } else {
-         namunaRequest(data)
-      }
+      namunaRequest(data)
    }, [])
 
    function ProcentNumber() {
@@ -364,11 +349,15 @@ function EditTable() {
          })
    }
 
-   const onSubmit = (data) => {
+   const onSubmit = async(data) => {
       if (dataTable?.status === 1 || dataTable?.status) {
-         if (ProcentNumber() > 50) {
-            setDisable(false)
-            return alert('KL foiz 50% oshib ketdi')
+         if (ProcentNumber() > 45) {
+            const result = await warning("Foiz 45%dan oshib ketdi. Bari bir KLni o'zgartmoqshimisiz?")
+
+            if(result.isDenied){
+               console.log('stop');
+               return
+            } 
          }
       }
 
@@ -401,144 +390,132 @@ function EditTable() {
          table_expected_growth: dataTable?.table_expected_growth
       }
 
-      // https
-      //    .patch(`/client-marks/${mainInfo?.id}`, info)
-      //    .then(res => {
-      //       console.log(info)
-      //       console.log(res)
+      https
+         .patch(`/client-marks/${mainInfo?.id}`, info)
+         .then(res => {
+            console.log(info)
+            console.log(res)
 
-      //       // 1 Qism
-      //       let dataBase = {
-      //          type: dataFirstQism.type,
-      //          address: dataFirstQism.address,
-      //          owner: dataFirstQism.owner,
-      //          duration: dataFirstQism.duration,
-      //          client_mark_id: mainInfo?.id
-      //       }
-      //       PostFirst(dataBase)
-
-      //       // Boshqa
-      //       if (checkOthers) {
-      //          myDaromads?.map(item => {
-      //             delete item?.id
-      //          })
-      //          let newObject = {
-      //             client_mark_id: mainInfo?.id,
-      //             other_income: myDaromads
-      //          }
-      //          PostBoshqa(newObject)
-      //       }
-
-      //       // Mavsumiy
-      //       if (checkMavsumiy) {
-      //          mavsumiyDaromads?.map(item => {
-      //             delete item?.id
-      //          })
-      //          let newObject = {
-      //             client_mark_id: mainInfo?.id,
-      //             seasonal_income: mavsumiyDaromads
-      //          }
-      //          PostMavsumiyDaromad(newObject)
-
-      //          mavsumiyXarajats?.map(item => {
-      //             delete item?.id
-      //          })
-      //          let newObject2 = {
-      //             client_mark_id: mainInfo?.id,
-      //             seasonal_expense: mavsumiyXarajats
-      //          }
-      //          PostMavsumiyXarajat(newObject2)
-      //       }
-
-      //       // Biznes
-      //       if (checkBiznes) {
-      //          biznesDaromads?.map((item, index) => {
-      //             delete item?.id
-      //             biznesDaromads[index] = { ...item, type: 1 }
-      //          })
-      //          let newObject = {
-      //             client_mark_id: mainInfo?.id,
-      //             business_income: biznesDaromads
-      //          }
-      //          PostBiznes(newObject)
-
-      //          biznesXarajats?.map((item, index) => {
-      //             delete item?.id
-      //             biznesXarajats[index] = { ...item, type: 1 }
-      //          })
-      //          let newObject2 = {
-      //             client_mark_id: mainInfo?.id,
-      //             business_expense: biznesXarajats
-      //          }
-      //          PostBiznesMinus(newObject2)
-      //       }
-
-      //       // 6 Qism
-      //       if (familyDaromad?.length != 0) {
-      //          familyDaromad.map(item => {
-      //             delete item?.id
-      //          })
-      //          let newObject = {
-      //             client_mark_id: mainInfo?.id,
-      //             family_income: familyDaromad
-      //          }
-      //          PostFamily(newObject)
-      //       }
-
-      //       if (familyXarajat?.length != 0) {
-      //          familyXarajat.map(item => {
-      //             delete item?.id
-      //          })
-      //          let newObject = {
-      //             client_mark_id: mainInfo?.id,
-      //             family_expense: familyXarajat
-      //          }
-      //          PostFamilyMinus(newObject)
-      //       }
-
-      //       if (familyMalumot?.length != 0) {
-      //          familyMalumot.map(item => {
-      //             delete item?.id
-      //          })
-      //          let newObject = {
-      //             client_mark_id: mainInfo?.id,
-      //             family_loans: familyMalumot
-      //          }
-      //          PostFamilyKredit(newObject)
-      //       }
-
-      //       if (clientLoans?.length != 0) {
-      //          clientLoans.map(item => {
-      //             delete item?.id
-      //          })
-      //          let newObject = {
-      //             client_mark_id: mainInfo?.id,
-      //             loans: clientLoans
-      //          }
-      //          PostClientKredit(newObject)
-      //       }
-
-      //       alert("KL1 shakl o'zgartirildi", 'success')
-      //       setDisable(false)
-      //    }
-      //    )
-      //    .catch(err => {
-      //       console.log(err)
-      //       setDisable(false)
-      //       return (alert(err?.response?.data?.message, 'error'))
-      //    })
-
-         if (clientLoans?.length != 0) {
-            clientLoans.map(item => {
-               delete item?.id
-            })
-            let newObject = {
-               client_mark_id: mainInfo?.id,
-               loans: clientLoans
+            // 1 Qism
+            let dataBase = {
+               type: dataFirstQism.type,
+               address: dataFirstQism.address,
+               owner: dataFirstQism.owner,
+               duration: dataFirstQism.duration,
+               client_mark_id: mainInfo?.id
             }
-            console.log(newObject);
-            // PostClientKredit(newObject)
+            PostFirst(dataBase)
+
+            // Boshqa
+            if (checkOthers) {
+               myDaromads?.map(item => {
+                  delete item?.id
+               })
+               let newObject = {
+                  client_mark_id: mainInfo?.id,
+                  other_income: myDaromads
+               }
+               PostBoshqa(newObject)
+            }
+
+            // Mavsumiy
+            if (checkMavsumiy) {
+               mavsumiyDaromads?.map(item => {
+                  delete item?.id
+               })
+               let newObject = {
+                  client_mark_id: mainInfo?.id,
+                  seasonal_income: mavsumiyDaromads
+               }
+               PostMavsumiyDaromad(newObject)
+
+               mavsumiyXarajats?.map(item => {
+                  delete item?.id
+               })
+               let newObject2 = {
+                  client_mark_id: mainInfo?.id,
+                  seasonal_expense: mavsumiyXarajats
+               }
+               PostMavsumiyXarajat(newObject2)
+            }
+
+            // Biznes
+            if (checkBiznes) {
+               biznesDaromads?.map((item, index) => {
+                  delete item?.id
+                  biznesDaromads[index] = { ...item, type: 1 }
+               })
+               let newObject = {
+                  client_mark_id: mainInfo?.id,
+                  business_income: biznesDaromads
+               }
+               PostBiznes(newObject)
+
+               biznesXarajats?.map((item, index) => {
+                  delete item?.id
+                  biznesXarajats[index] = { ...item, type: 1 }
+               })
+               let newObject2 = {
+                  client_mark_id: mainInfo?.id,
+                  business_expense: biznesXarajats
+               }
+               PostBiznesMinus(newObject2)
+            }
+
+            // 6 Qism
+            if (familyDaromad?.length != 0) {
+               familyDaromad.map(item => {
+                  delete item?.id
+               })
+               let newObject = {
+                  client_mark_id: mainInfo?.id,
+                  family_income: familyDaromad
+               }
+               PostFamily(newObject)
+            }
+
+            if (familyXarajat?.length != 0) {
+               familyXarajat.map(item => {
+                  delete item?.id
+               })
+               let newObject = {
+                  client_mark_id: mainInfo?.id,
+                  family_expense: familyXarajat
+               }
+               PostFamilyMinus(newObject)
+            }
+
+            if (familyMalumot?.length != 0) {
+               familyMalumot.map(item => {
+                  delete item?.id
+               })
+               let newObject = {
+                  client_mark_id: mainInfo?.id,
+                  family_loans: familyMalumot
+               }
+               PostFamilyKredit(newObject)
+            }
+
+            if (clientLoans?.length != 0) {
+               clientLoans.map(item => {
+                  delete item?.id
+               })
+               let newObject = {
+                  client_mark_id: mainInfo?.id,
+                  loans: clientLoans
+               }
+               PostClientKredit(newObject)
+            }
+
+            alert("KL1 shakl o'zgartirildi", 'success')
+            setDisable(false)
          }
+         )
+         .catch(err => {
+            console.log(err)
+            setDisable(false)
+            return (alert(err?.response?.data?.message, 'error'))
+         })
 
    }
 
@@ -596,7 +573,7 @@ function EditTable() {
                <div className='kl1_table_dark-bg'>Natija</div>
                <div className='kl1_table_double kl1_table_dark-bg kl1_table_noPadding'>
                   <p className='kl1_table_yellow-bg'>{(kreditData?.interest + kreditData?.principal_debt)?.toLocaleString()}</p>
-                  <p className={ProcentNumber() > 50 ? 'kl1_table_red-bg' : 'kl1_table_green-bg'}>{ProcentNumber()}</p>
+                  <p className={ProcentNumber() > 45 ? 'kl1_table_red-bg' : 'kl1_table_green-bg'}>{ProcentNumber()}</p>
                </div>
                <div className='kl1_table_double kl1_table_noPadding'>
                   <p className={((sof / (kreditData?.interest + kreditData?.principal_debt)) * 100).toFixed(2) > 120 ? 'kl1_table_green-bg' : 'kl1_table_red-bg'}>{((sof / (kreditData?.interest + kreditData?.principal_debt)) * 100).toFixed(2)}%</p>

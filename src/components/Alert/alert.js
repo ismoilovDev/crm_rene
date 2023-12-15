@@ -12,9 +12,13 @@ export function alert(message, type, timer) {
 export const warning = (title) => {
    return Swal.fire({
       title: title,
+      text: "Buni qaytara olmaysiz!",
+      icon: "warning",
       showDenyButton: true,
       showCancelButton: false,
-      confirmButtonText: "Ha",
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Ha!",
       denyButtonText: `Yo'q`
-   })
+    })
 }

@@ -175,6 +175,11 @@ function ClientForm() {
       return alert("Mijozning yoshi 18 yoshdan kichik", 'error');
     }
 
+    if(!selectedSource?.value){
+      setDisable(false)
+      return alert("Mijoz qayerdan kelgani yozilmagan!!!", 'error')
+    }
+
     const numberArray = phoneArray.map(item => `+998${item?.phone}`);
     const info = {
       ...data,
@@ -191,7 +196,7 @@ function ClientForm() {
     try {
       const response = await https.post('/clients', info);
       alert("Mijoz qoshildi", 'success');
-      navigate(`/client/${response?.data?.data?.client_id}/`, { replace: true });
+      navigate(`/clients/${response?.data?.data?.client_id}/`, { replace: true });
       setDisable(false);
     } catch (err) {
       alert(err?.response?.data?.message, 'error');

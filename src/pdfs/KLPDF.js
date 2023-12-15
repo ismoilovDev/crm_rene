@@ -51,11 +51,10 @@ function KLPDF() {
             time: data?.order?.time,
             percent: data?.order?.percent_year,
             given_date: data?.contract?.id ? data?.contract?.contract_issue_date : data?.order?.order_date,
-            first_repayment_date: data?.contract?.id ? data?.contract?.first_repayment_date : nextMonth(data?.order?.order_date)
+            first_repayment_date: nextMonth(data?.order?.order_date)
          }
 
          namunaRequest(info)
-
       }
       catch (err) {
          console.log(err)

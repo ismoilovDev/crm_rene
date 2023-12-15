@@ -322,8 +322,8 @@ function BuyurtmaOylik() {
                         <p>Jami oylik tolov:</p>
                         <p>{(kreditData?.interest + kreditData?.principal_debt)?.toLocaleString()}</p>
                      </div>
-                     <div className={procentNumber() > 50 || procentNumber() < 0 ? 'single_buyurtma_inputs pdf_margin_top_15 red_text' : 'single_buyurtma_inputs pdf_margin_top_15 green_text'}>
-                        <p>{`So'ralayotgan kredit hisobi qarzi yoki korsatkichi (<50%)`}:</p>
+                     <div className={procentNumber() > 45 || procentNumber() < 0 ? 'single_buyurtma_inputs pdf_margin_top_15 red_text' : 'single_buyurtma_inputs pdf_margin_top_15 green_text'}>
+                        <p>{`So'ralayotgan kredit hisobi qarzi yoki korsatkichi (<45%)`}:</p>
                         <p>{procentNumber()}</p>
                      </div>
                   </div> :
