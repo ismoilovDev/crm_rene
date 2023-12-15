@@ -213,7 +213,8 @@ function EditPart7() {
             <form onSubmit={handleSubmit(onSubmit)} className='qism_7'>
                 {
                     clientLoans?.map((item,index)=>(
-                        <div className='kl1_products' key={item.id}>
+                        <div className='kl1_products' key={`${item?.id}${index}`}>
+                            {console.log(item)}
                             <div className='kl1_product_title'>
                                 Mavjud malumot {index + 1}
                                 <button

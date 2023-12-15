@@ -401,132 +401,144 @@ function EditTable() {
          table_expected_growth: dataTable?.table_expected_growth
       }
 
-      https
-         .patch(`/client-marks/${mainInfo?.id}`, info)
-         .then(res => {
-            console.log(info)
-            console.log(res)
+      // https
+      //    .patch(`/client-marks/${mainInfo?.id}`, info)
+      //    .then(res => {
+      //       console.log(info)
+      //       console.log(res)
 
-            // 1 Qism
-            let dataBase = {
-               type: dataFirstQism.type,
-               address: dataFirstQism.address,
-               owner: dataFirstQism.owner,
-               duration: dataFirstQism.duration,
-               client_mark_id: mainInfo?.id
+      //       // 1 Qism
+      //       let dataBase = {
+      //          type: dataFirstQism.type,
+      //          address: dataFirstQism.address,
+      //          owner: dataFirstQism.owner,
+      //          duration: dataFirstQism.duration,
+      //          client_mark_id: mainInfo?.id
+      //       }
+      //       PostFirst(dataBase)
+
+      //       // Boshqa
+      //       if (checkOthers) {
+      //          myDaromads?.map(item => {
+      //             delete item?.id
+      //          })
+      //          let newObject = {
+      //             client_mark_id: mainInfo?.id,
+      //             other_income: myDaromads
+      //          }
+      //          PostBoshqa(newObject)
+      //       }
+
+      //       // Mavsumiy
+      //       if (checkMavsumiy) {
+      //          mavsumiyDaromads?.map(item => {
+      //             delete item?.id
+      //          })
+      //          let newObject = {
+      //             client_mark_id: mainInfo?.id,
+      //             seasonal_income: mavsumiyDaromads
+      //          }
+      //          PostMavsumiyDaromad(newObject)
+
+      //          mavsumiyXarajats?.map(item => {
+      //             delete item?.id
+      //          })
+      //          let newObject2 = {
+      //             client_mark_id: mainInfo?.id,
+      //             seasonal_expense: mavsumiyXarajats
+      //          }
+      //          PostMavsumiyXarajat(newObject2)
+      //       }
+
+      //       // Biznes
+      //       if (checkBiznes) {
+      //          biznesDaromads?.map((item, index) => {
+      //             delete item?.id
+      //             biznesDaromads[index] = { ...item, type: 1 }
+      //          })
+      //          let newObject = {
+      //             client_mark_id: mainInfo?.id,
+      //             business_income: biznesDaromads
+      //          }
+      //          PostBiznes(newObject)
+
+      //          biznesXarajats?.map((item, index) => {
+      //             delete item?.id
+      //             biznesXarajats[index] = { ...item, type: 1 }
+      //          })
+      //          let newObject2 = {
+      //             client_mark_id: mainInfo?.id,
+      //             business_expense: biznesXarajats
+      //          }
+      //          PostBiznesMinus(newObject2)
+      //       }
+
+      //       // 6 Qism
+      //       if (familyDaromad?.length != 0) {
+      //          familyDaromad.map(item => {
+      //             delete item?.id
+      //          })
+      //          let newObject = {
+      //             client_mark_id: mainInfo?.id,
+      //             family_income: familyDaromad
+      //          }
+      //          PostFamily(newObject)
+      //       }
+
+      //       if (familyXarajat?.length != 0) {
+      //          familyXarajat.map(item => {
+      //             delete item?.id
+      //          })
+      //          let newObject = {
+      //             client_mark_id: mainInfo?.id,
+      //             family_expense: familyXarajat
+      //          }
+      //          PostFamilyMinus(newObject)
+      //       }
+
+      //       if (familyMalumot?.length != 0) {
+      //          familyMalumot.map(item => {
+      //             delete item?.id
+      //          })
+      //          let newObject = {
+      //             client_mark_id: mainInfo?.id,
+      //             family_loans: familyMalumot
+      //          }
+      //          PostFamilyKredit(newObject)
+      //       }
+
+      //       if (clientLoans?.length != 0) {
+      //          clientLoans.map(item => {
+      //             delete item?.id
+      //          })
+      //          let newObject = {
+      //             client_mark_id: mainInfo?.id,
+      //             loans: clientLoans
+      //          }
+      //          PostClientKredit(newObject)
+      //       }
+
+      //       alert("KL1 shakl o'zgartirildi", 'success')
+      //       setDisable(false)
+      //    }
+      //    )
+      //    .catch(err => {
+      //       console.log(err)
+      //       setDisable(false)
+      //       return (alert(err?.response?.data?.message, 'error'))
+      //    })
+
+         if (clientLoans?.length != 0) {
+            clientLoans.map(item => {
+               delete item?.id
+            })
+            let newObject = {
+               client_mark_id: mainInfo?.id,
+               loans: clientLoans
             }
-            PostFirst(dataBase)
-
-            // Boshqa
-            if (checkOthers) {
-               myDaromads?.map(item => {
-                  delete item?.id
-               })
-               let newObject = {
-                  client_mark_id: mainInfo?.id,
-                  other_income: myDaromads
-               }
-               PostBoshqa(newObject)
-            }
-
-            // Mavsumiy
-            if (checkMavsumiy) {
-               mavsumiyDaromads?.map(item => {
-                  delete item?.id
-               })
-               let newObject = {
-                  client_mark_id: mainInfo?.id,
-                  seasonal_income: mavsumiyDaromads
-               }
-               PostMavsumiyDaromad(newObject)
-
-               mavsumiyXarajats?.map(item => {
-                  delete item?.id
-               })
-               let newObject2 = {
-                  client_mark_id: mainInfo?.id,
-                  seasonal_expense: mavsumiyXarajats
-               }
-               PostMavsumiyXarajat(newObject2)
-            }
-
-            // Biznes
-            if (checkBiznes) {
-               biznesDaromads?.map((item, index) => {
-                  delete item?.id
-                  biznesDaromads[index] = { ...item, type: 1 }
-               })
-               let newObject = {
-                  client_mark_id: mainInfo?.id,
-                  business_income: biznesDaromads
-               }
-               PostBiznes(newObject)
-
-               biznesXarajats?.map((item, index) => {
-                  delete item?.id
-                  biznesXarajats[index] = { ...item, type: 1 }
-               })
-               let newObject2 = {
-                  client_mark_id: mainInfo?.id,
-                  business_expense: biznesXarajats
-               }
-               PostBiznesMinus(newObject2)
-            }
-
-            // 6 Qism
-            if (familyDaromad?.length != 0) {
-               familyDaromad.map(item => {
-                  delete item?.id
-               })
-               let newObject = {
-                  client_mark_id: mainInfo?.id,
-                  family_income: familyDaromad
-               }
-               PostFamily(newObject)
-            }
-
-            if (familyXarajat?.length != 0) {
-               familyXarajat.map(item => {
-                  delete item?.id
-               })
-               let newObject = {
-                  client_mark_id: mainInfo?.id,
-                  family_expense: familyXarajat
-               }
-               PostFamilyMinus(newObject)
-            }
-
-            if (familyMalumot?.length != 0) {
-               familyMalumot.map(item => {
-                  delete item?.id
-               })
-               let newObject = {
-                  client_mark_id: mainInfo?.id,
-                  family_loans: familyMalumot
-               }
-               PostFamilyKredit(newObject)
-            }
-
-            if (clientLoans?.length != 0) {
-               clientLoans.map(item => {
-                  delete item?.id
-               })
-               let newObject = {
-                  client_mark_id: mainInfo?.id,
-                  loans: clientLoans
-               }
-               PostClientKredit(newObject)
-            }
-
-            alert("KL1 shakl o'zgartirildi", 'success')
-            setDisable(false)
+            console.log(newObject);
+            // PostClientKredit(newObject)
          }
-         )
-         .catch(err => {
-            console.log(err)
-            setDisable(false)
-            return (alert(err?.response?.data?.message, 'error'))
-         })
 
    }
 

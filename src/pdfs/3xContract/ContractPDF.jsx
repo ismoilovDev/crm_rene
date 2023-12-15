@@ -34,7 +34,7 @@ function ContractPDF() {
    return (
       <>
          <PdfControls />
-         <PdfWrapper indicator={true}>
+         <PdfWrapper indicator={documentInfo}>
             <MainPart documentInfo={documentInfo} orderInfo={orderInfo} />
             <Part1 orderInfo={orderInfo} />
             <Part2 documentInfo={documentInfo} />
