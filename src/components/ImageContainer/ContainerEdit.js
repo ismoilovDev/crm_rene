@@ -180,14 +180,13 @@ const ContainerEdit = memo(({ path, setPath }) => {
                return { src: `${process.env.REACT_APP_BASE_URL}/${item}` }
             }) : selectedImages}
          />
+
          <WebCamera
             open={openCamera}
             cameraWrap={cameraWrap}
             setIsChanged={setIsChanged}
             sourceImages={sourceImages}
-            selectedImages={!isOpenField ? path?.map(item => {
-               return { src: `${process.env.REACT_APP_BASE_URL}/${item}` }
-            }) : selectedImages}
+            selectedImages={selectedImages}
             setSourceImages={setSourceImages}
             setSelectedImages={setSelectedImages}
             closeCameraHandle={closeCameraHandle}
