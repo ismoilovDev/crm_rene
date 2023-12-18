@@ -89,7 +89,7 @@ const AddContractModal = memo(({ options, navigateTo, modalkaOrder, setModalkaOr
                 placeholder='Buyurtmalar'
                 className="multi_select"
                 onChange={(e) => setSelectedOrderID(e.value)}
-            /> : <h4 className='text-center'>Tasdiqlangan buyurtmalar yo'q!!!</h4>
+            /> : <h4 className='text-center'>Buyurtmalar yo'q!!!</h4>
         }
         <div className="add_taminot_buttons">
             {
@@ -133,7 +133,8 @@ const ClientKlList = memo(({ id }) => {
     }
 
     const getOrders = async() =>{
-        const acceptedOrders = client?.orders?.filter(x => x?.status === 'accepted');
+        // const acceptedOrders = client?.orders?.filter(x => x?.status === 'accepted');
+        const acceptedOrders = client?.orders
     
         const options = await acceptedOrders?.map(item => (
           {
