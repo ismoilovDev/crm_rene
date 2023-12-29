@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Input } from '@nextui-org/react'
-import { ContainerExcelButton } from '../../../components/Buttons/ExcelBtn';
 import { alert } from '../../../components/Alert/alert'
 import CustumPagination from '../../../components/Pagination/CustumPagination';
 import LoaderBackdrop from '../../../components/Loader/LoaderBackdrop';
@@ -232,8 +231,6 @@ function Contracts() {
 						/>
 					</div>
 					
-					<ContainerExcelButton data={handleOnExcel()} name={"Shartnoma"} />
-
 					<div className='shartnamaTablePart table_root margin_top_15'>
 						<div className='shartTable responsive_table'>
 							<div className='tableHeader table_header'>

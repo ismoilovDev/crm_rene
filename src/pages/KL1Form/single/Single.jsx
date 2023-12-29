@@ -607,7 +607,7 @@ function SingleKL1() {
                                  </div>
                                  <div className='single_buyurtma_inputs pdf_margin_top_15'>
                                     <p>1 birlikning o`rtacha sotish naxri:</p>
-                                    <p>{item?.unit_price}</p>
+                                    <p>{Number(item?.unit_price)?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
                                  </div>
                                  <div className='single_buyurtma_inputs pdf_margin_top_15'>
                                     <p>O`rtacha ustamasi % da:</p>
@@ -615,7 +615,7 @@ function SingleKL1() {
                                  </div>
                                  <div className='single_buyurtma_inputs pdf_margin_top_15'>
                                     <p>Bir oylik daromad:</p>
-                                    <p>{item?.monthly_income}</p>
+                                    <p>{item?.monthly_income?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
                                  </div>
                                  <div className='single_buyurtma_inputs pdf_margin_top_15'>
                                     <p>Izoh:</p>
@@ -648,15 +648,15 @@ function SingleKL1() {
                                  </div>
                                  <div className='single_buyurtma_inputs pdf_margin_top_15'>
                                     <p>Naxri:</p>
-                                    <p>{item?.price}</p>
+                                    <p>{item?.price?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
                                  </div>
                                  <div className='single_buyurtma_inputs pdf_margin_top_15'>
                                     <p>Qiymati:</p>
-                                    <p>{item?.value}</p>
+                                    <p>{item?.value?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
                                  </div>
                                  <div className='single_buyurtma_inputs pdf_margin_top_15'>
                                     <p>O`rtacha oylik xarajat:</p>
-                                    <p>{item?.average_monthly_expense}</p>
+                                    <p>{item?.average_monthly_expense?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
                                  </div>
                                  <div className='single_buyurtma_inputs pdf_margin_top_15'>
                                     <p>Izoh:</p>

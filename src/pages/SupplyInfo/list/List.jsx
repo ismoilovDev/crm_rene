@@ -1,13 +1,12 @@
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
-import https from '../../../services/https';
+import { translateType } from '../../../components/Order/Functions';
 import { alert } from '../../../components/Alert/alert';
+import https from '../../../services/https';
 import SkeletonBox from '../../../components/Loader/Skeleton';
 import SearchForm from '../../../components/Search/SearchForm';
 import AddOrderForm from '../../../components/Order/AddOrderForm';
-import { translateType } from '../../../components/Order/Functions';
 import DeleteWarning from '../../../components/Warning/DeleteWarning';
-import { ContainerExcelButton } from '../../../components/Buttons/ExcelBtn';
 import CustumPagination from '../../../components/Pagination/CustumPagination';
 
 const role = JSON.parse(window.localStorage.getItem('role'))
@@ -164,7 +163,6 @@ function SupplyList() {
                   placeholder="Taminot..."
                />
             </div>
-            <ContainerExcelButton data={handleOnExcel()} name={"Ta'minot"} />
          </div>
 
          <div className='shartnamaTablePart table_root margin_top_15'>

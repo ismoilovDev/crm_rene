@@ -1,4 +1,5 @@
 import { memo, useContext } from "react";
+import { FiDownload } from 'react-icons/fi'
 import {
    BranchFilter,
    ClearFilters,
@@ -8,13 +9,12 @@ import {
    QueryFilter,
    SectorFilter
 } from "../../components/Filter/Filter";
-import OrderTabs from "../../components/Order/OrderTabs";
 import { OrderFilterContext } from "../../context/context";
-import { ExcelButton } from "../../components/Buttons/ExcelBtn";
+import OrderTabs from "../../components/Order/OrderTabs";
 
 function Filters({ branch_id, setCurrentPage, handleOnExcel }) {
    const { filters, setFilters, initialFilters } = useContext(OrderFilterContext);
-   
+
    return (
       <>
          <div className='shartnamaSearch'>
@@ -39,7 +39,11 @@ function Filters({ branch_id, setCurrentPage, handleOnExcel }) {
                      <span className='red'>KL yozilmagan(to'ldirilmagan)</span>
                   </div>
                </div>
-               <ExcelButton data={handleOnExcel()} name={'Buyurtma'}/>
+               <div className="margin_top_10">
+                  <button className='excel_btn' onClick={handleOnExcel}>
+                     Excel yuklash <FiDownload className='icon_down' />
+                  </button>
+               </div>
             </div>
          </div>
       </>

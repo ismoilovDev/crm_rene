@@ -14,6 +14,8 @@ function S1Form() {
    const { data: documentInfo } = useDataFetching(`/s1/${orderId}`)
    const { data: document } = useDataFetching(`/k1/${orderId}`)
 
+   console.log(documentInfo)
+
    return (
       <>
          <PdfControls />
@@ -40,7 +42,15 @@ function S1Form() {
                <div className='sections_ul pdf_margin_top_5'>
                   <p>1.1</p>
                   <ul>
-                     <li>{documentInfo?.data?.branch?.name} Kredit Komissiyasining {documentInfo?.data?.group?.name ? documentInfo?.data?.group?.clients?.[0]?.order?.protocol_result_date : documentInfo?.data?.order?.protocol_result_date} dagi № {documentInfo?.data?.group?.name ? documentInfo?.data?.group?.clients?.[0]?.order?.protocol_number : documentInfo?.data?.order?.protocol_number} sonli Majlis Bayoni bilan berilgan vakolatlar asosida, Qarz Beruvchi Qarz {documentInfo?.data?.group?.name ? 'oluvchilar' : 'oluvchi'}ga quyidagi tartibda  va miqdorda mikroqarz beradi:</li>
+                     {
+                        !documentInfo?.data?.branch?.open_contract_code ?
+                           <li>
+                              {documentInfo?.data?.branch?.name} Kredit Komissiyasining {documentInfo?.data?.group?.name ? documentInfo?.data?.group?.clients?.[0]?.order?.protocol_result_date : documentInfo?.data?.order?.protocol_result_date} dagi № {documentInfo?.data?.group?.name ? documentInfo?.data?.group?.clients?.[0]?.order?.protocol_number : documentInfo?.data?.order?.protocol_number} sonli Majlis Bayoni bilan berilgan vakolatlar asosida, Qarz Beruvchi Qarz {documentInfo?.data?.group?.name ? 'oluvchilar' : 'oluvchi'}ga quyidagi tartibda  va miqdorda mikroqarz beradi:
+                           </li> : 
+                           <li>
+                              {documentInfo?.data?.branch?.name}ning {documentInfo?.data?.branch?.open_contract_start_date} yildagi ochiq liniyali mikroqarz ajratish bo‘yicha {documentInfo?.data?.branch?.open_contract_code}-sonli Bosh kelishuviga hamda Kredit komissiyasining {documentInfo?.data?.order?.protocol_result_date} dagi № {documentInfo?.data?.order?.protocol_number}-sonli yig‘ilishi qarori asosida “Qarz beruvchi” “Qarz oluvchi”ga quyidagi tartibda va miqdorda mikroqarz beradi. 
+                           </li>
+                     }
                      {
                         documentInfo?.data?.group?.name ?
                            documentInfo?.data?.group?.clients?.map(item => {
@@ -352,10 +362,10 @@ function S1Form() {
                               <p>Boshqaruvchi </p>
                               <p>{fullName(documentInfo?.data?.branch?.head_of_branch)}</p>
                            </div>
-                           <div className='between pdf_margin_top_20'>
+                           {/* <div className='between pdf_margin_top_20'>
                               <p>Bosh buxgalter </p>
                               <p>{fullName(documentInfo?.data?.branch?.chief_accountant)}</p>
-                           </div>
+                           </div> */}
                         </div>
                      </div>
                      <div className='pdf_end_2sections_section'>
@@ -372,8 +382,8 @@ function S1Form() {
                                           <p>JSh ShIR: {item?.pinfl}</p>
                                           <p>Telefon: {item?.phone?.join(', ')}</p>
                                           {
-                                             item?.order?.type_credit === "card" ? 
-                                             <CardInfo info={item?.order}/> : <></>
+                                             item?.order?.type_credit === "card" ?
+                                                <CardInfo info={item?.order} /> : <></>
                                           }
                                        </div>
                                        <div className='between pdf_margin_top_30'>
@@ -390,8 +400,8 @@ function S1Form() {
                                     <p>JSh ShIR: {documentInfo?.data?.client?.pinfl}</p>
                                     <p>Telefon: {documentInfo?.data?.client?.phone?.join(', ')}</p>
                                     {
-                                       documentInfo?.data?.order?.type_credit === "card" ? 
-                                       <CardInfo info={documentInfo?.data?.order}/> : <></>
+                                       documentInfo?.data?.order?.type_credit === "card" ?
+                                          <CardInfo info={documentInfo?.data?.order} /> : <></>
                                     }
                                  </div>
                                  <div className='endRow pdf_margin_top_30'>

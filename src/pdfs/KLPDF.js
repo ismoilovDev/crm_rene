@@ -403,10 +403,10 @@ function KLPDF() {
                                        <tr key={item?.id}>
                                           <td>{index + 1}</td>
                                           <td>{item?.name}</td>
-                                          <td>{item?.volume?.toLocaleString()}</td>
-                                          <td>{item?.unit_price?.toLocaleString()}</td>
-                                          <td>{item?.worth?.toLocaleString()}</td>
-                                          <td>{(item?.volume * item?.unit_price)?.toLocaleString()}</td>
+                                          <td>{item?.volume?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                                          <td>{item?.unit_price?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                                          <td>{item?.worth?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                                          <td>{(item?.volume * item?.unit_price)?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
                                           <td>{item?.comment}</td>
                                        </tr>
                                     )
@@ -441,7 +441,7 @@ function KLPDF() {
                                        <tr key={item?.id}>
                                           <td>{index + 1}</td>
                                           <td>{item?.name}</td>
-                                          <td>{item?.income?.toLocaleString()}</td>
+                                          <td>{item?.income?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
                                        </tr>
                                     )
                                  })
@@ -455,7 +455,7 @@ function KLPDF() {
                               return (
                                  <div className='row_div between under_line margin_top_10' key={index + 5}>
                                     <p className='div_child'>{item?.name}:</p>
-                                    <p className='div_child'>{(mainInfo?.monthly_income?.[item?.value])?.toLocaleString()}</p>
+                                    <p className='div_child'>{(mainInfo?.monthly_income?.[item?.value])?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
                                  </div>
                               )
                            })
@@ -482,7 +482,7 @@ function KLPDF() {
                                        <tr key={item?.id}>
                                           <td>{index + 1}</td>
                                           <td>{item?.name}</td>
-                                          <td>{item?.expense?.toLocaleString()}</td>
+                                          <td>{item?.expense?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
                                        </tr>
                                     )
                                  })
@@ -496,7 +496,7 @@ function KLPDF() {
                               return (
                                  <div className='row_div between under_line margin_top_10' key={index + 5}>
                                     <p className='div_child'>{item?.name}:</p>
-                                    <p className='div_child'>{(mainInfo?.monthly_expense?.[item?.value])?.toLocaleString()}</p>
+                                    <p className='div_child'>{(mainInfo?.monthly_expense?.[item?.value])?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
                                  </div>
                               )
                            })
@@ -532,9 +532,9 @@ function KLPDF() {
                                              <td>{index + 1}</td>
                                              <td>{item?.name}</td>
                                              <td>{item?.monthly_volume}</td>
-                                             <td>{item?.unit_price}</td>
+                                             <td>{Number(item?.unit_price)?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
                                              <td>{item?.average_price}</td>
-                                             <td>{item?.monthly_income}</td>
+                                             <td>{item?.monthly_income?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
                                              <td>{item?.comment}</td>
                                           </tr>
                                        )
@@ -570,9 +570,9 @@ function KLPDF() {
                                           <td>{index + 1}</td>
                                           <td>{item?.name}</td>
                                           <td>{item?.volume}</td>
-                                          <td>{item?.price}</td>
+                                          <td>{item?.price?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
                                           <td>{item?.value}</td>
-                                          <td>{item?.average_monthly_expense}</td>
+                                          <td>{item?.average_monthly_expense?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
                                           <td>{item?.comment}</td>
                                        </tr>
                                     )
@@ -612,7 +612,7 @@ function KLPDF() {
                                           <td>{item?.name}</td>
                                           <td>{item?.activity_type}</td>
                                           <td>{item?.activity_address}</td>
-                                          <td>{item?.monthly_income}</td>
+                                          <td>{Number(item?.monthly_income)?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
                                           <td>{item?.comment}</td>
                                        </tr>
                                     )
@@ -644,7 +644,7 @@ function KLPDF() {
                                        <tr key={item?.id}>
                                           <td>{index + 1}</td>
                                           <td>{item?.name}</td>
-                                          <td>{item?.expense}</td>
+                                          <td>{Number(item?.expense)?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
                                           <td>{item?.comment}</td>
                                        </tr>
                                     )
@@ -677,8 +677,8 @@ function KLPDF() {
                                        <tr key={item?.id}>
                                           <td>{index + 1}</td>
                                           <td>{item?.name}</td>
-                                          <td>{item?.main}</td>
-                                          <td>{item?.monthly}</td>
+                                          <td>{Number(item?.main)?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                                          <td>{Number(item?.monthly)?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
                                           <td>{item?.comment}</td>
                                        </tr>
                                     )
@@ -721,8 +721,8 @@ function KLPDF() {
                                        <tr key={item?.id}>
                                           <td>{index + 1}</td>
                                           <td>{item?.name}</td>
-                                          <td>{item?.main}</td>
-                                          <td>{item?.monthly}</td>
+                                          <td>{Number(item?.main)?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                                          <td>{Number(item?.monthly)?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
                                           <td>{item?.comment}</td>
                                        </tr>
                                     )
