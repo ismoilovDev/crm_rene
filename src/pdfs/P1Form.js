@@ -172,7 +172,11 @@ function P1Form() {
                         (
                            documentInfo?.supply_infos?.[0]?.type == "without_supply" ?
                               "Buyurtmachi o‘zining kredit tarixi hamda qarz oluvchi sifatidagi obro‘sini inobatga olgan xolda, unga mikroqarzni ishonch asosida, hech qanday ta'minotsiz ajratishni so‘ragan." :
-                              `Buyurtmachi mikroqarz qaytarilishini ta'minlash maqsadida garov shartnomasi asosida ${(typesSupplyList(documentInfo?.supply_infos))?.includes('transport vositasi garovi') ? checkOwnerClient(documentInfo?.supply_infos?.find(x => x?.type == 'auto')) : "o'zi"}ga tegishli bo'lgan ${documentInfo?.supply_infos?.[0] ? typesSupplyList(documentInfo?.supply_infos) : ""}ga qo'yishlarini ma'lum qilgan.`
+                              (
+                                 (typesSupplyList(documentInfo?.supply_infos))?.includes('3 shaxs kafilligi') ? 
+                                 `Buyurtmachi mikroqarz qaytarilishini ta'minlash maqsadida kafillik shartnomasi asosida ${documentInfo?.client?.name}ning to'liq kafilligini taqdim qiladi.` :
+                                 `Buyurtmachi mikroqarz qaytarilishini ta'minlash maqsadida garov shartnomasi asosida ${(typesSupplyList(documentInfo?.supply_infos))?.includes('transport vositasi garovi') ? checkOwnerClient(documentInfo?.supply_infos?.find(x => x?.type == 'auto')) : "o'zi"}ga tegishli bo'lgan ${documentInfo?.supply_infos?.[0] ? typesSupplyList(documentInfo?.supply_infos) : ""}ga qo'yishlarini ma'lum qilgan.`
+                              )
                         )
                   )}
             </p>
