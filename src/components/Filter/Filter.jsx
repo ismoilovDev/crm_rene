@@ -1,4 +1,4 @@
-import { memo, useEffect } from 'react';
+import React, { memo, useEffect } from 'react';
 import { debounce } from 'lodash';
 import { Tooltip } from '@nextui-org/react';
 import { AiOutlineClear } from 'react-icons/ai';
@@ -46,22 +46,25 @@ const client_marks_options = [
    { value: 'not_exists', label: "Kl to'ldirilmagan" }
 ]
 
-export const CustomSelect = memo(({ setFilters, options, placeholder, keyer, value }) => {
+export const CustomSelect = memo(({ setFilters, options, placeholder, keyer, label, value }) => {
 
    return (
-      <Select
-         options={options}
-         styles={customStyles}
-         theme={theme}
-         placeholder={placeholder}
-         value={value}
-         onChange={event => {
-            setFilters(filters => ({
-               ...filters,
-               [keyer]: event.value,
-            }))
-         }}
-      />
+      <React.Fragment>
+         <label className="filter_label">{label}</label>
+         <Select
+            value={value}
+            theme={theme}
+            options={options}
+            styles={customStyles}
+            placeholder={placeholder}
+            onChange={event => {
+               setFilters(filters => ({
+                  ...filters,
+                  [keyer]: event.value,
+               }))
+            }}
+         />
+      </React.Fragment>
    )
 })
 
@@ -72,6 +75,7 @@ export const BranchFilter = memo(({ filters, setFilters }) => {
       <div className="filter_item branch_filter">
          <CustomSelect
             keyer='branch_id'
+            label={"Filial"}
             value={options?.filter((item) => filters.branch_id === item.value)[0]}
             options={options}
             filters={filters}
@@ -89,6 +93,7 @@ export const QueryFilter = memo(({ filters, setFilters, placeholder }) => {
    }, 350)
    return (
       <div className="filter_item query_filter">
+         <label className="filter_label">Matn</label>
          <input
             type="search"
             defaultValue={filters?.query}
@@ -114,6 +119,7 @@ export const RegionFilter = memo(({ filters, setFilters }) => {
       <div className="filter_item districts_filter">
          <CustomSelect
             keyer='region_id'
+            label={"Hudud"}
             value={options?.filter((item) => filters.region_id === item.value)[0]}
             options={options}
             setFilters={setFilters}
@@ -131,6 +137,7 @@ export const DiscrictFilter = memo(({ filters, setFilters }) => {
       <div className="filter_item discrict_filter">
          <CustomSelect
             keyer='district_id'
+            label={"Tuman"}
             value={options?.filter(item => filters.district_id === item.value)[0]}
             options={options}
             setFilters={setFilters}
@@ -142,23 +149,26 @@ export const DiscrictFilter = memo(({ filters, setFilters }) => {
 
 export const DateFilter = memo(({ filters, setFilters }) => {
    return (
-      <div className="filter_item data_filter">
-         <input
-            type="date"
-            placeholder="dan..."
-            defaultValue={filters?.from}
-            onChange={(e) => {
-               setFilters({ ...filters, from: e.target.value });
-            }}
-         />
-         <input
-            type="date"
-            placeholder="gacha..."
-            defaultValue={filters?.to}
-            onChange={(e) => {
-               setFilters({ ...filters, to: e.target.value });
-            }}
-         />
+      <div>
+         <label className="filter_label">Davr (dan..., ...gacha)</label>
+         <div className="filter_item data_filter">
+            <input
+               type="date"
+               placeholder="dan..."
+               defaultValue={filters?.from}
+               onChange={(e) => {
+                  setFilters({ ...filters, from: e.target.value });
+               }}
+            />
+            <input
+               type="date"
+               placeholder="gacha..."
+               defaultValue={filters?.to}
+               onChange={(e) => {
+                  setFilters({ ...filters, to: e.target.value });
+               }}
+            />
+         </div>
       </div>
    )
 })
@@ -168,6 +178,7 @@ export const GenderFilter = memo(({ filters, setFilters }) => {
       <div className="filter_item gender_filter">
          <CustomSelect
             keyer='gender'
+            label={"Jins"}
             value={gender_options?.filter((item) => filters.gender === item.value)[0]}
             options={gender_options}
             setFilters={setFilters}
@@ -182,6 +193,7 @@ export const ClientMarksFilter = memo(({ filters, setFilters }) => {
       <div className="filter_item cl_filter">
          <CustomSelect
             keyer='client_mark'
+            label={"KL1 shakl"}
             value={client_marks_options?.filter((item) => filters.client_mark === item.value)[0]}
             options={client_marks_options}
             setFilters={setFilters}
@@ -203,6 +215,7 @@ export const SectorFilter = memo(({ filters, setFilters }) => {
          <div className="filter_item sector_filter">
             <CustomSelect
                keyer='sector_id'
+               label={"Maqsad"}
                value={options?.filter((item) => filters.sector_id === item.value)[0]}
                options={options}
                setFilters={setFilters}
@@ -210,6 +223,7 @@ export const SectorFilter = memo(({ filters, setFilters }) => {
             />
          </div>
          <div className="filter_item lifetime_filter">
+            <label className="filter_label">Kredit muddati</label>
             <input
                type="number"
                placeholder="Kredit davomiyligi bo'yicha (oyda)..."
@@ -227,6 +241,7 @@ export const ProductFilter = memo(({ filters, setFilters }) => {
       <div className="filter_item">
          <CustomSelect
             keyer='product_id'
+            label={"Mahsulot"}
             value={options?.filter((item) => filters.product_id === item.value)[0]}
             options={options}
             setFilters={setFilters}
@@ -238,10 +253,12 @@ export const ProductFilter = memo(({ filters, setFilters }) => {
 
 export const ClearFilters = memo(({ filters, setFilters, initialFilters }) => {
    return (
-      <Tooltip content={"Filterni tozalash"} placement="topStart">
-         <button className="clear_filter" onClick={() => setFilters({ ...initialFilters, order_by: filters?.order_by })}>
-            <AiOutlineClear />
-         </button>
-      </Tooltip>
+      <div className="all_filter_clear">
+         <Tooltip content={"Filterni tozalash"} placement="topStart">
+            <button className="clear_filter" onClick={() => setFilters({ ...initialFilters, order_by: filters?.order_by })}>
+               <AiOutlineClear />
+            </button>
+         </Tooltip>
+      </div>
    )
 })

@@ -13,8 +13,8 @@ function Filters({ branch_id }) {
       <div className="filters">
          <h3>Filtrlar</h3>
          <div className="filter_box">
-            {branch_id === 99 ? <BranchFilter filters={filters} setFilters={setFilters} /> : null}
             <QueryFilter filters={filters} setFilters={setFilters} placeholder={"Nomi yoki kodi orqali qidirish..."} />
+            {branch_id === 99 ? <BranchFilter filters={filters} setFilters={setFilters} /> : null}
             <ClearFilters filters={filters} setFilters={setFilters} initialFilters={initialFilters} />
          </div>
       </div>
