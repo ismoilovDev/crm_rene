@@ -124,25 +124,28 @@ function Contracts() {
 		getUrl()
 	}, [currentPage]);
 
-	function searchContents(e) {
+	async function searchContents(e) {
 		e.preventDefault();
 		e.stopPropagation();
 		setLoading(true);
 		let formdata = new FormData();
 		formdata.append('search', searchInput.current.value)
-		https
-			.post(`/search/contracts`, formdata)
-			.then(({ data }) => {
-				setLoading(false)
-				setIsPaginateActive(false)
-				setShartnamalar([...data])
-				console.log(data);
-			})
-			.catch(err => {
-				searchInput.current.value == "" ? (
-					getUrl()
-				) : console.log("Xato")
-			})
+
+		try{
+			const res = await https.post(`/search/contracts`, formdata)
+			const { data } = res;
+			setLoading(false)
+			setIsPaginateActive(false)
+			setShartnamalar([...data.data])
+		}
+		catch (err) {
+			console.log('catch');
+			if (searchInput.current.value === "") {
+				getUrl();
+			} else {
+				console.log("Xato");
+			}
+		}
 	}
 
 	function checkSearch(text) {

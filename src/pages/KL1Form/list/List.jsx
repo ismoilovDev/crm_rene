@@ -12,6 +12,7 @@ import fullName from './../../../utils/functions/fullName';
 
 const role = JSON.parse(window.localStorage.getItem('role'))
 const branch_id = +window.localStorage.getItem('branch_id')
+const user_id = +window.localStorage.getItem('user_id')
 
 function ClientMarks({ filters }) {
 	const { page } = useParams()
@@ -149,7 +150,7 @@ function ClientMarks({ filters }) {
 																	<button
 																		className={item?.contract?.id ? 'disable_edit' : ''}
 																		onClick={() => {
-																			item?.contract?.id ?
+																			(item?.contract?.id && !(role.includes('kleditor') && item?.user_id === user_id))?
 																				alert("Shartnoma to'ldirilgan") :
 																				navigateEditPage(item?.id)
 																		}}

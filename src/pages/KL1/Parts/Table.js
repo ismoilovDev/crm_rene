@@ -213,126 +213,6 @@ function Table() {
       }
    }
 
-   // async function PostFirst(dataBase) {
-   //    await https
-   //       .post('/activities', dataBase)
-   //       .then(res => {
-   //          console.log(res)
-   //       })
-   //       .catch(err => {
-   //          console.log(err)
-   //          return (alert(err?.response?.data?.message, 'error'))
-   //       })
-   // }
-   // async function PostBoshqa(firstItem) {
-   //    await https
-   //       .post('/other-income', firstItem)
-   //       .then(res => {
-   //          console.log(firstItem);
-   //          console.log(res);
-   //       })
-   //       .catch(err => {
-   //          console.log(firstItem);
-   //          console.log(err)
-   //          return (alert(err?.response?.data?.message, 'error'))
-   //       })
-   // }
-
-   // async function PostBiznes(biznesPlusItem) {
-   //    await https
-   //       .post('/business-incomes', biznesPlusItem)
-   //       .then(res => {
-   //          console.log(res)
-   //       })
-   //       .catch(err => {
-   //          console.log(err)
-   //          return (alert(err?.response?.data?.message, 'error'))
-   //       })
-   // }
-
-   // async function PostBiznesMinus(biznesMinusItem) {
-   //    await https
-   //       .post('/business-expenses', biznesMinusItem)
-   //       .then(res => {
-   //          console.log(res)
-   //       })
-   //       .catch(err => {
-   //          console.log(err)
-   //          return (alert(err?.response?.data?.message, 'error'))
-   //       })
-   // }
-
-   // async function PostFamily(familyPlusItem) {
-   //    await https
-   //       .post('/family-incomes', familyPlusItem)
-   //       .then(res => {
-   //          console.log(res)
-   //       })
-   //       .catch(err => {
-   //          console.log(err)
-   //          return (alert(err?.response?.data?.message, 'error'))
-   //       })
-   // }
-
-   // async function PostFamilyMinus(familyMinusItem) {
-   //    await https
-   //       .post('/family-expenses', familyMinusItem)
-   //       .then(res => {
-   //          console.log(res)
-   //       })
-   //       .catch(err => {
-   //          console.log(err)
-   //          return (alert(err?.response?.data?.message, 'error'))
-   //       })
-   // }
-
-   // async function PostFamilyKredit(familyKreditItem) {
-   //    await https
-   //       .post('/family-loans', familyKreditItem)
-   //       .then(res => {
-   //          console.log(res)
-   //       })
-   //       .catch(err => {
-   //          console.log(err)
-   //          return (alert(err?.response?.data?.message, 'error'))
-   //       })
-   // }
-
-   // async function PostClientKredit(clientKreditItem) {
-   //    await https
-   //       .post('/loans', clientKreditItem)
-   //       .then(res => {
-   //          console.log(res)
-   //       })
-   //       .catch(err => {
-   //          console.log(err)
-   //          return (alert(err?.response?.data?.message, 'error'))
-   //       })
-   // }
-
-   // async function PostMavsumiyDaromad(Item) {
-   //    await https
-   //       .post('/seasonal-income', Item)
-   //       .then(res => {
-   //          console.log(res)
-   //       })
-   //       .catch(err => {
-   //          console.log(err)
-   //          return (alert(err?.response?.data?.message, 'error'))
-   //       })
-   // }
-
-   // async function PostMavsumiyXarajat(Item) {
-   //    await https
-   //       .post('/seasonal-expense', Item)
-   //       .then(res => {
-   //          console.log(res)
-   //       })
-   //       .catch(err => {
-   //          console.log(err)
-   //          return (alert(err?.response?.data?.message, 'error'))
-   //       })
-   // }
 
    const onSubmit = async(data) => {
       if (dataTable?.status) {
@@ -384,104 +264,16 @@ function Table() {
       mulkItem.map(item => {
          mulkCopy.push(item.name)
       })
-      // Boshqa
+
       const newOtherIncomes = myDaromads?.map(({id, monthly, ...item}) => item)
-      // myDaromads?.map(item => {
-      //    let firstItem = {
-      //       name: item?.nomi,
-      //       volume: item?.hajmi,
-      //       unit_price: item?.birlikNarxi,
-      //       worth: item?.qiymati,
-      //       comment: item?.izoh
-      //    }
-      //    newOtherIncomes.push(firstItem)
-      // })
-      // Mavsumiy
       const newMavsumiyDaromads = mavsumiyDaromads?.map(({id, ...item}) => item)
-      // mavsumiyDaromads?.map(item => {
-      //    let productItem = {
-      //       name: item?.name,
-      //       income: item?.value
-      //    }
-      //    newMavsumiyDaromads.push(productItem)
-      // })
       const newMavsumiyXarajats = mavsumiyXarajats?.map(({id, ...item}) => item)
-      // mavsumiyXarajats?.map(item => {
-      //    let productItem = {
-      //       name: item?.name,
-      //       expense: item?.value
-      //    }
-      //    newMavsumiyXarajats.push(productItem)
-      // })
-      // Biznes
       const newBiznesDaromads = biznesDaromads?.map(({id, ...item}) => ({'type': 1, ...item}))
-      // biznesDaromads?.map(item => {
-      //    let biznesPlusItem = {
-      //       "name": item?.name,
-      //       "monthly_volume": item?.volume,
-      //       "unit_price": item?.price,
-      //       "average_price": item?.percent,
-      //       "monthly_income": item?.plus,
-      //       "comment": item?.commit,
-      //       "type": 1
-      //    }
-      //    newBiznesDaromads.push(biznesPlusItem)
-      // })
       const newBiznesXarajats = biznesXarajats?.map(({id, ...item}) => ({'type': 1, ...item}))
-      // biznesXarajats?.map(item => {
-      //    let biznesMinusItem = {
-      //       "name": item?.name,
-      //       "volume": item?.volume,
-      //       "price": item?.price,
-      //       "value": item?.cost,
-      //       "average_monthly_expense": item?.minus,
-      //       "comment": item?.commit,
-      //       "type": 1
-      //    }
-      //    newBiznesXarajats.push(biznesMinusItem)
-      // })
-      // 6-Qism
       const newFamilyDaromad = familyDaromad?.map(({id, ...item}) => item)
-      // familyDaromad?.map(item => {
-      //    let familyPlusItem = {
-      //       "name": item?.name,
-      //       "activity_type": item?.type,
-      //       "activity_address": item?.address,
-      //       "monthly_income": item?.profit,
-      //       "comment": item?.commit
-      //    }
-      //    newFamilyDaromad.push(familyPlusItem)
-      // })
       const newFamilyXarajat = familyXarajat?.map(({id, ...item}) => item)
-      // familyXarajat?.map(item => {
-      //    let familyMinusItem = {
-      //       "name": item?.name,
-      //       "expense": item?.minus,
-      //       "comment": item?.commit
-      //    }
-      //    newFamilyXarajat.push(familyMinusItem)
-      // })
       const newFamilyMalumot = familyMalumot?.map(({id, ...item}) => item)
-      // familyMalumot?.map(item => {
-      //    let familyKreditItem = {
-      //       "name": item?.name,
-      //       "main": item?.rest,
-      //       "monthly": item?.pay,
-      //       "comment": item?.commit
-      //    }
-      //    newFamilyMalumot.push(familyKreditItem)
-      // })
-      // 7-Qism
       const newLoans = familyMavjud?.map(({id, ...item}) => item)
-      // familyMavjud?.map(item => {
-      //    let clientKreditItem = {
-      //       "name": item?.name,
-      //       "main": item?.rest,
-      //       "monthly": item?.pay,
-      //       "comment": item?.commit
-      //    }
-      //    newLoans.push(clientKreditItem)
-      // })
 
       let info = {
          user_id: userID,
@@ -506,26 +298,20 @@ function Table() {
          table_work_stability: dataTable?.table_work_stability,
          table_expected_growth: dataTable?.table_expected_growth,
          status: dataTable?.status,
-         // 1 Qism
          activity: {
             type: dataFirstQism.type,
             address: dataFirstQism.address,
             owner: dataFirstQism.owner,
             duration: dataFirstQism.duration
          },
-         // Boshqa
          other_incomes: newOtherIncomes,
-         // Mavsumiy
          seasonal_incomes: newMavsumiyDaromads,
          seasonal_expenses: newMavsumiyXarajats,
-         // Biznes
          business_incomes: newBiznesDaromads,
          business_expenses: newBiznesXarajats,
-         // 6-Qism
          family_incomes: newFamilyDaromad,
          family_expenses: newFamilyXarajat,
          family_loans: newFamilyMalumot,
-         // 7-Qism
          loans: newLoans
       }
 
@@ -533,198 +319,11 @@ function Table() {
          Object.assign(info, { monthly_income: monthDaromad, monthly_expense: monthXarajat })
       }
 
-      console.log(info);
-
       https
          .post('/client-marks', info)
          .then(res => {
             console.log(info)
             console.log(res?.data)
-            
-            // if (res?.data) {
-               // // 1 Qism
-               // let dataBase = {
-               //    type: dataFirstQism.type,
-               //    address: dataFirstQism.address,
-               //    owner: dataFirstQism.owner,
-               //    duration: dataFirstQism.duration,
-               //    client_mark_id: res?.data?.id
-               // }
-               // console.log(dataBase);
-               // PostFirst(dataBase)
-
-               // // Boshqa
-               // if (checkOthers) {
-               //    let newArray = []
-               //    myDaromads?.map(item => {
-               //       let firstItem = {
-               //          name: item?.nomi,
-               //          volume: item?.hajmi,
-               //          unit_price: item?.birlikNarxi,
-               //          worth: item?.qiymati,
-               //          comment: item?.izoh
-               //       }
-               //       newArray.push(firstItem)
-               //    })
-               //    let newObject = {
-               //       client_mark_id: res?.data?.id,
-               //       other_income: newArray
-               //    }
-               //    console.log(newObject);
-               //    PostBoshqa(newObject)
-               // }
-
-               // Mavsumiy
-               // if (checkMavsumiy) {
-               //    let newArray = []
-               //    mavsumiyDaromads?.map(item => {
-               //       let productItem = {
-               //          name: item?.name,
-               //          income: item?.value
-               //       }
-               //       newArray.push(productItem)
-               //    })
-               //    let newObject = {
-               //       client_mark_id: res?.data?.id,
-               //       seasonal_income: newArray
-               //    }
-               //    console.log(newObject);
-               //    PostMavsumiyDaromad(newObject)
-               //    // \\
-               //    let newArray2 = []
-               //    mavsumiyXarajats?.map(item => {
-               //       let productItem = {
-               //          name: item?.name,
-               //          expense: item?.value
-               //       }
-               //       newArray2.push(productItem)
-               //    })
-               //    let newObject2 = {
-               //       client_mark_id: res?.data?.id,
-               //       seasonal_expense: newArray2
-               //    }
-               //    console.log(newObject2);
-               //    PostMavsumiyXarajat(newObject2)
-               // }
-
-               // Biznes
-               // if (checkBiznes) {
-               //    let newArray = []
-               //    biznesDaromads?.map(item => {
-               //       let biznesPlusItem = {
-               //          "name": item?.name,
-               //          "monthly_volume": item?.volume,
-               //          "unit_price": item?.price,
-               //          "average_price": item?.percent,
-               //          "monthly_income": item?.plus,
-               //          "comment": item?.commit,
-               //          "type": 1
-               //       }
-               //       newArray.push(biznesPlusItem)
-               //    })
-               //    let newObject = {
-               //       client_mark_id: res?.data?.id,
-               //       business_income: newArray
-               //    }
-               //    console.log(newObject);
-               //    PostBiznes(newObject)
-               //    // \\
-               //    let newArray2 = []
-               //    biznesXarajats?.map(item => {
-               //       let biznesMinusItem = {
-               //          "name": item?.name,
-               //          "volume": item?.volume,
-               //          "price": item?.price,
-               //          "value": item?.cost,
-               //          "average_monthly_expense": item?.minus,
-               //          "comment": item?.commit,
-               //          "type": 1
-               //       }
-               //       newArray2.push(biznesMinusItem)
-               //    })
-               //    let newObject2 = {
-               //       client_mark_id: res?.data?.id,
-               //       business_expense: newArray2
-               //    }
-               //    console.log(newObject2);
-               //    PostBiznesMinus(newObject2)
-               // }
-
-               // 6 Qism
-               // if (familyDaromad[0].profit != 0) {
-               //    let newArray = []
-               //    familyDaromad.map(item => {
-               //       let familyPlusItem = {
-               //          "name": item?.name,
-               //          "activity_type": item?.type,
-               //          "activity_address": item?.address,
-               //          "monthly_income": item?.profit,
-               //          "comment": item?.commit
-               //       }
-               //       newArray.push(familyPlusItem)
-               //    })
-               //    let newObject = {
-               //       client_mark_id: res?.data?.id,
-               //       family_income: newArray
-               //    }
-               //    console.log(newObject);
-               //    PostFamily(newObject)
-               // }
-
-               // if (familyXarajat[0].minus != 0) {
-               //    let newArray = []
-               //    familyXarajat.map(item => {
-               //       let familyMinusItem = {
-               //          "name": item?.name,
-               //          "expense": item?.minus,
-               //          "comment": item?.commit
-               //       }
-               //       newArray.push(familyMinusItem)
-               //    })
-               //    let newObject = {
-               //       client_mark_id: res?.data?.id,
-               //       family_expense: newArray
-               //    }
-               //    console.log(newObject);
-               //    PostFamilyMinus(newObject)
-               // }
-
-               // if (familyMalumot[0].pay != 0) {
-               //    let newArray = []
-               //    familyMalumot.map(item => {
-               //       let familyKreditItem = {
-               //          "name": item?.name,
-               //          "main": item?.rest,
-               //          "monthly": item?.pay,
-               //          "comment": item?.commit
-               //       }
-               //       newArray.push(familyKreditItem)
-               //    })
-               //    let newObject = {
-               //       client_mark_id: res?.data?.id,
-               //       family_loans: newArray
-               //    }
-               //    PostFamilyKredit(newObject)
-               // }
-
-               // if (familyMavjud[0].pay != 0) {
-               //    let newArray = []
-               //    familyMavjud.map(item => {
-               //       let clientKreditItem = {
-               //          "name": item?.name,
-               //          "main": item?.rest,
-               //          "monthly": item?.pay,
-               //          "comment": item?.commit
-               //       }
-               //       newArray.push(clientKreditItem)
-               //    })
-               //    let newObject = {
-               //       client_mark_id: res?.data?.id,
-               //       loans: newArray
-               //    }
-               //    PostClientKredit(newObject)
-               // }
-               // }
 
             setTimeout(() => {
                alert("KL1 shakl qo'shildi", "success")
