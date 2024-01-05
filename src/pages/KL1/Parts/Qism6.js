@@ -41,10 +41,10 @@ function Oilaviy() {
         let newfamilyDaromad = [{
             id:uuidv4(),
             name:'',
-            type:'',
-            address:'',
-            profit:0,
-            commit:''
+            activity_type:'',
+            activity_address:'',
+            monthly_income: 0,
+            comment:''
         }]
         setFamilyDaromad(familyDaromad.concat(newfamilyDaromad))
     }
@@ -58,7 +58,7 @@ function Oilaviy() {
     function getSumDaromad(){
         let daromad = []
         familyDaromad.map(item =>{
-            daromad.push(item.profit)
+            daromad.push(item.monthly_income)
         })
         let totalDaromadSum = daromad.reduce((prev,current) => Number(prev) + Number(current), 0)
         return totalDaromadSum.toLocaleString()
@@ -70,8 +70,8 @@ function Oilaviy() {
         let newfamilyXarajat = [{
             id:uuidv4(),
             name:'',
-            minus:0,
-            commit:''
+            expense: 0,
+            comment:''
         }]
         setFamilyXarajat(familyXarajat.concat(newfamilyXarajat))
     }
@@ -85,7 +85,7 @@ function Oilaviy() {
     function getSumXarajat(){
         let xarajat = []
         familyXarajat?.map(item =>{
-            xarajat.push(item.minus)
+            xarajat.push(item.expense)
         })
         let totalXarajatSum = xarajat.reduce((prev,current) => Number(prev) + Number(current), 0)
         return totalXarajatSum.toLocaleString()
@@ -97,9 +97,9 @@ function Oilaviy() {
         let newfamilyMalumot = [{
             id:uuidv4(),
             name:'',
-            rest:0,
-            pay:0,
-            commit:''
+            main: 0,
+            monthly: 0,
+            comment:''
         }]
         setFamilyMalumot(familyMalumot.concat(newfamilyMalumot))
     }
@@ -113,7 +113,7 @@ function Oilaviy() {
     function getMalumotPay(){
         let malumotPay = []
         familyMalumot?.map(item =>{
-            malumotPay.push(item.pay)
+            malumotPay.push(item.monthly)
         })
         let totalMalumotSumPay = malumotPay.reduce((prev,current) => Number(prev) + Number(current), 0)
         return totalMalumotSumPay.toLocaleString()
@@ -122,7 +122,7 @@ function Oilaviy() {
     function getMalumotRest(){
         let malumotRest = []
         familyMalumot.map(item =>{
-            malumotRest.push(item.rest)
+            malumotRest.push(item.main)
         })
         let totalMalumotSumRest = malumotRest.reduce((prev,current) => Number(prev) + Number(current), 0)
         return totalMalumotSumRest.toLocaleString()
@@ -131,19 +131,19 @@ function Oilaviy() {
     function totalMalumot(){
         let daromad = []
         familyDaromad.map(item =>{
-            daromad.push(item.profit)
+            daromad.push(item.monthly_income)
         })
         let totalDaromadSum = daromad.reduce((prev,current) => Number(prev) + Number(current), 0)
 
         let xarajat = []
         familyXarajat.map(item =>{
-            xarajat.push(item.minus)
+            xarajat.push(item.expense)
         })
         let totalXarajatSum = xarajat.reduce((prev,current) => Number(prev) + Number(current), 0)
 
         let malumotPay = []
         familyMalumot.map(item =>{
-            malumotPay.push(item.pay)
+            malumotPay.push(item.monthly)
         })
         let totalMalumotSumPay = malumotPay.reduce((prev,current) => Number(prev) + Number(current), 0)
 
@@ -197,10 +197,10 @@ function Oilaviy() {
                                         color="secondary"
                                         width='47%'
                                         className='kl1_input'
-                                        value={familyDaromad.find(x => x.id === item.id).type}
+                                        value={familyDaromad.find(x => x.id === item.id).activity_type}
                                         onChange={(e)=>{
                                             let newFamilyDaromad = [...familyDaromad]
-                                            newFamilyDaromad[index].type = e.target.value
+                                            newFamilyDaromad[index].activity_type = e.target.value
                                             setFamilyDaromad(newFamilyDaromad)
                                         }}
                                     />
@@ -211,10 +211,10 @@ function Oilaviy() {
                                         color="secondary"
                                         width='47%'
                                         className='kl1_input'
-                                        value={familyDaromad.find(x => x.id === item.id).address}
+                                        value={familyDaromad.find(x => x.id === item.id).activity_address}
                                         onChange={(e)=>{
                                             let newFamilyDaromad = [...familyDaromad]
-                                            newFamilyDaromad[index].address = e.target.value
+                                            newFamilyDaromad[index].activity_address = e.target.value
                                             setFamilyDaromad(newFamilyDaromad)
                                         }}
                                     />
@@ -222,11 +222,11 @@ function Oilaviy() {
                                         <label>Bir oylik daromad</label>
                                         <NumericFormat
                                             thousandSeparator={' '}
-                                            value={familyDaromad.find(x => x.id === item.id).profit}
+                                            value={familyDaromad.find(x => x.id === item.id).monthly_income}
                                             onChange={(e)=>{
                                                 const changed_number = Number((e.target.value).replace(/\s/g, ''))
                                                 const newFamilyDaromad = [...familyDaromad]
-                                                newFamilyDaromad[index].profit = changed_number
+                                                newFamilyDaromad[index].monthly_income = changed_number
                                                 setFamilyDaromad(newFamilyDaromad)
                                             }}
                                         />
@@ -238,10 +238,10 @@ function Oilaviy() {
                                         color="secondary"
                                         className='kl1_input'
                                         label='Izoh'
-                                        value={familyDaromad.find(x => x.id === item.id).commit}
+                                        value={familyDaromad.find(x => x.id === item.id).comment}
                                         onChange={(e)=>{
                                             let newFamilyDaromad = [...familyDaromad]
-                                            newFamilyDaromad[index].commit = e.target.value
+                                            newFamilyDaromad[index].comment = e.target.value
                                             setFamilyDaromad(newFamilyDaromad)
                                         }}
                                     />
@@ -291,11 +291,11 @@ function Oilaviy() {
                                         <label>Ortaja oylik xarajat</label>
                                         <NumericFormat
                                             thousandSeparator={' '}
-                                            value={familyXarajat.find(x => x.id === item.id).minus}
+                                            value={familyXarajat.find(x => x.id === item.id).expense}
                                             onChange={(e)=>{
                                                 const changed_number = Number((e.target.value).replace(/\s/g, ''))
                                                 let newFamilyXarajat = [...familyXarajat]
-                                                newFamilyXarajat[index].minus = changed_number
+                                                newFamilyXarajat[index].expense = changed_number
                                                 setFamilyXarajat(newFamilyXarajat)
                                             }}
                                         />
@@ -307,10 +307,10 @@ function Oilaviy() {
                                         color="secondary"
                                         className='kl1_input'
                                         label='Izoh'
-                                        value={familyXarajat.find(x => x.id === item.id).commit}
+                                        value={familyXarajat.find(x => x.id === item.id).comment}
                                         onChange={(e)=>{
                                             let newFamilyXarajat = [...familyXarajat]
-                                            newFamilyXarajat[index].commit = e.target.value
+                                            newFamilyXarajat[index].comment = e.target.value
                                             setFamilyXarajat(newFamilyXarajat)
                                         }}
                                     />
@@ -360,11 +360,11 @@ function Oilaviy() {
                                         <label>Asosiy qarz qoldigi</label>
                                         <NumericFormat
                                             thousandSeparator={' '}
-                                            value={familyMalumot.find(x => x.id === item.id).rest}
+                                            value={familyMalumot.find(x => x.id === item.id).main}
                                             onChange={(e)=>{
                                                 const changed_number = Number((e.target.value).replace(/\s/g, ''))
                                                 const newFamilyMalumott = [...familyMalumot]
-                                                newFamilyMalumott[index].rest = changed_number
+                                                newFamilyMalumott[index].main = changed_number
                                                 setFamilyMalumot(newFamilyMalumott)
                                             }}
                                         />
@@ -373,11 +373,11 @@ function Oilaviy() {
                                         <label>Oylik tolov miqdori</label>
                                         <NumericFormat
                                             thousandSeparator={' '}
-                                            value={familyMalumot.find(x => x.id === item.id).pay}
+                                            value={familyMalumot.find(x => x.id === item.id).monthly}
                                             onChange={(e)=>{
                                                 const changed_number = Number((e.target.value).replace(/\s/g, ''))
                                                 const newFamilyMalumott = [...familyMalumot]
-                                                newFamilyMalumott[index].pay = changed_number
+                                                newFamilyMalumott[index].monthly = changed_number
                                                 setFamilyMalumot(newFamilyMalumott)
                                             }}
                                         />
@@ -389,10 +389,10 @@ function Oilaviy() {
                                         color="secondary"
                                         className='kl1_input'
                                         label='Izoh'
-                                        value={familyMalumot.find(x => x.id === item.id).commit}
+                                        value={familyMalumot.find(x => x.id === item.id).comment}
                                         onChange={(e)=>{
                                             let newFamilyMalumott = [...familyMalumot]
-                                            newFamilyMalumott[index].commit = e.target.value
+                                            newFamilyMalumott[index].comment = e.target.value
                                             setFamilyMalumot(newFamilyMalumott)
                                         }}
                                     />

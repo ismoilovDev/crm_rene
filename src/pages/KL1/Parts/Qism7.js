@@ -32,7 +32,7 @@ function BuyurtmaOylik() {
    function getSumDaromadBiznes() {
       let newBiznesDaromad = []
       biznesDaromads.map((item, index) => {
-         newBiznesDaromad.push(item.plus)
+         newBiznesDaromad.push(item.monthly_income)
       })
       let totalDaromad = newBiznesDaromad.reduce((prev, current) => Number(prev) + Number(current), 0)
       return totalDaromad
@@ -41,7 +41,7 @@ function BuyurtmaOylik() {
    function getSumXarajatBiznes() {
       let newBiznesXarajat = []
       biznesXarajats.map((item, index) => {
-         newBiznesXarajat.push(item.minus)
+         newBiznesXarajat.push(item.average_monthly_expense)
       })
       let totalXarajat = newBiznesXarajat.reduce((prev, current) => Number(prev) + Number(current), 0)
       return totalXarajat
@@ -51,7 +51,7 @@ function BuyurtmaOylik() {
    const getTotalSumBoshqa = () => {
       const newSumArray = []
       myDaromads.map((item, index) => {
-         newSumArray.push(item.oylik)
+         newSumArray.push(item.monthly)
       })
       let totalPrices = newSumArray.reduce((prev, current) => prev + current, 0)
       return totalPrices
@@ -60,7 +60,7 @@ function BuyurtmaOylik() {
    const getDaromadSumMavsumiy = () => {
       const SumArr1 = []
       mavsumiyDaromads.map((item, index) => {
-         SumArr1.push(Number(item.value))
+         SumArr1.push(Number(item.income))
       })
       let totalSum1 = SumArr1.reduce((prev, current) => prev + current, 0)
       return totalSum1
@@ -69,7 +69,7 @@ function BuyurtmaOylik() {
    const getXarajatSumMavsumiy = () => {
       const SumArr2 = []
       mavsumiyXarajats.map((item, index) => {
-         SumArr2.push(Number(item.value))
+         SumArr2.push(Number(item.expense))
       })
       let totalSum2 = SumArr2.reduce((prev, current) => prev + current, 0)
       return totalSum2
@@ -105,10 +105,9 @@ function BuyurtmaOylik() {
          sum: infoOrder?.sum,
          time: infoOrder?.time,
          percent: infoOrder?.percent_year,
-         given_date: infoOrder?.contract ? infoOrder?.contract?.contract_issue_date : infoOrder?.order_date,
-         first_repayment_date: infoOrder?.contract ? infoOrder?.contract?.first_repayment_date : nextMonth(infoOrder?.order_date)
+         given_date: infoOrder?.order_date,
+         first_repayment_date: nextMonth(infoOrder?.order_date)
       }
-
       namunaRequest(data)
    }, [])
 
@@ -127,9 +126,9 @@ function BuyurtmaOylik() {
       let newfamilyMavjud = [{
          id: uuidv4(),
          name: '',
-         rest: 0,
-         pay: 0,
-         commit: ''
+         main: 0,
+         monthly: 0,
+         comment: ''
       }]
       setFamilyMavjud(familyMavjud.concat(newfamilyMavjud))
 
@@ -144,7 +143,7 @@ function BuyurtmaOylik() {
    function mavjudRest() {
       let rest = []
       familyMavjud?.map(item => {
-         rest.push(item.rest)
+         rest.push(item.main)
       })
       let totalRest = rest.reduce((prev, current) => Number(prev) + Number(current), 0)
       return totalRest.toLocaleString()
@@ -153,7 +152,7 @@ function BuyurtmaOylik() {
    function mavjudPay() {
       let pay = []
       familyMavjud?.map(item => {
-         pay.push(item.pay)
+         pay.push(item.monthly)
       })
       let totalPay = pay.reduce((prev, current) => Number(prev) + Number(current), 0)
 
@@ -163,7 +162,7 @@ function BuyurtmaOylik() {
    function procentNumberBefore() {
       let pay = []
       familyMavjud?.map(item => {
-         pay.push(item.pay)
+         pay.push(item.monthly)
       })
       let totalPay = pay.reduce((prev, current) => Number(prev) + Number(current), 0)
 
@@ -173,7 +172,7 @@ function BuyurtmaOylik() {
    function procentNumber() {
       let pay = []
       familyMavjud?.map(item => {
-         pay.push(item.pay)
+         pay.push(item.monthly)
       })
       let totalPay = pay.reduce((prev, current) => Number(prev) + Number(current), 0)
       return ((((kreditData?.interest + kreditData?.principal_debt + totalPay) / sof) * 100).toFixed(2))
@@ -224,11 +223,11 @@ function BuyurtmaOylik() {
                            <label>Asosiy qarz qoldigi</label>
                            <NumericFormat
                               thousandSeparator={' '}
-                              value={familyMavjud?.find(x => x.id === item.id).rest}
+                              value={familyMavjud?.find(x => x.id === item.id).main}
                               onChange={(e)=>{
                                  const changed_number = Number((e.target.value).replace(/\s/g, ''))
                                  const newFamilyMavjud = [...familyMavjud]
-                                 newFamilyMavjud[index].rest = changed_number
+                                 newFamilyMavjud[index].main = changed_number
                                  setFamilyMavjud(newFamilyMavjud)
                               }}
                            />
@@ -237,11 +236,11 @@ function BuyurtmaOylik() {
                            <label>Oylik tolov miqdori</label>
                            <NumericFormat
                               thousandSeparator={' '}
-                              value={familyMavjud?.find(x => x.id === item.id).pay}
+                              value={familyMavjud?.find(x => x.id === item.id).monthly}
                               onChange={(e)=>{
                                  const changed_number = Number((e.target.value).replace(/\s/g, ''))
                                  let newFamilyMavjud = [...familyMavjud]
-                                 newFamilyMavjud[index].pay = changed_number
+                                 newFamilyMavjud[index].monthly = changed_number
                                  setFamilyMavjud(newFamilyMavjud)
                               }}
                            />
@@ -253,10 +252,10 @@ function BuyurtmaOylik() {
                            color="secondary"
                            className='kl1_input'
                            label='Izoh'
-                           value={familyMavjud?.find(x => x.id === item.id).commit}
+                           value={familyMavjud?.find(x => x.id === item.id).comment}
                            onChange={(e) => {
                               let newFamilyMavjud = [...familyMavjud]
-                              newFamilyMavjud[index].commit = e.target.value
+                              newFamilyMavjud[index].comment = e.target.value
                               setFamilyMavjud(newFamilyMavjud)
                            }}
                         />

@@ -36,11 +36,11 @@ function Biznes() {
       let newBiznesDaromad = [{
          id: uuidv4(),
          name: '',
-         volume: 0,
-         price: 0,
-         percent: 0,
-         plus: 0,
-         commit: ''
+         monthly_volume: 0,
+         unit_price: 0,
+         average_price: 0,
+         monthly_income: 0,
+         comment: ''
       }]
       setBiznesDaromads(biznesDaromads.concat(newBiznesDaromad))
    }
@@ -54,7 +54,7 @@ function Biznes() {
    function getSumDaromad() {
       let newBiznesDaromad = []
       biznesDaromads.map((item, index) => {
-         newBiznesDaromad.push(item.plus)
+         newBiznesDaromad.push(item.monthly_income)
       })
       let totalDaromad = newBiznesDaromad.reduce((prev, current) => Number(prev) + Number(current), 0)
       return totalDaromad
@@ -68,9 +68,9 @@ function Biznes() {
          name: '',
          volume: 0,
          price: 0,
-         cost: 0,
-         minus: 0,
-         commit: ''
+         value: 0,
+         average_monthly_expense: 0,
+         comment: ''
       }]
       setBiznesXarajats(biznesXarajats.concat(newBiznesXarajat))
    }
@@ -84,7 +84,7 @@ function Biznes() {
    function getSumXarajat() {
       let newBiznesXarajat = []
       biznesXarajats.map((item, index) => {
-         newBiznesXarajat.push(item.minus)
+         newBiznesXarajat.push(item.average_monthly_expense)
       })
       let totalXarajat = newBiznesXarajat.reduce((prev, current) => Number(prev) + Number(current), 0)
       return totalXarajat
@@ -125,12 +125,12 @@ function Biznes() {
                               <label>Oylik hajm</label>
                               <NumericFormat
                                  thousandSeparator={' '}
-                                 value={biznesDaromads.find(x => x.id === item.id).volume}
+                                 value={biznesDaromads.find(x => x.id === item.id).monthly_volume}
                                  onChange={(e) => {
                                     const changed_number = Number((e.target.value).replace(/\s/g, ''))
                                     const newBiznesDaromadArr = [...biznesDaromads]
-                                    newBiznesDaromadArr[index].volume = changed_number
-                                    newBiznesDaromadArr[index].plus = (changed_number) * ((newBiznesDaromadArr[index].percent) / 100) * (newBiznesDaromadArr[index].price)
+                                    newBiznesDaromadArr[index].monthly_volume = changed_number
+                                    newBiznesDaromadArr[index].monthly_income = (changed_number) * ((newBiznesDaromadArr[index].average_price) / 100) * (newBiznesDaromadArr[index].unit_price)
                                     setBiznesDaromads(newBiznesDaromadArr)
                                  }}
                               />
@@ -139,12 +139,12 @@ function Biznes() {
                               <label>1 birlikning o'rtacha sotish naxri</label>
                               <NumericFormat
                                  thousandSeparator={' '}
-                                 value={biznesDaromads.find(x => x.id === item.id).price}
+                                 value={biznesDaromads.find(x => x.id === item.id).unit_price}
                                  onChange={(e) => {
                                     const changed_number = Number((e.target.value).replace(/\s/g, ''))
                                     const newBiznesDaromadArr = [...biznesDaromads]
-                                    newBiznesDaromadArr[index].price = changed_number
-                                    newBiznesDaromadArr[index].plus = (changed_number) * ((newBiznesDaromadArr[index].percent) / 100) * (newBiznesDaromadArr[index].volume)
+                                    newBiznesDaromadArr[index].unit_price = changed_number
+                                    newBiznesDaromadArr[index].monthly_income = (changed_number) * ((newBiznesDaromadArr[index].average_price) / 100) * (newBiznesDaromadArr[index].monthly_volume)
                                     setBiznesDaromads(newBiznesDaromadArr)
                                  }}
                               />
@@ -158,11 +158,11 @@ function Biznes() {
                               type='number'
                               onWheel={(e) => e.target.blur()}
                               className='kl1_input'
-                              value={biznesDaromads.find(x => x.id === item.id).percent}
+                              value={biznesDaromads.find(x => x.id === item.id).average_price}
                               onChange={(e) => {
                                  let newBiznesDaromadArr = [...biznesDaromads]
-                                 newBiznesDaromadArr[index].percent = e.target.value
-                                 newBiznesDaromadArr[index].plus = (newBiznesDaromadArr[index].volume) * ((e.target.value) / 100) * (newBiznesDaromadArr[index].price)
+                                 newBiznesDaromadArr[index].average_price = e.target.value
+                                 newBiznesDaromadArr[index].monthly_income = (newBiznesDaromadArr[index].monthly_volume) * ((e.target.value) / 100) * (newBiznesDaromadArr[index].unit_price)
                                  setBiznesDaromads(newBiznesDaromadArr)
                               }}
                            />
@@ -170,11 +170,11 @@ function Biznes() {
                               <label>Bir oylik daromad</label>
                               <NumericFormat
                                  thousandSeparator={' '}
-                                 value={biznesDaromads.find(x => x.id === item.id).plus}
+                                 value={biznesDaromads.find(x => x.id === item.id).monthly_income}
                                  onChange={(e) => {
                                     const changed_number = Number((e.target.value).replace(/\s/g, ''))
                                     const newBiznesDaromadArr = [...biznesDaromads]
-                                    newBiznesDaromadArr[index].plus = changed_number
+                                    newBiznesDaromadArr[index].monthly_income = changed_number
                                     setBiznesDaromads(newBiznesDaromadArr)
                                  }}
                               />
@@ -186,10 +186,10 @@ function Biznes() {
                               color="secondary"
                               className='kl1_input'
                               label='Izoh'
-                              value={biznesDaromads.find(x => x.id === item.id).commit}
+                              value={biznesDaromads.find(x => x.id === item.id).comment}
                               onChange={(e) => {
                                  let newBiznesDaromadArr = [...biznesDaromads]
-                                 newBiznesDaromadArr[index].commit = e.target.value
+                                 newBiznesDaromadArr[index].comment = e.target.value
                                  setBiznesDaromads(newBiznesDaromadArr)
                               }}
                            />
@@ -241,7 +241,7 @@ function Biznes() {
                                     const changed_number = Number((e.target.value).replace(/\s/g, ''))
                                     const newBiznesXarajatArr = [...biznesXarajats]
                                     newBiznesXarajatArr[index].volume = changed_number
-                                    newBiznesXarajatArr[index].minus = (changed_number) * (newBiznesXarajatArr[index].price)
+                                    newBiznesXarajatArr[index].average_monthly_expense = (changed_number) * (newBiznesXarajatArr[index].price)
                                     setBiznesXarajats(newBiznesXarajatArr)
                                  }}
                               />
@@ -255,7 +255,7 @@ function Biznes() {
                                     const changed_number = Number((e.target.value).replace(/\s/g, ''))
                                     const newBiznesXarajatArr = [...biznesXarajats]
                                     newBiznesXarajatArr[index].price = changed_number
-                                    newBiznesXarajatArr[index].minus = (changed_number) * (newBiznesXarajatArr[index].volume)
+                                    newBiznesXarajatArr[index].average_monthly_expense = (changed_number) * (newBiznesXarajatArr[index].volume)
                                     setBiznesXarajats(newBiznesXarajatArr)
                                  }}
                               />
@@ -264,11 +264,11 @@ function Biznes() {
                               <label>Qiymati</label>
                               <NumericFormat
                                  thousandSeparator={' '}
-                                 value={biznesXarajats.find(x => x.id === item.id).cost}
+                                 value={biznesXarajats.find(x => x.id === item.id).value}
                                  onChange={(e) => {
                                     const changed_number = Number((e.target.value).replace(/\s/g, ''))
                                     const newBiznesXarajatArr = [...biznesXarajats]
-                                    newBiznesXarajatArr[index].cost = changed_number
+                                    newBiznesXarajatArr[index].value = changed_number
                                     setBiznesXarajats(newBiznesXarajatArr)
                                  }}
                               />
@@ -277,11 +277,11 @@ function Biznes() {
                               <label>O'rtacha oylik xarajat</label>
                               <NumericFormat
                                  thousandSeparator={' '}
-                                 value={biznesXarajats.find(x => x.id === item.id).minus}
+                                 value={biznesXarajats.find(x => x.id === item.id).average_monthly_expense}
                                  onChange={(e) => {
                                     const changed_number = Number((e.target.value).replace(/\s/g, ''))
                                     const newBiznesXarajatArr = [...biznesXarajats]
-                                    newBiznesXarajatArr[index].minus = changed_number
+                                    newBiznesXarajatArr[index].average_monthly_expense = changed_number
                                     setBiznesXarajats(newBiznesXarajatArr)
                                  }}
                               />
@@ -293,10 +293,10 @@ function Biznes() {
                               color="secondary"
                               className='kl1_input'
                               label='Izoh'
-                              value={biznesXarajats.find(x => x.id === item.id).commit}
+                              value={biznesXarajats.find(x => x.id === item.id).comment}
                               onChange={(e) => {
                                  let newBiznesXarajatArr = [...biznesXarajats]
-                                 newBiznesXarajatArr[index].commit = e.target.value
+                                 newBiznesXarajatArr[index].comment = e.target.value
                                  setBiznesXarajats(newBiznesXarajatArr)
                               }}
                            />

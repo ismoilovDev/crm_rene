@@ -42,12 +42,12 @@ function Boshqa() {
     function addMyDaromad(){
         let newMyDaromad = [{
             id: uuidv4(),
-            nomi:'',
-            qiymati:'',
-            birlikNarxi:0,
-            hajmi:0,
-            oylik:0,
-            izoh:''
+            name:'',
+            volume:'',
+            unit_price: 0,
+            worth: 0,
+            monthly: 0,
+            comment:''
         }]
         setMyDaromads(myDaromads.concat(newMyDaromad))
     }
@@ -61,7 +61,7 @@ function Boshqa() {
     const getTotalSum = () => {
         const newSumArray = []
         myDaromads.map((item, index) => {
-            newSumArray.push(item.oylik)
+            newSumArray.push(item.monthly)
         })
         let totalPrices = newSumArray.reduce((prev, current) => prev + current, 0)
         return totalPrices.toLocaleString()
@@ -136,12 +136,12 @@ function Boshqa() {
                                 <label>Hajmi</label>
                                 <NumericFormat
                                     thousandSeparator={' '}
-                                    value={myDaromads.find(x => x.id === item.id).hajmi}
+                                    value={myDaromads.find(x => x.id === item.id).volume}
                                     onChange={(e)=>{
                                         const changed_number = Number((e.target.value).replace(/\s/g, ''))
                                         const newBoshqaDaromads = [...myDaromads]
-                                        newBoshqaDaromads[index].oylik = (changed_number)*(emptyCheck(newBoshqaDaromads[index].birlikNarxi))
-                                        newBoshqaDaromads[index].hajmi = changed_number
+                                        newBoshqaDaromads[index].monthly = (changed_number)*(emptyCheck(newBoshqaDaromads[index].unit_price))
+                                        newBoshqaDaromads[index].volume = changed_number
                                         setMyDaromads(newBoshqaDaromads)
                                     }}
                                 />
@@ -150,12 +150,12 @@ function Boshqa() {
                                 <label>Birlik narxi</label>
                                 <NumericFormat
                                     thousandSeparator={' '}
-                                    value={myDaromads.find(x => x.id === item.id).birlikNarxi}
+                                    value={myDaromads.find(x => x.id === item.id).unit_price}
                                     onChange={(e)=>{
                                         const changed_number = Number((e.target.value).replace(/\s/g, ''))
                                         const newBoshqaDaromads = [...myDaromads]
-                                        newBoshqaDaromads[index].birlikNarxi = changed_number
-                                        newBoshqaDaromads[index].oylik = (changed_number)*(emptyCheck(newBoshqaDaromads[index].hajmi))
+                                        newBoshqaDaromads[index].unit_price = changed_number
+                                        newBoshqaDaromads[index].monthly = (changed_number)*(emptyCheck(newBoshqaDaromads[index].volume))
                                         setMyDaromads(newBoshqaDaromads)
                                     }}
                                 />
@@ -164,11 +164,11 @@ function Boshqa() {
                                 <label>Qiymati</label>
                                 <NumericFormat
                                     thousandSeparator={' '}
-                                    value={myDaromads.find(x => x.id === item.id).qiymati}
+                                    value={myDaromads.find(x => x.id === item.id).worth}
                                     onChange={(e)=>{
                                         const changed_number = Number((e.target.value).replace(/\s/g, ''))
                                         const newBoshqaDaromads = [...myDaromads]
-                                        newBoshqaDaromads[index].qiymati = changed_number
+                                        newBoshqaDaromads[index].worth = changed_number
                                         setMyDaromads(newBoshqaDaromads)
                                     }}
                                 />
@@ -177,11 +177,11 @@ function Boshqa() {
                                 <label>Oylik daromad</label>
                                 <NumericFormat
                                     thousandSeparator={' '}
-                                    value={emptyCheck((myDaromads[index].birlikNarxi)*(myDaromads[index].hajmi))}
+                                    value={emptyCheck((myDaromads[index].unit_price)*(myDaromads[index].volume))}
                                     onChange={(e)=>{
                                         const changed_number = Number((e.target.value).replace(/\s/g, ''))
                                         const newBoshqaDaromads = [...myDaromads]
-                                        newBoshqaDaromads[index].oylik = changed_number
+                                        newBoshqaDaromads[index].monthly = changed_number
                                         setMyDaromads(newBoshqaDaromads)
                                     }}
                                 />
@@ -193,10 +193,10 @@ function Boshqa() {
                                 color="secondary"
                                 className='kl1_input'
                                 label='Izoh'
-                                value={myDaromads.find(x => x.id === item.id).izoh}
+                                value={myDaromads.find(x => x.id === item.id).comment}
                                 onChange={(e)=>{
                                     const newBoshqaDaromads = [...myDaromads]
-                                    newBoshqaDaromads[index].izoh = e.target.value
+                                    newBoshqaDaromads[index].comment = e.target.value
                                     setMyDaromads(newBoshqaDaromads)
                                 }}
                             />

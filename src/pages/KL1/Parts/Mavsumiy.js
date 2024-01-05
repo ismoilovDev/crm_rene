@@ -37,7 +37,7 @@ function Mavsumiy() {
         let newMavsumiyDaromad = [{
             id:uuidv4(),
             name:'',
-            value:0
+            income: 0
         }]
         setMavsumiyDaromads(mavsumiyDaromads.concat(newMavsumiyDaromad))
     }
@@ -51,7 +51,7 @@ function Mavsumiy() {
     const getDaromadSum = () =>{
         const SumArr1 = []
         mavsumiyDaromads.map((item,index)=>{
-            SumArr1.push(Number(item.value))
+            SumArr1.push(Number(item.income))
         })
         let totalSum1 = SumArr1.reduce((prev, current)=> prev + current, 0)
         return totalSum1
@@ -70,7 +70,7 @@ function Mavsumiy() {
         let newMavsumiyXarajat = [{
             id: uuidv4(),
             name:'',
-            value:0
+            expense: 0
         }]
         setMavsumiyXarajats(mavsumiyXarajats.concat(newMavsumiyXarajat))
     }
@@ -84,7 +84,7 @@ function Mavsumiy() {
     const getXarajatSum = () =>{
         const SumArr2 = []
         mavsumiyXarajats.map((item,index)=>{
-            SumArr2.push(Number(item.value))
+            SumArr2.push(Number(item.expense))
         })
         let totalSum2 = SumArr2.reduce((prev, current)=> prev + current, 0)
         return totalSum2
@@ -136,11 +136,11 @@ function Mavsumiy() {
                             <label>Yillik daromad hajmi</label>
                             <NumericFormat
                                 thousandSeparator={' '}
-                                value={mavsumiyDaromads.find(x => x.id === item.id).value}
+                                value={mavsumiyDaromads.find(x => x.id === item.id).income}
                                 onChange={(e)=>{
                                     const changed_number = Number((e.target.value).replace(/\s/g, ''))
                                     const newArrayMavsumiyDaromads = [...mavsumiyDaromads]
-                                    newArrayMavsumiyDaromads[index].value = changed_number
+                                    newArrayMavsumiyDaromads[index].income = changed_number
                                     setMavsumiyDaromads(newArrayMavsumiyDaromads)
                                 }}
                             />
@@ -210,11 +210,11 @@ function Mavsumiy() {
                             <label>Yillik xarajat hajmi</label>
                             <NumericFormat
                                 thousandSeparator={' '}
-                                value={mavsumiyXarajats.find(x => x.id === item.id).value}
+                                value={mavsumiyXarajats.find(x => x.id === item.id).expense}
                                 onChange={(e)=>{
                                     const changed_number = Number((e.target.value).replace(/\s/g, ''))
                                     const newArrayMavsumiyXarajats = [...mavsumiyXarajats]
-                                    newArrayMavsumiyXarajats[index].value = changed_number
+                                    newArrayMavsumiyXarajats[index].expense = changed_number
                                     setMavsumiyXarajats(newArrayMavsumiyXarajats)
                                 }}
                             />

@@ -149,9 +149,9 @@ function ClientMarks({ filters }) {
 																	<button
 																		className={item?.contract?.id ? 'disable_edit' : ''}
 																		onClick={() => {
-																			item?.contract === null ?
-																				navigateEditPage(item?.id) :
-																				alert("Shartnoma to'ldirilgan")
+																			item?.contract?.id ?
+																				alert("Shartnoma to'ldirilgan") :
+																				navigateEditPage(item?.id)
 																		}}
 																	>
 																		<i className='bx bx-edit-alt white'></i>

@@ -55,7 +55,7 @@ function Table() {
    function GetSumDaromadBiznes() {
       let newBiznesDaromad = []
       biznesDaromads.map((item, index) => {
-         newBiznesDaromad.push(item.plus)
+         newBiznesDaromad.push(item.monthly_income)
       })
       let totalDaromad = newBiznesDaromad.reduce((prev, current) => Number(prev) + Number(current), 0)
       return (totalDaromad ? totalDaromad : 0)
@@ -64,7 +64,7 @@ function Table() {
    function GetSumXarajatBiznes() {
       let newBiznesXarajat = []
       biznesXarajats.map((item, index) => {
-         newBiznesXarajat.push(item.minus)
+         newBiznesXarajat.push(item.average_monthly_expense)
       })
       let totalXarajat = newBiznesXarajat.reduce((prev, current) => Number(prev) + Number(current), 0)
       return (totalXarajat ? totalXarajat : 0)
@@ -89,7 +89,7 @@ function Table() {
    const getTotalSumBoshqa = () => {
       const newSumArray = []
       myDaromads.map((item, index) => {
-         newSumArray.push(item.oylik)
+         newSumArray.push(item.monthly)
       })
       let totalPrices = newSumArray.reduce((prev, current) => prev + current, 0)
       return (totalPrices ? totalPrices : 0)
@@ -98,7 +98,7 @@ function Table() {
    const GetDaromadSumMavsumiy = () => {
       const SumArr1 = []
       mavsumiyDaromads?.map((item, index) => {
-         SumArr1.push(Number(item.value))
+         SumArr1.push(Number(item.income))
       })
       let totalSum1 = SumArr1.reduce((prev, current) => prev + current, 0)
       return (totalSum1 ? totalSum1 : 0)
@@ -107,7 +107,7 @@ function Table() {
    const GetXarajatSumMavsumiy = () => {
       const SumArr2 = []
       mavsumiyXarajats?.map((item, index) => {
-         SumArr2.push(Number(item.value))
+         SumArr2.push(Number(item.expense))
       })
       let totalSum2 = SumArr2.reduce((prev, current) => prev + current, 0)
       return (totalSum2 ? totalSum2 : 0)
@@ -116,7 +116,7 @@ function Table() {
    function GetSumXarajatQism6() {
       let xarajat = []
       familyXarajat?.map(item => {
-         xarajat.push(item.minus)
+         xarajat.push(item.expense)
       })
       let totalXarajatSum = xarajat.reduce((prev, current) => Number(prev) + Number(current), 0)
       return (totalXarajatSum ? totalXarajatSum : 0)
@@ -124,7 +124,7 @@ function Table() {
    function GetMalumotPayQism6() {
       let malumotPay = []
       familyMalumot?.map(item => {
-         malumotPay.push(item.pay)
+         malumotPay.push(item.monthly)
       })
       let totalMalumotSumPay = malumotPay.reduce((prev, current) => Number(prev) + Number(current), 0)
       return (totalMalumotSumPay ? totalMalumotSumPay : 0)
@@ -162,8 +162,8 @@ function Table() {
          sum: infoOrder?.sum,
          time: infoOrder?.time,
          percent: infoOrder?.percent_year,
-         given_date: infoOrder?.contract ? infoOrder?.contract?.contract_issue_date : infoOrder?.order_date,
-         first_repayment_date: infoOrder?.contract ? infoOrder?.contract?.first_repayment_date : nextMonth(infoOrder?.order_date)
+         given_date: infoOrder?.order_date,
+         first_repayment_date: nextMonth(infoOrder?.order_date)
       }
 
       namunaRequest(data)
@@ -172,7 +172,7 @@ function Table() {
    function ProcentNumber() {
       let pay = []
       familyMavjud?.map(item => {
-         pay.push(item.pay)
+         pay.push(item.monthly)
       })
       let totalPay = pay.reduce((prev, current) => Number(prev) + Number(current), 0)
 
@@ -180,9 +180,7 @@ function Table() {
    }
 
    let navigate = useNavigate()
-   function FinishStep() {
-      navigate('/kl1', { replace: true });
-   }
+
    function BackStep() {
       navigate("/client-marks/add/7_qism", { replace: true });
    }
@@ -215,126 +213,126 @@ function Table() {
       }
    }
 
-   async function PostFirst(dataBase) {
-      await https
-         .post('/activities', dataBase)
-         .then(res => {
-            console.log(res)
-         })
-         .catch(err => {
-            console.log(err)
-            return (alert(err?.response?.data?.message, 'error'))
-         })
-   }
-   async function PostBoshqa(firstItem) {
-      await https
-         .post('/other-income', firstItem)
-         .then(res => {
-            console.log(firstItem);
-            console.log(res);
-         })
-         .catch(err => {
-            console.log(firstItem);
-            console.log(err)
-            return (alert(err?.response?.data?.message, 'error'))
-         })
-   }
+   // async function PostFirst(dataBase) {
+   //    await https
+   //       .post('/activities', dataBase)
+   //       .then(res => {
+   //          console.log(res)
+   //       })
+   //       .catch(err => {
+   //          console.log(err)
+   //          return (alert(err?.response?.data?.message, 'error'))
+   //       })
+   // }
+   // async function PostBoshqa(firstItem) {
+   //    await https
+   //       .post('/other-income', firstItem)
+   //       .then(res => {
+   //          console.log(firstItem);
+   //          console.log(res);
+   //       })
+   //       .catch(err => {
+   //          console.log(firstItem);
+   //          console.log(err)
+   //          return (alert(err?.response?.data?.message, 'error'))
+   //       })
+   // }
 
-   async function PostBiznes(biznesPlusItem) {
-      await https
-         .post('/business-incomes', biznesPlusItem)
-         .then(res => {
-            console.log(res)
-         })
-         .catch(err => {
-            console.log(err)
-            return (alert(err?.response?.data?.message, 'error'))
-         })
-   }
+   // async function PostBiznes(biznesPlusItem) {
+   //    await https
+   //       .post('/business-incomes', biznesPlusItem)
+   //       .then(res => {
+   //          console.log(res)
+   //       })
+   //       .catch(err => {
+   //          console.log(err)
+   //          return (alert(err?.response?.data?.message, 'error'))
+   //       })
+   // }
 
-   async function PostBiznesMinus(biznesMinusItem) {
-      await https
-         .post('/business-expenses', biznesMinusItem)
-         .then(res => {
-            console.log(res)
-         })
-         .catch(err => {
-            console.log(err)
-            return (alert(err?.response?.data?.message, 'error'))
-         })
-   }
+   // async function PostBiznesMinus(biznesMinusItem) {
+   //    await https
+   //       .post('/business-expenses', biznesMinusItem)
+   //       .then(res => {
+   //          console.log(res)
+   //       })
+   //       .catch(err => {
+   //          console.log(err)
+   //          return (alert(err?.response?.data?.message, 'error'))
+   //       })
+   // }
 
-   async function PostFamily(familyPlusItem) {
-      await https
-         .post('/family-incomes', familyPlusItem)
-         .then(res => {
-            console.log(res)
-         })
-         .catch(err => {
-            console.log(err)
-            return (alert(err?.response?.data?.message, 'error'))
-         })
-   }
+   // async function PostFamily(familyPlusItem) {
+   //    await https
+   //       .post('/family-incomes', familyPlusItem)
+   //       .then(res => {
+   //          console.log(res)
+   //       })
+   //       .catch(err => {
+   //          console.log(err)
+   //          return (alert(err?.response?.data?.message, 'error'))
+   //       })
+   // }
 
-   async function PostFamilyMinus(familyMinusItem) {
-      await https
-         .post('/family-expenses', familyMinusItem)
-         .then(res => {
-            console.log(res)
-         })
-         .catch(err => {
-            console.log(err)
-            return (alert(err?.response?.data?.message, 'error'))
-         })
-   }
+   // async function PostFamilyMinus(familyMinusItem) {
+   //    await https
+   //       .post('/family-expenses', familyMinusItem)
+   //       .then(res => {
+   //          console.log(res)
+   //       })
+   //       .catch(err => {
+   //          console.log(err)
+   //          return (alert(err?.response?.data?.message, 'error'))
+   //       })
+   // }
 
-   async function PostFamilyKredit(familyKreditItem) {
-      await https
-         .post('/family-loans', familyKreditItem)
-         .then(res => {
-            console.log(res)
-         })
-         .catch(err => {
-            console.log(err)
-            return (alert(err?.response?.data?.message, 'error'))
-         })
-   }
+   // async function PostFamilyKredit(familyKreditItem) {
+   //    await https
+   //       .post('/family-loans', familyKreditItem)
+   //       .then(res => {
+   //          console.log(res)
+   //       })
+   //       .catch(err => {
+   //          console.log(err)
+   //          return (alert(err?.response?.data?.message, 'error'))
+   //       })
+   // }
 
-   async function PostClientKredit(clientKreditItem) {
-      await https
-         .post('/loans', clientKreditItem)
-         .then(res => {
-            console.log(res)
-         })
-         .catch(err => {
-            console.log(err)
-            return (alert(err?.response?.data?.message, 'error'))
-         })
-   }
+   // async function PostClientKredit(clientKreditItem) {
+   //    await https
+   //       .post('/loans', clientKreditItem)
+   //       .then(res => {
+   //          console.log(res)
+   //       })
+   //       .catch(err => {
+   //          console.log(err)
+   //          return (alert(err?.response?.data?.message, 'error'))
+   //       })
+   // }
 
-   async function PostMavsumiyDaromad(Item) {
-      await https
-         .post('/seasonal-income', Item)
-         .then(res => {
-            console.log(res)
-         })
-         .catch(err => {
-            console.log(err)
-            return (alert(err?.response?.data?.message, 'error'))
-         })
-   }
+   // async function PostMavsumiyDaromad(Item) {
+   //    await https
+   //       .post('/seasonal-income', Item)
+   //       .then(res => {
+   //          console.log(res)
+   //       })
+   //       .catch(err => {
+   //          console.log(err)
+   //          return (alert(err?.response?.data?.message, 'error'))
+   //       })
+   // }
 
-   async function PostMavsumiyXarajat(Item) {
-      await https
-         .post('/seasonal-expense', Item)
-         .then(res => {
-            console.log(res)
-         })
-         .catch(err => {
-            console.log(err)
-            return (alert(err?.response?.data?.message, 'error'))
-         })
-   }
+   // async function PostMavsumiyXarajat(Item) {
+   //    await https
+   //       .post('/seasonal-expense', Item)
+   //       .then(res => {
+   //          console.log(res)
+   //       })
+   //       .catch(err => {
+   //          console.log(err)
+   //          return (alert(err?.response?.data?.message, 'error'))
+   //       })
+   // }
 
    const onSubmit = async(data) => {
       if (dataTable?.status) {
@@ -387,103 +385,103 @@ function Table() {
          mulkCopy.push(item.name)
       })
       // Boshqa
-      let newOtherIncomes = []
-      myDaromads?.map(item => {
-         let firstItem = {
-            name: item?.nomi,
-            volume: item?.hajmi,
-            unit_price: item?.birlikNarxi,
-            worth: item?.qiymati,
-            comment: item?.izoh
-         }
-         newOtherIncomes.push(firstItem)
-      })
+      const newOtherIncomes = myDaromads?.map(({id, monthly, ...item}) => item)
+      // myDaromads?.map(item => {
+      //    let firstItem = {
+      //       name: item?.nomi,
+      //       volume: item?.hajmi,
+      //       unit_price: item?.birlikNarxi,
+      //       worth: item?.qiymati,
+      //       comment: item?.izoh
+      //    }
+      //    newOtherIncomes.push(firstItem)
+      // })
       // Mavsumiy
-      let newMavsumiyDaromads = []
-      mavsumiyDaromads?.map(item => {
-         let productItem = {
-            name: item?.name,
-            income: item?.value
-         }
-         newMavsumiyDaromads.push(productItem)
-      })
-      let newMavsumiyXarajats = []
-      mavsumiyXarajats?.map(item => {
-         let productItem = {
-            name: item?.name,
-            expense: item?.value
-         }
-         newMavsumiyXarajats.push(productItem)
-      })
+      const newMavsumiyDaromads = mavsumiyDaromads?.map(({id, ...item}) => item)
+      // mavsumiyDaromads?.map(item => {
+      //    let productItem = {
+      //       name: item?.name,
+      //       income: item?.value
+      //    }
+      //    newMavsumiyDaromads.push(productItem)
+      // })
+      const newMavsumiyXarajats = mavsumiyXarajats?.map(({id, ...item}) => item)
+      // mavsumiyXarajats?.map(item => {
+      //    let productItem = {
+      //       name: item?.name,
+      //       expense: item?.value
+      //    }
+      //    newMavsumiyXarajats.push(productItem)
+      // })
       // Biznes
-      let newBiznesDaromads = []
-      biznesDaromads?.map(item => {
-         let biznesPlusItem = {
-            "name": item?.name,
-            "monthly_volume": item?.volume,
-            "unit_price": item?.price,
-            "average_price": item?.percent,
-            "monthly_income": item?.plus,
-            "comment": item?.commit,
-            "type": 1
-         }
-         newBiznesDaromads.push(biznesPlusItem)
-      })
-      let newBiznesXarajats = []
-      biznesXarajats?.map(item => {
-         let biznesMinusItem = {
-            "name": item?.name,
-            "volume": item?.volume,
-            "price": item?.price,
-            "value": item?.cost,
-            "average_monthly_expense": item?.minus,
-            "comment": item?.commit,
-            "type": 1
-         }
-         newBiznesXarajats.push(biznesMinusItem)
-      })
+      const newBiznesDaromads = biznesDaromads?.map(({id, ...item}) => ({'type': 1, ...item}))
+      // biznesDaromads?.map(item => {
+      //    let biznesPlusItem = {
+      //       "name": item?.name,
+      //       "monthly_volume": item?.volume,
+      //       "unit_price": item?.price,
+      //       "average_price": item?.percent,
+      //       "monthly_income": item?.plus,
+      //       "comment": item?.commit,
+      //       "type": 1
+      //    }
+      //    newBiznesDaromads.push(biznesPlusItem)
+      // })
+      const newBiznesXarajats = biznesXarajats?.map(({id, ...item}) => ({'type': 1, ...item}))
+      // biznesXarajats?.map(item => {
+      //    let biznesMinusItem = {
+      //       "name": item?.name,
+      //       "volume": item?.volume,
+      //       "price": item?.price,
+      //       "value": item?.cost,
+      //       "average_monthly_expense": item?.minus,
+      //       "comment": item?.commit,
+      //       "type": 1
+      //    }
+      //    newBiznesXarajats.push(biznesMinusItem)
+      // })
       // 6-Qism
-      let newFamilyDaromad = []
-      familyDaromad?.map(item => {
-         let familyPlusItem = {
-            "name": item?.name,
-            "activity_type": item?.type,
-            "activity_address": item?.address,
-            "monthly_income": item?.profit,
-            "comment": item?.commit
-         }
-         newFamilyDaromad.push(familyPlusItem)
-      })
-      let newFamilyXarajat = []
-      familyXarajat?.map(item => {
-         let familyMinusItem = {
-            "name": item?.name,
-            "expense": item?.minus,
-            "comment": item?.commit
-         }
-         newFamilyXarajat.push(familyMinusItem)
-      })
-      let newFamilyMalumot = []
-      familyMalumot?.map(item => {
-         let familyKreditItem = {
-            "name": item?.name,
-            "main": item?.rest,
-            "monthly": item?.pay,
-            "comment": item?.commit
-         }
-         newFamilyMalumot.push(familyKreditItem)
-      })
+      const newFamilyDaromad = familyDaromad?.map(({id, ...item}) => item)
+      // familyDaromad?.map(item => {
+      //    let familyPlusItem = {
+      //       "name": item?.name,
+      //       "activity_type": item?.type,
+      //       "activity_address": item?.address,
+      //       "monthly_income": item?.profit,
+      //       "comment": item?.commit
+      //    }
+      //    newFamilyDaromad.push(familyPlusItem)
+      // })
+      const newFamilyXarajat = familyXarajat?.map(({id, ...item}) => item)
+      // familyXarajat?.map(item => {
+      //    let familyMinusItem = {
+      //       "name": item?.name,
+      //       "expense": item?.minus,
+      //       "comment": item?.commit
+      //    }
+      //    newFamilyXarajat.push(familyMinusItem)
+      // })
+      const newFamilyMalumot = familyMalumot?.map(({id, ...item}) => item)
+      // familyMalumot?.map(item => {
+      //    let familyKreditItem = {
+      //       "name": item?.name,
+      //       "main": item?.rest,
+      //       "monthly": item?.pay,
+      //       "comment": item?.commit
+      //    }
+      //    newFamilyMalumot.push(familyKreditItem)
+      // })
       // 7-Qism
-      let newLoans = []
-      familyMavjud?.map(item => {
-         let clientKreditItem = {
-            "name": item?.name,
-            "main": item?.rest,
-            "monthly": item?.pay,
-            "comment": item?.commit
-         }
-         newLoans.push(clientKreditItem)
-      })
+      const newLoans = familyMavjud?.map(({id, ...item}) => item)
+      // familyMavjud?.map(item => {
+      //    let clientKreditItem = {
+      //       "name": item?.name,
+      //       "main": item?.rest,
+      //       "monthly": item?.pay,
+      //       "comment": item?.commit
+      //    }
+      //    newLoans.push(clientKreditItem)
+      // })
 
       let info = {
          user_id: userID,
@@ -535,12 +533,14 @@ function Table() {
          Object.assign(info, { monthly_income: monthDaromad, monthly_expense: monthXarajat })
       }
 
+      console.log(info);
+
       https
          .post('/client-marks', info)
          .then(res => {
             console.log(info)
             console.log(res?.data)
-
+            
             // if (res?.data) {
                // // 1 Qism
                // let dataBase = {
