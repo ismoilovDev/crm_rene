@@ -180,8 +180,8 @@ function EditTable() {
          sum: infoOrder?.sum,
          time: infoOrder?.time,
          percent: infoOrder?.percent_year,
-         given_date: mainInfo?.contract ? mainInfo?.contract?.contract_issue_date : infoOrder?.order_date,
-         first_repayment_date: nextMonth(infoOrder?.order_date)
+         given_date: mainInfo?.contract?.id && mainInfo?.contract?.contract_issue_date ? mainInfo?.contract?.contract_issue_date : infoOrder?.order_date,
+         first_repayment_date: mainInfo?.contract && mainInfo?.contract?.first_repayment_date ? mainInfo?.contract?.first_repayment_date : nextMonth(infoOrder?.order_date)
       }
 
       namunaRequest(data)
