@@ -149,7 +149,7 @@ function ClientMarks({ filters }) {
 																	<button
 																		className={item?.contract?.id ? 'disable_edit' : ''}
 																		onClick={() => {
-																			item?.contract === null ?
+																			(item?.contract === null || role.includes('kleditor')) ?
 																				navigateEditPage(item?.id) :
 																				alert("Shartnoma to'ldirilgan")
 																		}}

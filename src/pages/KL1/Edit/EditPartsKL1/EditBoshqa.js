@@ -62,7 +62,7 @@ function EditBoshqa(props) {
     
     const getTotalSum = () => {
         const newSumArray = []
-        myDaromads.map((item, index) => {
+        myDaromads?.map((item, index) => {
             newSumArray.push(item.unit_price * item.volume)
         })
         let totalPrices = newSumArray.reduce((prev, current) => prev + current, 0)

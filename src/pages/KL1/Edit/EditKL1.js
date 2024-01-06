@@ -113,9 +113,9 @@ function EditKL1() {
                mark_date: res?.data?.mark_date
             })
             // 1 Qism
-            setPath(res?.data?.images)
-            setFamilyMem(res?.data?.family)
-            setMulkItem(res?.data?.property)
+            setPath(res?.data?.images ? res?.data?.images : [])
+            setFamilyMem(res?.data?.family ? res?.data?.family : [])
+            setMulkItem(res?.data?.property ? res?.data?.property : [])
             setDataFirstQism({
                conversation_result: res?.data?.conversation_result,
                living_condition: res?.data?.living_condition,
@@ -125,10 +125,10 @@ function EditKL1() {
                duration: res?.data?.activity?.duration
             })
             // Boshqa
-            setMyDaromads(res?.data?.other_income)
+            setMyDaromads(res?.data?.other_income ? res?.data?.other_income : [])
             // Mavsumiy;
-            setMavsumiyDaromads(res?.data?.seasonal_income)
-            setMavsumiyXarajats(res?.data?.seasonal_expense)
+            setMavsumiyDaromads(res?.data?.seasonal_income ? res?.data?.seasonal_income : [])
+            setMavsumiyXarajats(res?.data?.seasonal_expense ? res?.data?.seasonal_expense : [])
             
             if(res?.data?.monthly_income){
                setMonthDaromad(res?.data?.monthly_income)
@@ -142,14 +142,14 @@ function EditKL1() {
                setMonthXarajat(defaultMonthly)
             }
             // Biznes
-            setBiznesDaromads(res?.data?.business_incomes)
-            setBiznesXarajats(res?.data?.business_expenses)
+            setBiznesDaromads(res?.data?.business_incomes ? res?.data?.business_incomes : [])
+            setBiznesXarajats(res?.data?.business_expenses ? res?.data?.business_expenses : [])
             // 6 Qism
-            setFamilyDaromad(res?.data?.family_incomes)
-            setFamilyXarajat(res?.data?.family_expenses)
-            setFamilyMalumot(res?.data?.family_loans)
+            setFamilyDaromad(res?.data?.family_incomes ? res?.data?.family_incomes : [])
+            setFamilyXarajat(res?.data?.family_expenses ? res?.data?.family_expenses : [])
+            setFamilyMalumot(res?.data?.family_loans ? res?.data?.family_loans : [])
             // 7-Qism
-            setClientLoans(res?.data?.loans)
+            setClientLoans(res?.data?.loans ? res?.data?.loans : [])
             setHistoryKredit(res?.data?.credit_history)
             setContract(res?.data?.contract)
             // Table

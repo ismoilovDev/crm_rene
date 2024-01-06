@@ -52,7 +52,7 @@ function EditBiznes() {
 
     function getSumDaromad(){
         let newBiznesDaromad = []
-        biznesDaromads.map((item,index)=>{
+        biznesDaromads?.map((item,index)=>{
             newBiznesDaromad.push(item.monthly_income)
         })
         let totalDaromad = newBiznesDaromad.reduce((prev,current)=> Number(prev) + Number(current), 0)
@@ -84,7 +84,7 @@ function EditBiznes() {
 
     function getSumXarajat(){
         let newBiznesXarajat = []
-        biznesXarajats.map((item,index)=>{
+        biznesXarajats?.map((item,index)=>{
             newBiznesXarajat.push(item.average_monthly_expense)
         })
         let totalXarajat = newBiznesXarajat.reduce((prev,current)=> Number(prev) + Number(current), 0)

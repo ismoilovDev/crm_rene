@@ -30,7 +30,7 @@ function P2Form() {
                <p>{fullName(documentInfo?.branch?.committee_chairman)}</p>
             </div>
             <div className='between align_center pdf_margin_top_10 capitalize'>
-               <p>Kredit Qo‘mitasi a'zorali</p>
+               <p>Kredit Qo‘mitasi a'zolari</p>
                <p>{fullName(documentInfo?.branch?.committee_members[0])}</p>
             </div>
             <div className='between align_center pdf_margin_top_10 capitalize'>
@@ -350,7 +350,7 @@ function P2Form() {
                <p>{fullName(documentInfo?.branch?.committee_chairman)}</p>
             </div>
             <div className='between align_center pdf_margin_top_10'>
-               <p>Kredit Komissiyasi a'zorali</p>
+               <p>Kredit Komissiyasi a'zolari</p>
                <p>{fullName(documentInfo?.branch?.committee_members[0])}</p>
             </div>
             <div className='between align_center pdf_margin_top_10'>

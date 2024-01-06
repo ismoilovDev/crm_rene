@@ -52,7 +52,7 @@ function EditMavsumiy() {
 
    const getDaromadSum = () => {
       const SumArr1 = []
-      mavsumiyDaromads.map((item, index) => {
+      mavsumiyDaromads?.map((item, index) => {
          SumArr1.push(Number(item.income))
       })
       let totalSum1 = SumArr1.reduce((prev, current) => prev + current, 0)
@@ -93,7 +93,7 @@ function EditMavsumiy() {
 
    const getXarajatSum = () => {
       const SumArr2 = []
-      mavsumiyXarajats.map((item, index) => {
+      mavsumiyXarajats?.map((item, index) => {
          SumArr2.push(Number(item.expense))
       })
       let totalSum2 = SumArr2.reduce((prev, current) => prev + current, 0)

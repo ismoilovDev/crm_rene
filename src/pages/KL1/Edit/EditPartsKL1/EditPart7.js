@@ -31,7 +31,7 @@ function EditPart7() {
 
     function getSumDaromadBiznes(){
         let newBiznesDaromad = []
-        biznesDaromads.map((item,index)=>{
+        biznesDaromads?.map((item,index)=>{
             newBiznesDaromad.push(item.monthly_income)
         })
         let totalDaromad = newBiznesDaromad.reduce((prev,current)=> Number(prev) + Number(current), 0)
@@ -40,7 +40,7 @@ function EditPart7() {
 
     function getSumXarajatBiznes(){
         let newBiznesXarajat = []
-        biznesXarajats.map((item,index)=>{
+        biznesXarajats?.map((item,index)=>{
             newBiznesXarajat.push(item.average_monthly_expense)
         })
         let totalXarajat = newBiznesXarajat.reduce((prev,current)=> Number(prev) + Number(current), 0)
@@ -68,7 +68,7 @@ function EditPart7() {
 
     const getXarajatSumMavsumiy = () =>{
         const SumArr2 = []
-        mavsumiyXarajats.map((item,index)=>{
+        mavsumiyXarajats?.map((item,index)=>{
             SumArr2.push(Number(item.expense))
         })
 
@@ -105,8 +105,8 @@ function EditPart7() {
             sum: infoOrder?.sum,
             time: infoOrder?.time,
             percent: infoOrder?.percent_year,
-            given_date: mainInfo?.contract ? mainInfo?.contract?.contract_issue_date : infoOrder?.order_date,
-            first_repayment_date: mainInfo?.contract ? mainInfo?.contract?.first_repayment_date : nextMonth(infoOrder?.order_date)
+            given_date: mainInfo?.contract && mainInfo?.contract?.contract_issue_date ? mainInfo?.contract?.contract_issue_date : infoOrder?.order_date,
+            first_repayment_date: mainInfo?.contract && mainInfo?.contract?.first_repayment_date ? mainInfo?.contract?.first_repayment_date : nextMonth(infoOrder?.order_date)
         }
 
         namunaRequest(data)

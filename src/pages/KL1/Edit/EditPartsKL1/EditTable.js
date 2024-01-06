@@ -71,7 +71,7 @@ function EditTable() {
    // Summ 
    function GetSumDaromadBiznes() {
       let newBiznesDaromad = []
-      biznesDaromads.map((item, index) => {
+      biznesDaromads?.map((item, index) => {
          newBiznesDaromad.push(item.monthly_income)
       })
       let totalDaromad = newBiznesDaromad.reduce((prev, current) => Number(prev) + Number(current), 0)
@@ -80,7 +80,7 @@ function EditTable() {
 
    function GetSumXarajatBiznes() {
       let newBiznesXarajat = []
-      biznesXarajats.map((item, index) => {
+      biznesXarajats?.map((item, index) => {
          newBiznesXarajat.push(item.average_monthly_expense)
       })
       let totalXarajat = newBiznesXarajat.reduce((prev, current) => Number(prev) + Number(current), 0)
@@ -91,7 +91,7 @@ function EditTable() {
    // get total price of Daromad
    const GetTotalSumBoshqa = () => {
       const newSumArray = []
-      myDaromads.map((item, index) => {
+      myDaromads?.map((item, index) => {
          newSumArray.push(item?.volume * item?.unit_price)
       })
       let totalPrices = newSumArray.reduce((prev, current) => prev + current, 0)
@@ -464,7 +464,7 @@ function EditTable() {
 
             // 6 Qism
             if (familyDaromad?.length != 0) {
-               familyDaromad.map(item => {
+               familyDaromad?.map(item => {
                   delete item?.id
                })
                let newObject = {
@@ -475,7 +475,7 @@ function EditTable() {
             }
 
             if (familyXarajat?.length != 0) {
-               familyXarajat.map(item => {
+               familyXarajat?.map(item => {
                   delete item?.id
                })
                let newObject = {
@@ -486,7 +486,7 @@ function EditTable() {
             }
 
             if (familyMalumot?.length != 0) {
-               familyMalumot.map(item => {
+               familyMalumot?.map(item => {
                   delete item?.id
                })
                let newObject = {
@@ -497,7 +497,7 @@ function EditTable() {
             }
 
             if (clientLoans?.length != 0) {
-               clientLoans.map(item => {
+               clientLoans?.map(item => {
                   delete item?.id
                })
                let newObject = {

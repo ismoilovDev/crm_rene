@@ -130,7 +130,7 @@ function EditPart1() {
             />
             <p className='kl1_formtitle'>Buyurtmachining boshqa mulklari</p>
             {
-               mulkItem.map((item, index) => (
+               mulkItem?.map((item, index) => (
                   <div className='kl1_product' key={index}>
                      <Input
                         rounded
