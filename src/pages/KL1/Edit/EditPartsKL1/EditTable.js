@@ -407,7 +407,7 @@ function EditTable() {
             PostFirst(dataBase)
 
             // Boshqa
-            if (checkOthers) {
+            if (myDaromads?.[0]?.volume) {
                myDaromads?.map(item => {
                   delete item?.id
                })
@@ -415,6 +415,7 @@ function EditTable() {
                   client_mark_id: mainInfo?.id,
                   other_income: myDaromads
                }
+               console.log(newObject);
                PostBoshqa(newObject)
             }
 
