@@ -131,7 +131,7 @@ function UserForm() {
                <Prev />
             </div>
             <form className='filialform_form' onSubmit={handleSubmit(onSubmit)}>
-               <h1 className='filialform_title'>Shakllarni To'ldiring:</h1>
+               <h1 className='filialform_title'>Foydalanuvchi qo'shish:</h1>
                <Input
                   width='100%'
                   clearable

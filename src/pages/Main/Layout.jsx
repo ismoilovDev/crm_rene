@@ -34,14 +34,14 @@ function Main({ logOutHendle }) {
 
    const closeSidebar = () => {
       setSidebarActive(false)
-      main_content.current.style.overflow = 'auto'
-      main_content.current.style.height = 'auto'
+      // main_content.current.style.overflow = 'auto'
+      // main_content.current.style.height = 'auto'
    }
 
    const openSidebar = () => {
       setSidebarActive(true)
-      main_content.current.style.overflow = 'hidden'
-      main_content.current.style.height = '100vh'
+      // main_content.current.style.overflow = 'hidden'
+      // main_content.current.style.height = '100vh'
    }
 
    return (

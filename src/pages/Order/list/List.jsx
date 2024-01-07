@@ -3,11 +3,10 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { alert } from '../../../components/Alert/alert';
 import ShartNomaTable from '../../../components/ShartnomaTable/ShartNomaTable';
 import CustumPagination from '../../../components/Pagination/CustumPagination';
+import LoaderBackdrop from '../../../components/Loader/LoaderBackdrop';
 import DeleteWarning from '../../../components/Warning/DeleteWarning';
 import AddOrderForm from '../../../components/Order/AddOrderForm';
 import https from '../../../services/https';
-import dateConvert from '../../../utils/functions/dateConvert'
-import { dataSort } from '../../../utils/functions/dataSort'
 import Filters from '../filters';
 
 const role = JSON.parse(window.localStorage.getItem('role'))
@@ -21,6 +20,7 @@ const Orders = ({ filters }) => {
    const [orders, setOrders] = useState([])
    const [loading, setLoading] = useState(true)
    const [deleteID, setDeleteID] = useState(null)
+   const [disabled, setDisabled] = useState(false)
    const [currentPage, setCurrentPage] = useState(page)
    const [deleteModal, setDeleteModal] = useState('close')
    const [isPaginateActive, setIsPaginateActive] = useState(false)
@@ -84,20 +84,26 @@ const Orders = ({ filters }) => {
       setDeleteID(id)
    }
 
-   const handleOnExcel = () =>{
-      let data = []
-      orders?.map(item =>{
-         const info = {
-            "F.I.Sh": item?.client?.name, 
-            kod: item?.code, 
-            sanasi: dateConvert(item?.order_date),
-            guruh : item?.group?.name ? item?.group?.name : 'guruhsiz',
-            status: dataSort(item?.status)
-         }
-         data = [...data, info]
-      })
+   const handleOnExcel = async () => {
+      setDisabled(true)
+      try {
+         const url = `/excel-export/orders?branch_id=${filters?.branch_id}&from=${filters?.from}&to=${filters?.to}&lifetime=${filters?.lifetime}&sector_id=${filters?.sector_id}&product_id=${filters?.product_id}&client_mark=${filters?.client_mark}&order_by=${filters?.order_by}&search=${filters?.query}`;
+         const response = await https.get(url, {
+            responseType: 'blob'
+         })
+         const blob = new Blob([response.data], {
+            type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+         });
 
-      return data;
+         const downloadLink = document.createElement('a');
+         downloadLink.href = window.URL.createObjectURL(blob);
+         downloadLink.download = 'Nobank_buyurtmalar.xlsx';
+         downloadLink.click();
+      } catch (err) {
+         alert('Xatolik')
+      } finally {
+         setDisabled(false)
+      }
    }
 
    return (
@@ -116,7 +122,7 @@ const Orders = ({ filters }) => {
                   <i className='bx bx-plus-circle'></i>
                </button>
             </div>
-            <Filters branch_id={branch_id} setCurrentPage={setCurrentPage} handleOnExcel={handleOnExcel}/>
+            <Filters branch_id={branch_id} setCurrentPage={setCurrentPage} handleOnExcel={handleOnExcel} />
             <ShartNomaTable
                loading={loading}
                orders={orders}
@@ -146,6 +152,7 @@ const Orders = ({ filters }) => {
                openClose={deleteModal}
                setOpenClose={setDeleteModal}
             />
+            <LoaderBackdrop disable={disabled} />
          </div>
       </div>
    )

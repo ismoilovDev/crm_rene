@@ -3,11 +3,15 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { AiOutlinePrinter } from 'react-icons/ai'
 import { Radio, Input } from '@nextui-org/react'
 import { YMaps, Map, Placemark } from '@pbe/react-yandex-maps';
-import ContainerView from '../../../components/ImageContainer/ContainerView';
-import Prev from '../../../components/Prev/Prev';
-import https from '../../../services/https';
 import { months } from '../../../utils/constants/months';
 import { alert } from '../../../components/Alert/alert'
+import { typesSupply } from '../../../utils/functions/supplyTypes';
+import { nextMonth } from '../../../utils/functions/nextMonth'
+import { phoneFormat } from '../../../utils/functions/phoneFormat';
+import https from '../../../services/https';
+import Prev from '../../../components/Prev/Prev';
+import dateConvert from '../../../utils/functions/dateConvert'
+import ContainerView from '../../../components/ImageContainer/ContainerView';
 
 
 function SingleKL1() {
@@ -18,62 +22,58 @@ function SingleKL1() {
    const [kreditData, setKreditData] = useState({})
    const [orderInfo, setOrderInfo] = useState({})
 
-   const getPaymentClear = async(id) => {
-      try{
-         const res = await https.post(`/g1/${id}`, {})
-         const { data } = res;
-         setKreditData(data?.graph?.['0']);
-      }
-      catch(error){
-         console.log(error)
-      }
-   }
+   // const getPaymentClear = async (id) => {
+   //    try {
+   //       const res = await https.post(`/g1/${id}`, {})
+   //       const { data } = res;
+   //       setKreditData(data?.graph?.['0']);
+   //    }
+   //    catch (error) {
+   //       console.log(error)
+   //    }
+   // }
 
-   const namunaRequest = async(info) =>{
-      try{
+   const namunaRequest = async (info) => {
+      try {
          const res = await https.post('/namuna', info)
          const { data } = res;
          setKreditData(data?.['0'])
       }
-      catch(err){
+      catch (err) {
          console.log(err);
       }
    }
 
-   const orderGetData = async(id) =>{
-      try{
+   const orderGetData = async (id) => {
+      try {
          const res = await https.get(`/orders/${id}`)
          setOrderInfo(res?.data)
       }
-      catch(err){
+      catch (err) {
          console.log(err);
       }
    }
 
    async function getMainInfo() {
-      try{
+      try {
          const res = await https.get(`/client-marks/${id}`)
          const { data } = res;
-
          setMainInfo(res?.data)
          orderGetData(res?.data?.order?.id)
 
          const info = {
-            type: data?.order?.type_repayment === 1 ? 'annuitet' : 'differential',
+            type: Number(data?.order?.type_repayment) === 1 ? 'annuitet' : 'differential',
             sum: data?.order?.sum,
             time: data?.order?.time,
             percent: data?.order?.percent_year,
-            given_date: data?.contract?.id ? data?.contract?.contract_issue_date : data?.order?.order_date,
-            first_repayment_date: data?.contract?.id ? data?.contract?.first_repayment_date : data?.order?.order_date
+            given_date: data?.order?.order_date,
+            first_repayment_date: nextMonth(data?.order?.order_date)
          }
 
-         if(res?.data?.contract?.id){
-            getPaymentClear(data?.order?.id)
-         }else{
-            namunaRequest(info)   
-         }
+         namunaRequest(info)
+
       }
-      catch(err){
+      catch (err) {
          console.log(err)
       }
    }
@@ -288,14 +288,17 @@ function SingleKL1() {
       return (BoshqaSumNumber() + (MonthlyDaromadNumber() / 12) + BiznesDaromadNumber() - (MonthlyXarajatNumber() / 12) - BiznesXarajatNumber())
    }
 
-
-   function supplyTypes() {
+   function supplyTypes(supply, kaffillik) {
       let types = []
-      orderInfo?.supply_info?.map(item => {
+      supply?.map(item => {
          if (item?.type == 'gold') {
-            types.push('Tilla Buyumlar Kafilligi')
+            types.push('Tilla buyumlar kafilligi')
          } else if (item?.type == 'auto') {
-            types.push('Transport Vositasi Garovi')
+            if (kaffillik){
+               types.push('Transport vositasi va kafillik')
+            }else{
+               types.push('Transport vositasi garovi')
+            }
          } else if (item?.type == 'guarrantor') {
             types.push('3 shaxs kafilligi')
          } else if (item?.type == 'insurance') {
@@ -324,9 +327,9 @@ function SingleKL1() {
       <div>
          <div className='pdf_header'>
             <Prev />
-            <button onClick={() =>{
-               if((((kreditData?.interest + kreditData?.principal_debt + ClientLoansMonthNumber()) / SofFun()) * 100).toFixed(2) > 45){
-                  return alert('KL foiz 45% oshib ketdi')
+            <button onClick={() => {
+               if ((((kreditData?.interest + kreditData?.principal_debt + ClientLoansMonthNumber()) / SofFun()) * 100).toFixed(2) > 50) {
+                  return alert('KL foiz 50% oshib ketdi')
                }
                navigate("/pdf/client-marks", { state: { id } })
             }}>
@@ -339,11 +342,11 @@ function SingleKL1() {
             <h1 className='text_center filial_edit_text'>{mainInfo?.client?.name}</h1>
             <div className='single_buyurtma_inputs pdf_margin_top_15'>
                <p>Hujjat tayyorlangan sana:</p>
-               <p>{mainInfo?.doc_date}</p>
+               <p>{dateConvert(mainInfo?.doc_date)}</p>
             </div>
             <div className='single_buyurtma_inputs pdf_margin_top_15'>
                <p>Mijoz tekshirilgan va organilgan sana:</p>
-               <p>{mainInfo?.mark_date}</p>
+               <p>{dateConvert(mainInfo?.mark_date)}</p>
             </div>
             <div className='single_buyurtma_inputs pdf_margin_top_15'>
                <p>Buyurtmachining F.I.Sh:</p>
@@ -355,30 +358,30 @@ function SingleKL1() {
             </div>
             {
                mainInfo?.client?.temp_address ?
-               <div className='single_buyurtma_inputs pdf_margin_top_15'>
-                  <p>Vaqtinchalik yashash manzili:</p>
-                  <p>{mainInfo?.client?.temp_address}</p>
-               </div> : <></>
+                  <div className='single_buyurtma_inputs pdf_margin_top_15'>
+                     <p>Vaqtinchalik yashash manzili:</p>
+                     <p>{mainInfo?.client?.temp_address}</p>
+                  </div> : <></>
             }
             <div className='single_buyurtma_inputs pdf_margin_top_15'>
-               <p>JSh ShIR:</p>
+               <p>JShShIR:</p>
                <p>{mainInfo?.client?.pinfl}</p>
             </div>
             <div className='single_buyurtma_inputs pdf_margin_top_15'>
                <p>Buyurtmachining telefon raqami:</p>
-               <p>{mainInfo?.client?.phone[0]}</p>
+               <p>{mainInfo?.client?.phone?.map(item => phoneFormat(item))?.join('\t')}</p>
             </div>
             <div className='single_buyurtma_inputs pdf_margin_top_15'>
                <p>Kredit maqsadi:</p>
                <p>{mainInfo?.order?.aim}</p>
             </div>
             <div className='single_buyurtma_inputs pdf_margin_top_15'>
-               <p>Soralayotgan kredit miqdori:</p>
+               <p>So'ralayotgan kredit miqdori:</p>
                <p>{mainInfo?.order?.sum?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
             </div>
 
             {/* ********Part 1********* */}
-            <h2 className='kl1_subtitle margin_top_30'>Buyurtmachining oilaviy sharoitini organish natijalari</h2>
+            <h2 className='kl1_subtitle margin_top_30'>Buyurtmachining oilaviy sharoitini o'rganish natijalari</h2>
             <p className='kl1_formtitle text_center'>Birgalikda istiqomat qiluvchilar</p>
             <div className='list_sinlge_form'>
                <p>Istiqomat qiluvchi:</p>
@@ -391,7 +394,7 @@ function SingleKL1() {
                }
             </div>
             <div className='single_buyurtma_inputs pdf_margin_top_15'>
-               <p>Oila azolari bilan suhbat davomida aniqlangan muhim malumotlar:</p>
+               <p>Oila azolari bilan suhbat davomida aniqlangan muhim ma'lumotlar:</p>
                <p>{mainInfo?.conversation_result}</p>
             </div>
             <p className='kl1_formtitle text_center'>Buyurtmachining boshqa mulklari</p>
@@ -409,7 +412,7 @@ function SingleKL1() {
                <p>Yashash sharoiti:</p>
                <p>{mainInfo?.living_condition}</p>
             </div>
-            <h2 className='kl1_subtitle margin_top_30'>Buyurtmachining faoliyati va daromad  manbalarini organish natijalari</h2>
+            <h2 className='kl1_subtitle margin_top_30'>Buyurtmachining faoliyati va daromad  manbalarini o'rganish natijalari</h2>
             <div className='single_buyurtma_inputs pdf_margin_top_15'>
                <p>Buyurtmachining faoliyat turi:</p>
                <p>{mainInfo?.activity?.type}</p>
@@ -512,9 +515,9 @@ function SingleKL1() {
 
                      <div className='kl1_calendar_single'>
                         {
-                           months?.map((item, index)=>{
-                              return(
-                                 <div className='single_buyurtma_inputs' key={index+10}>
+                           months?.map((item, index) => {
+                              return (
+                                 <div className='single_buyurtma_inputs' key={index + 10}>
                                     <p>{item?.name}:</p>
                                     <p>{(mainInfo?.monthly_income?.[item?.value])?.toLocaleString()}</p>
                                  </div>
@@ -567,9 +570,9 @@ function SingleKL1() {
                      <p className='kl1_formtitle text_center'>Mavsumiy xarajatlarning oylar bo'yicha taqsimlanishi</p>
                      <div className='kl1_calendar_single'>
                         {
-                           months?.map((item, index)=>{
-                              return(
-                                 <div className='single_buyurtma_inputs' key={index+10}>
+                           months?.map((item, index) => {
+                              return (
+                                 <div className='single_buyurtma_inputs' key={index + 10}>
                                     <p>{item?.name}:</p>
                                     <p>{(mainInfo?.monthly_expense?.[item?.value])?.toLocaleString()}</p>
                                  </div>
@@ -604,7 +607,7 @@ function SingleKL1() {
                                  </div>
                                  <div className='single_buyurtma_inputs pdf_margin_top_15'>
                                     <p>1 birlikning o`rtacha sotish naxri:</p>
-                                    <p>{item?.unit_price}</p>
+                                    <p>{Number(item?.unit_price)?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
                                  </div>
                                  <div className='single_buyurtma_inputs pdf_margin_top_15'>
                                     <p>O`rtacha ustamasi % da:</p>
@@ -612,7 +615,7 @@ function SingleKL1() {
                                  </div>
                                  <div className='single_buyurtma_inputs pdf_margin_top_15'>
                                     <p>Bir oylik daromad:</p>
-                                    <p>{item?.monthly_income}</p>
+                                    <p>{item?.monthly_income?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
                                  </div>
                                  <div className='single_buyurtma_inputs pdf_margin_top_15'>
                                     <p>Izoh:</p>
@@ -645,15 +648,15 @@ function SingleKL1() {
                                  </div>
                                  <div className='single_buyurtma_inputs pdf_margin_top_15'>
                                     <p>Naxri:</p>
-                                    <p>{item?.price}</p>
+                                    <p>{item?.price?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
                                  </div>
                                  <div className='single_buyurtma_inputs pdf_margin_top_15'>
                                     <p>Qiymati:</p>
-                                    <p>{item?.value}</p>
+                                    <p>{item?.value?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
                                  </div>
                                  <div className='single_buyurtma_inputs pdf_margin_top_15'>
                                     <p>O`rtacha oylik xarajat:</p>
-                                    <p>{item?.average_monthly_expense}</p>
+                                    <p>{item?.average_monthly_expense?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
                                  </div>
                                  <div className='single_buyurtma_inputs pdf_margin_top_15'>
                                     <p>Izoh:</p>
@@ -738,7 +741,7 @@ function SingleKL1() {
                }
                {
                   mainInfo?.family_loans?.[0] ? <>
-                     <p className='kl1_formtitle text_center'>Uy xojaligi azolarining mavjud kredit va qarzdorliklari togrisidagi malumotlar</p>
+                     <p className='kl1_formtitle text_center'>Uy xojaligi azolarining mavjud kredit va qarzdorliklari togrisidagi ma'lumotlar</p>
                      {
                         mainInfo?.family_loans?.map((item, index) => {
                            return (
@@ -833,7 +836,7 @@ function SingleKL1() {
                      <p>{(kreditData?.interest + kreditData?.principal_debt)?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
                   </div>
                   <div className='single_buyurtma_inputs'>
-                     <p>Soralayotgan kredit hisobi qarzi yoki korsatkichi (${'< 45%'})</p>
+                     <p>So'ralayotgan kredit hisobi qarzi yuki korsatkichi (${'< 50%'})</p>
                      <p>{(((kreditData?.interest + kreditData?.principal_debt + ClientLoansMonthNumber()) / SofFun()) * 100).toFixed(2)}</p>
                   </div>
                </div>
@@ -849,7 +852,7 @@ function SingleKL1() {
                   <div className='kl1_table'>
                      <div className='kl1_table_dark-bg'>Hulq atvori</div>
                      <div className='kl1_table_dark-bg'>Shaxsiy sifatida baholanishi</div>
-                     <div className='kl1_table_dark-bg'>Moliaviy malumotlar va savodxonlik</div>
+                     <div className='kl1_table_dark-bg'>Moliaviy ma'lumotlar va savodxonlik</div>
                      <div className='kl1_table_double kl1_table_noPadding'>
                         <p>сухбат</p>
                         <p>{mainInfo?.table_conversation_result}</p>
@@ -870,13 +873,13 @@ function SingleKL1() {
                      <div className='kl1_table_dark-bg'>Natija</div>
                      <div className='kl1_table_double kl1_table_dark-bg kl1_table_noPadding'>
                         <p className='kl1_table_yellow-bg'>{(kreditData?.interest + kreditData?.principal_debt)?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
-                        <p className={(((kreditData?.interest + kreditData?.principal_debt + ClientLoansMonthNumber()) / SofFun()) * 100).toFixed(2) > 45 || (((kreditData?.interest + kreditData?.principal_debt + ClientLoansMonthNumber()) / SofFun()) * 100).toFixed(2) < 0 ? 'kl1_table_red-bg' : 'kl1_table_green-bg'}>{(((kreditData?.interest + kreditData?.principal_debt + ClientLoansMonthNumber()) / SofFun()) * 100).toFixed(2)}%</p>
+                        <p className={(((kreditData?.interest + kreditData?.principal_debt + ClientLoansMonthNumber()) / SofFun()) * 100).toFixed(2) > 50 || (((kreditData?.interest + kreditData?.principal_debt + ClientLoansMonthNumber()) / SofFun()) * 100).toFixed(2) < 0 ? 'kl1_table_red-bg' : 'kl1_table_green-bg'}>{(((kreditData?.interest + kreditData?.principal_debt + ClientLoansMonthNumber()) / SofFun()) * 100).toFixed(2)}%</p>
                      </div>
                      <div className='kl1_table_double kl1_table_noPadding'>
                         <p className='kl1_table_yellow-bg'>{((SofFun() / (kreditData?.interest + kreditData?.principal_debt)) * 100).toFixed(2)}%</p>
                         <p className='kl1_table_yellow-bg'>{(FamilyXarajat() + FamilyLoansMonth()) ? (FamilyXarajat() + FamilyLoansMonth())?.toLocaleString(undefined, { minimumFractionDigits: 2 }) : 0}</p>
                      </div>
-                     <div className='kl1_table_yellow-bg'> {`<= 45% и >= 120%`}</div>
+                     <div className='kl1_table_yellow-bg'> {`<= 50% и >= 120%`}</div>
                      <div className='kl1_table_dark-bg'>Shaxsiy kapital miqdori</div>
                      <div className='kl1_table_dark-bg'>Shaxsiy kapital/kreditlar</div>
                      <div className='kl1_table_dark-bg'>Natija</div>
@@ -889,10 +892,10 @@ function SingleKL1() {
                      <div>{mainInfo?.table_income_source}</div>
                      <div>{mainInfo?.table_work_stability}</div>
                      <div>{mainInfo?.table_expected_growth}</div>
-                     <div className='kl1_table_dark-bg'>Taminot turi</div>
-                     <div className='kl1_table_dark-bg'>Taminot qiymati</div>
+                     <div className='kl1_table_dark-bg'>Ta'minot turi</div>
+                     <div className='kl1_table_dark-bg'>Ta'minot qiymati</div>
                      <div className='kl1_table_dark-bg'>Kreditni qoplash koeffitsenti</div>
-                     <div>{supplySum() ? supplyTypes() : 'kafillik'}</div>
+                     <div>{supplySum() ? typesSupply(orderInfo?.supply_info, orderInfo?.group?.id) : 'kafillik'}</div>
                      <div>{supplySum() ? supplySum()?.toLocaleString(undefined, { minimumFractionDigits: 2 }) : orderInfo?.sum?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</div>
                      <div className='kl1_table_yellow-bg'>{supplySum() ? (supplySum() * 100 / orderInfo?.sum)?.toFixed(0) : 100}%</div>
                   </div>
@@ -919,7 +922,7 @@ function SingleKL1() {
                   Location()
                }
                <div className='kl1_accepting'>
-                  <p>Taqdim etilgan va toplangan malumotlar hamda kredit byurosidan olingan kredit tarixiga asoslanib men tomonimdan otkazilgan organish va tahlillar asosida ushbu buyurtma boyicha quiydagi yakuniy xulosamni kredit komissiyasida korib chiqish uchun taqdim etaman</p>
+                  <p>Taqdim etilgan va to'plangan ma'lumotlar hamda kredit byurosidan olingan kredit tarixiga asoslanib men tomonimdan o'tkazilgan o'rganish va tahlillar asosida ushbu buyurtma bo'yicha quyidagi yakuniy xulosamni kredit komissiyasida ko'rib chiqish uchun taqdim etaman</p>
                   <Radio.Group label=' ' value={mainInfo?.status == 1 ? true : false} size='sm' className='kl1_accepting_radio'>
                      <div className='kl1_accept margin_bottom'><Radio color='success' className='radio_end' value={true}>Kredit ajratish</Radio></div>
                      <div className='kl1_accept'><Radio color='error' className='radio_end' value={false}>Rad etish</Radio></div>

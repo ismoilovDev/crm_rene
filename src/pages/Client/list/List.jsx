@@ -1,7 +1,9 @@
 import { memo, useCallback, useEffect, useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { ExcelButton } from '../../../components/Buttons/ExcelBtn';
+import { alert } from '../../../components/Alert/alert';
 import CustumPagination from '../../../components/Pagination/CustumPagination';
+import LoaderBackdrop from '../../../components/Loader/LoaderBackdrop';
 import DeleteWarning from '../../../components/Warning/DeleteWarning';
 import SkeletonBox from '../../../components/Loader/Skeleton';
 import https from '../../../services/https';
@@ -15,6 +17,7 @@ function Clients({ filters }) {
    const [count, setCount] = useState(0)
    const [clients, setClients] = useState([])
    const [loading, setLoading] = useState(true)
+   const [disabled, setDisabled] = useState(false)
    const [deleteID, setDeleteID] = useState(null)
    const [currentPage, setCurrentPage] = useState(page)
    const [deleteModal, setDeleteModal] = useState('close')
@@ -22,7 +25,7 @@ function Clients({ filters }) {
 
    const getUrl = useCallback(async () => {
       setLoading(true)
-      const url = `/clients?page=${currentPage}&branch_id=&region_id=${filters?.region_id}&district_id=${filters?.district_id}&gende=${filters?.gender}&from_created_at=${filters?.from}&to_created_at=${filters?.to}&search=${filters?.query}`;
+      const url = `/clients?page=${currentPage}&branch_id=&region_id=${filters?.region_id}&district_id=${filters?.district_id}&gender=${filters?.gender}&from_created_at=${filters?.from}&to_created_at=${filters?.to}&search=${filters?.query}`;
 
       try {
          const { data } = await https.get(url)
@@ -45,19 +48,26 @@ function Clients({ filters }) {
       setDeleteID(id)
    }
 
-   const handleOnExcel = () => {
-      let data = []
-      clients?.map(item => {
-         const info = {
-            "F.I.Sh": item?.name,
-            kod: item?.code,
-            pinfl: `${item?.pinfl}`,
-            shahar: item?.region?.name_uz
-         }
-         data = [...data, info]
-      })
+   const handleOnExcel = async () => {
+      setDisabled(true)
+      try {
+         const url = `/excel-export/clients?branch_id=&region_id=${filters?.region_id}&district_id=${filters?.district_id}&gender=${filters?.gender}&from_created_at=${filters?.from}&to_created_at=${filters?.to}&search=${filters?.query}`;
+         const response = await https.get(url, {
+            responseType: 'blob'
+         })
+         const blob = new Blob([response.data], {
+            type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+         });
 
-      return data;
+         const downloadLink = document.createElement('a');
+         downloadLink.href = window.URL.createObjectURL(blob);
+         downloadLink.download = 'Nobank_mijozlar.xlsx';
+         downloadLink.click();
+      } catch (err) {
+         alert('Xatolik')
+      } finally {
+         setDisabled(false)
+      }
    }
 
    return (
@@ -69,11 +79,9 @@ function Clients({ filters }) {
             <Link className='client_button gradient-border' to='/clients/add'>
                <p>Mijoz Qo'shish</p> <i className='bx bx-plus-circle'></i>
             </Link>
-            <ExcelButton data={handleOnExcel()} name={"Mijoz"} />
+            <ExcelButton handleOnExcel={handleOnExcel} />
          </div>
-
-         <Filters />
-
+         <Filters handleOnExcel={handleOnExcel} />
          <div className='clientTablePart table_root'>
             <div className='clientTable responsive_table'>
                <div className='clienttableHeader table_header'>
@@ -146,6 +154,7 @@ function Clients({ filters }) {
             openClose={deleteModal}
             setOpenClose={setDeleteModal}
          />
+         <LoaderBackdrop disable={disabled} />
       </div>
    )
 }

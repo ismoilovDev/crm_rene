@@ -10,7 +10,6 @@
   transition: 0.2s linear;
   -ms-overflow-style: none;
   scrollbar-width: none;
-  /* overflow-y: auto; */
   z-index: 102;
 }
 
@@ -49,7 +48,6 @@
   padding-left: 18px;
 }
 
-
 .sidebar.min_size .sidebar_header a {
   padding-left: 0;
 }
@@ -58,23 +56,21 @@
   padding-left: 0;
 }
 
-.sidebar_header a img {
+.sidebar_header a img.logo {
   width: 100%;
 }
 
-.sidebar_header a img.hide {
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.7s;
+.sidebar_header a img.mini_logo {
+  animation: logo_anime 2.5s;
 }
 
-.sidebar_header a svg {
-  position: relative;
-  display: inline-block;
-  color: rgb(239, 127, 26);
-  font-size: 25px;
-  transform: translate(8px, 10px);
-  animation: sidebarResizeAnimation 1s;
+@keyframes logo_anime {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .sidebar_close {
@@ -135,14 +131,21 @@
 }
 
 .nav-list {
-  margin-top: 25px;
+  margin-top: 15px;
   width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
 
-nav::-webkit-scrollbar {
-  display: none;
+.nav-list::-webkit-scrollbar,
+.nav-list::-webkit-scrollbar-thumb {
+  width: 1px;
+  height: 15px;
+  border-radius: 10px;
+  background-clip: padding-box;
+  border: 7px solid transparent;
 }
 
 .nav-item {
@@ -160,6 +163,7 @@ nav::-webkit-scrollbar {
 
 .ant-tabs-nav {
   width: 100%;
+  height: calc(100vh - 80px);
 }
 
 .nav-list .ant-tabs-tab {
@@ -170,7 +174,6 @@ nav::-webkit-scrollbar {
 .sidebar.min_size .nav-list .nav-item {
   padding-left: 11px;
 }
-
 
 .nav-list .ant-tabs-tab:hover {
   background: linear-gradient(118deg, #7828c8, rgba(115, 103, 240, 0.7));

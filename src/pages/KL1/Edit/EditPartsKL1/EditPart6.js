@@ -56,7 +56,7 @@ function EditPart6() {
 
     function getSumDaromad(){
         let daromad = []
-        familyDaromad.map(item =>{
+        familyDaromad?.map(item =>{
             daromad.push(item.monthly_income)
         })
         let totalDaromadSum = daromad.reduce((prev,current) => Number(prev) + Number(current), 0)
@@ -124,7 +124,7 @@ function EditPart6() {
 
     function getMalumotRest(){
         let malumotRest = []
-        familyMalumot.map(item =>{
+        familyMalumot?.map(item =>{
             malumotRest.push(item.main)
         })
         let totalMalumotSumRest = malumotRest.reduce((prev,current) => Number(prev) + Number(current), 0)
@@ -133,19 +133,19 @@ function EditPart6() {
 
     function totalMalumot(){
         let daromad = []
-        familyDaromad.map(item =>{
+        familyDaromad?.map(item =>{
             daromad.push(item.monthly_income)
         })
         let totalDaromadSum = daromad.reduce((prev,current) => Number(prev) + Number(current), 0)
 
         let xarajat = []
-        familyXarajat.map(item =>{
+        familyXarajat?.map(item =>{
             xarajat.push(item.expense)
         })
         let totalXarajatSum = xarajat.reduce((prev,current) => Number(prev) + Number(current), 0)
 
         let malumotPay = []
-        familyMalumot.map(item =>{
+        familyMalumot?.map(item =>{
             malumotPay.push(item.monthly)
         })
         let totalMalumotSumPay = malumotPay.reduce((prev,current) => Number(prev) + Number(current), 0)
@@ -166,7 +166,7 @@ function EditPart6() {
             <h2 className='kl1_subtitle'>Oilaviy daromadlar va xarajatlar (Uy xo'jaligining daromad va xarajatlari)</h2>
                     <p className='kl1_formtitle'>Oila azolarining daromadlar , shuningdek uy xojaligining boshqa daromadlari</p>
                     {
-                        familyDaromad.map((item,index)=>(
+                        familyDaromad?.map((item,index)=>(
                             <div className='kl1_products' key={item.id}>
                                 <div className='kl1_product_title'>
                                     Odam {index + 1}
@@ -263,7 +263,7 @@ function EditPart6() {
 
                     <p className='kl1_formtitle'>Uy xojaligining xarajatlari</p>
                     {
-                        familyXarajat.map((item,index)=>(
+                        familyXarajat?.map((item,index)=>(
                             <div className='kl1_products' key={item.id}>
                                 <div className='kl1_product_title'>
                                     Xarajat {index + 1}
@@ -332,7 +332,7 @@ function EditPart6() {
 
                     <p className='kl1_formtitle'>Uy xojaligi azolarining mavjud kredit va qarzdorliklari togrisidagi malumotlar</p>
                     {
-                        familyMalumot.map((item,index)=>(
+                        familyMalumot?.map((item,index)=>(
                             <div className='kl1_products' key={index}>
                                 <div className='kl1_product_title'>
                                     Malumot {index + 1}

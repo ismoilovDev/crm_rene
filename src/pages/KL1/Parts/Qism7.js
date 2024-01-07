@@ -1,9 +1,10 @@
 import { useState, useContext, useEffect } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import { useForm } from "react-hook-form";
+import { useNavigate } from 'react-router-dom';
 import { Input, Textarea } from '@nextui-org/react'
 import { AiOutlineDoubleRight, AiOutlineDoubleLeft } from 'react-icons/ai'
-import { useNavigate } from 'react-router-dom';
+import { nextMonth } from '../../../utils/functions/nextMonth';
 import { NumericFormat } from 'react-number-format';
 import { Context } from '../../../context/context';
 import https from './../../../services/https';
@@ -100,12 +101,12 @@ function BuyurtmaOylik() {
       setActiveTab(7)
 
       const data = {
-         type: infoOrder?.type_repayment === 1 ? 'annuitet' : 'differential',
+         type: Number(infoOrder?.type_repayment) === 1 ? 'annuitet' : 'differential',
          sum: infoOrder?.sum,
          time: infoOrder?.time,
          percent: infoOrder?.percent_year,
          given_date: infoOrder?.contract ? infoOrder?.contract?.contract_issue_date : infoOrder?.order_date,
-         first_repayment_date: infoOrder?.contract ? infoOrder?.contract?.first_repayment_date : infoOrder?.order_date
+         first_repayment_date: infoOrder?.contract ? infoOrder?.contract?.first_repayment_date : nextMonth(infoOrder?.order_date)
       }
 
       namunaRequest(data)
@@ -322,7 +323,7 @@ function BuyurtmaOylik() {
                         <p>{(kreditData?.interest + kreditData?.principal_debt)?.toLocaleString()}</p>
                      </div>
                      <div className={procentNumber() > 45 || procentNumber() < 0 ? 'single_buyurtma_inputs pdf_margin_top_15 red_text' : 'single_buyurtma_inputs pdf_margin_top_15 green_text'}>
-                        <p>{`Soralayotgan kredit hisobi qarzi yoki korsatkichi (<45%)`}:</p>
+                        <p>{`So'ralayotgan kredit hisobi qarzi yoki korsatkichi (<45%)`}:</p>
                         <p>{procentNumber()}</p>
                      </div>
                   </div> :

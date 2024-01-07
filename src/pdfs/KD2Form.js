@@ -90,7 +90,7 @@ function KD2Form() {
                            <p>{fullName(documentInfo?.data?.branch?.head_of_branch)}</p>
                         </div>
                         <div className='between align_center pdf_margin_top_10'>
-                           <p>Kredit Komissiyasi a'zorali</p>
+                           <p>Kredit Komissiyasi a'zolari</p>
                            <p>{fullName(documentInfo?.data?.branch?.chief_accountant)}</p>
                         </div>
                         <div className='between align_center pdf_margin_top_10'>

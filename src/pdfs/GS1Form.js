@@ -387,10 +387,10 @@ function GS1Form() {
                         <p>Boshqaruvchi</p>
                         <p>{fullName(documentInfo?.data?.branch?.head_of_branch)}</p>
                      </div>
-                     <div className='between pdf_margin_top_20'>
+                     {/* <div className='between pdf_margin_top_20'>
                         <p>Bosh buxgalter </p>
                         <p>{fullName(documentInfo?.data?.branch?.chief_accountant)}</p>
-                     </div>
+                     </div> */}
                   </div>
                </div>
             </div>

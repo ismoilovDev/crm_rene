@@ -223,10 +223,10 @@ function K2Form() {
                   <p>Boshqaruvchi</p>
                   <p>{fullName(documentInfo?.data?.branch?.head_of_branch)}</p>
                </div>
-               <div className='between margin_top_15 margin_site_20'>
+               {/* <div className='between margin_top_15 margin_site_20'>
                   <p>Bosh buxgalter</p>
                   <p>{fullName(documentInfo?.data?.branch?.chief_accountant)}</p>
-               </div>
+               </div> */}
             </div>
          </PdfWrapper>
       </>

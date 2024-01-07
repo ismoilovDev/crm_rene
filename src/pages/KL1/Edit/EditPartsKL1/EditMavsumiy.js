@@ -5,6 +5,7 @@ import { NumericFormat } from 'react-number-format';
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { Context } from '../../../../context/context';
+import IncomeInput from '../../../../components/KL1/IncomeInput';
 
 const months_uzb = ["Yanvar", "Fevral", "Mart", "Aprel", "May", "Iyun", "Iyul", "Avgust", "Sentabr", "Oktabr", "Noyabr", "Dekabr"];
 
@@ -29,19 +30,6 @@ function EditMavsumiy() {
       navigate("/client-marks/edit/boshqa", { replace: true });
    }
 
-   const myDarkTheme = createTheme({
-      type: 'dark',
-      theme: {
-         colors: {
-            background: '#1d1d1d',
-            text: '#fff',
-            myDarkColor: 'black'
-         },
-         space: {},
-         fonts: {}
-      }
-   })
-
 
    // Mavsumiy Daromads adding and deleting funtions
    function addMavsumiyDaromad() {
@@ -64,7 +52,7 @@ function EditMavsumiy() {
 
    const getDaromadSum = () => {
       const SumArr1 = []
-      mavsumiyDaromads.map((item, index) => {
+      mavsumiyDaromads?.map((item, index) => {
          SumArr1.push(Number(item.income))
       })
       let totalSum1 = SumArr1.reduce((prev, current) => prev + current, 0)
@@ -105,7 +93,7 @@ function EditMavsumiy() {
 
    const getXarajatSum = () => {
       const SumArr2 = []
-      mavsumiyXarajats.map((item, index) => {
+      mavsumiyXarajats?.map((item, index) => {
          SumArr2.push(Number(item.expense))
       })
       let totalSum2 = SumArr2.reduce((prev, current) => prev + current, 0)
@@ -152,19 +140,12 @@ function EditMavsumiy() {
                         <button className='kl1_delete_button' onClick={() => { deleteMavsumiyDaromad(index) }}><i className='bx bx-trash'></i></button>
                      </div>
                      <div className='kl1_product'>
-                        <Input
-                           rounded
-                           bordered
-                           label='Daromad nomi'
-                           color="secondary"
-                           width='47%'
-                           className='kl1_input'
-                           value={mavsumiyDaromads.find(x => x.id === item.id).name}
-                           onChange={(e) => {
-                              const newArrayMavsumiyDaromads = [...mavsumiyDaromads]
-                              newArrayMavsumiyDaromads[index].name = e.target.value
-                              setMavsumiyDaromads(newArrayMavsumiyDaromads)
-                           }}
+                        <IncomeInput
+                           contextData={mavsumiyDaromads}
+                           setContextData={setMavsumiyDaromads}
+                           item={item}
+                           index={index}
+                           width={47}
                         />
                         <div className="numeric_format_input width_47">
                            <label>Yillik daromad hajmi</label>

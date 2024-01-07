@@ -84,12 +84,12 @@ function QDForm() {
                <p>
                   {fullName(documentInfo?.data?.branch?.head_of_branch)} _______________
                </p>
-               <p className='pdf_margin_top_10'>
+               {/* <p className='pdf_margin_top_10'>
                   Bosh buxgalter :
                </p>
                <p>
                   {fullName(documentInfo?.data?.branch?.chief_accountant)}______________
-               </p>
+               </p> */}
                <div className='pdf_end_2sections pdf_margin_top_40'>
                   <div className='pdf_end_2sections_section'>
                      <p className='black_text'>Qabul qildi:</p>

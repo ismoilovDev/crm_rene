@@ -6,9 +6,9 @@ import https from '../../../services/https'
 import { alert } from '../../../components/Alert/alert'
 import SkeletonBox from '../../../components/Loader/Skeleton'
 import dateConvert from '../../../utils/functions/dateConvert'
-import { ExcelButton } from '../../../components/Buttons/ExcelBtn'
 import DeleteWarning from '../../../components/Warning/DeleteWarning'
 import CustumPagination from '../../../components/Pagination/CustumPagination'
+import fullName from './../../../utils/functions/fullName';
 
 const role = JSON.parse(window.localStorage.getItem('role'))
 const branch_id = +window.localStorage.getItem('branch_id')
@@ -51,7 +51,7 @@ function ClientMarks({ filters }) {
 		}
 		const dataId = { code: id }
 		https
-			.post('/check/order/code', dataId)
+			.post('/check/order/code-client-mark', dataId)
 			.then(res => {
 				navigate("/client-marks/add", { state: { id: res?.data?.order_id } })
 			})
@@ -116,7 +116,6 @@ function ClientMarks({ filters }) {
 						KL1 Shakl Qo'shish
 						<i className='bx bx-plus-circle'></i>
 					</button>
-					<ExcelButton data={handleOnExcel()} name={'KL'} />
 				</div>
 				<Filters branch_id={branch_id} />
 				<div className='shartnamaTablePart table_root'>
@@ -125,6 +124,7 @@ function ClientMarks({ filters }) {
 							<p className='headerTable-title_client_mark'>F.I.Sh</p>
 							<p className='headerTable-title_client_mark'>Mijoz kodi</p>
 							<p className='headerTable-title_client_mark'>Buyurtma kodi</p>
+							<p className='headerTable-title_client_mark'>Buyurtma summasi</p>
 							<p className='headerTable-title_client_mark'>Tuzilgan sana</p>
 						</div>
 						{
@@ -137,15 +137,23 @@ function ClientMarks({ filters }) {
 											forms?.map(item => {
 												return (
 													<li className='client_row' key={item?.id}>
-														<p className='liName td_client_marks' onDoubleClick={() => { navigate(`/client-marks/single/${item?.id}`) }}>{item?.client?.name}</p>
+														<p className='liName td_client_marks' onDoubleClick={() => { navigate(`/client-marks/single/${item?.id}`) }}>{fullName(item?.client?.name)}</p>
 														<p className='td_client_marks' onDoubleClick={() => { navigate(`/client-marks/single/${item?.id}`) }}>{item?.client?.code}</p>
 														<p className='td_client_marks' onDoubleClick={() => { navigate(`/client-marks/single/${item?.id}`) }}>{item?.order_code}</p>
-														<p className='td_client_marks' onDoubleClick={() => { navigate(`/client-marks/single/${item?.id}`) }}>{dateConvert(item?.mark_date) || dateConvert(item?.doc_date)}</p>
+														<p className='td_client_marks' onDoubleClick={() => { navigate(`/client-marks/single/${item?.id}`) }}>{item?.order_sum?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
+														<p className='td_client_marks' style={{fontWeight: 500}} onDoubleClick={() => { navigate(`/client-marks/single/${item?.id}`) }}>{dateConvert(item?.mark_date) || dateConvert(item?.doc_date)}</p>
 														<div className='userButtons_shartnoma'>
 															<button><Link to={`/client-marks/single/${item?.id}`}><i className='bx bx-user white'></i></Link></button>
 															{role.includes('admin') || role.includes('monitoring')  ? (
 																<>
-																	<button onClick={() => /*{item?.contract_id === null ?*/ navigateEditPage(item?.id) /*: alert("Shartnoma to'ldirilgan")}*/}>
+																	<button
+																		className={item?.contract?.id ? 'disable_edit' : ''}
+																		onClick={() => {
+																			(item?.contract === null || role.includes('kleditor')) ?
+																				navigateEditPage(item?.id) :
+																				alert("Shartnoma to'ldirilgan")
+																		}}
+																	>
 																		<i className='bx bx-edit-alt white'></i>
 																	</button>
 																</>

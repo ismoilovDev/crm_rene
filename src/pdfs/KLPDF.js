@@ -1,9 +1,13 @@
 import { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom';
 import { PdfControls } from '../components/Pdf/PdfControls';
+import { nextMonth } from '../utils/functions/nextMonth';
 import { PdfWrapper } from '../components/Pdf/Wrapper';
 import { months } from '../utils/constants/months';
 import https from '../services/https';
+import { typesSupply } from '../utils/functions/supplyTypes';
+import dateConvert from '../utils/functions/dateConvert';
+import { phoneFormat } from '../utils/functions/phoneFormat'
 
 function KLPDF() {
    const location = useLocation()
@@ -12,40 +16,29 @@ function KLPDF() {
    const [kreditData, setKreditData] = useState({})
    const [orderInfo, setOrderInfo] = useState({})
 
-   const getPaymentClear = async(id) => {
-      try{
-         const res = await https.post(`/g1/${id}`, {})
-         const { data } = res;
-         setKreditData(data?.graph?.['0']);
-      }
-      catch(error){
-         console.log(error)
-      }
-   }
-
-   const namunaRequest = async(info) =>{
-      try{
+   const namunaRequest = async (info) => {
+      try {
          const res = await https.post('/namuna', info)
          const { data } = res;
          setKreditData(data?.['0'])
       }
-      catch(err){
+      catch (err) {
          console.log(err);
       }
    }
 
-   const orderGetData = async(id) =>{
-      try{
+   const orderGetData = async (id) => {
+      try {
          const res = await https.get(`/orders/${id}`)
          setOrderInfo(res?.data)
       }
-      catch(err){
+      catch (err) {
          console.log(err);
       }
    }
 
    async function getMainInfo() {
-      try{
+      try {
          const res = await https.get(`/client-marks/${id}`)
          const { data } = res;
 
@@ -53,21 +46,17 @@ function KLPDF() {
          orderGetData(res?.data?.order?.id)
 
          const info = {
-            type: data?.order?.type_repayment === 1 ? 'annuitet' : 'differential',
+            type: Number(data?.order?.type_repayment) === 1 ? 'annuitet' : 'differential',
             sum: data?.order?.sum,
             time: data?.order?.time,
             percent: data?.order?.percent_year,
-            given_date: data?.contract?.id ? data?.contract?.contract_issue_date : data?.order?.order_date,
-            first_repayment_date: data?.contract?.id ? data?.contract?.first_repayment_date : data?.order?.order_date
+            given_date: data?.contract?.id && data?.contract?.contract_issue_date ? data?.contract?.contract_issue_date : data?.order?.order_date,
+            first_repayment_date: data?.contract && data?.contract?.first_repayment_date ? data?.contract?.first_repayment_date : nextMonth(data?.order?.order_date)
          }
 
-         if(res?.data?.contract?.id){
-            getPaymentClear(data?.order?.id)
-         }else{
-            namunaRequest(info)   
-         }
+         namunaRequest(info)
       }
-      catch(err){
+      catch (err) {
          console.log(err)
       }
    }
@@ -272,23 +261,6 @@ function KLPDF() {
       return (boshqaSumNumber() + (monthlyDaromadNumber() / 12) + biznesDaromadNumber() - (monthlyXarajatNumber() / 12) - biznesXarajatNumber())
    }
 
-   function supplyTypes() {
-      let types = []
-      orderInfo?.supply_info?.map(item => {
-         if (item?.type === 'gold') {
-            types.push('Tilla Buyumlar Garovi')
-         } else if (item?.type === 'auto') {
-            types.push('Transport Vositasi Garovi')
-         } else if (item?.type === 'guarrantor') {
-            types.push('3 shaxs kafilligi')
-         } else if (item?.type === 'insurance') {
-            types.push('Sugurta kompaniyasi sugurta polisi')
-         } else {
-            types.push('Ishonch asosida')
-         }
-      })
-      return types?.join(',')
-   }
 
    function supplySum() {
       let summ = []
@@ -310,10 +282,10 @@ function KLPDF() {
             <p className='text_black_18 text_center'>Biznesni o‘rganish / Kreditga layoqatlilikni baholash varaqasi</p>
             <div className='row_div between under_line margin_top_20'>
                <p className='div_child'>Hujjat tayyorlangan sana:</p>
-               <p className='div_child'>{mainInfo?.doc_date}</p>
+               <p className='div_child'>{dateConvert(mainInfo?.doc_date)}</p>
             </div>
             <div className='row_div between under_line margin_top_10'>
-               <p className='div_child'>Mijoz tekshirilgan va organilgan sana:</p>
+               <p className='div_child'>Mijoz tekshirilgan va o'rganilgan sana:</p>
                <p className='div_child'>{mainInfo?.mark_date}</p>
             </div>
             <div className='row_div between under_line margin_top_10'>
@@ -325,11 +297,11 @@ function KLPDF() {
                <p className='div_child'>{mainInfo?.client?.region?.name_uz} {mainInfo?.client?.district?.name_uz}, {mainInfo?.client?.address}</p>
             </div>
             {
-               mainInfo?.client?.temp_address ? 
-               <div className='row_div between under_line margin_top_10'>
-                  <p className='div_child'>Vaqtinchalik yashash manzili:</p>
-                  <p className='div_child'>{mainInfo?.client?.temp_address}</p>
-               </div> : <></>
+               mainInfo?.client?.temp_address ?
+                  <div className='row_div between under_line margin_top_10'>
+                     <p className='div_child'>Vaqtinchalik yashash manzili:</p>
+                     <p className='div_child'>{mainInfo?.client?.temp_address}</p>
+                  </div> : <></>
             }
             <div className='row_div between under_line margin_top_10'>
                <p className='div_child'>JSh ShIR:</p>
@@ -337,19 +309,19 @@ function KLPDF() {
             </div>
             <div className='row_div between under_line margin_top_10'>
                <p className='div_child'>Buyurtmachining telefon raqami:</p>
-               <p className='div_child'>{mainInfo?.client?.phone?.join('  ')}</p>
+               <p className='div_child'>{mainInfo?.client?.phone?.map(item => phoneFormat(item))?.join('\t')}</p>
             </div>
             <div className='row_div between under_line margin_top_10'>
                <p className='div_child'>Kredit maqsadi:</p>
                <p className='div_child'>{mainInfo?.order?.aim}</p>
             </div>
             <div className='row_div between under_line margin_top_10'>
-               <p className='div_child'>Soralayotgan kredit miqdori:</p>
+               <p className='div_child'>So'ralayotgan kredit miqdori:</p>
                <p className='div_child'>{mainInfo?.order?.sum?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
             </div>
 
             {/* ********Part 1********* */}
-            <p className='text_black_18 text_center margin_top_30'>Buyurtmachining oilaviy sharoitini organish natijalari</p>
+            <p className='text_black_18 text_center margin_top_30'>Buyurtmachining oilaviy sharoitini o'rganish natijalari</p>
             <p className='black_text text_center'>Birgalikda istiqomat qiluvchilar</p>
             <div className='row_div between under_line margin_top_10'>
                <p>Istiqomat qiluvchi:</p>
@@ -364,7 +336,7 @@ function KLPDF() {
                </div>
             </div>
             <div className='row_div between under_line margin_top_10'>
-               <p className='div_child'>Oila azolari bilan suhbat davomida aniqlangan muhim malumotlar:</p>
+               <p className='div_child'>Oila a'zolari bilan suhbat davomida aniqlangan muhim malumotlar:</p>
                <p className='div_child'>{mainInfo?.conversation_result}</p>
             </div>
             <p className='black_text text_center margin_top_15'>Buyurtmachining boshqa mulklari</p>
@@ -384,7 +356,7 @@ function KLPDF() {
                <p className='div_child'>Yashash sharoiti:</p>
                <p className='div_child'>{mainInfo?.living_condition}</p>
             </div>
-            <p className='text_black_18 margin_top_20 text_center'>Buyurtmachining faoliyati va daromad  manbalarini organish natijalari</p>
+            <p className='text_black_18 margin_top_20 text_center'>Buyurtmachining faoliyati va daromad  manbalarini o'rganish natijalari</p>
             <div className='row_div between under_line margin_top_10'>
                <p className='div_child'>Buyurtmachining faoliyat turi:</p>
                <p className='div_child'>{mainInfo?.activity?.type}</p>
@@ -398,7 +370,7 @@ function KLPDF() {
                <p className='div_child'>{mainInfo?.activity?.owner}</p>
             </div>
             <div className='row_div between under_line margin_top_10'>
-               <p className='div_child'>Ushbu sohada foliyat yuritish davomiyligi:</p>
+               <p className='div_child'>Ushbu sohada faoliyat yuritish davomiyligi:</p>
                <p className='div_child'>{mainInfo?.activity?.duration}</p>
             </div>
 
@@ -431,10 +403,10 @@ function KLPDF() {
                                        <tr key={item?.id}>
                                           <td>{index + 1}</td>
                                           <td>{item?.name}</td>
-                                          <td>{item?.volume?.toLocaleString()}</td>
-                                          <td>{item?.unit_price?.toLocaleString()}</td>
-                                          <td>{item?.worth?.toLocaleString()}</td>
-                                          <td>{(item?.volume * item?.unit_price)?.toLocaleString()}</td>
+                                          <td>{item?.volume?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                                          <td>{item?.unit_price?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                                          <td>{item?.worth?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                                          <td>{(item?.volume * item?.unit_price)?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
                                           <td>{item?.comment}</td>
                                        </tr>
                                     )
@@ -469,7 +441,7 @@ function KLPDF() {
                                        <tr key={item?.id}>
                                           <td>{index + 1}</td>
                                           <td>{item?.name}</td>
-                                          <td>{item?.income?.toLocaleString()}</td>
+                                          <td>{item?.income?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
                                        </tr>
                                     )
                                  })
@@ -479,11 +451,11 @@ function KLPDF() {
                      </div>
                      <div className='kl1_calendar_single'>
                         {
-                           months?.map((item, index)=>{
-                              return(
-                                 <div className='row_div between under_line margin_top_10' key={index+5}>
+                           months?.map((item, index) => {
+                              return (
+                                 <div className='row_div between under_line margin_top_10' key={index + 5}>
                                     <p className='div_child'>{item?.name}:</p>
-                                    <p className='div_child'>{(mainInfo?.monthly_income?.[item?.value])?.toLocaleString()}</p>
+                                    <p className='div_child'>{(mainInfo?.monthly_income?.[item?.value])?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
                                  </div>
                               )
                            })
@@ -510,7 +482,7 @@ function KLPDF() {
                                        <tr key={item?.id}>
                                           <td>{index + 1}</td>
                                           <td>{item?.name}</td>
-                                          <td>{item?.expense?.toLocaleString()}</td>
+                                          <td>{item?.expense?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
                                        </tr>
                                     )
                                  })
@@ -520,11 +492,11 @@ function KLPDF() {
                      </div>
                      <div className='kl1_calendar_single'>
                         {
-                           months?.map((item, index)=>{
-                              return(
-                                 <div className='row_div between under_line margin_top_10' key={index+5}>
+                           months?.map((item, index) => {
+                              return (
+                                 <div className='row_div between under_line margin_top_10' key={index + 5}>
                                     <p className='div_child'>{item?.name}:</p>
-                                    <p className='div_child'>{(mainInfo?.monthly_expense?.[item?.value])?.toLocaleString()}</p>
+                                    <p className='div_child'>{(mainInfo?.monthly_expense?.[item?.value])?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
                                  </div>
                               )
                            })
@@ -560,9 +532,9 @@ function KLPDF() {
                                              <td>{index + 1}</td>
                                              <td>{item?.name}</td>
                                              <td>{item?.monthly_volume}</td>
-                                             <td>{item?.unit_price}</td>
+                                             <td>{Number(item?.unit_price)?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
                                              <td>{item?.average_price}</td>
-                                             <td>{item?.monthly_income}</td>
+                                             <td>{item?.monthly_income?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
                                              <td>{item?.comment}</td>
                                           </tr>
                                        )
@@ -598,9 +570,9 @@ function KLPDF() {
                                           <td>{index + 1}</td>
                                           <td>{item?.name}</td>
                                           <td>{item?.volume}</td>
-                                          <td>{item?.price}</td>
+                                          <td>{item?.price?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
                                           <td>{item?.value}</td>
-                                          <td>{item?.average_monthly_expense}</td>
+                                          <td>{item?.average_monthly_expense?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
                                           <td>{item?.comment}</td>
                                        </tr>
                                     )
@@ -620,7 +592,7 @@ function KLPDF() {
             <div>
                {
                   mainInfo?.family_incomes?.length != 0 ? <>
-                     <p className='black_text text_center'>Oila azolarining daromadlar , shuningdek uy xojaligining boshqa daromadlari</p>
+                     <p className='black_text text_center'>Oila a'zolarining daromadlar , shuningdek uy xojaligining boshqa daromadlari</p>
                      <div className='margin_top_20'>
                         <table className='single_table_pdf'>
                            <tbody>
@@ -640,7 +612,7 @@ function KLPDF() {
                                           <td>{item?.name}</td>
                                           <td>{item?.activity_type}</td>
                                           <td>{item?.activity_address}</td>
-                                          <td>{item?.monthly_income}</td>
+                                          <td>{Number(item?.monthly_income)?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
                                           <td>{item?.comment}</td>
                                        </tr>
                                     )
@@ -672,7 +644,7 @@ function KLPDF() {
                                        <tr key={item?.id}>
                                           <td>{index + 1}</td>
                                           <td>{item?.name}</td>
-                                          <td>{item?.expense}</td>
+                                          <td>{Number(item?.expense)?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
                                           <td>{item?.comment}</td>
                                        </tr>
                                     )
@@ -688,7 +660,7 @@ function KLPDF() {
                }
                {
                   mainInfo?.family_loans?.length != 0 ? <>
-                     <p className='black_text text_center'>Uy xojaligi azolarining mavjud kredit va qarzdorliklari togrisidagi malumotlar</p>
+                     <p className='black_text text_center'>Uy xojaligi a'zolarining mavjud kredit va qarzdorliklari togrisidagi malumotlar</p>
                      <div className='margin_top_20'>
                         <table className='single_table_pdf'>
                            <tbody>
@@ -696,7 +668,7 @@ function KLPDF() {
                                  <td>№</td>
                                  <td>Malumot nomi:</td>
                                  <td>Asosiy qarz qoldigi:</td>
-                                 <td>Oylik tolov miqdori:</td>
+                                 <td>Oylik to'lov miqdori:</td>
                                  <td>Izoh:</td>
                               </tr>
                               {
@@ -705,8 +677,8 @@ function KLPDF() {
                                        <tr key={item?.id}>
                                           <td>{index + 1}</td>
                                           <td>{item?.name}</td>
-                                          <td>{item?.main}</td>
-                                          <td>{item?.monthly}</td>
+                                          <td>{Number(item?.main)?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                                          <td>{Number(item?.monthly)?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
                                           <td>{item?.comment}</td>
                                        </tr>
                                     )
@@ -717,7 +689,7 @@ function KLPDF() {
                      </div>
                      <div className='flex_column margin_top_10'>
                         <p className='black_text margin_bottom'>Jami asosiy qarz qoldigi: {familyLoansMain()} so`m</p>
-                        <p className='black_text margin_bottom'>Jami oylik tolov miqdori: {familyLoansMonth()?.toLocaleString(undefined, { minimumFractionDigits: 2 })} so`m</p>
+                        <p className='black_text margin_bottom'>Jami oylik to'lov miqdori: {familyLoansMonth()?.toLocaleString(undefined, { minimumFractionDigits: 2 })} so`m</p>
                      </div>
                   </> : <></>
                }
@@ -740,7 +712,7 @@ function KLPDF() {
                                  <td>№</td>
                                  <td>Mavjud kredit va qarzlar:</td>
                                  <td>Asosiy qarz qoldigi:</td>
-                                 <td>Oylik tolov miqdori:</td>
+                                 <td>Oylik to'lov miqdori:</td>
                                  <td>Izoh:</td>
                               </tr>
                               {
@@ -749,8 +721,8 @@ function KLPDF() {
                                        <tr key={item?.id}>
                                           <td>{index + 1}</td>
                                           <td>{item?.name}</td>
-                                          <td>{item?.main}</td>
-                                          <td>{item?.monthly}</td>
+                                          <td>{Number(item?.main)?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                                          <td>{Number(item?.monthly)?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
                                           <td>{item?.comment}</td>
                                        </tr>
                                     )
@@ -761,12 +733,12 @@ function KLPDF() {
                      </div>
                      <div className='flex_column margin_top_15'>
                         <p className='black_text margin_bottom'>Jami asosiy qarz qoldigi: {clientLoansMain()} so`m</p>
-                        <p className='black_text margin_bottom'>Jami oylik tolov miqdori: {clientLoansMonth()} so`m</p>
-                        <p className='black_text '>Joiriy kreditlar boyicha qarz yuki korsatkichi: {((clientLoansMonthNumber() / sofFun()) * 100)?.toFixed(2)}%</p>
+                        <p className='black_text margin_bottom'>Jami oylik to'lov miqdori: {clientLoansMonth()} so`m</p>
+                        <p className='black_text '>Joiriy kreditlar boyicha qarz yuki ko'rsatkichi: {((clientLoansMonthNumber() / sofFun()) * 100)?.toFixed(2)}%</p>
                      </div>
                   </> : <></>
                }
-               <p className='text_black_18 text_center margin_top_30'>Oylik kredit tolovi ( eng katta tolov miqdori )</p>
+               <p className='text_black_18 text_center margin_top_30'>Oylik kredit to'lovi ( eng katta to'lov miqdori )</p>
                <div className='row_div between under_line margin_top_10'>
                   <p className='div_child'>Asosiy qarz:</p>
                   <p className='div_child'>{(kreditData?.principal_debt)?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
@@ -776,11 +748,12 @@ function KLPDF() {
                   <p className='div_child'>{(kreditData?.interest)?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
                </div>
                <div className='row_div between under_line margin_top_10'>
-                  <p className='div_child'>Jami oylik tolov:</p>
+                  <p className='div_child'>Jami oylik to'lov:</p>
                   <p className='div_child'>{(kreditData?.interest + kreditData?.principal_debt)?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
                </div>
                <div className='row_div between under_line margin_top_10'>
-                  <p className='div_child'>Soralayotgan kredit hisobi qarzi yoki korsatkichi (${'< 50%'})</p>
+                  <p className='div_child'>So'ralayotgan kredit hisobi qarzi yoki ko'rsatkichi (${'< 50%'})</p>
+
                   <p className='div_child'>{(((kreditData?.interest + kreditData?.principal_debt + clientLoansMonthNumber()) / sofFun()) * 100).toFixed(2)}%</p>
                </div>
                <div className='row_div between under_line margin_top_10'>
@@ -792,9 +765,9 @@ function KLPDF() {
             {/******___Table___******/}
             <div>
                <div className='kl1_table'>
-                  <div className='kl1_table_dark-bg'>Hulq atvori</div>
+                  <div className='kl1_table_dark-bg'>Xulq atvori</div>
                   <div className='kl1_table_dark-bg'>Shaxsiy sifatida baholanishi</div>
-                  <div className='kl1_table_dark-bg'>Moliaviy malumotlar va savodxonlik</div>
+                  <div className='kl1_table_dark-bg'>Moliyaviy ma'lumotlar va savodxonlik</div>
                   <div className='kl1_table_double kl1_table_noPadding'>
                      <p>Suhbat</p>
                      <p>{mainInfo?.table_conversation_result}</p>
@@ -805,7 +778,7 @@ function KLPDF() {
                   </div>
                   <div>{mainInfo?.table_financial_literacy}</div>
                   <div className='kl1_table_double kl1_table_noPadding'>
-                     <p>Oylik tolov</p>
+                     <p>Oylik to'lov</p>
                      <p>OT/OD</p>
                   </div>
                   <div className='kl1_table_double kl1_table_dark-bg kl1_table_noPadding'>
@@ -834,10 +807,10 @@ function KLPDF() {
                   <div>{mainInfo?.table_income_source}</div>
                   <div>{mainInfo?.table_work_stability}</div>
                   <div>{mainInfo?.table_expected_growth}</div>
-                  <div className='kl1_table_dark-bg'>Taminot turi</div>
-                  <div className='kl1_table_dark-bg'>Taminot qiymati</div>
+                  <div className='kl1_table_dark-bg'>Ta'minot turi</div>
+                  <div className='kl1_table_dark-bg'>Ta'minot qiymati</div>
                   <div className='kl1_table_dark-bg'>Kreditni qoplash koeffitsenti</div>
-                  <div>{supplySum() ? supplyTypes() : 'kafillik'}</div>
+                  <div>{supplySum() ? typesSupply(orderInfo?.supply_info, orderInfo?.group?.id) : 'kafillik'}</div>
                   <div>{supplySum() ? supplySum()?.toLocaleString(undefined, { minimumFractionDigits: 2 }) : orderInfo?.sum?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</div>
                   <div className='kl1_table_yellow-bg'>{supplySum() ? (supplySum() * 100 / orderInfo?.sum)?.toFixed(0) : 100}%</div>
                </div>
@@ -859,7 +832,7 @@ function KLPDF() {
                   <p className='div_child'>{mainInfo?.geolocation?.longitude}</p>
                </div>
                <div className='kl1_pdf_status_part margin_top_20'>
-                  <p>Taqdim etilgan va toplangan malumotlar hamda kredit byurosidan olingan kredit tarixiga asoslanib men tomonimdan otkazilgan organish va tahlillar asosida ushbu buyurtma boyicha quiydagi yakuniy xulosamni kredit komissiyasida korib chiqish uchun taqdim etaman</p>
+                  <p>Taqdim etilgan va to'plangan ma'lumotlar hamda kredit byurosidan olingan kredit tarixiga asoslanib men tomonimdan o'tkazilgan o'rganish va tahlillar asosida ushbu buyurtma bo'yicha quyidagi yakuniy xulosamni kredit komissiyasida ko'rib chiqish uchun taqdim etaman</p>
                   {
                      mainInfo?.status ?
                         <p className='text_black_18 text_center'>Kredit ajratish</p>

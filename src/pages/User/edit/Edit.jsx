@@ -1,24 +1,24 @@
-import React, { useState, useEffect } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
-import { Input } from '@nextui-org/react'
-import { AiOutlineClear, AiOutlineUserAdd } from 'react-icons/ai'
+import { useState, useEffect } from 'react'
+import { useParams } from 'react-router-dom'
+import { Checkbox, Input, Tooltip } from '@nextui-org/react'
+import { AiOutlineClear, AiOutlineQuestionCircle, AiOutlineUserAdd } from 'react-icons/ai'
 import { makeTheme, customStyles } from '../../../components/Order/Functions';
 import { alert } from '../../../components/Alert/alert';
 import Select from 'react-select';
 import Prev from '../../../components/Prev/Prev'
 import https from '../../../services/https';
 
+const userID = window.localStorage.getItem('user_id')
 
 function UserEdit() {
    let { id } = useParams()
    const [user, setUser] = useState({})
-   const [backUser, setBackUser] = useState({})
-   const userID = window.localStorage.getItem('user_id')
-
    const [roles, setRoles] = useState([])
+   const [backUser, setBackUser] = useState({})
+   const [filialOptions, setFilialOptions] = useState([])
 
    async function fetchRoles() {
-      try{
+      try {
          const res = await https.get('/roles')
          let selectRoles = []
          res?.data?.map((item) => {
@@ -28,15 +28,14 @@ function UserEdit() {
          })
          setRoles(selectRoles)
       }
-      catch(err){
+      catch (err) {
          console.log(err);
       }
    }
 
-   const [filialOptions, setFilialOptions] = useState([])
 
    async function fetchBranches() {
-      try{
+      try {
          const res = await https.get('/all/branches')
          let selectFilial = []
          res?.data?.map((item) => {
@@ -46,28 +45,26 @@ function UserEdit() {
          })
          setFilialOptions(selectFilial)
       }
-      catch(err){
+      catch (err) {
          console.log(err);
       }
    }
 
-   async function getData(){
-      try{
-         const res =  await https.get(`/users/${id}`)
+   async function getData() {
+      try {
+         const res = await https.get(`/users/${id}`)
          const { data } = res
          setUser(data)
          setBackUser(data)
       }
-      catch(err){
+      catch (err) {
          console.log(err);
       }
    }
-
-   useEffect(() => {
-      fetchBranches()
-      fetchRoles()
-      getData()
-   }, [])
+   
+   function backFun() {
+      setUser(backUser)
+   }
 
    function findRoles() {
       let rolesArr = []
@@ -77,28 +74,33 @@ function UserEdit() {
       return (rolesArr)
    }
 
+   useEffect(() => {
+      fetchBranches()
+      fetchRoles()
+      getData()
+   }, [])
+
    function onSubmit() {
       let roless = []
-      console.log(roles);
-      console.log(user?.role);
       user?.role?.map(item => {
-         roless.push(roles?.find(x=>x?.value==item?.id)?.label)
+         roless.push(roles?.find(x => x?.value == item?.id)?.label)
       })
 
-      let data = {
+      const data = {
          firstname: user?.firstname,
          surname: user?.surname,
          lastname: user?.lastname,
          email: user?.email,
          password: user?.password,
          password_confirmation: user?.password,
+         is_active: user?.is_active,
          employee_id: user?.employee?.id,
          branch_id: user?.branch?.id,
          role: roless
       }
       https
          .patch(`/update/users/${id}`, data)
-         .then(res => {
+         .then(_ => {
             alert("User o'zgartirildi", 'success')
             if (user?.id === userID) {
                let roless = []
@@ -119,11 +121,6 @@ function UserEdit() {
          })
    }
 
-   // Back
-   function BackFun() {
-      setUser(backUser)
-   }
-
    return (
       <section>
          <div className='filialform_header'>
@@ -131,6 +128,27 @@ function UserEdit() {
          </div>
          <div className='FilialEditTable single_buyurtma'>
             <h1 className='text_center filial_edit_text'>{user?.name}</h1>
+            <div className="controls_item">
+               <Tooltip content="Foydalanuvchini aktiv yoki passiv qilish." placement="topStart">
+                  <label htmlFor='contract'>
+                     Foydalanuvchining holati
+                     <AiOutlineQuestionCircle />
+                  </label>
+               </Tooltip>
+               <Checkbox
+                  size='md'
+                  id='contract'
+                  color="secondary"
+                  isSelected={user?.is_active}
+                  onChange={_ => {
+                     let newUser = { ...user }
+                     newUser.is_active = !user?.is_active
+                     setUser(newUser)
+                  }}
+               >
+                  Foydalanuvchi aktiv
+               </Checkbox>
+            </div>
             <Input
                width='100%'
                bordered
@@ -139,7 +157,7 @@ function UserEdit() {
                className='filial_input'
                color="secondary"
                onChange={(e) => {
-                  let newUser = { ...user}
+                  let newUser = { ...user }
                   newUser.firstname = e.target.value
                   setUser(newUser)
                }}
@@ -230,22 +248,22 @@ function UserEdit() {
                      width='100%'
                      maxMenuHeight="150px"
                      options={filialOptions}
-                     defaultValue={filialOptions?.find(x => x.value == user.branch?.id)} 
-                     value={filialOptions?.find(x => x.value == user.branch?.id)}      
+                     defaultValue={filialOptions?.find(x => x.value == user.branch?.id)}
+                     value={filialOptions?.find(x => x.value == user.branch?.id)}
                      className='xodim_select basic-multi-select'
                      classNamePrefix="select"
                      styles={customStyles}
                      theme={makeTheme}
-                     onChange={(event) => { 
-                        let newUser = {...user}
-                        newUser.branch.id =  event.value
+                     onChange={(event) => {
+                        let newUser = { ...user }
+                        newUser.branch.id = event.value
                         setUser(newUser)
                      }}
                   />
                </div>
             }
             <div className='xodim_buttons'>
-               <button type='reset' className='client_submit reset back_red' onClick={() => { BackFun() }}>
+               <button type='reset' className='client_submit reset back_red' onClick={() => { backFun() }}>
                   O'zgarishni bekor qilish
                   <AiOutlineClear />
                </button>

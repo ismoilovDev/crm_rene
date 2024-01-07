@@ -8,8 +8,9 @@ import {
    RegionFilter,
 } from "../../components/Filter/Filter";
 import { ClientFilterContext } from "../../context/context";
+import { ExcelButton } from "../../components/Buttons/ExcelBtn";
 
-function Filters() {
+function Filters({ handleOnExcel }) {
    const { filters, setFilters, initialFilters } = useContext(ClientFilterContext);
 
    return (

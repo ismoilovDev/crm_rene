@@ -10,6 +10,17 @@ function IndicatorMobile() {
    const [status, setStatus] = useState(false)
    const [gold, setGold] = useState([])
 
+   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+   useEffect(() => {
+      const handleWindowResize = () => {
+         setWindowWidth(window.innerWidth);
+      };
+      window.addEventListener('resize', handleWindowResize);
+      return () => {
+         window.removeEventListener('resize', handleWindowResize);
+      };
+   });
+
    const addSpacesToNumber = (numberString) => {
       return numberString.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
    };
@@ -74,7 +85,7 @@ function IndicatorMobile() {
       <div className='indicator_mobile_wrapper'>
          <p className='main_text' onClick={() => setStatus(!status)}>
             <span className="main_text_indi">KURS</span>
-            <span>{status ? <IoIosArrowDropup /> : <IoIosArrowDropdown />}</span>
+            <span>{windowWidth > 600 ? (status ? <IoIosArrowDropup /> : <IoIosArrowDropdown />) : <></>}</span>
          </p>
          <div className={status ? 'indicator_content' : ''}>
             {

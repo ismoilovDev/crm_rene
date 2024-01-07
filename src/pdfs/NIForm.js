@@ -104,7 +104,7 @@ function NIForm() {
         <h1 className='text_center margin_top_30'>Notarial Idoraga</h1>
         {mainPart(documentInfo)}
         <div className='margin_top_30'>
-          <p className='black_text'>«Renesans Mikromoliya Tashkiloti» MChJ {documentInfo?.branch?.short_name} direktori:</p>
+          <p className='black_text'>«Renesans Mikromoliya Tashkiloti» MChJ {documentInfo?.branch?.short_name} boshqaruvchisi:</p>
           <p className='black_text margin_top_5'>{documentInfo?.branch?.head}</p>
         </div>
         {endPart(documentInfo)}

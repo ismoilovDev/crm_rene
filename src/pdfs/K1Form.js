@@ -214,10 +214,10 @@ function K1Form() {
                   <p>Boshqaruvchi</p>
                   <p>{fullName(documentInfo?.branch?.head_of_branch)}</p>
                </div>
-               <div className='between margin_top_15 margin_site_20'>
+               {/* <div className='between margin_top_15 margin_site_20'>
                   <p>Bosh buxgalter</p>
                   <p>{fullName(documentInfo?.branch?.chief_accountant)}</p>
-               </div>
+               </div> */}
                <p className='black_text pdf_margin_top_20 distance'>7.2. Kafillik beruvchilar:</p>
                <div className='margin_site_20'>
                   {

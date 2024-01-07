@@ -22,9 +22,9 @@ const ContainerEdit = memo(({ path, setPath }) => {
    const [isActivePopup, setIsActivePopup] = useState(false)
 
    useEffect(() => {
-      setTimeout(() => {
-         setSourceImages([...path])
-      }, 1000);
+      // setTimeout(() => {
+      //    setSourceImages([...path])
+      // }, 1000);
    }, [path])
 
    function photoOpen() {
@@ -51,7 +51,6 @@ const ContainerEdit = memo(({ path, setPath }) => {
       const sourse = [];
       for (const file of files) {
          if (file.size <= allowedSize && /(png|jpe?g)$/.test(file.type)) {
-            setIsChanged(true)
             const image = {
                src: URL.createObjectURL(file)
             };
@@ -83,8 +82,9 @@ const ContainerEdit = memo(({ path, setPath }) => {
          })
             .then(res => {
                setIsActivePopup(false)
-               setPath(res?.data?.data)
-               setSourceImages(res?.data?.data)
+               setPath([...path, ...res?.data?.data])
+               setSourceImages([])
+               setSelectedImages([])
                alert("Rasmlar qo'shildi", 'success', 1500)
                setTimeout(() => {
                   document.body.style.overflowY = 'scroll'
@@ -102,15 +102,15 @@ const ContainerEdit = memo(({ path, setPath }) => {
       }
    }
 
-   function imageDelete(id) {
-      const newSelectedImages = selectedImages.filter((_, i) => i !== id);
-      const newSourceImages = sourceImages.filter((_, i) => i !== id);
-      if (isChanged) {
+   function imageDelete(id, status) {
+      if(status){
          const newPath = path.filter((_, i) => i !== id);
          setPath([...newPath])
       }
-      setSelectedImages([...newSelectedImages])
+      const newSourceImages = sourceImages.filter((_, i) => i !== id);
+      const newSelectedImages = selectedImages.filter((_, i) => i !== id);
       setSourceImages([...newSourceImages])
+      setSelectedImages([...newSelectedImages])
    }
 
    return (
@@ -125,7 +125,7 @@ const ContainerEdit = memo(({ path, setPath }) => {
                   Rasm tanlash <MdPhotoSizeSelectLarge className='icon_load' />
                </button>
                {
-                  isChanged ? 
+                  sourceImages?.length > 0 ? 
                      <button type='button' onClick={addImage}>
                         Rasmlarni yuklash <MdPhotoSizeSelectLarge className='icon_load' />
                      </button> :
@@ -146,7 +146,7 @@ const ContainerEdit = memo(({ path, setPath }) => {
                                  src={`${process.env.REACT_APP_BASE_URL}/${image}`}
                                  onClick={() => setIndex(index)}
                               />
-                              <button type='button' onClick={() => { imageDelete(index) }}><AiFillCloseSquare className='icon_no' /></button>
+                              <button type='button' onClick={() => { imageDelete(index, true) }}><AiFillCloseSquare className='icon_no' /></button>
                            </div>
                         )
                      }) : null
@@ -180,14 +180,13 @@ const ContainerEdit = memo(({ path, setPath }) => {
                return { src: `${process.env.REACT_APP_BASE_URL}/${item}` }
             }) : selectedImages}
          />
+
          <WebCamera
             open={openCamera}
             cameraWrap={cameraWrap}
             setIsChanged={setIsChanged}
             sourceImages={sourceImages}
-            selectedImages={!isOpenField ? path?.map(item => {
-               return { src: `${process.env.REACT_APP_BASE_URL}/${item}` }
-            }) : selectedImages}
+            selectedImages={selectedImages}
             setSourceImages={setSourceImages}
             setSelectedImages={setSelectedImages}
             closeCameraHandle={closeCameraHandle}

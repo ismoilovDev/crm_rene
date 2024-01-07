@@ -48,7 +48,7 @@ export const LittleStatistics = memo(({ statisticInfo, overData, pieSize }) => {
             pieSize={pieSize}
             title={'Berilgan kredit'}
             percentage={overData?.percentage / 100 || 0}
-            amount={`${(overData?.fact / 1000000).toFixed(2) || 0} mln`}
+            amount={`${(overData?.fact / 1000000).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0} mln`}
          />
          <CirceTotalBox
             color={'green'}

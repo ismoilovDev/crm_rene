@@ -25,6 +25,10 @@ const DLForm = lazy(() => import('./DLForm'));
 const NIForm = lazy(() => import('./NIForm'));
 const ContractPDF = lazy(() => import('./3xContract/ContractPDF'));
 const KLPDF = lazy(() => import('./KLPDF'));
+const FQDForm = lazy(() => import('./FQDForm'));
+const FTDForm = lazy(() => import('./FTDForm'));
+
+
 
 export default function PdfRouting() {
 
@@ -49,6 +53,8 @@ export default function PdfRouting() {
             <Route path='s1' element={<S1Form />} />
             <Route path='kd2' element={<KD2Form />} />
             <Route path='td' element={<TDForm />} />
+            <Route path='fqd' element={<FQDForm />} />
+            <Route path='ftd' element={<FTDForm />} />
             <Route path='contract' element={<ContractPDF />} />
             <Route path='dl' element={<DLForm />} />
             <Route path='ni' element={<NIForm />} />

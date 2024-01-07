@@ -14,6 +14,7 @@ import LoaderBackdrop from '../../../components/Loader/LoaderBackdrop';
 import precisionRound from '../../../utils/functions/precisionRound';
 import Prev from '../../../components/Prev/Prev';
 import https from '../../../services/https';
+import { SinglePage } from '../../../utils/functions/supplySinglePage';
 
 const company_details = { id: 0, name: '', license: '', doc_code: '', valuer_name: '' }
 
@@ -22,7 +23,6 @@ function EditGold() {
    const [goldCurrentDatas, setGoldCurrentDatas] = useState({})
    const [company, setCompany] = useState(company_details)
    const [disable, setDisable] = useState(false)
-   const [companyId, setCompanyId] = useState('')
    const [goldInfo, setGoldInfo] = useState({})
    const [loading, setLoading] = useState(true)
    const [golds, setGolds] = useState([])
@@ -40,7 +40,6 @@ function EditGold() {
             setGoldCurrentDatas(data)
             if (+data.valued_by !== 1) {
                setCompany(data?.company)
-               setCompanyId(data?.company?.id)
             }
             setGolds(data?.gold)
             setLoading(false)
@@ -116,76 +115,43 @@ function EditGold() {
       setGoldInfo({ ...goldCurrentDatas })
    }
 
-   const pushingData = async (details) => {
-      try {
-         const res = await https.post('/golds', details);
-         alert("Ta'minot o'zgartirildi", 'success');
-         navigate(`/taminot/singlegold/${id}`);
-      } catch (err) {
-         const errorMessage = err?.response?.data?.message || "Xatolik";
-         alert(errorMessage, 'error');
-      } finally {
-         setDisable(false);
-      }
-   };
-
    const mainRequest = async (post_data) => {
       const { data } = await https.patch(`/supply-info/${id}`, post_data);
       return data.id
    }
 
-   const companyUpdateRequest = async (post_data) => {
-      const { data } = await https.patch(`/companies/${companyId}`, post_data)
-   }
-
-   const companyPostRequest = async (post_data) => {
-      const { data } = await https.post(`/companies`, post_data)
-      return data.id
-   }
-
    const onSubmit = async () => {
-      try {
-         const total = totalSum()
-         setDisable(true);
-         const main_data = {
-            client_id: goldCurrentDatas?.client_id,
-            type: 'gold',
-            possessor: 'client',
-            valued_by: goldInfo?.valued_by,
-            date: goldInfo?.date,
-            sum: Number(total),
-            paths: path,
-            percent: 100
-         };
+      const total = totalSum()
+      setDisable(true);
+      const gold_items = golds.map(({ id, ...item }) => item)
 
-         const gold = golds.map(({ id, ...item }) => item)
-         if (+goldInfo?.valued_by !== 1) {
-            const { id, ...companyWithoutId } = company;
-            async function createSupplyInfo(gold) {
-               try {
-                  if (!companyId) {
-                     const company_id = await companyPostRequest(companyWithoutId)
-                     const supply_info_id = await mainRequest({ ...main_data, company_id })
-                     await pushingData({ gold, supply_info_id });
-                  } else {
-                     await companyUpdateRequest(companyWithoutId)
-                     const supply_info_id = await mainRequest({ ...main_data, company_id: companyId })
-                     await pushingData({ gold, supply_info_id });
-                  }
-               } catch (err) {
-                  alert(`Xatolik: ${err?.response?.data?.message}`, 'error')
-               }
-            }
-            createSupplyInfo(gold);
-         } else {
-            const supply_info_id = await mainRequest(main_data)
-            await pushingData({ gold: golds, supply_info_id })
-         }
+      const main_data = {
+         client_id: goldInfo?.client_id,
+         type: 'gold',
+         possessor: 'client',
+         valued_by: goldInfo?.valued_by,
+         date: goldInfo?.date,
+         sum: Number(total),
+         paths: path,
+         percent: 100,
+         gold: gold_items
+      };
+
+      if (+goldInfo?.valued_by === 2) {
+         const companyWithoutId = { ...company };
+         delete companyWithoutId.id
+         Object.assign(main_data, {company: companyWithoutId})
+      }
+
+      try {
+         const res = await mainRequest(main_data)
+         alert("Ta'minot o'zgartirildi", 'success');
+         // SinglePage('gold', id)
       } catch (err) {
-         alert(`Xatolik: ${err.message}`, 'error')
-         setDisable(false)
+         const errorMessage = err?.response?.data?.message || "Xatolik";
+         alert(errorMessage, 'error');
       } finally {
-         setDisable(false)
+         setDisable(false);
       }
    };
 
@@ -213,7 +179,7 @@ function EditGold() {
                                  <p>Ta'minot turi:</p>
                                  <p>Tilla Buyumlar Garovi</p>
                               </div>
-                              <div className={goldInfo?.valued_by == 2 ? 'taminot_bahoType' : 'close'}>
+                              <div className={+goldInfo?.valued_by === 2 ? 'taminot_bahoType' : 'close'}>
                                  <Input
                                     bordered
                                     label='Tilla buyumlarni baholovchi tashkilot'

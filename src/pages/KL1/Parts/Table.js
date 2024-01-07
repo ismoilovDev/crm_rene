@@ -1,20 +1,23 @@
 import React, { useState, useContext, useEffect } from 'react'
-import { Textarea, Radio, Input } from '@nextui-org/react'
-import { useForm } from "react-hook-form";
-import { AiOutlineDoubleLeft } from 'react-icons/ai'
-import { useNavigate } from 'react-router-dom';
 import { YMaps, Map, Placemark } from '@pbe/react-yandex-maps';
-import { NumericFormat } from 'react-number-format';
-import { alert } from '../../../components/Alert/alert';
-import { Context } from '../../../context/context';
-import LoaderBackdrop from '../../../components/Loader/LoaderBackdrop';
+import { Textarea, Radio, Input } from '@nextui-org/react'
+import { AiOutlineDoubleLeft } from 'react-icons/ai'
+import { NumericFormat } from 'react-number-format'
+import { useNavigate } from 'react-router-dom';
+import { useForm } from "react-hook-form";
 import https from '../../../services/https';
+import { Context } from '../../../context/context';
+import { alert, warning } from '../../../components/Alert/alert';
+import { nextMonth } from '../../../utils/functions/nextMonth';
+import LoaderBackdrop from '../../../components/Loader/LoaderBackdrop';
+import { typesSupply } from '../../../utils/functions/supplyTypes';
+
+const userID = window.localStorage.getItem('user_id')
 
 function Table() {
    const [show, setShow] = useState(false)
-   const userID = window.localStorage.getItem('user_id')
    const [disable, setDisable] = useState(false)
-   
+
    // Tab active
    const { setActiveTab } = useContext(Context)
    const { dataTable, setDataTable } = useContext(Context)
@@ -55,7 +58,7 @@ function Table() {
          newBiznesDaromad.push(item.plus)
       })
       let totalDaromad = newBiznesDaromad.reduce((prev, current) => Number(prev) + Number(current), 0)
-      return(totalDaromad ? totalDaromad : 0)
+      return (totalDaromad ? totalDaromad : 0)
    }
 
    function GetSumXarajatBiznes() {
@@ -64,7 +67,7 @@ function Table() {
          newBiznesXarajat.push(item.minus)
       })
       let totalXarajat = newBiznesXarajat.reduce((prev, current) => Number(prev) + Number(current), 0)
-      return(totalXarajat ? totalXarajat : 0)
+      return (totalXarajat ? totalXarajat : 0)
    }
 
    // Get current location ----->
@@ -89,7 +92,7 @@ function Table() {
          newSumArray.push(item.oylik)
       })
       let totalPrices = newSumArray.reduce((prev, current) => prev + current, 0)
-      return(totalPrices ? totalPrices : 0)
+      return (totalPrices ? totalPrices : 0)
    }
 
    const GetDaromadSumMavsumiy = () => {
@@ -98,7 +101,7 @@ function Table() {
          SumArr1.push(Number(item.value))
       })
       let totalSum1 = SumArr1.reduce((prev, current) => prev + current, 0)
-      return(totalSum1 ? totalSum1 : 0)
+      return (totalSum1 ? totalSum1 : 0)
    }
 
    const GetXarajatSumMavsumiy = () => {
@@ -107,7 +110,7 @@ function Table() {
          SumArr2.push(Number(item.value))
       })
       let totalSum2 = SumArr2.reduce((prev, current) => prev + current, 0)
-      return(totalSum2 ? totalSum2 : 0)
+      return (totalSum2 ? totalSum2 : 0)
    }
 
    function GetSumXarajatQism6() {
@@ -116,7 +119,7 @@ function Table() {
          xarajat.push(item.minus)
       })
       let totalXarajatSum = xarajat.reduce((prev, current) => Number(prev) + Number(current), 0)
-      return(totalXarajatSum ? totalXarajatSum : 0)
+      return (totalXarajatSum ? totalXarajatSum : 0)
    }
    function GetMalumotPayQism6() {
       let malumotPay = []
@@ -124,25 +127,7 @@ function Table() {
          malumotPay.push(item.pay)
       })
       let totalMalumotSumPay = malumotPay.reduce((prev, current) => Number(prev) + Number(current), 0)
-      return(totalMalumotSumPay ? totalMalumotSumPay : 0)
-   }
-
-   function SupplyTypes(supply) {
-      let types = []
-      supply?.map(item => {
-         if (item?.type == 'gold') {
-            types.push('Tilla Buyumlar Kafilligi')
-         } else if (item?.type == 'auto') {
-            types.push('Transport Vositasi Garovi')
-         } else if (item?.type == 'guarrantor') {
-            types.push('3 shaxs kafilligi')
-         } else if (item?.type == 'insurance') {
-            types.push('Sugurta kompaniyasi sugurta polisi')
-         } else {
-            types.push('Ishonch asosida')
-         }
-      })
-      return types?.join(',')
+      return (totalMalumotSumPay ? totalMalumotSumPay : 0)
    }
 
    function SupplySum(supply) {
@@ -155,16 +140,16 @@ function Table() {
          }
       })
       let totalSum = summ.reduce((prev, current) => prev + current, 0)
-      return(totalSum ? totalSum : 0)
+      return (totalSum ? totalSum : 0)
    }
 
-   const namunaRequest = async(info) =>{
-      try{
+   const namunaRequest = async (info) => {
+      try {
          const res = await https.post('/namuna', info)
          const { data } = res;
          setKreditData(data?.['0'])
       }
-      catch(err){
+      catch (err) {
          console.log(err);
       }
    }
@@ -173,12 +158,12 @@ function Table() {
       setSof(GetSumDaromadBiznes() + getTotalSumBoshqa() + (GetDaromadSumMavsumiy()) / 12 - GetSumXarajatBiznes() - (GetXarajatSumMavsumiy()) / 12)
 
       const data = {
-         type: infoOrder?.type_repayment === 1 ? 'annuitet' : 'differential',
+         type: +infoOrder?.type_repayment === 1 ? 'annuitet' : 'differential',
          sum: infoOrder?.sum,
          time: infoOrder?.time,
          percent: infoOrder?.percent_year,
          given_date: infoOrder?.contract ? infoOrder?.contract?.contract_issue_date : infoOrder?.order_date,
-         first_repayment_date: infoOrder?.contract ? infoOrder?.contract?.first_repayment_date : infoOrder?.order_date
+         first_repayment_date: infoOrder?.contract ? infoOrder?.contract?.first_repayment_date : nextMonth(infoOrder?.order_date)
       }
 
       namunaRequest(data)
@@ -351,20 +336,25 @@ function Table() {
          })
    }
 
-   const onSubmit = (data) => {
-      if(ProcentNumber() > 45){
-         setDisable(false)
-         return alert('KL foiz 45% oshib ketdi')
-      }
-      
-      setDisable(true)
+   const onSubmit = async(data) => {
+      if (dataTable?.status) {
+         if (ProcentNumber() > 45) {
+            const result = await warning("Foiz 45%dan oshib ketdi. Bari bir KLni qo'shmoqchimisiz?")
 
+            if(result.isDenied){
+               console.log('stop');
+               return
+            }
+         }
+      }
+
+      setDisable(true)
       let familyMembers = []
-      familyMemCheck?.map(item=>{
-         if(item?.checked){
-            if(item?.counter){
+      familyMemCheck?.map(item => {
+         if (item?.checked) {
+            if (item?.counter) {
                familyMembers.push(`${item?.count} ${item?.name}`)
-            }else{
+            } else {
                familyMembers.push(item?.name)
             }
          }
@@ -375,22 +365,22 @@ function Table() {
 
 
       let mulkCopy = []
-      propertyTotal?.map(item=>{
-         if(item?.checked){
-            if(item?.counter){
+      propertyTotal?.map(item => {
+         if (item?.checked) {
+            if (item?.counter) {
                mulkCopy.push(`${item?.count} ${item?.name}`)
-            }else{
+            } else {
                mulkCopy.push(item?.name)
             }
          }
       })
-      propertyCars?.map(item=>{
-         if(item?.checked){
+      propertyCars?.map(item => {
+         if (item?.checked) {
             mulkCopy.push(item?.name)
          }
       })
-      propertyAnimals?.map(item=>{
-         if(item?.checked){
+      propertyAnimals?.map(item => {
+         if (item?.checked) {
             mulkCopy.push(`${item?.count} ${item?.name}`)
          }
       })
@@ -630,6 +620,7 @@ function Table() {
             return (alert(err?.response?.data?.message, 'error'))
          })
 
+
    }
 
    return (
@@ -638,7 +629,7 @@ function Table() {
             <div className='kl1_table'>
                <div className='kl1_table_dark-bg'>Hulq atvori</div>
                <div className='kl1_table_dark-bg'>Shaxsiy sifatida baholanishi</div>
-               <div className='kl1_table_dark-bg'>Moliaviy malumotlar va savodxonlik</div>
+               <div className='kl1_table_dark-bg'>Moliaviy ma'lumotlar va savodxonlik</div>
                <div className='kl1_table_double kl1_table_noPadding'>
                   <p>сухбат</p>
                   <div className='kl1_table_inputs'>
@@ -692,7 +683,7 @@ function Table() {
                   <p className={((sof / (kreditData?.interest + kreditData?.principal_debt)) * 100).toFixed(2) > 120 ? 'kl1_table_green-bg' : 'kl1_table_red-bg'}>{(((sof / (kreditData?.interest + kreditData?.principal_debt)) * 100).toFixed(2)) ? (((sof / (kreditData?.interest + kreditData?.principal_debt)) * 100).toFixed(2)) : "..."}%</p>
                   <p className='kl1_table_yellow-bg'>{(GetSumXarajatQism6() + GetMalumotPayQism6()) ? (GetSumXarajatQism6() + GetMalumotPayQism6())?.toLocaleString() : 0}</p>
                </div>
-               <div className='kl1_table_yellow-bg'> {`<= 45% и >= 120%`}</div>
+               <div className='kl1_table_yellow-bg'> {`<= 50% и >= 120%`}</div>
                <div className='kl1_table_dark-bg'>Shaxsiy kapital miqdori</div>
                <div className='kl1_table_dark-bg'>Shaxsiy kapital/kreditlar</div>
                <div className='kl1_table_dark-bg'>Natija</div>
@@ -700,7 +691,7 @@ function Table() {
                   <NumericFormat
                      thousandSeparator={' '}
                      value={dataTable?.table_personal_capital}
-                     onChange={(e)=>{
+                     onChange={(e) => {
                         const changed_number = Number((e.target.value).replace(/\s/g, ''))
                         const array = { ...dataTable }
                         array.table_personal_capital = changed_number
@@ -746,7 +737,7 @@ function Table() {
                <div className='kl1_table_dark-bg'>Taminot turi</div>
                <div className='kl1_table_dark-bg'>Taminot qiymati</div>
                <div className='kl1_table_dark-bg'>Kreditni qoplash koeffitsenti</div>
-               <div>{SupplySum(infoOrder?.supply_info) ? SupplyTypes(infoOrder?.supply_info) : 'kafillik'}</div>
+               <div>{SupplySum(infoOrder?.supply_info) ? typesSupply(infoOrder?.supply_info, infoOrder?.group?.id) : 'kafillik'}</div>
                <div>{SupplySum(infoOrder?.supply_info) ? SupplySum(infoOrder?.supply_info)?.toLocaleString(undefined, { minimumFractionDigits: 2 }) : infoOrder?.sum?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</div>
                <div className='kl1_table_yellow-bg'>{SupplySum(infoOrder?.supply_info) ? (SupplySum(infoOrder?.supply_info) / infoOrder?.sum)?.toLocaleString(undefined, { minimumFractionDigits: 2 }) : 100}%</div>
             </div>
@@ -818,16 +809,25 @@ function Table() {
                show ? Location() : <></>
             }
             <div className='kl1_accepting'>
-               <p>Taqdim etilgan va toplangan malumotlar hamda kredit byurosidan olingan kredit tarixiga asoslanib men tomonimdan otkazilgan organish va tahlillar asosida ushbu buyurtma boyicha quiydagi yakuniy xulosamni kredit komissiyasida korib chiqish uchun taqdim etaman</p>
-               <Radio.Group label=' ' value={dataTable?.status} size='sm' className='kl1_accepting_radio'
-                  onChange={(e) => {
+               <p>Taqdim etilgan va toplangan ma'lumotlar hamda kredit byurosidan olingan kredit tarixiga asoslanib men tomonimdan otkazilgan organish va tahlillar asosida ushbu buyurtma boyicha quiydagi yakuniy xulosamni kredit komissiyasida korib chiqish uchun taqdim etaman</p>
+               <Radio.Group
+                  size='sm'
+                  label=' '
+                  value={dataTable?.status}
+                  className='kl1_accepting_radio'
+                  onChange={e => {
+                     console.log(e)
                      let array = { ...dataTable }
                      array.status = e
                      setDataTable(array)
                   }}
                >
-                  <div className='kl1_accept margin_bottom'><Radio color='success' className='radio_end' value={true}>Kredit ajratish</Radio></div>
-                  <div className='kl1_accept'><Radio color='error' className='radio_end' value={false}>Rad etish</Radio></div>
+                  <div className='kl1_accept margin_bottom'>
+                     <Radio color='success' className='radio_end' value={true}>Kredit ajratish</Radio>
+                  </div>
+                  <div className='kl1_accept'>
+                     <Radio color='error' className='radio_end' value={false}>Rad etish</Radio>
+                  </div>
                </Radio.Group>
             </div>
 

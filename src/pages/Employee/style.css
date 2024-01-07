@@ -101,6 +101,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
 }
 
 .xodim_table li p:nth-child(1) {

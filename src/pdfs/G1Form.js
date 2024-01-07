@@ -119,10 +119,10 @@ function G1Form() {
                         <p>Boshqaruvchi </p>
                         <p>{fullName(documentInfo?.branch?.head_of_branch)}</p>
                      </div>
-                     <div className='between pdf_margin_top_20'>
+                     {/* <div className='between pdf_margin_top_20'>
                         <p>Bosh buxgalter</p>
                         <p>{fullName(documentInfo?.branch?.chief_accountant)}</p>
-                     </div>
+                     </div> */}
                   </div>
                   <div className='pdf_end_2sections_section'>
                      <div className='between'>

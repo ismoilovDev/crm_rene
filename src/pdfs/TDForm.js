@@ -89,12 +89,12 @@ function TDForm() {
                <p>
                   {fullName(documentInfo?.data?.branch?.head_of_branch)} _______________
                </p>
-               <p className='pdf_margin_top_10'>
+               {/* <p className='pdf_margin_top_10'>
                   Bosh buxgalter :
                </p>
                <p>
                   {fullName(documentInfo?.data?.branch?.chief_accountant)}______________
-               </p>
+               </p> */}
                <div className='pdf_end_2sections pdf_margin_top_30'>
                   <div className='pdf_end_2sections_section'>
                      <p className='black_text'>Topshirdi (qaytardi):</p>

@@ -3,16 +3,17 @@ import { v4 as uuidv4 } from 'uuid'
 import { useForm } from "react-hook-form";
 import { useNavigate } from 'react-router-dom';
 import { Input, Textarea } from '@nextui-org/react'
-import { AiOutlineDoubleRight, AiOutlineDoubleLeft } from 'react-icons/ai'
+import https from '../../../../services/https';
 import { NumericFormat } from 'react-number-format';
 import { Context } from '../../../../context/context';
 import { alert } from '../../../../components/Alert/alert';
-import https from '../../../../services/https';
+import { nextMonth } from '../../../../utils/functions/nextMonth';
+import { AiOutlineDoubleRight, AiOutlineDoubleLeft } from 'react-icons/ai'
 
 function EditPart7() {
 
     // Tab active
-    const { infoOrder, setActiveTab } = useContext(Context)
+    const { mainInfo, infoOrder, setActiveTab } = useContext(Context)
     const { clientLoans, setClientLoans} = useContext(Context)
     const { historyKredit, setHistoryKredit } = useContext(Context)
     const [kreditData, setKreditData] = useState({})
@@ -30,7 +31,7 @@ function EditPart7() {
 
     function getSumDaromadBiznes(){
         let newBiznesDaromad = []
-        biznesDaromads.map((item,index)=>{
+        biznesDaromads?.map((item,index)=>{
             newBiznesDaromad.push(item.monthly_income)
         })
         let totalDaromad = newBiznesDaromad.reduce((prev,current)=> Number(prev) + Number(current), 0)
@@ -39,7 +40,7 @@ function EditPart7() {
 
     function getSumXarajatBiznes(){
         let newBiznesXarajat = []
-        biznesXarajats.map((item,index)=>{
+        biznesXarajats?.map((item,index)=>{
             newBiznesXarajat.push(item.average_monthly_expense)
         })
         let totalXarajat = newBiznesXarajat.reduce((prev,current)=> Number(prev) + Number(current), 0)
@@ -67,23 +68,12 @@ function EditPart7() {
 
     const getXarajatSumMavsumiy = () =>{
         const SumArr2 = []
-        mavsumiyXarajats.map((item,index)=>{
+        mavsumiyXarajats?.map((item,index)=>{
             SumArr2.push(Number(item.expense))
         })
 
         let totalSum2 = SumArr2.reduce((prev, current)=> prev + current, 0)
         return(totalSum2 ? totalSum2 : 0)
-    }
-
-    const getPaymentClear = async(id) => {
-        try{
-            const res = await https.post(`/g1/${id}`, {})
-            const { data } = res;
-            setKreditData(data?.graph?.['0']);
-        }
-        catch(error){
-           console.log(error)
-        }
     }
 
     const namunaRequest = async(info) =>{
@@ -111,19 +101,15 @@ function EditPart7() {
         setActiveTab(7)
         
         const data = {
-            type: infoOrder?.type_repayment === 1 ? 'annuitet' : 'differential',
+            type: Number(infoOrder?.type_repayment) === 1 ? 'annuitet' : 'differential',
             sum: infoOrder?.sum,
             time: infoOrder?.time,
             percent: infoOrder?.percent_year,
-            given_date: infoOrder?.contract ? infoOrder?.contract?.contract_issue_date : infoOrder?.order_date,
-            first_repayment_date: infoOrder?.contract ? infoOrder?.contract?.first_repayment_date : infoOrder?.order_date
+            given_date: mainInfo?.contract && mainInfo?.contract?.contract_issue_date ? mainInfo?.contract?.contract_issue_date : infoOrder?.order_date,
+            first_repayment_date: mainInfo?.contract && mainInfo?.contract?.first_repayment_date ? mainInfo?.contract?.first_repayment_date : nextMonth(infoOrder?.order_date)
         }
 
-        if(infoOrder?.contract?.id){
-            getPaymentClear(infoOrder?.id)
-        }else{
-            namunaRequest(data)   
-        }
+        namunaRequest(data)
 
     }, [])
 
@@ -197,7 +183,7 @@ function EditPart7() {
 
     const onSubmit = (data) =>{
         if(procentNumber() > 45){
-            return alert("Soralayotgan kredit hisobi 45% dan ortik", 'error')
+            return alert("So'ralayotgan kredit hisobi 45% dan ortik", 'error')
         }
 
         setTimeout(()=>{
@@ -212,7 +198,7 @@ function EditPart7() {
             <form onSubmit={handleSubmit(onSubmit)} className='qism_7'>
                 {
                     clientLoans?.map((item,index)=>(
-                        <div className='kl1_products' key={item.id}>
+                        <div className='kl1_products' key={`${item?.id}${index}`}>
                             <div className='kl1_product_title'>
                                 Mavjud malumot {index + 1}
                                 <button
@@ -341,7 +327,7 @@ function EditPart7() {
                             <p>{(kreditData?.interest + kreditData?.principal_debt)?.toLocaleString()}</p>
                         </div>
                         <div className={procentNumber() > 45 ? 'single_buyurtma_inputs pdf_margin_top_15 red_text' : 'single_buyurtma_inputs pdf_margin_top_15 green_text'}>
-                            <p>{`Soralayotgan kredit hisobi qarzi yoki korsatkichi (<45%)`}:</p>
+                            <p>{`So'ralayotgan kredit hisobi qarzi yoki korsatkichi (<45%)`}:</p>
                             <p>{procentNumber()}</p>
                         </div>
                     </div> :

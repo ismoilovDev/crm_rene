@@ -16,6 +16,8 @@ function App() {
       await login(data, setToken);
     } catch (error) {
       console.log(error)
+    } finally {
+      setIsActiveLoader(false)
     }
   };
 

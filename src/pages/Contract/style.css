@@ -42,6 +42,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 .search-input i {
@@ -164,7 +165,7 @@
 }
 
 .userButtons_shartnoma button:nth-child(2):hover {
-    background-color: rgb(3, 61, 3);
+    background-color: rgb(16, 89, 16);
     transform: scale(1.1);
 }
 
@@ -181,6 +182,9 @@
 .userButtons_shartnoma button:nth-child(3):hover {
     background-color: red(3, 61, 3);
     transform: scale(1.1);
+}
+.userButtons_shartnoma .disable_edit{
+    background-color: rgb(17, 28, 17) !important;
 }
 
 .add_contract_btns {

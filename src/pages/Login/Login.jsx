@@ -1,39 +1,74 @@
-import { memo } from 'react'
-import { Input } from '@nextui-org/react';
-import { useForm } from "react-hook-form";
-import Logo from '../../assets/images/Logo'
-import LoginBack from '../../assets/images/LoginBack'
+import { memo, useState } from 'react';
+import { CiUser, CiLock } from "react-icons/ci";
+import { MdOutlineVisibility, MdOutlineVisibilityOff } from "react-icons/md";
+import { alert } from './../../components/Alert/alert';
+import ReCAPTCHA from 'react-google-recaptcha';
+import backgroundImage from '../../assets/images/auth_bg.jpg'
+import logo from '../../assets/images/logo_mmt.png'
 
 const AuthForm = memo(({ onLogin, isActiveLoader }) => {
-   const { register, handleSubmit } = useForm()
+   const [email, setEmail] = useState('')
+   const [password, setPassword] = useState('')
+   const [showPassword, setShowPassword] = useState(false);
+   const [isCaptchaVerified, setIsCaptchaVerified] = useState(false);
+
+   const handleCaptchaChange = (value) => {
+      if (value) {
+         setIsCaptchaVerified(true);
+      }
+   };
+
+   const handleLogin = (e) => {
+      e.preventDefault();
+      if (isCaptchaVerified) {
+         const data = { email, password }
+         onLogin(data)
+      } else {
+         alert('Iltimos, reCAPTCHA ni tasdiqlang.');
+      }
+   };
 
    return (
-      <div className='login-secondary_wrapper'>
-         <h1>Renesansga xush kelibsiz!👋</h1>
-         <span>Iltimos, hisobingizga kiring va ishlashni boshlashingiz mumkin. Hayrli kun!</span>
-         <form onSubmit={handleSubmit(onLogin)}>
-            <Input
-               width='90%'
-               clearable
-               label="E-mail"
-               placeholder='admin@mail.com'
-               bordered
-               className='login_vall vall'
-               color="secondary"
-               required
-               type="email"
-               {...register("email", { required: true })}
-            />
-            <Input.Password
-               label="Password"
-               bordered
-               className='login_vall vall'
-               placeholder='12345'
-               width='90%'
-               color="secondary"
-               {...register("password", { required: true })}
-            />
-            <button type='submit' className='login_submit'>
+      <div className='login_form_content'>
+         <h1 className="project_title">NOBANK</h1>
+         <span className="description">Renesansga xush kelibsiz!👋</span>
+         <form onSubmit={handleLogin}>
+            <label className='textfiled' htmlFor='email'>
+               <div className="iconfiled">
+                  <CiUser />
+               </div>
+               <input
+                  required
+                  id='email'
+                  type='email'
+                  placeholder='login...'
+                  title='Login kiritish maydoni'
+                  onChange={e => setEmail(e?.target?.value)}
+               />
+            </label>
+            <label className='textfiled' htmlFor='password'>
+               <div className="iconfiled">
+                  <CiLock />
+               </div>
+               <input
+                  required
+                  id='password'
+                  placeholder='parol...'
+                  title='Parol kiritish maydoni'
+                  type={showPassword ? 'text' : 'password'}
+                  onChange={e => setPassword(e?.target?.value)}
+               />
+               <label className="show_password" htmlFor='showPassword'>
+                  {showPassword ? <MdOutlineVisibilityOff /> : <MdOutlineVisibility />}
+                  <input
+                     type="checkbox"
+                     id="showPassword"
+                     checked={showPassword}
+                     onChange={() => setShowPassword(!showPassword)}
+                  />
+               </label>
+            </label>
+            <button type='submit' className='login_submit' title='Tizimga kirish'>
                <span className={isActiveLoader ? "btn_text" : "btn_text active_content"}>Kirish</span>
                <div className={isActiveLoader ? "spinner active_content" : "spinner"}>
                   <div className="bounce1"></div>
@@ -41,6 +76,7 @@ const AuthForm = memo(({ onLogin, isActiveLoader }) => {
                   <div className="bounce3"></div>
                </div>
             </button>
+            <ReCAPTCHA sitekey={process.env.REACT_APP_CAPTCHA_KEY} onChange={handleCaptchaChange} />
          </form>
       </div>
    )
@@ -49,12 +85,11 @@ const AuthForm = memo(({ onLogin, isActiveLoader }) => {
 function Login({ onLogin, isActiveLoader }) {
 
    return (
-      <section className='login'>
-         <div className='login-main'>
-            <Logo />
-            <LoginBack />
+      <section className='login_wrapper' style={{ backgroundImage: `url(${backgroundImage})` }}>
+         <div className="logo_area">
+            <img src={logo} alt="logo" />
          </div>
-         <div className='login-secondary'>
+         <div className='login_main'>
             <AuthForm onLogin={onLogin} isActiveLoader={isActiveLoader} />
          </div>
       </section>

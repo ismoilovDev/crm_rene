@@ -82,6 +82,8 @@ function OrderSingle() {
                         <>
                            {renderButton(true, 'QD', 'qd')}
                            {renderButton(true, 'TD', 'td')}
+                           {renderButton(true, 'FQD', 'fqd')}
+                           {renderButton(true, 'FTD', 'ftd')}
                         </>
                      )}
                      {supplyTypes.includes('auto') && (

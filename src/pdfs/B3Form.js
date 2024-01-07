@@ -37,7 +37,7 @@ function B3Form() {
                 />
                 <div className='header_logo'>
                   <Logo width={200} />
-                  <div className='b1_subtitle'>
+                  <div className='b1_subtitle blank_opposite'>
                     <div className='endColumn'>
                       <span>{documentInfo?.branch?.name} Boshqaruvchisi </span>
                       <span>{fullName(documentInfo?.branch?.head_of_branch)} ga</span>

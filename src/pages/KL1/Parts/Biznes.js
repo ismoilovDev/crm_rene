@@ -1,10 +1,11 @@
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { Input, Textarea } from '@nextui-org/react'
 import { v4 as uuidv4 } from 'uuid';
 import { AiOutlineDoubleRight, AiOutlineDoubleLeft } from 'react-icons/ai'
 import { NumericFormat } from 'react-number-format';
 import { Context } from '../../../context/context';
+import IncomeInput from '../../../components/KL1/IncomeInput';
 
 
 
@@ -113,19 +114,12 @@ function Biznes() {
                            <button className='kl1_delete_button' onClick={() => { deleteBiznesDaromad(index) }}><i className='bx bx-trash'></i></button>
                         </div>
                         <div className='kl1_product'>
-                           <Input
-                              rounded
-                              bordered
-                              label='Daromad nomi'
-                              color="secondary"
-                              width='100%'
-                              className='kl1_input'
-                              value={biznesDaromads.find(x => x.id === item.id).name}
-                              onChange={(e) => {
-                                 let newBiznesDaromadArr = [...biznesDaromads]
-                                 newBiznesDaromadArr[index].name = e.target.value
-                                 setBiznesDaromads(newBiznesDaromadArr)
-                              }}
+                           <IncomeInput
+                              contextData={biznesDaromads}
+                              setContextData={setBiznesDaromads}
+                              item={item}
+                              index={index}
+                              width={100}
                            />
                            <div className="numeric_format_input width_47">
                               <label>Oylik hajm</label>
