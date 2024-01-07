@@ -246,7 +246,7 @@ function EditTable() {
       setDisable(true)
 
       function mapAndFilterArray(array, callback) {
-         return !array[0]?.name.trim() ? array.map(callback) : null;
+         return array[0]?.name?.trim() ? array.map(callback) : null;
       }
 
       const newOtherIncomes = mapAndFilterArray(myDaromads, ({ id, monthly, ...item }) => item);
@@ -275,8 +275,6 @@ function EditTable() {
          conclusion: dataTable?.conclusion,
          credit_history: historyKredit,
          status: dataTable?.status,
-         monthly_income: monthDaromad,
-         monthly_expense: monthXarajat,
          table_conversation_result: dataTable?.table_conversation_result,
          table_meeting_result: dataTable?.table_meeting_result,
          table_financial_literacy: dataTable?.table_financial_literacy,
@@ -293,6 +291,8 @@ function EditTable() {
          other_incomes: newOtherIncomes,
          seasonal_incomes: newMavsumiyDaromads,
          seasonal_expenses: newMavsumiyXarajats,
+         monthly_income: newMavsumiyDaromads ? monthDaromad : null,
+         monthly_expense: newMavsumiyXarajats ? monthXarajat : null,
          business_incomes: newBiznesDaromads,
          business_expenses: newBiznesXarajats,
          family_incomes: newFamilyDaromad,

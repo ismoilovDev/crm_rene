@@ -266,7 +266,7 @@ function Table() {
       })
 
       function mapAndFilterArray(array, callback) {
-         return !array[0]?.name.trim() ? array.map(callback) : null;
+         return array[0]?.name.trim() ? array.map(callback) : null;
       }
 
       const newOtherIncomes = mapAndFilterArray(myDaromads, ({ id, monthly, ...item }) => item);
@@ -311,16 +311,14 @@ function Table() {
          other_incomes: newOtherIncomes,
          seasonal_incomes: newMavsumiyDaromads,
          seasonal_expenses: newMavsumiyXarajats,
+         monthly_income: newMavsumiyDaromads ? monthDaromad : null,
+         monthly_expense: newMavsumiyXarajats ? monthXarajat : null,
          business_incomes: newBiznesDaromads,
          business_expenses: newBiznesXarajats,
          family_incomes: newFamilyDaromad,
          family_expenses: newFamilyXarajat,
          family_loans: newFamilyMalumot,
          loans: newLoans,
-      }
-
-      if (checkMavsumiy) {
-         Object.assign(info, { monthly_income: monthDaromad, monthly_expense: monthXarajat })
       }
 
       https

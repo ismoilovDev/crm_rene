@@ -86,7 +86,7 @@ function GoldSupply({ clientId }) {
       
       setDisable(true);
       const total = totalSum()
-      const gold = bahoItems.map(({ id, ...item }) => item)
+      const gold = bahoItems 
 
       const main_data = {
          client_id: clientId,
