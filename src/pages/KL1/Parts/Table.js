@@ -33,7 +33,7 @@ function Table() {
       familyMem, familyMemCheck, mulkItem, dataFirstQism, path,
       propertyTotal, propertyCars, propertyAnimals,
       // Boshqa 
-      myDaromads, checkOthers, checkMavsumiy, checkBiznes,
+      myDaromads, checkMavsumiy,
       // Mavsumiy
       monthDaromad,
       monthXarajat,
@@ -55,7 +55,7 @@ function Table() {
    function GetSumDaromadBiznes() {
       let newBiznesDaromad = []
       biznesDaromads.map((item, index) => {
-         newBiznesDaromad.push(item.plus)
+         newBiznesDaromad.push(item.monthly_income)
       })
       let totalDaromad = newBiznesDaromad.reduce((prev, current) => Number(prev) + Number(current), 0)
       return (totalDaromad ? totalDaromad : 0)
@@ -64,7 +64,7 @@ function Table() {
    function GetSumXarajatBiznes() {
       let newBiznesXarajat = []
       biznesXarajats.map((item, index) => {
-         newBiznesXarajat.push(item.minus)
+         newBiznesXarajat.push(item.average_monthly_expense)
       })
       let totalXarajat = newBiznesXarajat.reduce((prev, current) => Number(prev) + Number(current), 0)
       return (totalXarajat ? totalXarajat : 0)
@@ -80,7 +80,7 @@ function Table() {
             setGeoLocation(newLocation)
          },
          error => {
-            alert('Joylashun aniqlanmadi', 'error')
+            alert('Joylashuv aniqlanmadi', 'error')
          }
       );
    }
@@ -89,7 +89,7 @@ function Table() {
    const getTotalSumBoshqa = () => {
       const newSumArray = []
       myDaromads.map((item, index) => {
-         newSumArray.push(item.oylik)
+         newSumArray.push(item.monthly)
       })
       let totalPrices = newSumArray.reduce((prev, current) => prev + current, 0)
       return (totalPrices ? totalPrices : 0)
@@ -98,7 +98,7 @@ function Table() {
    const GetDaromadSumMavsumiy = () => {
       const SumArr1 = []
       mavsumiyDaromads?.map((item, index) => {
-         SumArr1.push(Number(item.value))
+         SumArr1.push(Number(item.income))
       })
       let totalSum1 = SumArr1.reduce((prev, current) => prev + current, 0)
       return (totalSum1 ? totalSum1 : 0)
@@ -107,7 +107,7 @@ function Table() {
    const GetXarajatSumMavsumiy = () => {
       const SumArr2 = []
       mavsumiyXarajats?.map((item, index) => {
-         SumArr2.push(Number(item.value))
+         SumArr2.push(Number(item.expense))
       })
       let totalSum2 = SumArr2.reduce((prev, current) => prev + current, 0)
       return (totalSum2 ? totalSum2 : 0)
@@ -116,7 +116,7 @@ function Table() {
    function GetSumXarajatQism6() {
       let xarajat = []
       familyXarajat?.map(item => {
-         xarajat.push(item.minus)
+         xarajat.push(item.expense)
       })
       let totalXarajatSum = xarajat.reduce((prev, current) => Number(prev) + Number(current), 0)
       return (totalXarajatSum ? totalXarajatSum : 0)
@@ -124,7 +124,7 @@ function Table() {
    function GetMalumotPayQism6() {
       let malumotPay = []
       familyMalumot?.map(item => {
-         malumotPay.push(item.pay)
+         malumotPay.push(item.monthly)
       })
       let totalMalumotSumPay = malumotPay.reduce((prev, current) => Number(prev) + Number(current), 0)
       return (totalMalumotSumPay ? totalMalumotSumPay : 0)
@@ -162,8 +162,8 @@ function Table() {
          sum: infoOrder?.sum,
          time: infoOrder?.time,
          percent: infoOrder?.percent_year,
-         given_date: infoOrder?.contract ? infoOrder?.contract?.contract_issue_date : infoOrder?.order_date,
-         first_repayment_date: infoOrder?.contract ? infoOrder?.contract?.first_repayment_date : nextMonth(infoOrder?.order_date)
+         given_date: infoOrder?.order_date,
+         first_repayment_date: nextMonth(infoOrder?.order_date)
       }
 
       namunaRequest(data)
@@ -172,7 +172,7 @@ function Table() {
    function ProcentNumber() {
       let pay = []
       familyMavjud?.map(item => {
-         pay.push(item.pay)
+         pay.push(item.monthly)
       })
       let totalPay = pay.reduce((prev, current) => Number(prev) + Number(current), 0)
 
@@ -180,9 +180,7 @@ function Table() {
    }
 
    let navigate = useNavigate()
-   function FinishStep() {
-      navigate('/kl1', { replace: true });
-   }
+
    function BackStep() {
       navigate("/client-marks/add/7_qism", { replace: true });
    }
@@ -215,133 +213,12 @@ function Table() {
       }
    }
 
-   async function PostFirst(dataBase) {
-      await https
-         .post('/activities', dataBase)
-         .then(res => {
-            console.log(res)
-         })
-         .catch(err => {
-            console.log(err)
-            return (alert(err?.response?.data?.message, 'error'))
-         })
-   }
-   async function PostBoshqa(firstItem) {
-      await https
-         .post('/other-income', firstItem)
-         .then(res => {
-            console.log(firstItem);
-            console.log(res);
-         })
-         .catch(err => {
-            console.log(firstItem);
-            console.log(err)
-            return (alert(err?.response?.data?.message, 'error'))
-         })
-   }
 
-   async function PostBiznes(biznesPlusItem) {
-      await https
-         .post('/business-incomes', biznesPlusItem)
-         .then(res => {
-            console.log(res)
-         })
-         .catch(err => {
-            console.log(err)
-            return (alert(err?.response?.data?.message, 'error'))
-         })
-   }
-
-   async function PostBiznesMinus(biznesMinusItem) {
-      await https
-         .post('/business-expenses', biznesMinusItem)
-         .then(res => {
-            console.log(res)
-         })
-         .catch(err => {
-            console.log(err)
-            return (alert(err?.response?.data?.message, 'error'))
-         })
-   }
-
-   async function PostFamily(familyPlusItem) {
-      await https
-         .post('/family-incomes', familyPlusItem)
-         .then(res => {
-            console.log(res)
-         })
-         .catch(err => {
-            console.log(err)
-            return (alert(err?.response?.data?.message, 'error'))
-         })
-   }
-
-   async function PostFamilyMinus(familyMinusItem) {
-      await https
-         .post('/family-expenses', familyMinusItem)
-         .then(res => {
-            console.log(res)
-         })
-         .catch(err => {
-            console.log(err)
-            return (alert(err?.response?.data?.message, 'error'))
-         })
-   }
-
-   async function PostFamilyKredit(familyKreditItem) {
-      await https
-         .post('/family-loans', familyKreditItem)
-         .then(res => {
-            console.log(res)
-         })
-         .catch(err => {
-            console.log(err)
-            return (alert(err?.response?.data?.message, 'error'))
-         })
-   }
-
-   async function PostClientKredit(clientKreditItem) {
-      await https
-         .post('/loans', clientKreditItem)
-         .then(res => {
-            console.log(res)
-         })
-         .catch(err => {
-            console.log(err)
-            return (alert(err?.response?.data?.message, 'error'))
-         })
-   }
-
-   async function PostMavsumiyDaromad(Item) {
-      await https
-         .post('/seasonal-income', Item)
-         .then(res => {
-            console.log(res)
-         })
-         .catch(err => {
-            console.log(err)
-            return (alert(err?.response?.data?.message, 'error'))
-         })
-   }
-
-   async function PostMavsumiyXarajat(Item) {
-      await https
-         .post('/seasonal-expense', Item)
-         .then(res => {
-            console.log(res)
-         })
-         .catch(err => {
-            console.log(err)
-            return (alert(err?.response?.data?.message, 'error'))
-         })
-   }
-
-   const onSubmit = async(data) => {
+   const onSubmit = async () => {
       if (dataTable?.status) {
          if (ProcentNumber() > 45) {
             const result = await warning("Foiz 45%dan oshib ketdi. Bari bir KLni qo'shmoqchimisiz?")
-
-            if(result.isDenied){
+            if (result.isDenied) {
                console.log('stop');
                return
             }
@@ -388,6 +265,20 @@ function Table() {
          mulkCopy.push(item.name)
       })
 
+      function mapAndFilterArray(array, callback) {
+         return array?.length ? array.map(callback) : null;
+      }
+
+      const newOtherIncomes = mapAndFilterArray(myDaromads, ({ id, monthly, ...item }) => item);
+      const newMavsumiyDaromads = mapAndFilterArray(mavsumiyDaromads, ({ id, ...item }) => item);
+      const newMavsumiyXarajats = mapAndFilterArray(mavsumiyXarajats, ({ id, ...item }) => item);
+      const newBiznesDaromads = mapAndFilterArray(biznesDaromads, ({ id, ...item }) => ({ 'type': 1, ...item }));
+      const newBiznesXarajats = mapAndFilterArray(biznesXarajats, ({ id, ...item }) => ({ 'type': 1, ...item }));
+      const newFamilyDaromad = mapAndFilterArray(familyDaromad, ({ id, ...item }) => item);
+      const newFamilyXarajat = mapAndFilterArray(familyXarajat, ({ id, ...item }) => item);
+      const newFamilyMalumot = mapAndFilterArray(familyMalumot, ({ id, ...item }) => item);
+      const newLoans = mapAndFilterArray(familyMavjud, ({ id, ...item }) => item);
+
       let info = {
          user_id: userID,
          order_id: infoOrder?.id,
@@ -410,7 +301,22 @@ function Table() {
          table_income_source: dataTable?.table_income_source,
          table_work_stability: dataTable?.table_work_stability,
          table_expected_growth: dataTable?.table_expected_growth,
-         status: dataTable?.status
+         status: dataTable?.status,
+         activity: {
+            type: dataFirstQism.type,
+            address: dataFirstQism.address,
+            owner: dataFirstQism.owner,
+            duration: dataFirstQism.duration
+         },
+         other_incomes: newOtherIncomes,
+         seasonal_incomes: newMavsumiyDaromads,
+         seasonal_expenses: newMavsumiyXarajats,
+         business_incomes: newBiznesDaromads,
+         business_expenses: newBiznesXarajats,
+         family_incomes: newFamilyDaromad,
+         family_expenses: newFamilyXarajat,
+         family_loans: newFamilyMalumot,
+         loans: newLoans,
       }
 
       if (checkMavsumiy) {
@@ -423,203 +329,16 @@ function Table() {
             console.log(info)
             console.log(res?.data)
 
-            if (res?.data) {
-               // 1 Qism
-               let dataBase = {
-                  type: dataFirstQism.type,
-                  address: dataFirstQism.address,
-                  owner: dataFirstQism.owner,
-                  duration: dataFirstQism.duration,
-                  client_mark_id: res?.data?.id
-               }
-               console.log(dataBase);
-               PostFirst(dataBase)
-
-               // Boshqa
-               if (checkOthers) {
-                  let newArray = []
-                  myDaromads?.map(item => {
-                     let firstItem = {
-                        name: item?.nomi,
-                        volume: item?.hajmi,
-                        unit_price: item?.birlikNarxi,
-                        worth: item?.qiymati,
-                        comment: item?.izoh
-                     }
-                     newArray.push(firstItem)
-                  })
-                  let newObject = {
-                     client_mark_id: res?.data?.id,
-                     other_income: newArray
-                  }
-                  console.log(newObject);
-                  PostBoshqa(newObject)
-               }
-
-               // Mavsumiy
-               if (checkMavsumiy) {
-                  let newArray = []
-                  mavsumiyDaromads?.map(item => {
-                     let productItem = {
-                        name: item?.name,
-                        income: item?.value
-                     }
-                     newArray.push(productItem)
-                  })
-                  let newObject = {
-                     client_mark_id: res?.data?.id,
-                     seasonal_income: newArray
-                  }
-                  console.log(newObject);
-                  PostMavsumiyDaromad(newObject)
-                  // \\
-                  let newArray2 = []
-                  mavsumiyXarajats?.map(item => {
-                     let productItem = {
-                        name: item?.name,
-                        expense: item?.value
-                     }
-                     newArray2.push(productItem)
-                  })
-                  let newObject2 = {
-                     client_mark_id: res?.data?.id,
-                     seasonal_expense: newArray2
-                  }
-                  console.log(newObject2);
-                  PostMavsumiyXarajat(newObject2)
-               }
-
-               // Biznes
-               if (checkBiznes) {
-                  let newArray = []
-                  biznesDaromads?.map(item => {
-                     let biznesPlusItem = {
-                        "name": item?.name,
-                        "monthly_volume": item?.volume,
-                        "unit_price": item?.price,
-                        "average_price": item?.percent,
-                        "monthly_income": item?.plus,
-                        "comment": item?.commit,
-                        "type": 1
-                     }
-                     newArray.push(biznesPlusItem)
-                  })
-                  let newObject = {
-                     client_mark_id: res?.data?.id,
-                     business_income: newArray
-                  }
-                  console.log(newObject);
-                  PostBiznes(newObject)
-                  // \\
-                  let newArray2 = []
-                  biznesXarajats?.map(item => {
-                     let biznesMinusItem = {
-                        "name": item?.name,
-                        "volume": item?.volume,
-                        "price": item?.price,
-                        "value": item?.cost,
-                        "average_monthly_expense": item?.minus,
-                        "comment": item?.commit,
-                        "type": 1
-                     }
-                     newArray2.push(biznesMinusItem)
-                  })
-                  let newObject2 = {
-                     client_mark_id: res?.data?.id,
-                     business_expense: newArray2
-                  }
-                  console.log(newObject2);
-                  PostBiznesMinus(newObject2)
-               }
-
-               // 6 Qism
-               if (familyDaromad[0].profit != 0) {
-                  let newArray = []
-                  familyDaromad.map(item => {
-                     let familyPlusItem = {
-                        "name": item?.name,
-                        "activity_type": item?.type,
-                        "activity_address": item?.address,
-                        "monthly_income": item?.profit,
-                        "comment": item?.commit
-                     }
-                     newArray.push(familyPlusItem)
-                  })
-                  let newObject = {
-                     client_mark_id: res?.data?.id,
-                     family_income: newArray
-                  }
-                  console.log(newObject);
-                  PostFamily(newObject)
-               }
-
-               if (familyXarajat[0].minus != 0) {
-                  let newArray = []
-                  familyXarajat.map(item => {
-                     let familyMinusItem = {
-                        "name": item?.name,
-                        "expense": item?.minus,
-                        "comment": item?.commit
-                     }
-                     newArray.push(familyMinusItem)
-                  })
-                  let newObject = {
-                     client_mark_id: res?.data?.id,
-                     family_expense: newArray
-                  }
-                  console.log(newObject);
-                  PostFamilyMinus(newObject)
-               }
-
-               if (familyMalumot[0].pay != 0) {
-                  let newArray = []
-                  familyMalumot.map(item => {
-                     let familyKreditItem = {
-                        "name": item?.name,
-                        "main": item?.rest,
-                        "monthly": item?.pay,
-                        "comment": item?.commit
-                     }
-                     newArray.push(familyKreditItem)
-                  })
-                  let newObject = {
-                     client_mark_id: res?.data?.id,
-                     family_loans: newArray
-                  }
-                  PostFamilyKredit(newObject)
-               }
-
-               if (familyMavjud[0].pay != 0) {
-                  let newArray = []
-                  familyMavjud.map(item => {
-                     let clientKreditItem = {
-                        "name": item?.name,
-                        "main": item?.rest,
-                        "monthly": item?.pay,
-                        "comment": item?.commit
-                     }
-                     newArray.push(clientKreditItem)
-                  })
-                  let newObject = {
-                     client_mark_id: res?.data?.id,
-                     loans: newArray
-                  }
-                  PostClientKredit(newObject)
-               }
-
-               setTimeout(() => {
-                  alert("KL1 shakl qo'shildi", "success")
-                  setDisable(false)
-               }, 1500)
-            }
-
+            setTimeout(() => {
+               alert("KL1 shakl qo'shildi", "success")
+               setDisable(false)
+            }, 500)
          })
          .catch(err => {
             console.log(err)
             setDisable(false)
             return (alert(err?.response?.data?.message, 'error'))
          })
-
 
    }
 

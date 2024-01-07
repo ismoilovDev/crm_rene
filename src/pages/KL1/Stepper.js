@@ -218,12 +218,12 @@ function StepperForm() {
       [
          {
             id: 1,
-            nomi: '',
-            qiymati: '',
-            birlikNarxi: 0,
-            hajmi: 0,
-            oylik: 0,
-            izoh: ''
+            name:'',
+            volume:'',
+            unit_price:0,
+            worth:0,
+            monthly:0,
+            comment:''
          }
       ])
    const [checkOthers, setCheckOthers] = useState(true)
@@ -234,7 +234,7 @@ function StepperForm() {
    const [mavsumiyDaromads, setMavsumiyDaromads] = useState([{
       id: 1,
       name: '',
-      value: 0
+      income: 0
    }])
    // monthly daromad
    const [monthDaromad, setMonthDaromad] = useState({ ...defaultMonths })
@@ -242,7 +242,7 @@ function StepperForm() {
    const [mavsumiyXarajats, setMavsumiyXarajats] = useState([{
       id: 1,
       name: '',
-      value: 0
+      expense: 0
    }])
    // monthly xarajat
    const [monthXarajat, setMonthXarajat] = useState({ ...defaultMonths })
@@ -251,11 +251,11 @@ function StepperForm() {
    const [biznesDaromads, setBiznesDaromads] = useState([{
       id: 1,
       name: '',
-      volume: 0,
-      price: 0,
-      percent: 0,
-      plus: 0,
-      commit: ''
+      monthly_volume: 0,
+      unit_price: 0,
+      average_price: 0,
+      monthly_income: 0,
+      comment: ''
    }])
    // xarajat
    const [biznesXarajats, setBiznesXarajats] = useState([{
@@ -263,43 +263,43 @@ function StepperForm() {
       name: '',
       volume: 0,
       price: 0,
-      cost: 0,
-      minus: 0,
-      commit: ''
+      value: 0,
+      average_monthly_expense: 0,
+      comment: ''
    }])
    // -------- 6 Qism -------- //
    // daromad
    const [familyDaromad, setFamilyDaromad] = useState([{
       id: 1,
-      name: '',
-      type: '',
-      address: '',
-      profit: 0,
-      commit: ''
+      name:'',
+      activity_type:'',
+      activity_address:'',
+      monthly_income: 0,
+      comment:''
    }])
    // xarajat
    const [familyXarajat, setFamilyXarajat] = useState([{
       id: 1,
-      name: '',
-      minus: 0,
-      commit: ''
+      name:'',
+      expense: 0,
+      comment:''
    }])
    // malumot
    const [familyMalumot, setFamilyMalumot] = useState([{
       id: 1,
-      name: '',
-      rest: 0,
-      pay: 0,
-      commit: ''
+      name:'',
+      main: 0,
+      monthly: 0,
+      comment:''
    }])
    // -------- 7 Qism -------- //
    // datas
    const [familyMavjud, setFamilyMavjud] = useState([{
       id: 1,
       name: '',
-      rest: 0,
-      pay: 0,
-      commit: ''
+      main: 0,
+      monthly: 0,
+      comment: ''
    }])
    // 5 input
    const [dataSeventhQism, setDataSeventhQism] = useState({

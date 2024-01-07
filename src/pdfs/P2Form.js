@@ -39,7 +39,7 @@ function P2Form() {
             </div>
             <div className='between align_center pdf_margin_top_10 capitalize'>
                <p>Kotib</p>
-               <p>Abdullayev N.N</p>
+               <p>{fullName(documentInfo?.branch?.secretary)}</p>
             </div>
             <p className='pdf_margin_top_30'>
                Kun tartibi: {documentInfo?.branch?.name} Kredit Komissiyasining {documentInfo?.group?.name ? documentInfo?.group?.clients?.[0]?.order?.protocol_number : documentInfo?.order?.protocol_number} sonli bayonnomasini ko‘rib chiqish.
@@ -359,7 +359,7 @@ function P2Form() {
             </div>
             <div className='between align_center pdf_margin_top_10'>
                <p>Kotib</p>
-               <p>Abdullayev N.N</p>
+               <p>{fullName(documentInfo?.branch?.secretary)}</p>
             </div>
          </PdfWrapper>
       </>

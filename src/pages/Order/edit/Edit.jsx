@@ -328,7 +328,7 @@ function OrderEdit() {
 
       if (info?.comment) {
          https
-            .post(`/order-results-commissioned`, info)
+            .post(`/order-results`, info)
             .then(res => {
                closeForm()
                getData()

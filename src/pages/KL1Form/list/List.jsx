@@ -12,6 +12,7 @@ import fullName from './../../../utils/functions/fullName';
 
 const role = JSON.parse(window.localStorage.getItem('role'))
 const branch_id = +window.localStorage.getItem('branch_id')
+const user_id = +window.localStorage.getItem('user_id')
 
 function ClientMarks({ filters }) {
 	const { page } = useParams()
@@ -72,12 +73,12 @@ function ClientMarks({ filters }) {
 		setDeleteID(id)
 	}
 
-	const handleOnExcel = () =>{
+	const handleOnExcel = () => {
 		let data = []
-		forms?.map(item =>{
+		forms?.map(item => {
 			const info = {
-				"F.I.Sh": item?.client?.name, 
-				mijoz_kodi: item?.client?.code, 
+				"F.I.Sh": item?.client?.name,
+				mijoz_kodi: item?.client?.code,
 				buyurtma_kodi: item?.order_code,
 				tuzilgan_sana: dateConvert(item?.mark_date || item?.doc_date)
 			}
@@ -141,23 +142,25 @@ function ClientMarks({ filters }) {
 														<p className='td_client_marks' onDoubleClick={() => { navigate(`/client-marks/single/${item?.id}`) }}>{item?.client?.code}</p>
 														<p className='td_client_marks' onDoubleClick={() => { navigate(`/client-marks/single/${item?.id}`) }}>{item?.order_code}</p>
 														<p className='td_client_marks' onDoubleClick={() => { navigate(`/client-marks/single/${item?.id}`) }}>{item?.order_sum?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
-														<p className='td_client_marks' style={{fontWeight: 500}} onDoubleClick={() => { navigate(`/client-marks/single/${item?.id}`) }}>{dateConvert(item?.mark_date) || dateConvert(item?.doc_date)}</p>
+														<p className='td_client_marks' style={{ fontWeight: 500 }} onDoubleClick={() => { navigate(`/client-marks/single/${item?.id}`) }}>{dateConvert(item?.mark_date) || dateConvert(item?.doc_date)}</p>
 														<div className='userButtons_shartnoma'>
 															<button><Link to={`/client-marks/single/${item?.id}`}><i className='bx bx-user white'></i></Link></button>
-															{role.includes('admin') || role.includes('monitoring')  ? (
+															{role.includes('admin') || role.includes('monitoring') ? (
 																<>
 																	<button
-																		className={item?.contract?.id ? 'disable_edit' : ''}
+																		className={
+																			item?.contract?.id ? (role.includes('kleditor') && Number(item?.user_id) === Number(user_id) ? '' : 'disable_edit') : ''
+																		}
 																		onClick={() => {
-																			(item?.contract === null || role.includes('kleditor')) ?
-																				navigateEditPage(item?.id) :
-																				alert("Shartnoma to'ldirilgan")
+																			(item?.contract?.id && !role.includes('kleditor') && Number(item?.user_id) !== Number(user_id)) ?
+																				alert("Shartnoma to'ldirilgan") :
+																				navigateEditPage(item?.id)
 																		}}
 																	>
 																		<i className='bx bx-edit-alt white'></i>
 																	</button>
 																</>
-															) : <></>}
+															) : null}
 															{role.includes('admin') ? (
 																<>
 																	<button onClick={() => deleteFun(item?.id)}><i className='bx bx-trash'></i></button>

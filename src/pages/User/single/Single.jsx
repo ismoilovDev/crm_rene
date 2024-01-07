@@ -70,7 +70,7 @@ function UserSingle() {
                   </div>
                   <div className='single_buyurtma_inputs'>
                      <p>Filial:</p>
-                     <p>{filialOptions?.find(x=>x.value === user?.branch?.id)?.name}</p>
+                     <p>{filialOptions?.find(x=>x.value === user?.branch?.id)?.label}</p>
                   </div>
                </div>
             </div>
