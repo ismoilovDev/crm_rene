@@ -266,7 +266,7 @@ function Table() {
       })
 
       function mapAndFilterArray(array, callback) {
-         return array?.length ? array.map(callback) : null;
+         return !array[0]?.name.trim() ? array.map(callback) : null;
       }
 
       const newOtherIncomes = mapAndFilterArray(myDaromads, ({ id, monthly, ...item }) => item);

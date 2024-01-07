@@ -58,7 +58,7 @@ function ClientMarks({ filters }) {
 			})
 			.catch(err => {
 				if (err?.request?.status === 404) {
-					alert("Bunday buyurtma yo'q", 'error')
+					alert(err?.response?.data?.message, 'error')
 				}
 				console.log(err);
 			})
@@ -71,21 +71,6 @@ function ClientMarks({ filters }) {
 	function deleteFun(id) {
 		setDeleteModal('open')
 		setDeleteID(id)
-	}
-
-	const handleOnExcel = () => {
-		let data = []
-		forms?.map(item => {
-			const info = {
-				"F.I.Sh": item?.client?.name,
-				mijoz_kodi: item?.client?.code,
-				buyurtma_kodi: item?.order_code,
-				tuzilgan_sana: dateConvert(item?.mark_date || item?.doc_date)
-			}
-			data = [...data, info]
-		})
-
-		return data;
 	}
 
 	return (
@@ -149,12 +134,12 @@ function ClientMarks({ filters }) {
 																<>
 																	<button
 																		className={
-																			item?.contract?.id ? (role.includes('kleditor') && Number(item?.user_id) === Number(user_id) ? '' : 'disable_edit') : ''
+																			item?.is_editable ? '' : 'disable_edit'
 																		}
 																		onClick={() => {
-																			(item?.contract?.id && !role.includes('kleditor') && Number(item?.user_id) !== Number(user_id)) ?
-																				alert("Shartnoma to'ldirilgan") :
-																				navigateEditPage(item?.id)
+																			item?.is_editable ?
+																				navigateEditPage(item?.id) :
+																				alert("Shartnoma to'ldirilgan")
 																		}}
 																	>
 																		<i className='bx bx-edit-alt white'></i>
