@@ -50,7 +50,7 @@ function Employees() {
 			.then(({ data }) => {
 				setLoading(false)
 				setIsPaginateActive(false)
-				setXodimlar([...data])
+				setXodimlar([...data?.data])
 			})
 			.catch(err => {
 				searchInput.current.value == "" ? (

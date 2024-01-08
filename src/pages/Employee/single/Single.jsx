@@ -60,7 +60,7 @@ function EmployeeSingle() {
          const res = await https.get(`/employees/${id}`)
          const { data } = res;
          setEmployees(data)
-         setPath(data?.photo)
+         setPath([data?.photo])
          console.log(res?.data);
       }
       catch (err) {
@@ -155,7 +155,11 @@ function EmployeeSingle() {
                   <InputSingle label={"Filial:"} value={employees?.branch_name} />
                   <InputSingle label={"Bo'lim:"} value={employees?.section_name} />
                   <p className='margin_top_15'></p>
-                  <ContainerView paths={path} />
+                  {
+                     path?.length !== 0 ?
+                     <ContainerView paths={path} />
+                     : <></>
+                  }
                   {
                      employees?.position ?
                         <div className='vvb_container'>
